@@ -27,7 +27,7 @@ export function PublicNavbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-5 lg:gap-7 text-sm text-gray-600">
+        <div className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm text-gray-600">
           {navLinks.map((link) => (
             <Link
               key={link.label}
