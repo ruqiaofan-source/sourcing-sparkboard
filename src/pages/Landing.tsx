@@ -113,31 +113,42 @@ function AnimatedGlow() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
-        className="absolute w-[800px] h-[800px] rounded-full"
+        className="absolute w-[900px] h-[900px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(239 100% 60% / 0.12) 0%, transparent 70%)",
-          top: "-20%",
-          right: "-10%",
+          background: "radial-gradient(circle, hsl(239 100% 60% / 0.15) 0%, hsl(260 80% 50% / 0.08) 40%, transparent 70%)",
+          top: "-25%",
+          right: "-15%",
         }}
-        animate={{ x: [0, 40, -20, 0], y: [0, -30, 20, 0] }}
+        animate={{ x: [0, 50, -30, 0], y: [0, -40, 30, 0], scale: [1, 1.05, 0.95, 1] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full"
+        className="absolute w-[700px] h-[700px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(260 80% 60% / 0.08) 0%, transparent 70%)",
-          bottom: "-10%",
-          left: "-5%",
+          background: "radial-gradient(circle, hsl(280 70% 50% / 0.08) 0%, hsl(239 100% 60% / 0.05) 40%, transparent 70%)",
+          bottom: "-15%",
+          left: "-10%",
         }}
-        animate={{ x: [0, -30, 20, 0], y: [0, 20, -30, 0] }}
+        animate={{ x: [0, -40, 30, 0], y: [0, 30, -40, 0], scale: [1, 0.95, 1.05, 1] }}
         transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {/* Warm accent glow (Optiverse-inspired) */}
+      <motion.div
+        className="absolute w-[500px] h-[500px] rounded-full"
+        style={{
+          background: "radial-gradient(circle, hsl(30 80% 55% / 0.04) 0%, transparent 60%)",
+          top: "30%",
+          left: "50%",
+        }}
+        animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(135deg, transparent 25%, hsl(239 100% 60% / 0.06) 50%, transparent 75%)",
+          background: "linear-gradient(135deg, transparent 20%, hsl(239 100% 60% / 0.06) 45%, hsl(260 80% 60% / 0.04) 55%, transparent 80%)",
         }}
-        animate={{ opacity: [0.4, 0.8, 0.4] }}
+        animate={{ opacity: [0.3, 0.7, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
     </div>
