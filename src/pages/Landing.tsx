@@ -508,7 +508,7 @@ export default function Landing() {
               </Link>
               <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
                 <MagneticButton>
-                  <Button variant="outline" size="lg" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-8 h-12 text-base uppercase tracking-wider">
+                  <Button variant="outline" size="sm" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-6 h-10 text-sm uppercase tracking-wider">
                     Book a Demo
                   </Button>
                 </MagneticButton>
