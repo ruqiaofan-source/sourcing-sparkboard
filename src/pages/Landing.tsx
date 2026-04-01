@@ -309,6 +309,42 @@ function RevealHeading({ children, className = "", as: Tag = "h2" }: { children:
   );
 }
 
+/* Magnetic button - follows cursor within bounds */
+function MagneticButton({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 20 });
+  const springY = useSpring(y, { stiffness: 200, damping: 20 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) * 0.3);
+    y.set((e.clientY - centerY) * 0.3);
+  }, [x, y]);
+
+  const handleMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      whileTap={{ scale: 0.97 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 /* ──────────────────── MAIN PAGE ──────────────────── */
 
 export default function Landing() {
