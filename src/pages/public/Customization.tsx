@@ -216,6 +216,7 @@ export default function Customization() {
   const [searchParams] = useSearchParams();
   const tabParam = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState(tabParam && tabIds.includes(tabParam) ? tabParam : tabIds[0]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (tabParam && tabIds.includes(tabParam)) {
@@ -224,6 +225,22 @@ export default function Customization() {
   }, [tabParam]);
 
   const activeCategory = categories.find((c) => c.id === activeTab)!;
+
+  // Search across all categories
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return null;
+    const q = searchQuery.toLowerCase();
+    const results: { category: string; categoryId: string; items: { name: string; desc: string }[] }[] = [];
+    for (const cat of categories) {
+      const matched = cat.items.filter(
+        (item) => item.name.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)
+      );
+      if (matched.length > 0) {
+        results.push({ category: cat.title, categoryId: cat.id, items: matched });
+      }
+    }
+    return results;
+  }, [searchQuery]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
