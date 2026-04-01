@@ -62,7 +62,7 @@ export const steps = [
     step: "04",
     icon: CreditCard,
     title: "Accept & Pay",
-    shortDesc: "Review, accept, and pay securely. Production begins.",
+    shortDesc: "Pay securely and production begins.",
     desc: "Review the quote, ask questions, and accept when ready. Payment is processed securely and production begins.",
     details: [
       "Secure payment processing",
