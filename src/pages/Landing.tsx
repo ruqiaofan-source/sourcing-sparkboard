@@ -852,7 +852,7 @@ export default function Landing() {
             >
               Benefits
             </motion.span>
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">Why Choose Us?</h2>
+            <RevealHeading className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">Why Choose Us?</RevealHeading>
             <p className="text-muted-foreground mt-4 max-w-xl mx-auto">Source. Brand. QC and Logistics. Everything You Need.</p>
           </motion.div>
 
