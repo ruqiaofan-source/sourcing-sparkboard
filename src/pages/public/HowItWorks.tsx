@@ -99,75 +99,7 @@ function StepCard({ step, index, onVisible }: { step: (typeof steps)[number]; in
   );
 }
 
-/* ──────── Sticky step tracker ──────── */
-function StickyStepTracker({ activeStep }: { activeStep: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1, duration: 0.4 }}
-      className="fixed top-20 right-6 z-40 hidden xl:flex flex-col items-center gap-1"
-    >
-      <div className="rounded-2xl border border-border/30 bg-card/80 backdrop-blur-xl p-3 shadow-lg">
-        <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground/60 font-semibold block text-center mb-3">Progress</span>
-        <div className="flex flex-col items-center gap-0">
-          {steps.map((step, i) => {
-            const isActive = i === activeStep;
-            const isPast = i < activeStep;
-            return (
-              <div key={step.slug} className="flex flex-col items-center">
-                <a
-                  href={`#step-${i}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById(`step-${i}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-                  }}
-                  className="group flex items-center gap-2"
-                >
-                  <motion.div
-                    animate={{
-                      scale: isActive ? 1.3 : 1,
-                      backgroundColor: isActive
-                        ? "hsl(239 84% 67%)"
-                        : isPast
-                        ? "hsl(239 84% 67% / 0.4)"
-                        : "hsl(var(--muted-foreground) / 0.2)",
-                    }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="h-3 w-3 rounded-full relative"
-                  >
-                    {isActive && (
-                      <motion.div
-                        className="absolute inset-0 rounded-full bg-primary"
-                        animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0, 0.6] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                    )}
-                  </motion.div>
-                  <motion.span
-                    animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : -5, width: isActive ? "auto" : 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="text-[10px] font-medium text-primary whitespace-nowrap overflow-hidden"
-                  >
-                    {step.title}
-                  </motion.span>
-                </a>
-                {i < steps.length - 1 && (
-                  <div className={`w-px h-4 ${isPast ? "bg-primary/40" : "bg-muted-foreground/15"}`} />
-                )}
-              </div>
-            );
-          })}
-        </div>
-        {/* Progress fraction */}
-        <div className="mt-3 text-center">
-          <span className="text-xs font-heading font-bold text-primary">{activeStep + 1}</span>
-          <span className="text-[10px] text-muted-foreground"> / {steps.length}</span>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
+
 
 /* ──────── Animated glow background ──────── */
 function SectionGlow() {
