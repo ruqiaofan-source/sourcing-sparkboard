@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
 import heroBg from "@/assets/hero-bg.jpg";
-import logoLonglive from "@/assets/logos/longlive.png";
 import logoSoleRunning from "@/assets/logos/sole-running.png";
 import logoLKK from "@/assets/logos/lkk.png";
 import logoIMMO from "@/assets/logos/immo.png";
@@ -589,27 +588,26 @@ export default function Landing() {
         <div className="relative z-10">
         <Marquee speed={40}>
           {[
-            { src: logoLonglive, alt: "Longlive", url: "https://longliveapp.com/" },
-            { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/" },
-            { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/" },
-            { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/" },
-            { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/" },
-            { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/" },
-            { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/" },
-          ].map((logo) => (
+            { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/", hasBackground: true },
+            { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true },
+            { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true },
+            { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false },
+            { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false },
+            { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false },
+          ].map((logo: { src: string; alt: string; url: string; hasBackground: boolean }) => (
             <a
               key={logo.alt}
               href={logo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mx-2 sm:mx-3 inline-flex items-center justify-center rounded-xl sm:rounded-2xl border border-border/50 bg-card/60 px-4 py-2.5 sm:px-8 sm:py-4 opacity-90 shadow-[var(--shadow-card)] hover:border-primary/30 hover:bg-card/80 hover:opacity-100 transition-all duration-500"
+              className="mx-2 sm:mx-3 inline-flex items-center justify-center rounded-xl sm:rounded-2xl overflow-hidden opacity-90 hover:opacity-100 transition-all duration-500"
             >
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className="h-7 w-20 object-contain sm:h-12 sm:w-32"
+                className={logo.hasBackground ? "h-8 sm:h-11 w-auto object-contain rounded-lg" : "h-7 w-20 object-contain sm:h-10 sm:w-28"}
                 loading="lazy"
-                style={{ filter: theme === "dark" ? "brightness(0) invert(1)" : "none" }}
+                style={{ filter: !logo.hasBackground && theme === "dark" ? "brightness(0) invert(1)" : "none" }}
               />
             </a>
           ))}
