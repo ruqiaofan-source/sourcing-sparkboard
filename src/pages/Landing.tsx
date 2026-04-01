@@ -724,7 +724,7 @@ export default function Landing() {
             >
               Trusted by SMEs
             </motion.span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">What Our Clients Say</h2>
+            <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground">What Our Clients Say</RevealHeading>
           </motion.div>
 
           <motion.div
