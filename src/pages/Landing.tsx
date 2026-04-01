@@ -16,6 +16,8 @@ import logoSoleRunning from "@/assets/logos/sole-running.png";
 import logoLKK from "@/assets/logos/lkk.png";
 import logoIMMO from "@/assets/logos/immo.png";
 import logoBuckyDrop from "@/assets/logos/buckydrop.png";
+import logoUnilever from "@/assets/logos/unilever.png";
+import logoVolkswagen from "@/assets/logos/volkswagen.png";
 
 /* ──────────────────── DATA ──────────────────── */
 
