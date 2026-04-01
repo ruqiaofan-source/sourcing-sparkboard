@@ -607,7 +607,6 @@ export default function Landing() {
                 src={logo.src}
                 alt={logo.alt}
                 className={`object-contain transition-all duration-500 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 ${logo.hasBackground ? "h-12 sm:h-20 w-auto rounded-lg" : "h-10 sm:h-16 w-auto"}`}
-                loading="lazy"
                 style={!logo.hasBackground && theme === "dark" ? { filter: "grayscale(100%) brightness(0.8) invert(0.85)" } : undefined}
               />
             </a>
