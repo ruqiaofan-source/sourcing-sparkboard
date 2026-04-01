@@ -597,8 +597,8 @@ export default function Landing() {
             { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/" },
             { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/" },
           ].map((logo) => (
-            <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-12 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-              <img src={logo.src} alt={logo.alt} className="h-16 w-auto max-w-[160px] object-contain dark:invert" loading="lazy" />
+            <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-14 opacity-70 hover:opacity-100 transition-all duration-500 brightness-125">
+              <img src={logo.src} alt={logo.alt} className="h-12 w-32 object-contain dark:invert" loading="lazy" style={{ mixBlendMode: "screen" }} />
             </a>
           ))}
         </Marquee>
