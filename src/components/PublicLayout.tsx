@@ -41,7 +41,7 @@ export function PublicNavbar() {
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
       <div className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white backdrop-blur-xl px-5 py-3 shadow-lg">
-        <Link to="/" className="flex items-center gap-1.5 mr-4">
+        <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
           <img src={equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" />
           <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
@@ -49,7 +49,7 @@ export function PublicNavbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm text-gray-600">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-base font-medium text-gray-700">
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div
@@ -58,10 +58,10 @@ export function PublicNavbar() {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                <Link
-                  to={link.href}
-                  className="flex items-center gap-1 hover:text-gray-900 transition-colors whitespace-nowrap"
-                >
+                  <Link
+                    to={link.href}
+                    className="flex items-center gap-1 hover:text-gray-900 transition-colors whitespace-nowrap text-base"
+                  >
                   {link.label}
                   <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${customizationOpen ? "rotate-180" : ""}`} />
                 </Link>
@@ -111,7 +111,7 @@ export function PublicNavbar() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="hover:text-gray-900 transition-colors whitespace-nowrap"
+                className="hover:text-gray-900 transition-colors whitespace-nowrap text-base"
               >
                 {link.label}
               </Link>
@@ -121,7 +121,7 @@ export function PublicNavbar() {
 
         <div className="flex items-center gap-3">
           <Link to="/auth" className="hidden lg:block">
-            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full">
+            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-base">
               Login
             </Button>
           </Link>
@@ -158,7 +158,7 @@ export function PublicNavbar() {
                   <div key={link.label}>
                     <button
                       onClick={() => setMobileCustomizationOpen(!mobileCustomizationOpen)}
-                      className="flex items-center justify-between w-full text-sm text-gray-600 hover:text-gray-900 transition-colors py-2 px-1"
+                      className="flex items-center justify-between w-full text-base font-medium text-gray-700 hover:text-gray-900 transition-colors py-2.5 px-1"
                     >
                       {link.label}
                       <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileCustomizationOpen ? "rotate-180" : ""}`} />
@@ -202,7 +202,7 @@ export function PublicNavbar() {
                     key={link.label}
                     to={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors py-2 px-1"
+                    className="text-base font-medium text-gray-700 hover:text-gray-900 transition-colors py-2.5 px-1"
                   >
                     {link.label}
                   </Link>
