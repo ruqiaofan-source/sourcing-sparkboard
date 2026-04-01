@@ -1050,9 +1050,7 @@ export default function Landing() {
           transition={{ duration: 0.5 }}
           className="max-w-3xl mx-auto text-center relative z-10"
         >
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Ready to Source Smarter?
-          </h2>
+          <RevealHeading className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">Ready to Source Smarter?</RevealHeading>
           <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
             Join European SMEs already sourcing from China with full transparency, quality control, and dedicated human support.
           </p>
