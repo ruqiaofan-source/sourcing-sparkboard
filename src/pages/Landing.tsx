@@ -519,33 +519,18 @@ export default function Landing() {
             initial={{ opacity: 0, y: 60, scale: 0.92 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={{ scale: 1.03, y: -8 }}
-            style={{ cursor: "pointer" }}
+            whileHover={{ scale: 1.02, y: -6 }}
           >
-            <div className="relative rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-1.5 shadow-2xl shadow-black/50 transition-shadow duration-500 hover:shadow-[0_20px_80px_-20px_hsl(239,100%,60%/0.3)]">
+            <div className="relative rounded-2xl border border-border/30 bg-card/20 backdrop-blur-sm overflow-hidden shadow-2xl shadow-black/50 transition-shadow duration-500 hover:shadow-[0_20px_80px_-20px_hsl(239,100%,60%/0.3)]">
               <div className="absolute -inset-8 rounded-3xl bg-primary/8 blur-3xl pointer-events-none" />
-
-              <div className="relative rounded-t-xl bg-[hsl(230,20%,12%)] px-4 py-2.5 flex items-center gap-2 border-b border-border/20">
-                <div className="flex gap-1.5">
-                  <div className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-[hsl(45,90%,50%)]/60" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-[hsl(140,60%,45%)]/60" />
-                </div>
-                <div className="flex-1 flex justify-center">
-                  <div className="bg-background/40 rounded-md px-4 py-1 text-[10px] text-muted-foreground/60 font-mono">
-                    app.equilinq.eu/dashboard
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative overflow-hidden rounded-b-xl">
+              <div className="relative overflow-hidden rounded-2xl">
                 <video
                   src="/videos/area-demo.mp4"
                   autoPlay
                   loop
                   muted
                   playsInline
-                  className="w-full h-auto object-cover object-top"
+                  className="w-full h-auto object-cover object-top block"
                 />
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
               </div>
