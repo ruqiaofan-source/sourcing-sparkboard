@@ -58,10 +58,10 @@ export function PublicNavbar() {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                <Link
-                  to={link.href}
-                  className="flex items-center gap-1 hover:text-gray-900 transition-colors whitespace-nowrap"
-                >
+                  <Link
+                    to={link.href}
+                    className="flex items-center gap-1 hover:text-gray-900 transition-colors whitespace-nowrap text-base"
+                  >
                   {link.label}
                   <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${customizationOpen ? "rotate-180" : ""}`} />
                 </Link>
