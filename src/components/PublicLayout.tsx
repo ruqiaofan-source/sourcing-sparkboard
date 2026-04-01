@@ -49,7 +49,7 @@ export function PublicNavbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-7 text-base font-medium text-gray-700">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-base font-medium text-gray-700">
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div
