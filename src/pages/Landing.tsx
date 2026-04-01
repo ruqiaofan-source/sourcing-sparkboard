@@ -598,7 +598,7 @@ export default function Landing() {
             { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/" },
           ].map((logo) => (
             <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-14 opacity-75 hover:opacity-100 transition-all duration-500">
-              <img src={logo.src} alt={logo.alt} className="h-12 w-32 object-contain brightness-150 contrast-75 dark:invert dark:brightness-200" loading="lazy" />
+              <img src={logo.src} alt={logo.alt} className="h-14 w-36 object-contain dark:invert" loading="lazy" />
             </a>
           ))}
         </Marquee>
