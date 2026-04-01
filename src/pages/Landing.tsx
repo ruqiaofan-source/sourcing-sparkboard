@@ -158,20 +158,46 @@ function AnimatedGlow() {
 function FloatingParticles() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(8)].map((_, i) => (
+      {[...Array(15)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute h-1 w-1 rounded-full bg-primary/30"
-          style={{ left: `${10 + i * 11}%`, top: `${15 + (i % 4) * 20}%` }}
-          animate={{
-            y: [0, -40, 0],
-            x: [0, (i % 2 === 0 ? 15 : -15), 0],
-            opacity: [0.15, 0.5, 0.15],
-            scale: [1, 1.5, 1],
+          className="absolute rounded-full"
+          style={{
+            width: `${2 + (i % 3) * 2}px`,
+            height: `${2 + (i % 3) * 2}px`,
+            left: `${5 + i * 6}%`,
+            top: `${10 + (i % 5) * 18}%`,
+            background: i % 3 === 0
+              ? "hsl(239 100% 65% / 0.4)"
+              : i % 3 === 1
+              ? "hsl(260 80% 60% / 0.3)"
+              : "hsl(200 80% 60% / 0.3)",
           }}
-          transition={{ duration: 4 + i * 0.7, repeat: Infinity, ease: "easeInOut", delay: i * 0.6 }}
+          animate={{
+            y: [0, -(30 + i * 5), 0],
+            x: [0, (i % 2 === 0 ? 20 : -20), 0],
+            opacity: [0.1, 0.6, 0.1],
+            scale: [1, 1.8, 1],
+          }}
+          transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
         />
       ))}
+    </div>
+  );
+}
+
+/* Horizontal scrolling marquee */
+function Marquee({ children, speed = 30 }: { children: React.ReactNode; speed?: number }) {
+  return (
+    <div className="overflow-hidden whitespace-nowrap">
+      <motion.div
+        className="inline-flex gap-8"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: speed, repeat: Infinity, ease: "linear" }}
+      >
+        {children}
+        {children}
+      </motion.div>
     </div>
   );
 }
