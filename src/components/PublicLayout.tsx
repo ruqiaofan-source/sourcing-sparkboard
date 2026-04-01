@@ -78,7 +78,7 @@ export function PublicNavbar() {
                   key={link.label}
                   to={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors py-1"
+                  className="text-sm text-gray-600 hover:text-gray-900 transition-colors py-1"
                 >
                   {link.label}
                 </Link>
