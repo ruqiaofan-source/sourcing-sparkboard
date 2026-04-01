@@ -195,15 +195,16 @@ function FloatingParticles() {
 /* Horizontal scrolling marquee */
 function Marquee({ children, speed = 30 }: { children: React.ReactNode; speed?: number }) {
   return (
-    <div className="overflow-hidden whitespace-nowrap">
-      <motion.div
-        className="inline-flex gap-8"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: speed, repeat: Infinity, ease: "linear" }}
+    <div className="overflow-hidden w-full" style={{ minHeight: 80 }}>
+      <div
+        className="flex w-max gap-4 sm:gap-8 animate-marquee"
+        style={{
+          animation: `marquee ${speed}s linear infinite`,
+        }}
       >
         {children}
         {children}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -581,9 +582,9 @@ export default function Landing() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="relative z-10 text-center mb-8"
+          className="relative z-10 text-center mb-6 sm:mb-8"
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground/60">Trusted By</span>
+          <span className="text-sm sm:text-base font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">Trusted By</span>
         </motion.div>
         <div className="relative z-10">
         <Marquee speed={40}>
@@ -600,13 +601,13 @@ export default function Landing() {
               href={logo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mx-5 sm:mx-7 inline-flex shrink-0 items-center justify-center rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500"
+              className="group mx-3 sm:mx-6 flex shrink-0 items-center justify-center rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500"
             >
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className={`object-contain transition-all duration-500 ${logo.hasBackground ? "h-14 sm:h-20 w-auto rounded-lg grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100" : theme === "dark" ? "h-12 w-28 sm:h-16 sm:w-40 grayscale brightness-0 invert opacity-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:invert-0 group-hover:opacity-100" : "h-12 w-28 sm:h-16 sm:w-40 grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100"}`}
-                loading="lazy"
+                className={`object-contain transition-all duration-500 opacity-70 group-hover:opacity-100 ${logo.hasBackground ? "h-14 sm:h-20 w-auto rounded-lg grayscale group-hover:grayscale-0" : "h-12 sm:h-16 w-auto"}`}
+                style={!logo.hasBackground && theme === "dark" ? { filter: "brightness(0) invert(1) opacity(0.85)" } : !logo.hasBackground ? { filter: "grayscale(100%)" } : undefined}
               />
             </a>
           ))}
