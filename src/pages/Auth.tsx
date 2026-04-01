@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, User, Phone, MapPin, Package, Globe, Shield } from "lucide-react";
 import equilinqLogo from "@/assets/equilinq-logo.png";
+import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
 
 const features = [
   { icon: Package, label: "Verified Factories", desc: "Direct access to vetted manufacturers" },
@@ -109,7 +110,7 @@ const AuthPage = () => {
         <div>
           <div className="flex items-center gap-3 mb-16">
             <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <img src={equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
+              <img src={equilinqLogoWhite} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
               <span className="font-heading text-xl font-bold text-white tracking-wider uppercase">
                 Equilinq
               </span>

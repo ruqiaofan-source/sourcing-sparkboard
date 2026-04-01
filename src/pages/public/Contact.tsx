@@ -82,7 +82,7 @@ export default function Contact() {
                 <h3 className="font-heading text-lg font-semibold text-foreground mb-1">Book a Call</h3>
                 <p className="text-sm text-muted-foreground mb-3">Speak directly with our team about your needs.</p>
                 <a
-                  href="https://equilinq.eu/calendar"
+                  href="https://calendly.com/admin-equilinq/30min"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-primary hover:underline"

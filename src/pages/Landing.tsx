@@ -382,7 +382,7 @@ export default function Landing() {
                   </Button>
                 </motion.div>
               </Link>
-              <a href="https://equilinq.eu/calendar" target="_blank" rel="noopener noreferrer">
+              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
                 <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
                   <Button variant="outline" size="lg" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-8 h-12 text-base uppercase tracking-wider">
                     Book a Demo
@@ -875,7 +875,7 @@ export default function Landing() {
                 </Button>
               </motion.div>
             </Link>
-            <a href="https://equilinq.eu/calendar" target="_blank" rel="noopener noreferrer">
+            <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
                 <Button variant="outline" size="lg" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-8 h-12 text-base">
                   Book a Demo

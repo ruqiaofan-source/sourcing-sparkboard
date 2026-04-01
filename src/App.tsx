@@ -26,6 +26,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminRequests from "./pages/admin/AdminRequests";
 import AdminQuotes from "./pages/admin/AdminQuotes";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminInsights from "./pages/admin/AdminInsights";
 
 // Shared pages
 import Auth from "./pages/Auth";
@@ -39,6 +40,7 @@ import NotFound from "./pages/NotFound";
 import Landing from "./pages/Landing";
 import Contact from "./pages/public/Contact";
 import Insights from "./pages/public/Insights";
+import InsightArticle from "./pages/public/InsightArticle";
 import Customization from "./pages/public/Customization";
 import Pricing from "./pages/public/Pricing";
 import HowItWorks from "./pages/public/HowItWorks";
@@ -98,6 +100,7 @@ const App = () => (
               <Route path="/" element={<Landing />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/insights" element={<Insights />} />
+              <Route path="/insights/:slug" element={<InsightArticle />} />
               <Route path="/customization" element={<Customization />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
@@ -125,6 +128,7 @@ const App = () => (
               <Route path="/admin/requests/:id" element={<ProtectedRoute><AgentRequestDetail /></ProtectedRoute>} />
               <Route path="/admin/quotes" element={<ProtectedRoute><AdminQuotes /></ProtectedRoute>} />
               <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
+              <Route path="/admin/insights" element={<ProtectedRoute><AdminInsights /></ProtectedRoute>} />
               
               {/* Shared routes */}
               <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />

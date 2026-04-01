@@ -238,7 +238,7 @@ export function PublicFooter() {
             <Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link>
             <Link to="/insights" className="hover:text-foreground transition-colors">Insights</Link>
             <Link to="/customization" className="hover:text-foreground transition-colors">Customization</Link>
-            <a href="https://equilinq.eu/calendar" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">Book a Call</a>
+            <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">Book a Call</a>
           </div>
 
           <div className="flex flex-col items-center sm:items-end gap-1">
