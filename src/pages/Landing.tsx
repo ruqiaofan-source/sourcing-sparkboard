@@ -294,6 +294,7 @@ export default function Landing() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
