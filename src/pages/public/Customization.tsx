@@ -1,12 +1,12 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { SEOHead } from "@/components/SEOHead";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, CheckCircle2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-/* ──────── Service categories with items (no pricing) ──────── */
+/* ──────── Service categories with items ──────── */
 
 const categories = [
   {
@@ -153,10 +153,63 @@ const categories = [
 
 const tabIds = categories.map((c) => c.id);
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as const } },
-};
+/* ──────── Service card with staggered entrance ──────── */
+function ServiceCard({ item, index }: { item: { name: string; desc: string }; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+      transition={{ duration: 0.35, delay: index * 0.03, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{
+        y: -4,
+        scale: 1.02,
+        boxShadow: "0 12px 40px -10px hsl(239 100% 60% / 0.15)",
+      }}
+      className="group relative rounded-xl border border-border/40 bg-card/30 backdrop-blur-sm p-5 overflow-hidden transition-colors duration-300 hover:border-primary/30"
+    >
+      {/* Subtle glow on hover */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-primary/5 to-transparent" />
+      <div className="relative z-10 flex items-start gap-3">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.1 + index * 0.03, type: "spring", stiffness: 300 }}
+        >
+          <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+        </motion.div>
+        <div>
+          <h3 className="text-sm font-semibold text-foreground leading-snug mb-1 group-hover:text-primary transition-colors">
+            {item.name}
+          </h3>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            {item.desc}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ──────── Counter badge ──────── */
+function CountBadge() {
+  const total = categories.reduce((sum, c) => sum + c.items.length, 0);
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.4, type: "spring" }}
+      className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6"
+    >
+      <motion.span
+        className="h-1.5 w-1.5 rounded-full bg-primary"
+        animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      />
+      <span className="text-[11px] text-muted-foreground tracking-wide">{total}+ services available</span>
+    </motion.div>
+  );
+}
 
 export default function Customization() {
   const [searchParams] = useSearchParams();
@@ -172,7 +225,7 @@ export default function Customization() {
   const activeCategory = categories.find((c) => c.id === activeTab)!;
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <SEOHead
         title="Customization Services - Equilinq Branding, Packaging & QC"
         description="60+ customization options: private labels, custom packaging, quality inspection, OEM/ODM manufacturing. Build your brand with Equilinq."
@@ -180,122 +233,183 @@ export default function Customization() {
       <PublicNavbar />
 
       {/* Hero */}
-      <section className="pt-32 pb-12 px-4 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">
-            Customization
-          </span>
-          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
-            Build It Your Way
-          </h1>
-          <p className="text-muted-foreground text-lg max-w-lg mx-auto">
-            60+ branding, packaging, quality control, and manufacturing services - all managed for you.
-          </p>
-        </motion.div>
+      <section className="pt-32 pb-12 px-4 text-center relative">
+        {/* Background glow */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute w-[600px] h-[600px] rounded-full"
+            style={{
+              background: "radial-gradient(circle, hsl(239 100% 60% / 0.08) 0%, transparent 70%)",
+              top: "-20%",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+            animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+
+        <div className="relative z-10">
+          <CountBadge />
+          <motion.h1
+            className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 leading-[1.1]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <motion.span
+              className="inline-block"
+              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Build It{" "}
+            </motion.span>
+            <motion.span
+              className="bg-gradient-to-r from-primary via-[hsl(260,80%,68%)] to-primary bg-clip-text text-transparent inline-block"
+              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              style={{ backgroundSize: "200% 200%" }}
+            >
+              Your Way
+            </motion.span>
+          </motion.h1>
+          <motion.p
+            className="text-muted-foreground text-lg max-w-lg mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            Branding, packaging, quality control, and manufacturing services -- all managed for you.
+          </motion.p>
+        </div>
       </section>
 
-      {/* Tabs */}
-      <section className="px-4 pb-20">
+      {/* Category overview strip */}
+      <section className="px-4 pb-4">
         <div className="max-w-6xl mx-auto">
-          {/* Tab bar */}
-          <div className="mb-8 overflow-x-auto scrollbar-hide">
-            <div className="flex gap-2 min-w-max pb-2">
-              {categories.map((cat) => {
-                const isActive = cat.id === activeTab;
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveTab(cat.id)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
-                      isActive
-                        ? "bg-primary text-primary-foreground shadow-md"
-                        : "bg-card/50 text-muted-foreground hover:text-foreground hover:bg-card border border-border/40"
-                    }`}
-                  >
-                    <cat.icon className="h-4 w-4" />
-                    {cat.title}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Active category content */}
           <motion.div
-            key={activeTab}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 mb-8"
           >
-            {/* Category header */}
-            <div className="flex items-start gap-4 mb-8">
-              <div className="h-12 w-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                <activeCategory.icon className="h-6 w-6 text-primary" />
-              </div>
-              <div>
-                <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground">
-                  {activeCategory.title}
-                </h2>
-                <p className="text-muted-foreground mt-1">{activeCategory.description}</p>
-              </div>
-            </div>
-
-            {/* Service cards grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {activeCategory.items.map((item, i) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.03 }}
-                  className="group rounded-xl border border-border/40 bg-card/30 backdrop-blur-sm p-5 hover:border-primary/30 hover:bg-card/50 transition-all"
+            {categories.map((cat, i) => {
+              const isActive = cat.id === activeTab;
+              return (
+                <motion.button
+                  key={cat.id}
+                  onClick={() => setActiveTab(cat.id)}
+                  whileHover={{ y: -2, scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`relative flex flex-col items-center gap-2 px-3 py-4 rounded-xl text-xs font-medium transition-all overflow-hidden ${
+                    isActive
+                      ? "bg-primary/15 text-primary border border-primary/30 shadow-[0_0_25px_-5px_hsl(239,100%,60%/0.3)]"
+                      : "bg-card/30 text-muted-foreground hover:text-foreground hover:bg-card/50 border border-border/30"
+                  }`}
                 >
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <h3 className="text-sm font-semibold text-foreground leading-snug mb-1">
-                        {item.name}
-                      </h3>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTabGlow"
+                      className="absolute inset-0 bg-primary/10 rounded-xl"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                  <cat.icon className={`h-5 w-5 relative z-10 ${isActive ? "text-primary" : ""}`} />
+                  <span className="relative z-10 text-center leading-tight">{cat.title}</span>
+                  <span className="relative z-10 text-[10px] opacity-50">{cat.items.length} items</span>
+                </motion.button>
+              );
+            })}
           </motion.div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 px-4 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="max-w-2xl mx-auto"
-        >
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-3">
-            Ready to customize?
-          </h2>
-          <p className="text-muted-foreground mb-8">
-            Select your options when placing a sourcing request. Our team handles everything.
-          </p>
-          <Link to="/auth?signup=true">
-            <Button
-              size="lg"
-              className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 h-12 text-base font-semibold border border-primary/20"
+      {/* Active category content */}
+      <section className="px-4 pb-20">
+        <div className="max-w-6xl mx-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             >
-              Get Started
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+              {/* Category header */}
+              <div className="flex items-start gap-4 mb-8">
+                <motion.div
+                  key={`icon-${activeTab}`}
+                  initial={{ scale: 0, rotate: -20 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                  className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 shadow-[0_0_30px_-5px_hsl(239,100%,60%/0.15)]"
+                >
+                  <activeCategory.icon className="h-7 w-7 text-primary" />
+                </motion.div>
+                <div>
+                  <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground">
+                    {activeCategory.title}
+                  </h2>
+                  <p className="text-muted-foreground mt-1">{activeCategory.description}</p>
+                </div>
+              </div>
+
+              {/* Service cards grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {activeCategory.items.map((item, i) => (
+                  <ServiceCard key={item.name} item={item} index={i} />
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 px-4 text-center relative">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute w-[500px] h-[500px] rounded-full"
+            style={{
+              background: "radial-gradient(circle, hsl(239 100% 60% / 0.06) 0%, transparent 70%)",
+              bottom: "-20%",
+              right: "10%",
+            }}
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 12, repeat: Infinity }}
+          />
+        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30, scale: 0.96 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-2xl mx-auto relative z-10"
+        >
+          <motion.div
+            className="rounded-2xl border border-border/30 bg-card/20 backdrop-blur-sm p-10 relative overflow-hidden"
+            whileHover={{ borderColor: "hsl(239 100% 65% / 0.3)" }}
+          >
+            <div className="absolute -top-16 -left-16 w-40 h-40 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-3">
+              Ready to customize?
+            </h2>
+            <p className="text-muted-foreground mb-8">
+              Select your options when placing a sourcing request. Our team handles everything.
+            </p>
+            <Link to="/auth?signup=true">
+              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                <Button
+                  size="lg"
+                  className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold border border-primary/20 shadow-[0_0_40px_-8px_hsl(239,100%,60%/0.4)]"
+                >
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </motion.div>
+            </Link>
+          </motion.div>
         </motion.div>
       </section>
 
