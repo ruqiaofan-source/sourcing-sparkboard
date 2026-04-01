@@ -612,7 +612,7 @@ export default function Landing() {
                 src={logo.src}
                 alt={logo.alt}
                 className={`object-contain transition-all duration-500 ${
-                  logo.isSquare ? "h-8 w-8 sm:h-10 sm:w-10" : "h-full w-auto max-w-[100px] sm:max-w-[140px]"
+                  logo.isSquare ? "h-9 w-9 sm:h-12 sm:w-12" : "h-full w-auto max-w-[100px] sm:max-w-[140px]"
                 }`}
                 style={{
                   filter: isTransparent
