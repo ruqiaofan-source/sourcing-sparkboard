@@ -41,7 +41,7 @@ export function PublicNavbar() {
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
       <div className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white backdrop-blur-xl px-5 py-3 shadow-lg">
-        <Link to="/" className="flex items-center gap-1.5 mr-4">
+        <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
           <img src={equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" />
           <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
@@ -49,7 +49,7 @@ export function PublicNavbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm text-gray-600">
+        <div className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-7 text-base font-medium text-gray-700">
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div
