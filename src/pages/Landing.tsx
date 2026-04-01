@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import {
   Search, ShieldCheck, Truck, Palette, ChevronDown, ChevronRight,
   ArrowRight, Package, DollarSign, BarChart3, Users, CheckCircle2,
