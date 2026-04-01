@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 95%;
+
+    --card: 230 8% 4%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 230 8% 4%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 239 100% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 230 8% 8%;
+    --secondary-foreground: 0 0% 80%;
+
+    --muted: 230 6% 10%;
+    --muted-foreground: 230 5% 50%;
+
+    --accent: 239 100% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 230 8% 10%;
+    --input: 230 8% 10%;
+    --ring: 239 100% 65%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 230 5% 55%;
+    --sidebar-primary: 239 100% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 230 8% 7%;
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 230 8% 8%;
+    --sidebar-ring: 239 100% 65%;
+
+    --chart-1: 239 100% 65%;
+    --chart-2: 199 89% 48%;
+    --chart-3: 262 83% 58%;
+    --chart-4: 43 96% 56%;
+    --chart-5: 0 72% 51%;
+
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+
+    --shadow-card: 0 4px 30px -4px hsl(0 0% 0% / 0.6);
+    --shadow-glow: 0 0 60px -10px hsl(239 100% 65% / 0.25);
+    --glow-blue: radial-gradient(ellipse at 70% 0%, hsl(239 100% 60% / 0.18) 0%, transparent 55%);
+    --glow-blue-bottom: radial-gradient(ellipse at 30% 100%, hsl(239 100% 60% / 0.10) 0%, transparent 50%);
+    --glow-streak: linear-gradient(135deg, transparent 30%, hsl(239 100% 60% / 0.08) 50%, transparent 70%);
+  }
+
+  .light, :root.light {
+    --background: 230 20% 97%;
+    --foreground: 230 15% 8%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 230 15% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 230 15% 8%;
+
+    --primary: 239 100% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 230 15% 93%;
+    --secondary-foreground: 230 8% 20%;
+
+    --muted: 230 12% 93%;
+    --muted-foreground: 230 5% 42%;
+
+    --accent: 239 100% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 230 12% 87%;
+    --input: 230 12% 87%;
+    --ring: 239 100% 60%;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 230 5% 38%;
+    --sidebar-primary: 239 100% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 230 15% 95%;
+    --sidebar-accent-foreground: 230 15% 8%;
+    --sidebar-border: 230 12% 90%;
+    --sidebar-ring: 239 100% 60%;
+
+    --shadow-card: 0 2px 12px -2px hsl(230 15% 0% / 0.08);
+    --shadow-glow: 0 0 40px -8px hsl(239 100% 60% / 0.08);
+    --glow-blue: radial-gradient(ellipse at 70% 0%, hsl(239 100% 60% / 0.04) 0%, transparent 55%);
+    --glow-blue-bottom: radial-gradient(ellipse at 30% 100%, hsl(239 100% 60% / 0.03) 0%, transparent 50%);
+    --glow-streak: linear-gradient(135deg, transparent 30%, hsl(239 100% 60% / 0.03) 50%, transparent 70%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  html *,
+  html *::before,
+  html *::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, fill 0.3s ease, stroke 0.3s ease;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.65;
+    letter-spacing: -0.006em;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+
+  h3, h4 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  h5, h6 {
+    font-family: var(--font-body);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+}

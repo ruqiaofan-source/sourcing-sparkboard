@@ -1,0 +1,1 @@
+ALTER TABLE public.sourcing_requests ADD COLUMN service_addons jsonb DEFAULT '[]'::jsonb;

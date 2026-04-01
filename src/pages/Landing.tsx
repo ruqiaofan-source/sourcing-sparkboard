@@ -1,0 +1,892 @@
+import { useState, useEffect, useRef } from "react";
+import { SEOHead } from "@/components/SEOHead";
+import { Link } from "react-router-dom";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import {
+  Search, ShieldCheck, Truck, Palette, ChevronDown, ChevronRight,
+  ArrowRight, Package, DollarSign, BarChart3, Users, CheckCircle2,
+  TrendingUp, Globe, FileText
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import heroBg from "@/assets/hero-bg.jpg";
+import dashboardPreview from "@/assets/dashboard-preview.png";
+
+/* ──────────────────── DATA ──────────────────── */
+
+const features = [
+  {
+    icon: Search,
+    title: "Perfect Sourcing",
+    subtitle: "China's best suppliers, vetted for you",
+    desc: "Direct access to verified factories. No middlemen.",
+    vimeoId: "1150855107",
+    bullets: [
+      "Verified factory network",
+      "Quality and compliance screening",
+      "MOQs from 10 units",
+    ],
+  },
+  {
+    icon: Palette,
+    title: "Brand Customization",
+    subtitle: "35+ options to make it yours",
+    desc: "Private labels, custom packaging, logo integration.",
+    vimeoId: "1150855094",
+    bullets: [
+      "Private label and OEM",
+      "Custom packaging and labels",
+      "Product modifications",
+    ],
+  },
+  {
+    icon: ShieldCheck,
+    title: "Quality Control",
+    subtitle: "Multi-stage inspection, every order",
+    desc: "On-the-ground QC with photo and video proof.",
+    vimeoId: "1150855119",
+    bullets: [
+      "Pre-production validation",
+      "In-process monitoring",
+      "Final inspection before shipment",
+    ],
+  },
+  {
+    icon: Truck,
+    title: "Global Shipping",
+    subtitle: "200+ countries, eco-friendly options",
+    desc: "Consolidated shipping, customs handling, real-time tracking.",
+    vimeoId: "1150855074",
+    bullets: [
+      "Standard, express, and premium",
+      "Customs and export docs",
+      "Real-time tracking",
+    ],
+  },
+];
+
+const benefits = [
+  { icon: DollarSign, title: "We Source It Cheaper", desc: "Direct from vetted Chinese factories at lowest prices." },
+  { icon: ShieldCheck, title: "Quality Guaranteed", desc: "Factory check, warehouse QC, insured shipping." },
+  { icon: Truck, title: "Deliver Anywhere", desc: "Competitive rates to 200+ countries, eco-friendly options." },
+  { icon: Palette, title: "Own Your Brand", desc: "Private labels, custom packaging, 35+ branding options." },
+  { icon: BarChart3, title: "Full Visibility", desc: "Real-time updates on every order, every step." },
+  { icon: Users, title: "Human Agents", desc: "Real people, not AI, handling your orders." },
+];
+
+
+
+const faqs = [
+  {
+    q: "What is the minimum order quantity (MOQ) and how does pricing work?",
+    a: "For most standard products, our MOQ starts at just 10 units per SKU, making Equilinq ideal for product testing, pilot runs, and small-batch launches. Some factories or highly customized products may require higher MOQs - in such cases, we clearly communicate the minimum requirement upfront before you commit to production.\n\nWe operate on a zero-markup pricing model. You pay: factory wholesale price, a transparent Equilinq service fee covering sourcing, supplier coordination, quality control, and order management. Optional add-on services (e.g., customization, packaging adjustments, branding) are listed separately under 'Customization.' Shipping fee estimates are provided once shipment weight, volume, and destination are confirmed.\n\nThere are no hidden markups or inflated product prices, unlike traditional sourcing agents. You always know exactly where your costs come from.",
+  },
+  {
+    q: "How long does shipping take and what are the shipping costs?",
+    a: "Shipping times and costs depend on the shipping method, parcel count, weight, dimensions, and destination country.\n\nWe offer multiple service levels:\n- Standard shipping: ~15-25 days\n- Express shipping: ~7-14 days\n- Premium shipping: ~5-10 days\n\nShipping costs are calculated based on total shipment weight and volume, number of parcels, and destination country and delivery type (B2B or B2C).\n\nWe work with established international logistics partners to provide competitive, transparent shipping rates. All shipments include real-time tracking, and our team handles export documentation and customs coordination. Shipping costs are always quoted before confirmation, so there are no surprises after production.",
+  },
+  {
+    q: "What quality control measures do you have in place?",
+    a: "Every order goes through a structured quality control process before shipment. We inspect products for defects, verify specifications against approved samples, and ensure proper packaging and labeling. Visual documentation is provided prior to dispatch, and our on-the-ground QC team regularly rejects products that do not meet agreed standards, preventing defective or non-compliant goods from reaching customers.",
+  },
+  {
+    q: "Can you help with custom branding and packaging?",
+    a: "When placing an order, you can choose from a range of customization options, including product branding, labeling, and packaging services. Our team reviews your selections to confirm feasibility, pricing, and timelines before production begins.",
+  },
+  {
+    q: "How do returns and refunds work if there are issues?",
+    a: "If an issue is identified that results from a verified quality control or production error, we work with the factory to arrange an appropriate resolution. This may include a replacement, partial refund, or credit, depending on the circumstances.\n\nFor customer-initiated returns, we assist in coordinating the return process and liaising with suppliers where possible. All cases are reviewed individually to ensure a fair and practical outcome.",
+  },
+  {
+    q: "How do you handle high-value or complex products?",
+    a: "For high-value, technically complex, or regulated products, Equilinq operates using a more hands-on, project-based sourcing model. These products typically require closer coordination with factory and engineering teams, more detailed specification reviews and sampling rounds, enhanced quality control and documentation, and in some cases, long-term production agreements or exclusivity arrangements.\n\nDue to this increased complexity, pricing for these projects is variable and depends on factors such as product specifications, compliance requirements, production scale, and the level of ongoing coordination involved.\n\nOur team acts as a dedicated coordination layer between you and the factory, aligning on technical requirements, production feasibility, timelines, pricing, and regulatory or quality expectations before mass production begins.",
+  },
+  {
+    q: "How are VAT and customs duties handled?",
+    a: "Equilinq acts as a sourcing and procurement service provider and does not act as the Importer of Record. This means that VAT, customs duties, and any applicable import taxes are the responsibility of the customer, in accordance with the import rules of the destination country.\n\nEquilinq supports the process by preparing and coordinating export and customs documentation, working with logistics partners to ensure smooth customs clearance, and providing cost estimates where possible so you can plan ahead.\n\nThis structure keeps pricing transparent, avoids hidden tax markups, and ensures customers remain compliant with local VAT and customs regulations.",
+  },
+];
+
+/* ──────────────────── ANIMATED BACKGROUND ──────────────────── */
+
+function AnimatedGlow() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <motion.div
+        className="absolute w-[800px] h-[800px] rounded-full"
+        style={{
+          background: "radial-gradient(circle, hsl(239 100% 60% / 0.12) 0%, transparent 70%)",
+          top: "-20%",
+          right: "-10%",
+        }}
+        animate={{ x: [0, 40, -20, 0], y: [0, -30, 20, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute w-[600px] h-[600px] rounded-full"
+        style={{
+          background: "radial-gradient(circle, hsl(260 80% 60% / 0.08) 0%, transparent 70%)",
+          bottom: "-10%",
+          left: "-5%",
+        }}
+        animate={{ x: [0, -30, 20, 0], y: [0, 20, -30, 0] }}
+        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          background: "linear-gradient(135deg, transparent 25%, hsl(239 100% 60% / 0.06) 50%, transparent 75%)",
+        }}
+        animate={{ opacity: [0.4, 0.8, 0.4] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </div>
+  );
+}
+
+function FloatingParticles() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute h-1 w-1 rounded-full bg-primary/30"
+          style={{ left: `${10 + i * 11}%`, top: `${15 + (i % 4) * 20}%` }}
+          animate={{
+            y: [0, -40, 0],
+            x: [0, (i % 2 === 0 ? 15 : -15), 0],
+            opacity: [0.15, 0.5, 0.15],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{ duration: 4 + i * 0.7, repeat: Infinity, ease: "easeInOut", delay: i * 0.6 }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ──────────────────── COMPONENTS ──────────────────── */
+
+function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.06 }}
+      className="border border-border/60 rounded-2xl overflow-hidden bg-card/40 backdrop-blur-sm hover:border-primary/20 transition-colors"
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer group"
+      >
+        <span className="text-foreground font-medium text-[15px] pr-4 group-hover:text-primary transition-colors">{q}</span>
+        <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.3, type: "spring", stiffness: 200 }}>
+          <ChevronDown className="h-5 w-5 text-muted-foreground shrink-0" />
+        </motion.div>
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-6 pb-5 text-muted-foreground text-sm leading-relaxed whitespace-pre-line">{a}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+function AnimatedCounter({ value, label }: { value: string; label: string }) {
+  const [displayed, setDisplayed] = useState("0");
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const numericPart = value.replace(/[^0-9.]/g, "");
+  const prefix = value.match(/^[^0-9]*/)?.[0] || "";
+  const suffix = value.match(/[^0-9.]*$/)?.[0] || "";
+
+  useEffect(() => {
+    if (!isInView) return;
+    const target = parseFloat(numericPart);
+    const duration = 2000;
+    const start = performance.now();
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      const current = Math.round(eased * target);
+      setDisplayed(`${prefix}${current}${suffix}`);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }, [isInView, numericPart, prefix, suffix]);
+
+  return (
+    <motion.div
+      ref={ref}
+      whileHover={{ scale: 1.05, y: -2 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      className="rounded-xl border border-border/40 bg-card/30 backdrop-blur-sm px-4 py-3 text-center"
+    >
+      <p className="font-heading text-2xl font-bold text-foreground">{displayed}</p>
+      <p className="text-xs text-muted-foreground">{label}</p>
+    </motion.div>
+  );
+}
+
+/* stagger container */
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06 } },
+};
+const fadeUp = {
+  hidden: { opacity: 0, y: 20, scale: 0.97 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const } },
+};
+
+/* ──────────────────── MAIN PAGE ──────────────────── */
+
+export default function Landing() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
+
+  return (
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <SEOHead title="Equilinq - Sourcing from China for European SMEs" description="End-to-end sourcing, QC, customization and logistics from China. Transparent pricing, low MOQs, and dedicated support for European SMEs." />
+      
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                name: "Equilinq",
+                url: "https://equilinq.eu",
+                description: "Managed sourcing infrastructure for European SMEs. End-to-end sourcing, QC, customization and logistics from China.",
+                foundingDate: "2024",
+                areaServed: "Europe",
+                serviceType: "Product Sourcing and Procurement",
+                sameAs: [
+                  "https://www.linkedin.com/company/equilinq"
+                ],
+              },
+              {
+                "@type": "FAQPage",
+                mainEntity: faqs.map((faq) => ({
+                  "@type": "Question",
+                  name: faq.q,
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: faq.a,
+                  },
+                })),
+              },
+              {
+                "@type": "WebSite",
+                name: "Equilinq",
+                url: "https://equilinq.eu",
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: "https://equilinq.eu/search?q={search_term_string}",
+                  "query-input": "required name=search_term_string",
+                },
+              },
+            ],
+          }),
+        }}
+      />
+
+      <PublicNavbar />
+
+      {/* ───── HERO: Centered like Airweave ───── */}
+      <section
+        ref={heroRef}
+        className="relative pt-28 sm:pt-36 pb-16 px-4"
+      >
+        <div className="absolute inset-0">
+          <img src={heroBg} alt="" className="w-full h-full object-cover" width={1920} height={1080} />
+          <div className="absolute inset-0 bg-background/75" />
+        </div>
+
+        <AnimatedGlow />
+
+        <div className="relative z-10 max-w-5xl mx-auto">
+          {/* Centered text block */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-14"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 250 }}
+              className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6"
+            >
+              <motion.span
+                className="h-1.5 w-1.5 rounded-full bg-primary"
+                animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <span className="text-[11px] text-muted-foreground tracking-wide">
+                Incorporated with one of Tencent's founders
+              </span>
+            </motion.div>
+
+            <motion.h1
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[0.95] tracking-tight mb-6"
+              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+            >
+              Unsexy Sourcing{" "}
+              <motion.span
+                className="bg-gradient-to-r from-primary via-[hsl(260,80%,68%)] to-primary bg-clip-text text-transparent inline-block"
+                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                style={{ backgroundSize: "200% 200%" }}
+              >
+                Made Sexy.
+              </motion.span>
+            </motion.h1>
+
+            <motion.p
+              className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+            >
+              Sourcing, customization, QC, and logistics from China.
+              <br className="hidden sm:block" />
+              End-to-end, transparent, and built for European SMEs.
+            </motion.p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link to="/auth?signup=true">
+                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                  <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold shadow-[0_0_50px_-8px_hsl(239,100%,50%/0.6)] border border-primary/20 uppercase tracking-wider">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </motion.div>
+              </Link>
+              <a href="https://equilinq.eu/calendar" target="_blank" rel="noopener noreferrer">
+                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                  <Button variant="outline" size="lg" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-8 h-12 text-base uppercase tracking-wider">
+                    Book a Demo
+                  </Button>
+                </motion.div>
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Dashboard preview below */}
+          <motion.div
+            initial={{ opacity: 0, y: 60, scale: 0.92 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="relative rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-1.5 shadow-2xl shadow-black/50">
+              <div className="absolute -inset-8 rounded-3xl bg-primary/8 blur-3xl pointer-events-none" />
+
+              <div className="relative rounded-t-xl bg-[hsl(230,20%,12%)] px-4 py-2.5 flex items-center gap-2 border-b border-border/20">
+                <div className="flex gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-[hsl(45,90%,50%)]/60" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-[hsl(140,60%,45%)]/60" />
+                </div>
+                <div className="flex-1 flex justify-center">
+                  <div className="bg-background/40 rounded-md px-4 py-1 text-[10px] text-muted-foreground/60 font-mono">
+                    app.equilinq.eu/dashboard
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative overflow-hidden rounded-b-xl">
+                <img
+                  src={dashboardPreview}
+                  alt="Equilinq Customer Dashboard"
+                  className="w-full h-auto object-cover object-top"
+                />
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ───── FEATURES - Optiverse-style alternating ───── */}
+      <section id="features" className="py-28 px-4 relative">
+        <div className="max-w-5xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-24"
+          >
+            <motion.span
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.05 }}
+              className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block"
+            >
+              What We Do
+            </motion.span>
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+              End-to-End Sourcing
+              <br />
+              <span className="text-primary">from China</span>
+            </h2>
+          </motion.div>
+
+          <div className="space-y-32">
+            {features.map((f, i) => {
+              const isReversed = i % 2 !== 0;
+              return (
+                <motion.div
+                  key={f.title}
+                  initial={{ opacity: 0, y: 30, scale: 0.97 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className={`flex flex-col ${isReversed ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-12 lg:gap-20`}
+                >
+                  {/* Text side */}
+                  <div className="flex-1 max-w-lg">
+                    <motion.div
+                      whileHover={{ scale: 1.05, rotate: 3 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                      className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6"
+                    >
+                      <f.icon className="h-7 w-7 text-primary" />
+                    </motion.div>
+                    <h3 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-3">{f.title}</h3>
+                    <p className="text-primary/80 text-lg font-medium mb-4">{f.subtitle}</p>
+                    <p className="text-muted-foreground leading-relaxed mb-6">{f.desc}</p>
+                    <ul className="space-y-3">
+                      {f.bullets.map((bullet) => (
+                        <motion.li
+                          key={bullet}
+                          className="flex items-start gap-3 text-sm text-foreground/80"
+                          whileHover={{ x: 4 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                          <span>{bullet}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Visual side - Vimeo video */}
+                  <motion.div
+                    className="flex-1 w-full max-w-md"
+                    whileHover={{ y: -6, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                  >
+                    <div className="relative aspect-[9/16] sm:aspect-[3/4] rounded-3xl border border-border/30 bg-card/20 overflow-hidden">
+                      <iframe
+                        src={`https://player.vimeo.com/video/${f.vimeoId}?muted=1&autoplay=1&autopause=0&loop=1&background=1`}
+                        className="absolute inset-0 w-full h-full"
+                        frameBorder="0"
+                        allow="autoplay; fullscreen"
+                        allowFullScreen
+                        title={f.title}
+                        loading="lazy"
+                      />
+                    </div>
+                  </motion.div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ───── PRICING CTA ───── */}
+      <section className="py-20 px-4 relative">
+        <FloatingParticles />
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="max-w-3xl mx-auto text-center relative z-10"
+        >
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">Pricing</span>
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">
+            We Source It 20% Cheaper, Then Charge You 7%
+          </h2>
+          <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+            Transparent pricing with no hidden markups. See our full pricing breakdown.
+          </p>
+          <Link to="/pricing">
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+              <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold border border-primary/20">
+                View Pricing
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </motion.div>
+          </Link>
+        </motion.div>
+      </section>
+
+      {/* ───── SOCIAL PROOF ───── */}
+      <section className="py-24 px-4 relative">
+        <div className="max-w-5xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-16"
+          >
+            <motion.span
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3 }}
+              className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block"
+            >
+              Trusted by SMEs
+            </motion.span>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">What Our Clients Say</h2>
+          </motion.div>
+
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"
+          >
+            {[
+              {
+                quote: "Equilinq handled everything from factory selection to doorstep delivery. We launched our product line 3 months faster than expected.",
+                name: "Thomas V.",
+                role: "E-commerce Brand Owner",
+                country: "Netherlands",
+              },
+              {
+                quote: "The transparency is what sold me. I could see every cost line item. No surprises, no hidden fees. Exactly what I needed as a small business.",
+                name: "Marie L.",
+                role: "Private Label Seller",
+                country: "France",
+              },
+              {
+                quote: "Their QC process caught defects that would have cost us thousands. The photo reports before shipping gave us complete peace of mind.",
+                name: "Stefan K.",
+                role: "Startup Founder",
+                country: "Germany",
+              },
+            ].map((t, i) => (
+              <motion.div
+                key={t.name}
+                variants={fadeUp}
+                whileHover={{ y: -4 }}
+                className="rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-7 hover:border-primary/20 transition-all"
+              >
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, s) => (
+                    <svg key={s} className="h-4 w-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-sm text-foreground/80 leading-relaxed mb-5 italic">"{t.quote}"</p>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">{t.name}</p>
+                  <p className="text-xs text-muted-foreground">{t.role} - {t.country}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Trust badges */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="flex flex-wrap items-center justify-center gap-6"
+          >
+            {[
+              { label: "Vetted Factories", icon: ShieldCheck },
+              { label: "Transparent Pricing", icon: DollarSign },
+              { label: "Multi-Stage QC", icon: CheckCircle2 },
+              { label: "200+ Countries Shipped", icon: Globe },
+            ].map((badge) => (
+              <motion.div
+                key={badge.label}
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-2 rounded-full border border-border/40 bg-card/30 px-4 py-2"
+              >
+                <badge.icon className="h-4 w-4 text-primary" />
+                <span className="text-xs font-medium text-foreground/80">{badge.label}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="benefits" className="py-28 px-4 relative">
+        <AnimatedGlow />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-16"
+          >
+            <motion.span
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3 }}
+              className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block"
+            >
+              Benefits
+            </motion.span>
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">Why Choose Us?</h2>
+            <p className="text-muted-foreground mt-4 max-w-xl mx-auto">Source. Brand. QC and Logistics. Everything You Need.</p>
+          </motion.div>
+
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
+            {benefits.map((b, i) => (
+              <motion.div
+                key={b.title}
+                variants={fadeUp}
+                whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.2 } }}
+                className="group rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-6 hover:border-primary/20 hover:bg-card/60 transition-all duration-300"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.15, rotate: -8 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                  className="h-12 w-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors"
+                >
+                  <b.icon className="h-6 w-6 text-primary" strokeWidth={1.5} />
+                </motion.div>
+                <h4 className="font-heading text-base font-semibold text-foreground mb-1.5">{b.title}</h4>
+                <p className="text-muted-foreground text-sm leading-relaxed">{b.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ───── FOUNDER'S NOTE ───── */}
+      <section className="py-28 px-4 relative">
+        <FloatingParticles />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-6"
+          >
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-3 block">Founder's Note</span>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.96 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-8 sm:p-12 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden"
+          >
+            <div className="absolute -top-20 -left-20 w-60 h-60 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
+            <motion.div
+              className="shrink-0"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <img
+                src="https://framerusercontent.com/images/mAjvmxaxBda8vHxrvk40mSOZOo.jpg?width=200&height=300"
+                alt="Founder"
+                className="w-32 h-44 rounded-2xl object-cover border border-border/40"
+                loading="lazy"
+              />
+              <a href="https://www.linkedin.com/in/ruqiao-fan-05379137a/" target="_blank" rel="noopener noreferrer" className="block text-center mt-3 text-xs text-muted-foreground font-medium hover:text-primary transition-colors">
+                Founder & CEO ↗
+              </a>
+            </motion.div>
+            <div className="flex-1">
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, delay: 0.3 }}
+                className="text-lg sm:text-xl text-foreground leading-relaxed font-heading font-medium italic"
+              >
+                "Why spend your time chasing factories, managing miscommunication, and fixing avoidable issues, when we can handle it for you?"
+              </motion.p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ───── INSIGHTS PROMO ───── */}
+      <section className="py-28 px-4 relative">
+        <AnimatedGlow />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-12"
+          >
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+              <Link to="/insights" className="hover:text-primary transition-colors">
+                Stay Ahead of What's Selling
+              </Link>
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Check our insights page. We track best-selling products, pricing trends, and supplier signals across China, and publish clear, practical insights you can actually act on.
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8"
+          >
+            {[
+              { icon: TrendingUp, title: "Best-Selling SKUs", desc: "We publish regularly updated breakdowns of top-performing products by category, including SKUs, pricing ranges, and demand signals." },
+              { icon: Globe, title: "Market Trend Reports", desc: "Our blog tracks shifts in consumer demand, seasonality, and sourcing trends, helping you decide what to source and when." },
+              { icon: FileText, title: "Supplier & Cost Insights", desc: "We analyze supplier pricing, MOQ changes, and production signals, so you understand the real costs behind trending products." },
+            ].map((item) => (
+              <motion.div
+                key={item.title}
+                variants={fadeUp}
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-6 hover:border-primary/20 transition-all"
+              >
+                <motion.div
+                  whileHover={{ rotate: -5, scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <item.icon className="h-7 w-7 text-primary mb-3" strokeWidth={1.5} />
+                </motion.div>
+                <h4 className="font-heading text-base font-semibold text-foreground mb-1.5">{item.title}</h4>
+                <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex items-center justify-center gap-3 flex-wrap"
+          >
+            {["Verified Market Signals", "China-Based Research", "Actionable Reports"].map((badge, i) => (
+              <motion.span
+                key={badge}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="text-xs font-medium text-primary border border-primary/30 rounded-full px-3 py-1 bg-primary/5"
+              >
+                {badge}
+              </motion.span>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ───── FAQ ───── */}
+      <section id="faq" className="py-28 px-4">
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-14"
+          >
+            <motion.span
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block"
+            >
+              FAQ's Section
+            </motion.span>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">Common FAQ's</h2>
+            <p className="text-muted-foreground mt-3">Get answers to your questions and learn about our platform</p>
+          </motion.div>
+
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <FAQItem key={i} q={faq.q} a={faq.a} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ───── CTA ───── */}
+      <section className="py-28 px-4 relative">
+        <AnimatedGlow />
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.96, filter: "blur(6px)" }}
+          whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-3xl mx-auto text-center relative z-10"
+        >
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Ready to Source Smarter?
+          </h2>
+          <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
+            Join European SMEs already sourcing from China with full transparency, quality control, and dedicated human support.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/auth?signup=true">
+              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold shadow-[0_0_50px_-8px_hsl(239,100%,60%/0.5)] border border-primary/20">
+                  Get Started Now
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </motion.div>
+            </Link>
+            <a href="https://equilinq.eu/calendar" target="_blank" rel="noopener noreferrer">
+              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                <Button variant="outline" size="lg" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-8 h-12 text-base">
+                  Book a Demo
+                </Button>
+              </motion.div>
+            </a>
+          </div>
+        </motion.div>
+      </section>
+
+      <PublicFooter />
+    </div>
+  );
+}
