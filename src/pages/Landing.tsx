@@ -275,10 +275,10 @@ function AnimatedCounter({ value, label }: { value: string; label: string }) {
       ref={ref}
       whileHover={{ scale: 1.05, y: -2 }}
       transition={{ type: "spring", stiffness: 300 }}
-      className="rounded-xl border border-border/40 bg-card/30 backdrop-blur-sm px-4 py-3 text-center"
+      className="rounded-xl border border-border/40 bg-card/30 backdrop-blur-sm px-4 py-4 sm:px-5 sm:py-5 text-center"
     >
-      <p className="font-heading text-2xl font-bold text-foreground">{displayed}</p>
-      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="font-heading text-3xl sm:text-4xl font-bold text-foreground">{displayed}</p>
+      <p className="mt-1 text-sm sm:text-base text-muted-foreground">{label}</p>
     </motion.div>
   );
 }
@@ -600,14 +600,13 @@ export default function Landing() {
               href={logo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mx-4 sm:mx-6 inline-flex items-center justify-center rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500"
+              className="group mx-5 sm:mx-7 inline-flex shrink-0 items-center justify-center rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500"
             >
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className={`object-contain transition-all duration-500 ${logo.hasBackground ? "h-12 sm:h-16 w-auto rounded-lg" : "h-10 w-24 sm:h-14 sm:w-36"} grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100`}
+                className={`object-contain transition-all duration-500 ${logo.hasBackground ? "h-14 sm:h-20 w-auto rounded-lg grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100" : theme === "dark" ? "h-12 w-28 sm:h-16 sm:w-40 grayscale brightness-0 invert opacity-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:invert-0 group-hover:opacity-100" : "h-12 w-28 sm:h-16 sm:w-40 grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100"}`}
                 loading="lazy"
-                style={{ filter: !logo.hasBackground && theme === "dark" ? "brightness(0) invert(1)" : undefined }}
               />
             </a>
           ))}
