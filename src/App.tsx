@@ -39,6 +39,7 @@ import NotFound from "./pages/NotFound";
 import Landing from "./pages/Landing";
 import Contact from "./pages/public/Contact";
 import Insights from "./pages/public/Insights";
+import InsightArticle from "./pages/public/InsightArticle";
 import Customization from "./pages/public/Customization";
 import Pricing from "./pages/public/Pricing";
 import HowItWorks from "./pages/public/HowItWorks";
