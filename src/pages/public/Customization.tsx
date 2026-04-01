@@ -3,8 +3,9 @@ import { SEOHead } from "@/components/SEOHead";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, CheckCircle2 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, CheckCircle2, Search, X } from "lucide-react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { Input } from "@/components/ui/input";
 
 /* ──────── Service categories with items ──────── */
 
