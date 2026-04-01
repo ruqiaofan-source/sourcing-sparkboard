@@ -125,7 +125,7 @@ export function PublicNavbar() {
               Login
             </Button>
           </Link>
-          <Link to="/auth?signup=true" className="hidden md:block">
+          <Link to="/auth?signup=true" className="hidden lg:block">
             <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 border border-primary/20">
               Get Started
               <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
