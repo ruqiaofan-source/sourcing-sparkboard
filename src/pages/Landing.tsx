@@ -357,7 +357,7 @@ export default function Landing() {
             </motion.div>
 
             <motion.h1
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[0.95] tracking-tight mb-6"
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.15 }}
@@ -368,8 +368,9 @@ export default function Landing() {
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               >
-                Unsexy Sourcing{" "}
+                Unsexy Sourcing
               </motion.span>
+              <br />
               <motion.span
                 className="bg-gradient-to-r from-primary via-[hsl(260,80%,68%)] to-primary bg-clip-text text-transparent inline-block"
                 initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.9 }}
