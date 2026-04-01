@@ -597,7 +597,10 @@ export default function Landing() {
             { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false },
             { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false },
             { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false },
-          ].map((logo) => (
+          ].map((logo) => {
+            const isTransparent = !logo.hasBackground;
+            const isDark = theme === "dark";
+            return (
             <a
               key={logo.alt}
               href={logo.url}
@@ -608,19 +611,27 @@ export default function Landing() {
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className={`w-auto object-contain transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100 ${
-                  logo.hasBackground ? "h-full max-w-[100px] sm:max-w-[140px] grayscale opacity-60" : "h-[70%] max-w-[90px] sm:max-w-[120px] grayscale opacity-60"
+                className={`w-auto object-contain transition-all duration-500 ${
+                  isTransparent ? "h-[70%] max-w-[90px] sm:max-w-[120px]" : "h-full max-w-[100px] sm:max-w-[140px]"
                 }`}
-                style={
-                  !logo.hasBackground
-                    ? theme === "dark"
-                      ? { filter: "brightness(0) invert(1) grayscale(100%)", opacity: 0.7 }
-                      : { filter: "grayscale(100%) brightness(0.3)", opacity: 0.7 }
-                    : { filter: "grayscale(100%)" }
-                }
+                style={{
+                  filter: isTransparent
+                    ? isDark
+                      ? "brightness(0) invert(1)"
+                      : "brightness(0) opacity(0.5)"
+                    : "grayscale(100%) opacity(0.6)",
+                  transition: "filter 0.5s, opacity 0.5s",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.filter = "none"; }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.filter = isTransparent
+                    ? isDark ? "brightness(0) invert(1)" : "brightness(0) opacity(0.5)"
+                    : "grayscale(100%) opacity(0.6)";
+                }}
               />
             </a>
-          ))}
+            );
+          })}
         </Marquee>
         </div>
       </section>
