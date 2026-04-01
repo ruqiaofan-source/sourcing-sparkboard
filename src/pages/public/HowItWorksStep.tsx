@@ -14,7 +14,7 @@ export const steps = [
     step: "01",
     icon: MessageSquare,
     title: "Submit Your Sourcing Request",
-    shortDesc: "Tell us what you need -- product, quantity, budget, and customization.",
+    shortDesc: "Share your product specs, quantity, and budget.",
     desc: "Describe your product, quantity, budget, and any customization requirements. Upload reference images or specs to help us find the right match.",
     details: [
       "Product description and specifications",
