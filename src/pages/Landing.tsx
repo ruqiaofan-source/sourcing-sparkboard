@@ -358,15 +358,29 @@ export default function Landing() {
 
             <motion.h1
               className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[0.95] tracking-tight mb-6"
-              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.6, delay: 0.15 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.15 }}
             >
-              Unsexy Sourcing{" "}
+              <motion.span
+                className="inline-block"
+                initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              >
+                Unsexy Sourcing{" "}
+              </motion.span>
               <motion.span
                 className="bg-gradient-to-r from-primary via-[hsl(260,80%,68%)] to-primary bg-clip-text text-transparent inline-block"
-                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1, backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                transition={{ 
+                  opacity: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
+                  y: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
+                  filter: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
+                  scale: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
+                  backgroundPosition: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }
+                }}
                 style={{ backgroundSize: "200% 200%" }}
               >
                 Made Sexy.
@@ -375,9 +389,9 @@ export default function Landing() {
 
             <motion.p
               className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed"
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
             >
               Sourcing, customization, QC, and logistics from China.
               <br className="hidden sm:block" />
