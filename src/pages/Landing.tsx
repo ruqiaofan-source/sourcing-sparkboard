@@ -11,6 +11,10 @@ import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import heroBg from "@/assets/hero-bg.jpg";
 import dashboardPreview from "@/assets/dashboard-preview.png";
+import logoLonglive from "@/assets/logos/longlive.png";
+import logoSoleRunning from "@/assets/logos/sole-running.png";
+import logoLKK from "@/assets/logos/lkk.png";
+import logoIMMO from "@/assets/logos/immo.png";
 
 /* ──────────────────── DATA ──────────────────── */
 
