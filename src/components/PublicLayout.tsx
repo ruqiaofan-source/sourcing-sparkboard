@@ -18,21 +18,21 @@ export function PublicNavbar() {
 
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
-      <div className="flex items-center justify-between rounded-2xl border border-border/60 bg-card/90 backdrop-blur-xl px-5 py-3 shadow-[var(--shadow-card)]">
+      <div className="flex items-center justify-between rounded-2xl border border-white/20 bg-white backdrop-blur-xl px-5 py-3 shadow-[var(--shadow-card)]">
         <Link to="/" className="flex items-center gap-1.5 mr-4">
           <img src={equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" />
-          <span className="font-heading text-lg font-bold tracking-wider uppercase text-foreground">
+          <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
           </span>
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
+        <div className="hidden md:flex items-center gap-7 text-sm text-gray-600">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               to={link.href}
-              className="hover:text-foreground transition-colors"
+              className="hover:text-gray-900 transition-colors"
             >
               {link.label}
             </Link>
@@ -41,7 +41,7 @@ export function PublicNavbar() {
 
         <div className="flex items-center gap-3">
           <Link to="/auth" className="hidden sm:block">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground rounded-full">
+            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full">
               Login
             </Button>
           </Link>
@@ -54,7 +54,7 @@ export function PublicNavbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden text-foreground p-1"
+            className="md:hidden text-gray-900 p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
