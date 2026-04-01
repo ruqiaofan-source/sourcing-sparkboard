@@ -195,9 +195,9 @@ function FloatingParticles() {
 /* Horizontal scrolling marquee */
 function Marquee({ children, speed = 30 }: { children: React.ReactNode; speed?: number }) {
   return (
-    <div className="overflow-hidden whitespace-nowrap">
+    <div className="overflow-hidden w-full">
       <motion.div
-        className="inline-flex gap-8"
+        className="flex w-max gap-6 sm:gap-8"
         animate={{ x: ["0%", "-50%"] }}
         transition={{ duration: speed, repeat: Infinity, ease: "linear" }}
       >
