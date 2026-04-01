@@ -608,8 +608,16 @@ export default function Landing() {
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className="h-full w-auto max-w-[120px] sm:max-w-[160px] object-contain transition-all duration-500 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100"
-                style={!logo.hasBackground && theme === "dark" ? { filter: "brightness(0) invert(1) grayscale(100%) opacity(0.7)" } : { filter: "grayscale(100%)" }}
+                className={`w-auto object-contain transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100 ${
+                  logo.hasBackground ? "h-full max-w-[100px] sm:max-w-[140px] grayscale opacity-60" : "h-[70%] max-w-[90px] sm:max-w-[120px] grayscale opacity-60"
+                }`}
+                style={
+                  !logo.hasBackground
+                    ? theme === "dark"
+                      ? { filter: "brightness(0) invert(1) grayscale(100%)", opacity: 0.7 }
+                      : { filter: "grayscale(100%) brightness(0.3)", opacity: 0.7 }
+                    : { filter: "grayscale(100%)" }
+                }
               />
             </a>
           ))}
