@@ -195,15 +195,16 @@ function FloatingParticles() {
 /* Horizontal scrolling marquee */
 function Marquee({ children, speed = 30 }: { children: React.ReactNode; speed?: number }) {
   return (
-    <div className="overflow-hidden w-full">
-      <motion.div
-        className="flex w-max gap-6 sm:gap-8"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: speed, repeat: Infinity, ease: "linear" }}
+    <div className="overflow-hidden w-full" style={{ minHeight: 80 }}>
+      <div
+        className="flex w-max gap-4 sm:gap-8 animate-marquee"
+        style={{
+          animation: `marquee ${speed}s linear infinite`,
+        }}
       >
         {children}
         {children}
-      </motion.div>
+      </div>
     </div>
   );
 }
