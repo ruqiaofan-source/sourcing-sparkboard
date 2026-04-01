@@ -120,12 +120,12 @@ export function PublicNavbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <Link to="/auth" className="hidden lg:block">
-            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full">
+          <Link to="/auth" className="hidden md:block">
+            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-base">
               Login
             </Button>
           </Link>
-          <Link to="/auth?signup=true" className="hidden lg:block">
+          <Link to="/auth?signup=true" className="hidden md:block">
             <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 border border-primary/20">
               Get Started
               <ArrowRight className="ml-1.5 h-3.5 w-3.5" />

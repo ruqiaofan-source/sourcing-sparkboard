@@ -110,7 +110,7 @@ const AuthPage = () => {
           <div className="flex items-center gap-3 mb-16">
             <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
               <img src={equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
-              <span className="font-heading text-xl font-bold text-foreground tracking-wider uppercase">
+              <span className="font-heading text-xl font-bold text-primary-foreground tracking-wider uppercase">
                 Equilinq
               </span>
             </Link>
