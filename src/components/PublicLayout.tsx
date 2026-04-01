@@ -111,7 +111,7 @@ export function PublicNavbar() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="hover:text-gray-900 transition-colors whitespace-nowrap"
+                className="hover:text-gray-900 transition-colors whitespace-nowrap text-base"
               >
                 {link.label}
               </Link>
