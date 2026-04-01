@@ -113,31 +113,42 @@ function AnimatedGlow() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
-        className="absolute w-[800px] h-[800px] rounded-full"
+        className="absolute w-[900px] h-[900px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(239 100% 60% / 0.12) 0%, transparent 70%)",
-          top: "-20%",
-          right: "-10%",
+          background: "radial-gradient(circle, hsl(239 100% 60% / 0.15) 0%, hsl(260 80% 50% / 0.08) 40%, transparent 70%)",
+          top: "-25%",
+          right: "-15%",
         }}
-        animate={{ x: [0, 40, -20, 0], y: [0, -30, 20, 0] }}
+        animate={{ x: [0, 50, -30, 0], y: [0, -40, 30, 0], scale: [1, 1.05, 0.95, 1] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full"
+        className="absolute w-[700px] h-[700px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(260 80% 60% / 0.08) 0%, transparent 70%)",
-          bottom: "-10%",
-          left: "-5%",
+          background: "radial-gradient(circle, hsl(280 70% 50% / 0.08) 0%, hsl(239 100% 60% / 0.05) 40%, transparent 70%)",
+          bottom: "-15%",
+          left: "-10%",
         }}
-        animate={{ x: [0, -30, 20, 0], y: [0, 20, -30, 0] }}
+        animate={{ x: [0, -40, 30, 0], y: [0, 30, -40, 0], scale: [1, 0.95, 1.05, 1] }}
         transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {/* Warm accent glow (Optiverse-inspired) */}
+      <motion.div
+        className="absolute w-[500px] h-[500px] rounded-full"
+        style={{
+          background: "radial-gradient(circle, hsl(30 80% 55% / 0.04) 0%, transparent 60%)",
+          top: "30%",
+          left: "50%",
+        }}
+        animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(135deg, transparent 25%, hsl(239 100% 60% / 0.06) 50%, transparent 75%)",
+          background: "linear-gradient(135deg, transparent 20%, hsl(239 100% 60% / 0.06) 45%, hsl(260 80% 60% / 0.04) 55%, transparent 80%)",
         }}
-        animate={{ opacity: [0.4, 0.8, 0.4] }}
+        animate={{ opacity: [0.3, 0.7, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
     </div>
@@ -347,15 +358,29 @@ export default function Landing() {
 
             <motion.h1
               className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[0.95] tracking-tight mb-6"
-              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.6, delay: 0.15 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.15 }}
             >
-              Unsexy Sourcing{" "}
+              <motion.span
+                className="inline-block"
+                initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              >
+                Unsexy Sourcing{" "}
+              </motion.span>
               <motion.span
                 className="bg-gradient-to-r from-primary via-[hsl(260,80%,68%)] to-primary bg-clip-text text-transparent inline-block"
-                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1, backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                transition={{ 
+                  opacity: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
+                  y: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
+                  filter: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
+                  scale: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
+                  backgroundPosition: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }
+                }}
                 style={{ backgroundSize: "200% 200%" }}
               >
                 Made Sexy.
@@ -364,9 +389,9 @@ export default function Landing() {
 
             <motion.p
               className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed"
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
             >
               Sourcing, customization, QC, and logistics from China.
               <br className="hidden sm:block" />
