@@ -40,6 +40,7 @@ const features = [
 ];
 
 const AuthPage = () => {
+  const [greeting] = useState(getRandomGreeting);
   const [isSignUp, setIsSignUp] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
