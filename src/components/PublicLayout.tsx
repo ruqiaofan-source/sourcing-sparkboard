@@ -21,7 +21,7 @@ export function PublicNavbar() {
       <div className="flex items-center justify-between rounded-2xl border border-white/20 bg-white backdrop-blur-xl px-5 py-3 shadow-[var(--shadow-card)]">
         <Link to="/" className="flex items-center gap-1.5 mr-4">
           <img src={equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" />
-          <span className="font-heading text-lg font-bold tracking-wider uppercase text-foreground">
+          <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
           </span>
         </Link>
