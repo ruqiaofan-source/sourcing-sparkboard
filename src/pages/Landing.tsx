@@ -449,8 +449,10 @@ export default function Landing() {
             initial={{ opacity: 0, y: 60, scale: 0.92 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ scale: 1.03, y: -8 }}
+            style={{ cursor: "pointer" }}
           >
-            <div className="relative rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-1.5 shadow-2xl shadow-black/50">
+            <div className="relative rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-1.5 shadow-2xl shadow-black/50 transition-shadow duration-500 hover:shadow-[0_20px_80px_-20px_hsl(239,100%,60%/0.3)]">
               <div className="absolute -inset-8 rounded-3xl bg-primary/8 blur-3xl pointer-events-none" />
 
               <div className="relative rounded-t-xl bg-[hsl(230,20%,12%)] px-4 py-2.5 flex items-center gap-2 border-b border-border/20">
