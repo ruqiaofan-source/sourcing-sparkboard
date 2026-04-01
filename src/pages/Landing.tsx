@@ -370,7 +370,7 @@ export default function Landing() {
             >
               Sourcing, customization, QC, and logistics from China.
               <br className="hidden sm:block" />
-              End-to-end, transparent, and built for European SMEs.
+              One platform to rule them all.
             </motion.p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
