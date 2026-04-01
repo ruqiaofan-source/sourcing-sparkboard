@@ -453,6 +453,27 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ───── SCROLLING TRUST MARQUEE (Airweave-style) ───── */}
+      <section className="py-8 border-y border-border/20 bg-card/10 relative overflow-hidden">
+        <Marquee speed={35}>
+          {[
+            "Vetted Factory Network",
+            "Transparent Pricing",
+            "Multi-Stage QC",
+            "200+ Countries",
+            "Low MOQ from 10 Units",
+            "Private Label & OEM",
+            "Real-Time Tracking",
+            "Dedicated Human Agents",
+          ].map((text) => (
+            <span key={text} className="inline-flex items-center gap-3 text-sm font-medium text-muted-foreground/60 uppercase tracking-widest">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary/40" />
+              {text}
+            </span>
+          ))}
+        </Marquee>
+      </section>
+
       {/* ───── FEATURES - Optiverse-style alternating ───── */}
       <section id="features" className="py-28 px-4 relative">
         <div className="max-w-5xl mx-auto relative z-10">
