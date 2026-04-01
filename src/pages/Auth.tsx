@@ -12,6 +12,27 @@ import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, User, Phone, MapPin, Pack
 import equilinqLogo from "@/assets/equilinq-logo.png";
 import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
 
+const loginGreetings = [
+  "Welcome back",
+  "Look who's back",
+  "Oh hey, you again",
+  "Back for more?",
+  "Missed you already",
+  "The return of the legend",
+  "You're back. Factories rejoice",
+  "Ready to source some magic?",
+  "Long time no source",
+  "Your factories missed you",
+  "Let's get this bread",
+  "Supply chain hero returns",
+  "Back in the sourcing saddle",
+  "The sequel is always better",
+  "Plot twist: you're back",
+];
+
+const getRandomGreeting = () =>
+  loginGreetings[Math.floor(Math.random() * loginGreetings.length)];
+
 const features = [
   { icon: Package, label: "Verified Factories", desc: "Direct access to vetted manufacturers" },
   { icon: Globe, label: "End-to-End Logistics", desc: "Shipping, customs & delivery handled" },
@@ -19,6 +40,7 @@ const features = [
 ];
 
 const AuthPage = () => {
+  const [greeting] = useState(getRandomGreeting);
   const [isSignUp, setIsSignUp] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
@@ -224,7 +246,7 @@ const AuthPage = () => {
             <>
               <div className="mb-6">
                 <h2 className="font-heading text-2xl font-bold text-foreground">
-                  {isForgotPassword ? "Reset password" : isSignUp ? "Create account" : "Welcome back"}
+                  {isForgotPassword ? "Reset password" : isSignUp ? "Create account" : greeting}
                 </h2>
                 <p className="text-muted-foreground text-sm mt-1">
                   {isForgotPassword
