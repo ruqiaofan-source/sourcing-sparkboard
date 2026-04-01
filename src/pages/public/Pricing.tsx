@@ -138,7 +138,7 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <a href="https://equilinq.eu/calendar" target="_blank" rel="noopener noreferrer" className="block">
+              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="block">
                 <Button variant="outline" className="w-full rounded-full border-border/60 h-12 text-base">
                   Book a Demo
                   <ChevronRight className="ml-2 h-4 w-4" />
