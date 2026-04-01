@@ -14,7 +14,7 @@ export const steps = [
     step: "01",
     icon: MessageSquare,
     title: "Submit Your Sourcing Request",
-    shortDesc: "Tell us what you need -- product, quantity, budget, and customization.",
+    shortDesc: "Share your product specs, quantity, and budget.",
     desc: "Describe your product, quantity, budget, and any customization requirements. Upload reference images or specs to help us find the right match.",
     details: [
       "Product description and specifications",
@@ -30,7 +30,7 @@ export const steps = [
     step: "02",
     icon: Search,
     title: "We Source & Vet Suppliers",
-    shortDesc: "Our China team finds and screens verified manufacturers.",
+    shortDesc: "We find and screen verified manufacturers for you.",
     desc: "Our team searches our vetted factory network, screening for production capability, quality, compliance, and MOQ flexibility.",
     details: [
       "Access to verified factory network",
@@ -46,7 +46,7 @@ export const steps = [
     step: "03",
     icon: FileText,
     title: "Receive Your Quote",
-    shortDesc: "Get a fully transparent, itemized cost breakdown.",
+    shortDesc: "Transparent, itemized pricing with no hidden fees.",
     desc: "We send a fully transparent, itemized quote. Every cost is visible -- no hidden fees, no markups.",
     details: [
       "Factory cost (wholesale price)",
@@ -62,7 +62,7 @@ export const steps = [
     step: "04",
     icon: CreditCard,
     title: "Accept & Pay",
-    shortDesc: "Review, accept, and pay securely. Production begins.",
+    shortDesc: "Pay securely and production begins.",
     desc: "Review the quote, ask questions, and accept when ready. Payment is processed securely and production begins.",
     details: [
       "Secure payment processing",

@@ -74,7 +74,7 @@ function StepCard({ step, index, onVisible }: { step: (typeof steps)[number]; in
               </p>
 
               <ul className="space-y-2">
-                {step.details.slice(0, 3).map((d, i) => (
+                {step.details.slice(0, 2).map((d, i) => (
                   <motion.li
                     key={d}
                     initial={{ opacity: 0, x: -10 }}
