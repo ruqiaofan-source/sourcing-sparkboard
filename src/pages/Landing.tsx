@@ -9,8 +9,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import { useTheme } from "@/hooks/useTheme";
 import heroBg from "@/assets/hero-bg.jpg";
-import dashboardPreview from "@/assets/dashboard-preview.png";
 import logoLonglive from "@/assets/logos/longlive.png";
 import logoSoleRunning from "@/assets/logos/sole-running.png";
 import logoLKK from "@/assets/logos/lkk.png";
@@ -122,7 +122,7 @@ function AnimatedGlow() {
       <motion.div
         className="absolute w-[900px] h-[900px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(239 100% 60% / 0.15) 0%, hsl(260 80% 50% / 0.08) 40%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(var(--primary) / 0.16) 0%, hsl(var(--primary) / 0.07) 42%, transparent 72%)",
           top: "-25%",
           right: "-15%",
         }}
@@ -132,7 +132,7 @@ function AnimatedGlow() {
       <motion.div
         className="absolute w-[700px] h-[700px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(280 70% 50% / 0.08) 0%, hsl(239 100% 60% / 0.05) 40%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(var(--chart-2) / 0.08) 0%, hsl(var(--primary) / 0.05) 45%, transparent 72%)",
           bottom: "-15%",
           left: "-10%",
         }}
@@ -153,7 +153,7 @@ function AnimatedGlow() {
       <motion.div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(135deg, transparent 20%, hsl(239 100% 60% / 0.06) 45%, hsl(260 80% 60% / 0.04) 55%, transparent 80%)",
+          background: "linear-gradient(135deg, transparent 20%, hsl(var(--primary) / 0.07) 45%, hsl(var(--chart-2) / 0.05) 55%, transparent 80%)",
         }}
         animate={{ opacity: [0.3, 0.7, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
@@ -175,10 +175,10 @@ function FloatingParticles() {
             left: `${5 + i * 6}%`,
             top: `${10 + (i % 5) * 18}%`,
             background: i % 3 === 0
-              ? "hsl(239 100% 65% / 0.4)"
+              ? "hsl(var(--primary) / 0.4)"
               : i % 3 === 1
-              ? "hsl(260 80% 60% / 0.3)"
-              : "hsl(200 80% 60% / 0.3)",
+              ? "hsl(var(--chart-2) / 0.3)"
+              : "hsl(var(--primary) / 0.2)",
           }}
           animate={{
             y: [0, -(30 + i * 5), 0],
@@ -356,6 +356,7 @@ function MagneticButton({ children, className = "" }: { children: React.ReactNod
 
 export default function Landing() {
   const heroRef = useRef<HTMLElement>(null);
+  const { theme } = useTheme();
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
@@ -464,7 +465,7 @@ export default function Landing() {
               </motion.span>
               <br />
               <motion.span
-                className="bg-gradient-to-r from-primary via-[hsl(260,80%,68%)] to-primary bg-clip-text text-transparent inline-block"
+                className="bg-clip-text text-transparent inline-block"
                 initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1, backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
                 transition={{ 
@@ -474,7 +475,10 @@ export default function Landing() {
                   scale: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
                   backgroundPosition: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }
                 }}
-                style={{ backgroundSize: "200% 200%" }}
+                style={{
+                  backgroundImage: "linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--chart-2)) 50%, hsl(var(--primary)) 100%)",
+                  backgroundSize: "200% 200%",
+                }}
               >
                 Made Sexy.
               </motion.span>
@@ -580,16 +584,24 @@ export default function Landing() {
       </section>
 
       {/* ───── PARTNER LOGO CAROUSEL ───── */}
-      <section className="py-12 border-y border-border/20 bg-card/10 relative overflow-hidden">
+      <section className="py-12 border-y border-border/20 bg-background/90 relative overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-80"
+          style={{
+            background: "linear-gradient(135deg, transparent 0%, hsl(var(--primary) / 0.06) 35%, transparent 70%)",
+          }}
+        />
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="text-center mb-8"
+          className="relative z-10 text-center mb-8"
         >
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground/60">Trusted By</span>
         </motion.div>
+        <div className="relative z-10">
         <Marquee speed={40}>
           {[
             { src: logoLonglive, alt: "Longlive", url: "https://longliveapp.com/" },
@@ -600,11 +612,24 @@ export default function Landing() {
             { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/" },
             { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/" },
           ].map((logo) => (
-            <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-14 opacity-75 hover:opacity-100 transition-all duration-500">
-              <img src={logo.src} alt={logo.alt} className="h-14 w-36 object-contain dark:invert" loading="lazy" />
+            <a
+              key={logo.alt}
+              href={logo.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mx-3 inline-flex items-center justify-center rounded-2xl border border-border/50 bg-card/60 px-8 py-4 opacity-90 shadow-[var(--shadow-card)] hover:border-primary/30 hover:bg-card/80 hover:opacity-100 transition-all duration-500"
+            >
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                className="h-10 w-28 object-contain sm:h-12 sm:w-32"
+                loading="lazy"
+                style={{ filter: theme === "dark" ? "brightness(0) invert(1)" : "none" }}
+              />
             </a>
           ))}
         </Marquee>
+        </div>
       </section>
 
       {/* ───── FEATURES - Optiverse-style alternating ───── */}
@@ -821,7 +846,7 @@ export default function Landing() {
                 <motion.div
                   className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{
-                    background: "linear-gradient(135deg, hsl(239 100% 65% / 0.15), hsl(260 80% 60% / 0.1), hsl(200 80% 60% / 0.08))",
+                    background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--chart-2) / 0.1), hsl(var(--primary) / 0.08))",
                   }}
                 />
                 <motion.div
