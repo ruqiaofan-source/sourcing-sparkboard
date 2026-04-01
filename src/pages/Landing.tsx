@@ -476,7 +476,7 @@ export default function Landing() {
                   backgroundPosition: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }
                 }}
                 style={{
-                  backgroundImage: "linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--chart-2)) 50%, hsl(var(--primary)) 100%)",
+                  backgroundImage: "linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(260 80% 68%) 50%, hsl(var(--primary)) 100%)",
                   backgroundSize: "200% 200%",
                 }}
               >
@@ -602,12 +602,12 @@ export default function Landing() {
               href={logo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mx-3 inline-flex items-center justify-center rounded-2xl border border-border/50 bg-card/60 px-8 py-4 opacity-90 shadow-[var(--shadow-card)] hover:border-primary/30 hover:bg-card/80 hover:opacity-100 transition-all duration-500"
+              className="mx-2 sm:mx-3 inline-flex items-center justify-center rounded-xl sm:rounded-2xl border border-border/50 bg-card/60 px-4 py-2.5 sm:px-8 sm:py-4 opacity-90 shadow-[var(--shadow-card)] hover:border-primary/30 hover:bg-card/80 hover:opacity-100 transition-all duration-500"
             >
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className="h-10 w-28 object-contain sm:h-12 sm:w-32"
+                className="h-7 w-20 object-contain sm:h-12 sm:w-32"
                 loading="lazy"
                 style={{ filter: theme === "dark" ? "brightness(0) invert(1)" : "none" }}
               />
