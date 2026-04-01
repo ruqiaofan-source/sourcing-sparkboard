@@ -1092,19 +1092,19 @@ export default function Landing() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/auth?signup=true">
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+              <MagneticButton>
                 <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold shadow-[0_0_50px_-8px_hsl(239,100%,60%/0.5)] border border-primary/20">
                   Get Started Now
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              </motion.div>
+              </MagneticButton>
             </Link>
             <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+              <MagneticButton>
                 <Button variant="outline" size="lg" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-8 h-12 text-base">
                   Book a Demo
                 </Button>
-              </motion.div>
+              </MagneticButton>
             </a>
           </div>
         </motion.div>
