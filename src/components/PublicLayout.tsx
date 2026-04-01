@@ -70,7 +70,7 @@ export function PublicNavbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mt-2 rounded-2xl border border-gray-200 bg-white backdrop-blur-xl p-4 md:hidden shadow-lg"
+            className="mt-2 rounded-2xl border border-gray-200 bg-white backdrop-blur-xl p-4 lg:hidden shadow-lg"
           >
             <div className="flex flex-col gap-3">
               {navLinks.map((link) => (
