@@ -158,7 +158,7 @@ export function PublicNavbar() {
                   <div key={link.label}>
                     <button
                       onClick={() => setMobileCustomizationOpen(!mobileCustomizationOpen)}
-                      className="flex items-center justify-between w-full text-sm text-gray-600 hover:text-gray-900 transition-colors py-2 px-1"
+                      className="flex items-center justify-between w-full text-base font-medium text-gray-700 hover:text-gray-900 transition-colors py-2.5 px-1"
                     >
                       {link.label}
                       <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileCustomizationOpen ? "rotate-180" : ""}`} />
