@@ -83,7 +83,7 @@ export function PublicNavbar() {
                   {link.label}
                 </Link>
               ))}
-              <div className="border-t border-border pt-3 mt-1 flex gap-3">
+              <div className="border-t border-gray-200 pt-3 mt-1 flex gap-3">
                 <Link to="/auth" onClick={() => setMobileOpen(false)} className="flex-1">
                   <Button variant="outline" size="sm" className="w-full rounded-full">Login</Button>
                 </Link>
