@@ -46,7 +46,7 @@ export const steps = [
     step: "03",
     icon: FileText,
     title: "Receive Your Quote",
-    shortDesc: "Get a fully transparent, itemized cost breakdown.",
+    shortDesc: "Transparent, itemized pricing with no hidden fees.",
     desc: "We send a fully transparent, itemized quote. Every cost is visible -- no hidden fees, no markups.",
     details: [
       "Factory cost (wholesale price)",
