@@ -3,8 +3,9 @@ import { SEOHead } from "@/components/SEOHead";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, CheckCircle2 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, CheckCircle2, Search, X } from "lucide-react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { Input } from "@/components/ui/input";
 
 /* ──────── Service categories with items ──────── */
 
@@ -215,6 +216,7 @@ export default function Customization() {
   const [searchParams] = useSearchParams();
   const tabParam = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState(tabParam && tabIds.includes(tabParam) ? tabParam : tabIds[0]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (tabParam && tabIds.includes(tabParam)) {
@@ -223,6 +225,22 @@ export default function Customization() {
   }, [tabParam]);
 
   const activeCategory = categories.find((c) => c.id === activeTab)!;
+
+  // Search across all categories
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return null;
+    const q = searchQuery.toLowerCase();
+    const results: { category: string; categoryId: string; items: { name: string; desc: string }[] }[] = [];
+    for (const cat of categories) {
+      const matched = cat.items.filter(
+        (item) => item.name.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)
+      );
+      if (matched.length > 0) {
+        results.push({ category: cat.title, categoryId: cat.id, items: matched });
+      }
+    }
+    return results;
+  }, [searchQuery]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -285,6 +303,34 @@ export default function Customization() {
         </div>
       </section>
 
+      {/* Search bar */}
+      <section className="px-4 pb-6">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.55 }}
+            className="relative max-w-md mx-auto"
+          >
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search services..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 pr-9 rounded-xl border-border/40 bg-card/30 backdrop-blur-sm h-10 text-sm"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </motion.div>
+        </div>
+      </section>
+
       {/* Category overview strip */}
       <section className="px-4 pb-4">
         <div className="max-w-6xl mx-auto">
@@ -325,44 +371,81 @@ export default function Customization() {
         </div>
       </section>
 
-      {/* Active category content */}
+      {/* Search results or active category content */}
       <section className="px-4 pb-20">
         <div className="max-w-6xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* Category header */}
-              <div className="flex items-start gap-4 mb-8">
-                <motion.div
-                  key={`icon-${activeTab}`}
-                  initial={{ scale: 0, rotate: -20 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ type: "spring", stiffness: 200 }}
-                  className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 shadow-[0_0_30px_-5px_hsl(239,100%,60%/0.15)]"
-                >
-                  <activeCategory.icon className="h-7 w-7 text-primary" />
-                </motion.div>
-                <div>
-                  <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground">
-                    {activeCategory.title}
-                  </h2>
-                  <p className="text-muted-foreground mt-1">{activeCategory.description}</p>
+          {searchResults !== null ? (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key="search-results"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {searchResults.length === 0 ? (
+                  <div className="text-center py-16">
+                    <p className="text-muted-foreground text-lg">No services found for "{searchQuery}"</p>
+                    <p className="text-muted-foreground/60 text-sm mt-2">Try a different search term</p>
+                  </div>
+                ) : (
+                  <div className="space-y-10">
+                    {searchResults.map((group) => (
+                      <div key={group.categoryId}>
+                        <button
+                          onClick={() => { setActiveTab(group.categoryId); setSearchQuery(""); }}
+                          className="text-sm font-semibold text-primary mb-4 block hover:underline"
+                        >
+                          {group.category} ({group.items.length} result{group.items.length > 1 ? "s" : ""})
+                        </button>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {group.items.map((item, i) => (
+                            <ServiceCard key={item.name} item={item} index={i} />
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {/* Category header */}
+                <div className="flex items-start gap-4 mb-8">
+                  <motion.div
+                    key={`icon-${activeTab}`}
+                    initial={{ scale: 0, rotate: -20 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                    className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 shadow-[0_0_30px_-5px_hsl(239,100%,60%/0.15)]"
+                  >
+                    <activeCategory.icon className="h-7 w-7 text-primary" />
+                  </motion.div>
+                  <div>
+                    <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground">
+                      {activeCategory.title}
+                    </h2>
+                    <p className="text-muted-foreground mt-1">{activeCategory.description}</p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Service cards grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {activeCategory.items.map((item, i) => (
-                  <ServiceCard key={item.name} item={item} index={i} />
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                {/* Service cards grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {activeCategory.items.map((item, i) => (
+                    <ServiceCard key={item.name} item={item} index={i} />
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          )}
         </div>
       </section>
 

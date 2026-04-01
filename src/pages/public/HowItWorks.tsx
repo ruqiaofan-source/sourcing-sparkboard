@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -8,18 +8,23 @@ import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { steps } from "./HowItWorksStep";
 
 /* ──────── Animated step card ──────── */
-function StepCard({ step, index }: { step: (typeof steps)[number]; index: number }) {
+function StepCard({ step, index, onVisible }: { step: (typeof steps)[number]; index: number; onVisible: (i: number) => void }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: false, margin: "-40% 0px -40% 0px" });
+  const isInViewOnce = useInView(ref, { once: true, margin: "-80px" });
   const isEven = index % 2 === 0;
 
+  useEffect(() => {
+    if (isInView) onVisible(index);
+  }, [isInView, index, onVisible]);
+
   return (
-    <div ref={ref} className="relative flex items-center">
+    <div ref={ref} className="relative flex items-center" id={`step-${index}`}>
       {/* Connecting line dot on the center line */}
       <div className="absolute left-1/2 -translate-x-1/2 z-20 hidden lg:block">
         <motion.div
           initial={{ scale: 0 }}
-          animate={isInView ? { scale: 1 } : {}}
+          animate={isInViewOnce ? { scale: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.2, type: "spring", stiffness: 200 }}
           className="h-5 w-5 rounded-full bg-primary border-4 border-background shadow-[0_0_20px_hsl(239,100%,60%/0.5)]"
         />
@@ -28,26 +33,20 @@ function StepCard({ step, index }: { step: (typeof steps)[number]; index: number
       {/* Card - alternating left/right */}
       <motion.div
         initial={{ opacity: 0, x: isEven ? -80 : 80, y: 20 }}
-        animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
+        animate={isInViewOnce ? { opacity: 1, x: 0, y: 0 } : {}}
         transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         className={`w-full lg:w-[45%] ${isEven ? "lg:mr-auto lg:pr-12" : "lg:ml-auto lg:pl-12"}`}
       >
-        <Link
-          to={`/how-it-works/${step.slug}`}
-          className="group block"
-        >
+        <Link to={`/how-it-works/${step.slug}`} className="group block">
           <motion.div
             whileHover={{ y: -6, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
             className="relative rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-6 sm:p-8 overflow-hidden hover:border-primary/30 transition-all duration-300"
           >
-            {/* Hover glow */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-primary/3" />
-
-            {/* Step number watermark */}
             <motion.span
               initial={{ opacity: 0, scale: 0.5 }}
-              animate={isInView ? { opacity: 0.05, scale: 1 } : {}}
+              animate={isInViewOnce ? { opacity: 0.05, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="absolute -top-4 -right-2 font-heading text-[120px] font-bold text-foreground pointer-events-none select-none leading-none"
             >
@@ -57,7 +56,7 @@ function StepCard({ step, index }: { step: (typeof steps)[number]; index: number
             <div className="relative z-10">
               <motion.div
                 initial={{ scale: 0, rotate: -20 }}
-                animate={isInView ? { scale: 1, rotate: 0 } : {}}
+                animate={isInViewOnce ? { scale: 1, rotate: 0 } : {}}
                 transition={{ type: "spring", stiffness: 200, delay: 0.25 }}
                 className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-5 group-hover:bg-primary/20 group-hover:shadow-[0_0_30px_hsl(239,100%,60%/0.2)] transition-all"
               >
@@ -74,13 +73,12 @@ function StepCard({ step, index }: { step: (typeof steps)[number]; index: number
                 {step.shortDesc}
               </p>
 
-              {/* Bullet preview */}
               <ul className="space-y-2">
                 {step.details.slice(0, 3).map((d, i) => (
                   <motion.li
                     key={d}
                     initial={{ opacity: 0, x: -10 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    animate={isInViewOnce ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.4, delay: 0.4 + i * 0.08 }}
                     className="flex items-start gap-2 text-xs text-foreground/70"
                   >
@@ -98,6 +96,76 @@ function StepCard({ step, index }: { step: (typeof steps)[number]; index: number
         </Link>
       </motion.div>
     </div>
+  );
+}
+
+/* ──────── Sticky step tracker ──────── */
+function StickyStepTracker({ activeStep }: { activeStep: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 0.4 }}
+      className="fixed top-20 right-6 z-40 hidden xl:flex flex-col items-center gap-1"
+    >
+      <div className="rounded-2xl border border-border/30 bg-card/80 backdrop-blur-xl p-3 shadow-lg">
+        <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground/60 font-semibold block text-center mb-3">Progress</span>
+        <div className="flex flex-col items-center gap-0">
+          {steps.map((step, i) => {
+            const isActive = i === activeStep;
+            const isPast = i < activeStep;
+            return (
+              <div key={step.slug} className="flex flex-col items-center">
+                <a
+                  href={`#step-${i}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById(`step-${i}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }}
+                  className="group flex items-center gap-2"
+                >
+                  <motion.div
+                    animate={{
+                      scale: isActive ? 1.3 : 1,
+                      backgroundColor: isActive
+                        ? "hsl(239 84% 67%)"
+                        : isPast
+                        ? "hsl(239 84% 67% / 0.4)"
+                        : "hsl(var(--muted-foreground) / 0.2)",
+                    }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="h-3 w-3 rounded-full relative"
+                  >
+                    {isActive && (
+                      <motion.div
+                        className="absolute inset-0 rounded-full bg-primary"
+                        animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0, 0.6] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                    )}
+                  </motion.div>
+                  <motion.span
+                    animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : -5, width: isActive ? "auto" : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="text-[10px] font-medium text-primary whitespace-nowrap overflow-hidden"
+                  >
+                    {step.title}
+                  </motion.span>
+                </a>
+                {i < steps.length - 1 && (
+                  <div className={`w-px h-4 ${isPast ? "bg-primary/40" : "bg-muted-foreground/15"}`} />
+                )}
+              </div>
+            );
+          })}
+        </div>
+        {/* Progress fraction */}
+        <div className="mt-3 text-center">
+          <span className="text-xs font-heading font-bold text-primary">{activeStep + 1}</span>
+          <span className="text-[10px] text-muted-foreground"> / {steps.length}</span>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -134,11 +202,14 @@ export default function HowItWorks() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   const heroY = useTransform(scrollYProgress, [0, 0.6], [0, 80]);
+  const [activeStep, setActiveStep] = useState(0);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <SEOHead title="How It Works - Equilinq Sourcing Process in 8 Steps" description="From sourcing request to delivery: learn Equilinq's 8-step process for transparent, reliable manufacturing from China." />
       <PublicNavbar />
+
+      <StickyStepTracker activeStep={activeStep} />
 
       {/* Hero */}
       <section ref={heroRef} className="pt-32 pb-16 px-4 relative">
@@ -220,6 +291,25 @@ export default function HowItWorks() {
         </motion.div>
       </section>
 
+      {/* Mobile progress bar */}
+      <div className="sticky top-16 z-30 xl:hidden">
+        <div className="bg-background/80 backdrop-blur-md border-b border-border/20 px-4 py-2">
+          <div className="flex items-center justify-between max-w-5xl mx-auto">
+            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Step {activeStep + 1} of {steps.length}</span>
+            <span className="text-xs font-medium text-primary">{steps[activeStep]?.title}</span>
+          </div>
+          <div className="max-w-5xl mx-auto mt-1.5">
+            <div className="h-1 rounded-full bg-muted-foreground/10 overflow-hidden">
+              <motion.div
+                className="h-full rounded-full bg-primary"
+                animate={{ width: `${((activeStep + 1) / steps.length) * 100}%` }}
+                transition={{ type: "spring", stiffness: 200, damping: 30 }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Timeline */}
       <section className="pb-28 px-4 relative">
         <div className="max-w-5xl mx-auto relative">
@@ -237,7 +327,7 @@ export default function HowItWorks() {
 
           <div className="space-y-12 lg:space-y-20">
             {steps.map((step, i) => (
-              <StepCard key={step.slug} step={step} index={i} />
+              <StepCard key={step.slug} step={step} index={i} onVisible={setActiveStep} />
             ))}
           </div>
         </div>
