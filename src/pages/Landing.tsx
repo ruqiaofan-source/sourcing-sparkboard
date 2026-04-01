@@ -479,6 +479,35 @@ export default function Landing() {
               </div>
             </div>
           </motion.div>
+        </motion.div>
+      </section>
+
+      {/* ───── ANIMATED STATS COUNTER ───── */}
+      <section className="py-20 px-4 relative border-y border-border/10">
+        <FloatingParticles />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-12"
+          >
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-3 block">By the Numbers</span>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">Why SMEs Trust Equilinq</h2>
+          </motion.div>
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+          >
+            <AnimatedCounter value="200+" label="Countries Shipped" />
+            <AnimatedCounter value="500+" label="Vetted Factories" />
+            <AnimatedCounter value="10" label="Minimum MOQ" />
+            <AnimatedCounter value="98%" label="QC Pass Rate" />
+          </motion.div>
         </div>
       </section>
 
