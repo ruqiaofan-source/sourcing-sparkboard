@@ -30,7 +30,7 @@ export const steps = [
     step: "02",
     icon: Search,
     title: "We Source & Vet Suppliers",
-    shortDesc: "Our China team finds and screens verified manufacturers.",
+    shortDesc: "We find and screen verified manufacturers for you.",
     desc: "Our team searches our vetted factory network, screening for production capability, quality, compliance, and MOQ flexibility.",
     details: [
       "Access to verified factory network",
