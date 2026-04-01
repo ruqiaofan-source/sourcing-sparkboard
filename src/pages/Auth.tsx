@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, User, Phone, MapPin, Package, Globe, Shield } from "lucide-react";
 import equilinqLogo from "@/assets/equilinq-logo.png";
+import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
 
 const features = [
   { icon: Package, label: "Verified Factories", desc: "Direct access to vetted manufacturers" },
