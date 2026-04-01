@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { SEOHead } from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -41,8 +41,7 @@ const features = [
 
 const AuthPage = () => {
   const [greeting] = useState(getRandomGreeting);
-  const [searchParams] = useSearchParams();
-  const [isSignUp, setIsSignUp] = useState(() => searchParams.get("signup") === "true");
+  const [isSignUp, setIsSignUp] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [emailSentType, setEmailSentType] = useState<"signup" | "reset">("signup");
@@ -190,11 +189,10 @@ const AuthPage = () => {
           transition={{ duration: 0.5 }}
           className="w-full max-w-md"
         >
-          {/* Mobile / tablet logo */}
+          {/* Mobile logo */}
           <div className="lg:hidden text-center mb-8">
             <Link to="/" className="inline-flex items-center gap-3 mb-3 hover:opacity-80 transition-opacity">
-              <img src={equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover dark:hidden" />
-              <img src={equilinqLogoWhite} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover hidden dark:block" />
+              <img src={equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
               <h1 className="font-heading text-2xl font-bold text-foreground tracking-wider uppercase">
                 Equilinq
               </h1>
