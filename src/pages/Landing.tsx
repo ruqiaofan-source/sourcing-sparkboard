@@ -359,7 +359,7 @@ export default function Landing() {
 
         <AnimatedGlow />
 
-        <div className="relative z-10 max-w-5xl mx-auto">
+        <motion.div style={{ opacity: heroOpacity, scale: heroScale, y: heroY }} className="relative z-10 max-w-5xl mx-auto">
           {/* Centered text block */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
