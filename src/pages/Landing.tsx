@@ -195,12 +195,14 @@ function FloatingParticles() {
 /* Horizontal scrolling marquee */
 function Marquee({ children, speed = 30 }: { children: React.ReactNode; speed?: number }) {
   return (
-    <div className="overflow-hidden w-full" style={{ minHeight: 80 }}>
+    <div className="group/marquee overflow-hidden w-full" style={{ minHeight: 64 }}>
       <div
-        className="flex w-max gap-4 sm:gap-8 animate-marquee"
+        className="flex w-max gap-8 sm:gap-12"
         style={{
           animation: `marquee ${speed}s linear infinite`,
         }}
+        onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
+        onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
       >
         {children}
         {children}
@@ -595,19 +597,19 @@ export default function Landing() {
             { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false },
             { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false },
             { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false },
-          ].map((logo: { src: string; alt: string; url: string; hasBackground: boolean }) => (
+          ].map((logo) => (
             <a
               key={logo.alt}
               href={logo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mx-3 sm:mx-6 flex shrink-0 items-center justify-center rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500"
+              className="group flex shrink-0 items-center justify-center h-10 sm:h-14 transition-all duration-500"
             >
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className={`object-contain transition-all duration-500 opacity-70 group-hover:opacity-100 ${logo.hasBackground ? "h-14 sm:h-20 w-auto rounded-lg grayscale group-hover:grayscale-0" : "h-12 sm:h-16 w-auto"}`}
-                style={!logo.hasBackground && theme === "dark" ? { filter: "brightness(0) invert(1) opacity(0.85)" } : !logo.hasBackground ? { filter: "grayscale(100%)" } : undefined}
+                className="h-full w-auto max-w-[120px] sm:max-w-[160px] object-contain transition-all duration-500 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100"
+                style={!logo.hasBackground && theme === "dark" ? { filter: "brightness(0) invert(1) grayscale(100%) opacity(0.7)" } : { filter: "grayscale(100%)" }}
               />
             </a>
           ))}
