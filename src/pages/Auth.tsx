@@ -246,7 +246,7 @@ const AuthPage = () => {
             <>
               <div className="mb-6">
                 <h2 className="font-heading text-2xl font-bold text-foreground">
-                  {isForgotPassword ? "Reset password" : isSignUp ? "Create account" : "Welcome back"}
+                  {isForgotPassword ? "Reset password" : isSignUp ? "Create account" : greeting}
                 </h2>
                 <p className="text-muted-foreground text-sm mt-1">
                   {isForgotPassword
