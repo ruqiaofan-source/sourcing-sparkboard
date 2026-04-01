@@ -371,44 +371,81 @@ export default function Customization() {
         </div>
       </section>
 
-      {/* Active category content */}
+      {/* Search results or active category content */}
       <section className="px-4 pb-20">
         <div className="max-w-6xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* Category header */}
-              <div className="flex items-start gap-4 mb-8">
-                <motion.div
-                  key={`icon-${activeTab}`}
-                  initial={{ scale: 0, rotate: -20 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ type: "spring", stiffness: 200 }}
-                  className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 shadow-[0_0_30px_-5px_hsl(239,100%,60%/0.15)]"
-                >
-                  <activeCategory.icon className="h-7 w-7 text-primary" />
-                </motion.div>
-                <div>
-                  <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground">
-                    {activeCategory.title}
-                  </h2>
-                  <p className="text-muted-foreground mt-1">{activeCategory.description}</p>
+          {searchResults !== null ? (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key="search-results"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {searchResults.length === 0 ? (
+                  <div className="text-center py-16">
+                    <p className="text-muted-foreground text-lg">No services found for "{searchQuery}"</p>
+                    <p className="text-muted-foreground/60 text-sm mt-2">Try a different search term</p>
+                  </div>
+                ) : (
+                  <div className="space-y-10">
+                    {searchResults.map((group) => (
+                      <div key={group.categoryId}>
+                        <button
+                          onClick={() => { setActiveTab(group.categoryId); setSearchQuery(""); }}
+                          className="text-sm font-semibold text-primary mb-4 block hover:underline"
+                        >
+                          {group.category} ({group.items.length} result{group.items.length > 1 ? "s" : ""})
+                        </button>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {group.items.map((item, i) => (
+                            <ServiceCard key={item.name} item={item} index={i} />
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {/* Category header */}
+                <div className="flex items-start gap-4 mb-8">
+                  <motion.div
+                    key={`icon-${activeTab}`}
+                    initial={{ scale: 0, rotate: -20 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                    className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 shadow-[0_0_30px_-5px_hsl(239,100%,60%/0.15)]"
+                  >
+                    <activeCategory.icon className="h-7 w-7 text-primary" />
+                  </motion.div>
+                  <div>
+                    <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground">
+                      {activeCategory.title}
+                    </h2>
+                    <p className="text-muted-foreground mt-1">{activeCategory.description}</p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Service cards grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {activeCategory.items.map((item, i) => (
-                  <ServiceCard key={item.name} item={item} index={i} />
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                {/* Service cards grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {activeCategory.items.map((item, i) => (
+                    <ServiceCard key={item.name} item={item} index={i} />
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          )}
         </div>
       </section>
 
