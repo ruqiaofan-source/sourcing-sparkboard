@@ -600,12 +600,12 @@ export default function Landing() {
               href={logo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mx-2 sm:mx-3 inline-flex items-center justify-center rounded-xl sm:rounded-2xl overflow-hidden opacity-90 hover:opacity-100 transition-all duration-500"
+              className="mx-4 sm:mx-8 inline-flex items-center justify-center overflow-hidden group transition-all duration-500"
             >
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className={logo.hasBackground ? "h-8 sm:h-11 w-auto object-contain rounded-lg" : "h-7 w-20 object-contain sm:h-10 sm:w-28"}
+                className={`object-contain transition-all duration-500 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 ${logo.hasBackground ? "h-10 sm:h-14 w-auto rounded-lg" : "h-8 w-24 sm:h-12 sm:w-36"}`}
                 loading="lazy"
                 style={{ filter: !logo.hasBackground && theme === "dark" ? "brightness(0) invert(1)" : "none" }}
               />
