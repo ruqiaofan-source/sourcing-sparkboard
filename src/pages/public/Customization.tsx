@@ -303,6 +303,34 @@ export default function Customization() {
         </div>
       </section>
 
+      {/* Search bar */}
+      <section className="px-4 pb-6">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.55 }}
+            className="relative max-w-md mx-auto"
+          >
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search services..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 pr-9 rounded-xl border-border/40 bg-card/30 backdrop-blur-sm h-10 text-sm"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </motion.div>
+        </div>
+      </section>
+
       {/* Category overview strip */}
       <section className="px-4 pb-4">
         <div className="max-w-6xl mx-auto">
