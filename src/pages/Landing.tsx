@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import {
   Search, ShieldCheck, Truck, Palette, ChevronDown, ChevronRight,
   ArrowRight, Package, DollarSign, BarChart3, Users, CheckCircle2,
@@ -309,6 +309,42 @@ function RevealHeading({ children, className = "", as: Tag = "h2" }: { children:
   );
 }
 
+/* Magnetic button - follows cursor within bounds */
+function MagneticButton({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 20 });
+  const springY = useSpring(y, { stiffness: 200, damping: 20 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) * 0.3);
+    y.set((e.clientY - centerY) * 0.3);
+  }, [x, y]);
+
+  const handleMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      whileTap={{ scale: 0.97 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 /* ──────────────────── MAIN PAGE ──────────────────── */
 
 export default function Landing() {
@@ -450,19 +486,19 @@ export default function Landing() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/auth?signup=true">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                <MagneticButton>
                   <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold shadow-[0_0_50px_-8px_hsl(239,100%,50%/0.6)] border border-primary/20 uppercase tracking-wider">
                     Get Started
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                </motion.div>
+                </MagneticButton>
               </Link>
               <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                <MagneticButton>
                   <Button variant="outline" size="lg" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-8 h-12 text-base uppercase tracking-wider">
                     Book a Demo
                   </Button>
-                </motion.div>
+                </MagneticButton>
               </a>
             </div>
           </motion.div>
@@ -1056,19 +1092,19 @@ export default function Landing() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/auth?signup=true">
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+              <MagneticButton>
                 <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold shadow-[0_0_50px_-8px_hsl(239,100%,60%/0.5)] border border-primary/20">
                   Get Started Now
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              </motion.div>
+              </MagneticButton>
             </Link>
             <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+              <MagneticButton>
                 <Button variant="outline" size="lg" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-8 h-12 text-base">
                   Book a Demo
                 </Button>
-              </motion.div>
+              </MagneticButton>
             </a>
           </div>
         </motion.div>
