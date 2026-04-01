@@ -15,6 +15,7 @@ import logoLonglive from "@/assets/logos/longlive.png";
 import logoSoleRunning from "@/assets/logos/sole-running.png";
 import logoLKK from "@/assets/logos/lkk.png";
 import logoIMMO from "@/assets/logos/immo.png";
+import logoBuckyDrop from "@/assets/logos/buckydrop.png";
 
 /* ──────────────────── DATA ──────────────────── */
 
