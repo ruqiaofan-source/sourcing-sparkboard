@@ -141,7 +141,7 @@ export default function HowItWorks() {
       <SEOHead title="How It Works - Equilinq Sourcing Process in 8 Steps" description="From sourcing request to delivery: learn Equilinq's 8-step process for transparent, reliable manufacturing from China." />
       <PublicNavbar />
 
-      <StickyStepTracker activeStep={activeStep} />
+      
 
       {/* Hero */}
       <section ref={heroRef} className="pt-32 pb-16 px-4 relative">
