@@ -573,23 +573,27 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ───── SCROLLING TRUST MARQUEE (Airweave-style) ───── */}
-      <section className="py-8 border-y border-border/20 bg-card/10 relative overflow-hidden">
-        <Marquee speed={35}>
+      {/* ───── PARTNER LOGO CAROUSEL ───── */}
+      <section className="py-12 border-y border-border/20 bg-card/10 relative overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="text-center mb-8"
+        >
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground/60">Trusted By</span>
+        </motion.div>
+        <Marquee speed={40}>
           {[
-            "Vetted Factory Network",
-            "Transparent Pricing",
-            "Multi-Stage QC",
-            "200+ Countries",
-            "Low MOQ from 10 Units",
-            "Private Label & OEM",
-            "Real-Time Tracking",
-            "Dedicated Human Agents",
-          ].map((text) => (
-            <span key={text} className="inline-flex items-center gap-3 text-sm font-medium text-muted-foreground/60 uppercase tracking-widest">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary/40" />
-              {text}
-            </span>
+            { src: logoLonglive, alt: "Longlive", url: "https://longliveapp.com/" },
+            { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/" },
+            { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/" },
+            { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/" },
+          ].map((logo) => (
+            <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+              <img src={logo.src} alt={logo.alt} className="h-10 w-auto object-contain dark:invert" loading="lazy" />
+            </a>
           ))}
         </Marquee>
       </section>
