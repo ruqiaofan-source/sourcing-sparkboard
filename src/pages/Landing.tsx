@@ -688,9 +688,9 @@ export default function Landing() {
           className="max-w-3xl mx-auto text-center relative z-10"
         >
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">Pricing</span>
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            We Source It 20% Cheaper, Then Charge You 7%
-          </h2>
+          <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">
+            We Source It 20% Cheaper Then Charge You 7%
+          </RevealHeading>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
             Transparent pricing with no hidden markups. See our full pricing breakdown.
           </p>
