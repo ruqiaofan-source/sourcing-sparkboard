@@ -591,12 +591,12 @@ export default function Landing() {
         <div className="relative z-10">
         <Marquee speed={40}>
           {[
-            { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/", hasBackground: true },
-            { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true },
-            { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true },
-            { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false },
-            { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false },
-            { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false },
+            { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/", hasBackground: true, isSquare: false },
+            { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true, isSquare: false },
+            { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true, isSquare: false },
+            { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false, isSquare: true },
+            { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false, isSquare: true },
+            { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false, isSquare: true },
           ].map((logo) => {
             const isTransparent = !logo.hasBackground;
             const isDark = theme === "dark";
@@ -606,13 +606,13 @@ export default function Landing() {
               href={logo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex shrink-0 items-center justify-center h-10 sm:h-14 transition-all duration-500"
+              className="group flex shrink-0 items-center justify-center gap-2 h-10 sm:h-14 transition-all duration-500 px-3"
             >
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className={`w-auto object-contain transition-all duration-500 ${
-                  isTransparent ? "h-full max-w-[100px] sm:max-w-[130px]" : "h-full max-w-[100px] sm:max-w-[140px]"
+                className={`object-contain transition-all duration-500 ${
+                  logo.isSquare ? "h-8 w-8 sm:h-10 sm:w-10" : "h-full w-auto max-w-[100px] sm:max-w-[140px]"
                 }`}
                 style={{
                   filter: isTransparent
@@ -629,6 +629,11 @@ export default function Landing() {
                     : "grayscale(100%) opacity(0.6)";
                 }}
               />
+              {logo.isSquare && (
+                <span className={`text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-500 ${
+                  isDark ? "text-white/70" : "text-gray-500"
+                }`}>{logo.alt === "Stichting iMMO" ? "iMMO" : logo.alt}</span>
+              )}
             </a>
             );
           })}
