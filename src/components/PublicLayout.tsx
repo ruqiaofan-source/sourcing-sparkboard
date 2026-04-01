@@ -73,7 +73,7 @@ export function PublicNavbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.96 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 pt-3"
+                      className="absolute top-full left-0 pt-3"
                     >
                       <div className="w-[420px] rounded-2xl border border-gray-200 bg-white shadow-xl p-3 grid grid-cols-2 gap-1">
                         {customizationCategories.map((cat) => (
