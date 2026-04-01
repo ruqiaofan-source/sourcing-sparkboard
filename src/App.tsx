@@ -128,6 +128,7 @@ const App = () => (
               <Route path="/admin/requests/:id" element={<ProtectedRoute><AgentRequestDetail /></ProtectedRoute>} />
               <Route path="/admin/quotes" element={<ProtectedRoute><AdminQuotes /></ProtectedRoute>} />
               <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
+              <Route path="/admin/insights" element={<ProtectedRoute><AdminInsights /></ProtectedRoute>} />
               
               {/* Shared routes */}
               <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
