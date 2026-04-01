@@ -1,4 +1,4 @@
-import { LayoutDashboard, ShoppingCart, BarChart3, Settings, LogOut, Plus, FileText, Send, MessageCircle, Users } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, BarChart3, Settings, LogOut, Plus, FileText, Send, MessageCircle, Users, Newspaper } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useRole } from "@/hooks/useRole";
