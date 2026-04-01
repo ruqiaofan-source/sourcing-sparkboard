@@ -506,31 +506,61 @@ export default function Landing() {
               return (
                 <motion.div
                   key={f.title}
-                  initial={{ opacity: 0, y: 30, scale: 0.97 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  initial={{ opacity: 0, y: 50, x: isReversed ? 40 : -40 }}
+                  whileInView={{ opacity: 1, y: 0, x: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                   className={`flex flex-col ${isReversed ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-12 lg:gap-20`}
                 >
                   {/* Text side */}
                   <div className="flex-1 max-w-lg">
                     <motion.div
+                      initial={{ scale: 0, rotate: -20 }}
+                      whileInView={{ scale: 1, rotate: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
                       whileHover={{ scale: 1.05, rotate: 3 }}
-                      transition={{ type: "spring", stiffness: 300 }}
                       className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6"
                     >
                       <f.icon className="h-7 w-7 text-primary" />
                     </motion.div>
-                    <h3 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-3">{f.title}</h3>
-                    <p className="text-primary/80 text-lg font-medium mb-4">{f.subtitle}</p>
-                    <p className="text-muted-foreground leading-relaxed mb-6">{f.desc}</p>
+                    <motion.h3
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                      className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-3"
+                    >
+                      {f.title}
+                    </motion.h3>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.4 }}
+                      className="text-primary/80 text-lg font-medium mb-4"
+                    >
+                      {f.subtitle}
+                    </motion.p>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.45 }}
+                      className="text-muted-foreground leading-relaxed mb-6"
+                    >
+                      {f.desc}
+                    </motion.p>
                     <ul className="space-y-3">
-                      {f.bullets.map((bullet) => (
+                      {f.bullets.map((bullet, bi) => (
                         <motion.li
                           key={bullet}
                           className="flex items-start gap-3 text-sm text-foreground/80"
+                          initial={{ opacity: 0, x: -15 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.4, delay: 0.5 + bi * 0.1 }}
                           whileHover={{ x: 4 }}
-                          transition={{ type: "spring", stiffness: 300 }}
                         >
                           <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                           <span>{bullet}</span>
@@ -542,8 +572,11 @@ export default function Landing() {
                   {/* Visual side - Vimeo video */}
                   <motion.div
                     className="flex-1 w-full max-w-md"
+                    initial={{ opacity: 0, scale: 0.85, rotate: isReversed ? -3 : 3 }}
+                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                     whileHover={{ y: -6, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 200 }}
                   >
                     <div className="relative aspect-[9/16] sm:aspect-[3/4] rounded-3xl border border-border/30 bg-card/20 overflow-hidden">
                       <iframe
