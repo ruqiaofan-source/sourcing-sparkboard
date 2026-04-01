@@ -535,9 +535,12 @@ export default function Landing() {
               </div>
 
               <div className="relative overflow-hidden rounded-b-xl">
-                <img
-                  src={dashboardPreview}
-                  alt="Equilinq Customer Dashboard"
+                <video
+                  src="/videos/area-demo.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   className="w-full h-auto object-cover object-top"
                 />
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
