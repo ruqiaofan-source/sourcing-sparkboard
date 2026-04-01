@@ -294,6 +294,7 @@ export default function Landing() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -358,7 +359,7 @@ export default function Landing() {
 
         <AnimatedGlow />
 
-        <div className="relative z-10 max-w-5xl mx-auto">
+        <motion.div style={{ opacity: heroOpacity, scale: heroScale, y: heroY }} className="relative z-10 max-w-5xl mx-auto">
           {/* Centered text block */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -449,8 +450,10 @@ export default function Landing() {
             initial={{ opacity: 0, y: 60, scale: 0.92 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ scale: 1.03, y: -8 }}
+            style={{ cursor: "pointer" }}
           >
-            <div className="relative rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-1.5 shadow-2xl shadow-black/50">
+            <div className="relative rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-1.5 shadow-2xl shadow-black/50 transition-shadow duration-500 hover:shadow-[0_20px_80px_-20px_hsl(239,100%,60%/0.3)]">
               <div className="absolute -inset-8 rounded-3xl bg-primary/8 blur-3xl pointer-events-none" />
 
               <div className="relative rounded-t-xl bg-[hsl(230,20%,12%)] px-4 py-2.5 flex items-center gap-2 border-b border-border/20">
@@ -475,6 +478,35 @@ export default function Landing() {
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
               </div>
             </div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* ───── ANIMATED STATS COUNTER ───── */}
+      <section className="py-20 px-4 relative border-y border-border/10">
+        <FloatingParticles />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-12"
+          >
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-3 block">By the Numbers</span>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">Why SMEs Trust Equilinq</h2>
+          </motion.div>
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+          >
+            <AnimatedCounter value="200+" label="Countries Shipped" />
+            <AnimatedCounter value="500+" label="Vetted Factories" />
+            <AnimatedCounter value="10" label="Minimum MOQ" />
+            <AnimatedCounter value="98%" label="QC Pass Rate" />
           </motion.div>
         </div>
       </section>
