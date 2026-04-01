@@ -23,5 +23,6 @@ Disallow: /agent/
 Disallow: /admin/
 Disallow: /invoice/
 Disallow: /reset-password
+Disallow: /unsubscribe
 
 Sitemap: https://equilinq.eu/sitemap.xml
