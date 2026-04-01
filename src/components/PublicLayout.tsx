@@ -134,7 +134,7 @@ export function PublicNavbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-gray-900 p-1"
+            className="md:hidden text-gray-900 p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
