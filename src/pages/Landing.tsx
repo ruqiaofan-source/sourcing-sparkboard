@@ -606,8 +606,8 @@ export default function Landing() {
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className={`object-contain transition-all duration-500 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 ${logo.hasBackground ? "h-12 sm:h-20 w-auto rounded-lg" : "h-10 sm:h-16 w-auto"}`}
-                style={!logo.hasBackground && theme === "dark" ? { filter: "grayscale(100%) brightness(0.8) invert(0.85)" } : undefined}
+                className={`object-contain transition-all duration-500 opacity-70 group-hover:opacity-100 ${logo.hasBackground ? "h-14 sm:h-20 w-auto rounded-lg grayscale group-hover:grayscale-0" : "h-12 sm:h-16 w-auto"}`}
+                style={!logo.hasBackground && theme === "dark" ? { filter: "brightness(0) invert(1) opacity(0.85)" } : !logo.hasBackground ? { filter: "grayscale(100%)" } : undefined}
               />
             </a>
           ))}
