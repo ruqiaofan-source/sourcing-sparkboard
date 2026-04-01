@@ -591,6 +591,7 @@ export default function Landing() {
             { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/" },
             { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/" },
             { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/" },
+            { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/" },
           ].map((logo) => (
             <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
               <img src={logo.src} alt={logo.alt} className="h-10 w-auto object-contain dark:invert" loading="lazy" />
