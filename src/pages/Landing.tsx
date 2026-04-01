@@ -500,7 +500,7 @@ export default function Landing() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/auth?signup=true">
                 <MagneticButton>
-                  <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold shadow-[0_0_50px_-8px_hsl(239,100%,50%/0.6)] border border-primary/20 uppercase tracking-wider">
+                  <Button size="sm" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-6 h-10 text-sm font-semibold shadow-[0_0_50px_-8px_hsl(239,100%,50%/0.6)] border border-primary/20 uppercase tracking-wider">
                     Get Started
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -508,7 +508,7 @@ export default function Landing() {
               </Link>
               <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
                 <MagneticButton>
-                  <Button variant="outline" size="lg" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-8 h-12 text-base uppercase tracking-wider">
+                  <Button variant="outline" size="sm" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-6 h-10 text-sm uppercase tracking-wider">
                     Book a Demo
                   </Button>
                 </MagneticButton>
@@ -591,28 +591,52 @@ export default function Landing() {
         <div className="relative z-10">
         <Marquee speed={40}>
           {[
-            { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/", hasBackground: true },
-            { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true },
-            { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true },
-            { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false },
-            { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false },
-            { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false },
-          ].map((logo) => (
+            { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/", hasBackground: true, isSquare: false },
+            { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true, isSquare: false },
+            { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true, isSquare: false },
+            { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false, isSquare: true },
+            { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false, isSquare: true },
+            { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false, isSquare: true },
+          ].map((logo) => {
+            const isTransparent = !logo.hasBackground;
+            const isDark = theme === "dark";
+            return (
             <a
               key={logo.alt}
               href={logo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex shrink-0 items-center justify-center h-10 sm:h-14 transition-all duration-500"
+              className="group flex shrink-0 items-center justify-center gap-2 h-10 sm:h-14 transition-all duration-500 px-3"
             >
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className="h-full w-auto max-w-[120px] sm:max-w-[160px] object-contain transition-all duration-500 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100"
-                style={!logo.hasBackground && theme === "dark" ? { filter: "brightness(0) invert(1) grayscale(100%) opacity(0.7)" } : { filter: "grayscale(100%)" }}
+                className={`object-contain transition-all duration-500 ${
+                  logo.isSquare ? "h-9 w-9 sm:h-12 sm:w-12" : "h-full w-auto max-w-[100px] sm:max-w-[140px]"
+                }`}
+                style={{
+                  filter: isTransparent
+                    ? isDark
+                      ? "brightness(0) invert(1)"
+                      : "brightness(0) opacity(0.5)"
+                    : "grayscale(100%) opacity(0.6)",
+                  transition: "filter 0.5s, opacity 0.5s",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.filter = "none"; }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.filter = isTransparent
+                    ? isDark ? "brightness(0) invert(1)" : "brightness(0) opacity(0.5)"
+                    : "grayscale(100%) opacity(0.6)";
+                }}
               />
+              {logo.isSquare && (
+                <span className={`text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-500 ${
+                  isDark ? "text-white/70" : "text-gray-500"
+                }`}>{logo.alt === "Stichting iMMO" ? "iMMO" : logo.alt}</span>
+              )}
             </a>
-          ))}
+            );
+          })}
         </Marquee>
         </div>
       </section>
@@ -1120,7 +1144,7 @@ export default function Landing() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/auth?signup=true">
               <MagneticButton>
-                <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold shadow-[0_0_50px_-8px_hsl(239,100%,60%/0.5)] border border-primary/20">
+                <Button size="sm" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-6 h-10 text-sm font-semibold shadow-[0_0_50px_-8px_hsl(239,100%,60%/0.5)] border border-primary/20">
                   Get Started Now
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -1128,7 +1152,7 @@ export default function Landing() {
             </Link>
             <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
               <MagneticButton>
-                <Button variant="outline" size="lg" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-8 h-12 text-base">
+                <Button variant="outline" size="sm" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-6 h-10 text-sm">
                   Book a Demo
                 </Button>
               </MagneticButton>
