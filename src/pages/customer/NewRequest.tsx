@@ -29,6 +29,16 @@ const ecoOptions = [
   { value: "certified_only", label: "Certified Only", desc: "Must have official certifications (OEKO-TEX, FSC...)", icon: Award, color: "border-border bg-secondary/20", activeColor: "border-green-400/60 bg-green-500/[0.12] ring-1 ring-green-400/40 shadow-[0_0_20px_-5px_rgba(34,197,94,0.2)]", iconColor: "text-green-300" },
 ];
 
+const categoryColors: Record<string, { border: string; bg: string; ring: string; icon: string; badge: string }> = {
+  "Quality & Inspection": { border: "border-blue-500/40", bg: "bg-blue-500/[0.06]", ring: "ring-blue-500/25", icon: "text-blue-400", badge: "bg-blue-500/10 text-blue-400 border-blue-500/20" },
+  "Photography & Media": { border: "border-amber-500/40", bg: "bg-amber-500/[0.06]", ring: "ring-amber-500/25", icon: "text-amber-400", badge: "bg-amber-500/10 text-amber-400 border-amber-500/20" },
+  "Branding & Labels": { border: "border-violet-500/40", bg: "bg-violet-500/[0.06]", ring: "ring-violet-500/25", icon: "text-violet-400", badge: "bg-violet-500/10 text-violet-400 border-violet-500/20" },
+  "Packaging & Protection": { border: "border-emerald-500/40", bg: "bg-emerald-500/[0.06]", ring: "ring-emerald-500/25", icon: "text-emerald-400", badge: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" },
+  "Garment Services": { border: "border-rose-500/40", bg: "bg-rose-500/[0.06]", ring: "ring-rose-500/25", icon: "text-rose-400", badge: "bg-rose-500/10 text-rose-400 border-rose-500/20" },
+  "Logistics & Fulfillment": { border: "border-cyan-500/40", bg: "bg-cyan-500/[0.06]", ring: "ring-cyan-500/25", icon: "text-cyan-400", badge: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20" },
+  "Product Sourcing": { border: "border-orange-500/40", bg: "bg-orange-500/[0.06]", ring: "ring-orange-500/25", icon: "text-orange-400", badge: "bg-orange-500/10 text-orange-400 border-orange-500/20" },
+};
+
 const serviceAddons = [
   // Quality & Inspection
   { id: "standard_inspection", label: "Standard Quality Inspection", desc: "Pre-warehouse inspection to verify product quality and condition", icon: ScanLine, category: "Quality & Inspection" },
@@ -40,7 +50,7 @@ const serviceAddons = [
   // Photography & Media
   { id: "standard_photos", label: "Standard Product Photos", desc: "3 photos per SKU: front/back, product & accessories, packaging", icon: Camera, category: "Photography & Media" },
   { id: "detailed_photos", label: "Detailed Product Photos", desc: "Close-up high-detail photography for product listings", icon: ImagePlus, category: "Photography & Media" },
-  { id: "product_video", label: "Product Video (360°)", desc: "360-degree product video for enhanced listing presentation", icon: Video, category: "Photography & Media" },
+  { id: "product_video", label: "Product Video (360)", desc: "360-degree product video for enhanced listing presentation", icon: Video, category: "Photography & Media" },
   { id: "parcel_photo", label: "Parcel Photo", desc: "Pre-shipment photo of your packed parcel for verification", icon: Camera, category: "Photography & Media" },
   { id: "model_photos", label: "Model Try-on Photos", desc: "Real model try-on photos for apparel/shoe products", icon: Camera, category: "Photography & Media" },
 
