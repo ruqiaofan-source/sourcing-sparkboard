@@ -1199,6 +1199,7 @@ export default function Landing() {
         </motion.div>
       </section>
 
+      </main>
       <PublicFooter />
     </div>
   );
