@@ -64,11 +64,22 @@ export default function InsightArticle() {
             "@context": "https://schema.org",
             "@type": "Article",
             headline: article.title,
-            description: article.excerpt,
-            image: article.cover_image_url,
+            description: article.meta_description || article.excerpt,
+            image: article.cover_image_url || undefined,
             datePublished: article.published_at,
+            dateModified: article.updated_at,
+            url: `https://equilinq.eu/insights/${article.slug}`,
             author: { "@type": "Person", name: article.author_name || "Equilinq Team" },
-            publisher: { "@type": "Organization", name: "Equilinq" },
+            publisher: {
+              "@type": "Organization",
+              name: "Equilinq",
+              url: "https://equilinq.eu",
+            },
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://equilinq.eu/insights/${article.slug}`,
+            },
+            articleSection: article.tag,
           }),
         }}
       />
