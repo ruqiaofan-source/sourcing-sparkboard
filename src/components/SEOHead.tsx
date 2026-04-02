@@ -93,6 +93,29 @@ export function SEOHead({ title, description, canonical, ogType = "website", ogI
       ],
     });
 
+    // WebPage JSON-LD (always present)
+    const wpId = "equilinq-webpage-jsonld";
+    let wpScript = document.getElementById(wpId) as HTMLScriptElement | null;
+    if (!wpScript) {
+      wpScript = document.createElement("script");
+      wpScript.id = wpId;
+      wpScript.type = "application/ld+json";
+      document.head.appendChild(wpScript);
+    }
+    wpScript.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: title,
+      description: description,
+      url: canonicalUrl,
+      inLanguage: "en",
+      isPartOf: {
+        "@type": "WebSite",
+        name: "Equilinq",
+        url: BASE_URL,
+      },
+    });
+
     // Breadcrumb JSON-LD
     const bcId = "equilinq-breadcrumb-jsonld";
     let bcScript = document.getElementById(bcId) as HTMLScriptElement | null;

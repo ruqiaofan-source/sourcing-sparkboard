@@ -152,7 +152,23 @@ export default function HowItWorksStep() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SEOHead title={step.seoTitle} description={step.seoDesc} />
+      <SEOHead
+        title={step.seoTitle}
+        description={step.seoDesc}
+        keywords={`${step.title}, China sourcing, Equilinq process, ${step.details.slice(0, 2).join(', ')}`}
+        breadcrumbs={[
+          { name: "Home", url: "https://equilinq.eu/" },
+          { name: "How It Works", url: "https://equilinq.eu/how-it-works" },
+          { name: step.title, url: `https://equilinq.eu/how-it-works/${step.slug}` },
+        ]}
+        jsonLd={{
+          "@type": "HowToStep",
+          name: step.title,
+          text: step.desc,
+          url: `https://equilinq.eu/how-it-works/${step.slug}`,
+          position: parseInt(step.step),
+        }}
+      />
       <PublicNavbar />
 
       <section className="pt-32 pb-20 px-4">
