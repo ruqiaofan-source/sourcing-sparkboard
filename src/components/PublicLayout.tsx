@@ -39,7 +39,7 @@ export function PublicNavbar() {
   };
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl" aria-label="Main navigation">
       <div className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white backdrop-blur-xl px-5 py-3 shadow-lg">
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
           <img src={equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" />
@@ -136,6 +136,7 @@ export function PublicNavbar() {
           <button
             className="lg:hidden text-gray-900 p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -226,28 +227,71 @@ export function PublicNavbar() {
 
 export function PublicFooter() {
   return (
-    <footer className="border-t border-border/40 py-10 px-4">
+    <footer className="border-t border-border/40 py-12 px-4">
       <div className="max-w-5xl mx-auto">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2.5">
-            <img src={equilinqLogo} alt="Equilinq" className="h-7 w-7 rounded-md object-cover" />
-            <span className="font-heading text-sm font-bold tracking-wider uppercase text-foreground">Equilinq</span>
-          </div>
-
-          <div className="flex items-center gap-6 text-xs text-muted-foreground">
-            <Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link>
-            <Link to="/insights" className="hover:text-foreground transition-colors">Insights</Link>
-            <Link to="/customization" className="hover:text-foreground transition-colors">Customization</Link>
-            <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">Book a Call</a>
-          </div>
-
-          <div className="flex flex-col items-center sm:items-end gap-1">
-            <a href="mailto:contact@equilinq.eu" className="text-xs text-muted-foreground hover:text-primary transition-colors">
-              contact@equilinq.eu
-            </a>
-            <p className="text-xs text-muted-foreground/60">
-              &copy; {new Date().getFullYear()} Equilinq. All rights reserved.
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-2.5 mb-3">
+              <img src={equilinqLogo} alt="Equilinq" className="h-7 w-7 rounded-md object-cover" />
+              <span className="font-heading text-sm font-bold tracking-wider uppercase text-foreground">Equilinq</span>
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed mb-3">
+              End-to-end sourcing, QC, customization and logistics from China for European SMEs.
             </p>
+            <p className="text-[11px] text-muted-foreground/60 leading-relaxed">
+              Incorporated with one of Tencent's co-founders.
+              <br />
+              Operated by StarIT Group (Hong Kong / Shenzhen).
+            </p>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Services</h3>
+            <nav className="flex flex-col gap-2" aria-label="Services">
+              <Link to="/how-it-works" className="text-xs text-muted-foreground hover:text-foreground transition-colors">How It Works</Link>
+              <Link to="/customization" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Customization</Link>
+              <Link to="/customization?tab=quality-inspection" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Quality Control</Link>
+              <Link to="/customization?tab=oem-odm" className="text-xs text-muted-foreground hover:text-foreground transition-colors">OEM / ODM</Link>
+              <Link to="/pricing" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
+            </nav>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Resources</h3>
+            <nav className="flex flex-col gap-2" aria-label="Resources">
+              <Link to="/insights" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Insights & Blog</Link>
+              <Link to="/contact" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link>
+              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Book a Call</a>
+              <Link to="/auth?signup=true" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Get Started</Link>
+            </nav>
+          </div>
+
+          {/* Contact & legal */}
+          <div>
+            <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Contact</h3>
+            <div className="flex flex-col gap-2">
+              <a href="mailto:contact@equilinq.eu" className="text-xs text-muted-foreground hover:text-primary transition-colors">
+                contact@equilinq.eu
+              </a>
+              <p className="text-[11px] text-muted-foreground/60 leading-relaxed">
+                Equilinq B.V.
+                <br />
+                The Netherlands
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="border-t border-border/30 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-[11px] text-muted-foreground/60">
+            &copy; {new Date().getFullYear()} Equilinq. All rights reserved.
+          </p>
+          <div className="flex items-center gap-4 text-[11px] text-muted-foreground/60">
+            <span>KVK: 96498994</span>
           </div>
         </div>
       </div>
