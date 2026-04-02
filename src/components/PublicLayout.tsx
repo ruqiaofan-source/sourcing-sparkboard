@@ -14,8 +14,8 @@ const customizationCategories = [
   { label: "Product Packaging", href: "/customization?tab=product-packaging", icon: Package, desc: "Wrapping, sealing, protection" },
   { label: "Parcel Reinforcement", href: "/customization?tab=parcel-reinforcement", icon: Box, desc: "Filling, crating, film wrapping" },
   { label: "Photography & Media", href: "/customization?tab=photography-media", icon: Camera, desc: "Photos, videos, model shots" },
-  { label: "Quality Inspection", href: "/customization?tab=quality-inspection", icon: ClipboardCheck, desc: "Standard, detailed, electrical QC" },
-  { label: "OEM / ODM", href: "/customization?tab=oem-odm", icon: Wrench, desc: "Custom manufacturing & design" },
+  { label: "Quality Inspection", href: "/quality-control", icon: ClipboardCheck, desc: "Standard, detailed, electrical QC" },
+  { label: "OEM / ODM", href: "/oem-odm", icon: Wrench, desc: "Custom manufacturing & design" },
 ];
 
 const navLinks = [
