@@ -466,9 +466,12 @@ const NewRequest = () => {
                   <div className="space-y-4 max-h-[340px] overflow-y-auto pr-1">
                     {addonCategories.map((cat) => {
                       const items = serviceAddons.filter((a) => a.category === cat);
+                      const colors = categoryColors[cat] || categoryColors["Quality & Inspection"];
                       return (
                         <div key={cat}>
-                          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[11px] font-semibold text-muted-foreground/60 uppercase tracking-widest mb-2">{cat}</motion.p>
+                          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 mb-2">
+                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-widest border ${colors.badge}`}>{cat}</span>
+                          </motion.div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             {items.map((addon, i) => {
                               const isSelected = selectedAddons.includes(addon.id);
@@ -482,16 +485,16 @@ const NewRequest = () => {
                                   onClick={() => toggleAddon(addon.id)}
                                   className={`text-left rounded-xl border p-3 transition-all ${
                                     isSelected
-                                      ? "border-primary/40 bg-primary/[0.06] ring-1 ring-primary/25"
+                                      ? `${colors.border} ${colors.bg} ring-1 ${colors.ring}`
                                       : "border-border bg-secondary/20 hover:border-primary/20 hover:bg-secondary/40"
                                   }`}
                                 >
                                   <div className="flex items-center gap-2">
-                                    <addon.icon className={`h-3.5 w-3.5 shrink-0 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
+                                    <addon.icon className={`h-3.5 w-3.5 shrink-0 ${isSelected ? colors.icon : "text-muted-foreground"}`} />
                                     <span className={`text-sm font-medium ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>{addon.label}</span>
                                     {isSelected && (
                                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="ml-auto">
-                                        <Check className="h-3.5 w-3.5 text-primary" />
+                                        <Check className={`h-3.5 w-3.5 ${colors.icon}`} />
                                       </motion.div>
                                     )}
                                   </div>
