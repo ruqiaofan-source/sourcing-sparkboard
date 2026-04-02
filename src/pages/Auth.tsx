@@ -74,21 +74,13 @@ const AuthPage = () => {
           options: {
             data: {
               full_name: fullName,
+              phone_number: phone,
+              area_of_residence: areaOfResidence,
+              delivery_address: deliveryAddress,
             },
           },
         });
         if (error) throw error;
-
-        if (data.user) {
-          await supabase.from("profiles").update({
-            full_name: fullName,
-            phone_number: phone,
-            area_of_residence: areaOfResidence,
-            delivery_address: deliveryAddress,
-            display_name: fullName,
-            email: email,
-          } as any).eq("user_id", data.user.id);
-        }
 
         setEmailSentType("signup");
         setEmailSent(true);
