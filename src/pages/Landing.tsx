@@ -585,7 +585,7 @@ export default function Landing() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              Sourcing, customization, QC, and logistics from China.
+              Sourcing, customization, QC, and logistics from China.{" "}
               <br className="hidden sm:block" />
               One platform to rule them all.
             </motion.p>
