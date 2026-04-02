@@ -100,7 +100,7 @@ const ResetPassword = () => {
       <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-3">
-            <img src={equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
+            <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
             <h1 className="font-heading text-2xl font-bold text-foreground tracking-wider uppercase">Equilinq</h1>
           </div>
           <p className="text-muted-foreground text-sm">Set your new password</p>
