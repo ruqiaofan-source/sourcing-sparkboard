@@ -798,6 +798,31 @@ export default function Landing() {
             <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground">What Our Clients Say</RevealHeading>
           </motion.div>
 
+          {/* Trustpilot summary */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="flex items-center justify-center gap-3 mb-10"
+          >
+            <a href="https://www.trustpilot.com/review/equilinq.eu" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
+              <div className="flex items-center gap-1.5">
+                <span className="font-heading text-2xl font-bold text-foreground">4.0</span>
+                <div className="flex gap-0.5">
+                  {[1,2,3,4].map((s) => (
+                    <svg key={s} className="h-5 w-5 text-[#00b67a]" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                  <svg className="h-5 w-5 text-muted-foreground/30" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+              </div>
+              <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">on Trustpilot (5 reviews)</span>
+            </a>
+          </motion.div>
 
           <motion.div
             variants={stagger}
