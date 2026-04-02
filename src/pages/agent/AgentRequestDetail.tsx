@@ -654,6 +654,21 @@ const AgentRequestDetail = () => {
                             </Button>
                           ) : (
                             <div className="mt-4 flex flex-wrap gap-2">
+                              {inv.payment_status === "paid" && (
+                                <Button
+                                  size="sm"
+                                  onClick={() => confirmPayment.mutate(inv.id)}
+                                  disabled={confirmPayment.isPending}
+                                  className="bg-emerald-600 text-white hover:bg-emerald-700"
+                                >
+                                  <Check className="h-3.5 w-3.5 mr-1.5" /> Confirm Payment Received
+                                </Button>
+                              )}
+                              {inv.payment_status === "confirmed" && (
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 text-sm font-medium">
+                                  <Check className="h-4 w-4" /> Payment Confirmed
+                                </span>
+                              )}
                               <Link to={`/invoice/${inv.id}`} target="_blank">
                                 <Button variant="outline" size="sm">
                                   <Download className="h-3.5 w-3.5 mr-1.5" /> Download PDF
