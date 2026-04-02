@@ -73,7 +73,7 @@ const Unsubscribe = () => {
       <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--glow-blue)" }} />
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm text-center relative z-10">
         <div className="flex items-center justify-center gap-3 mb-8">
-          <img src={equilinqLogo} alt="Equilinq" className="h-8 w-8 rounded-lg object-cover" />
+          <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-8 w-8 rounded-lg object-cover" />
           <span className="font-heading text-lg font-bold text-foreground tracking-wider uppercase">Equilinq</span>
         </div>
         <div className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 shadow-[var(--shadow-glow)]">
