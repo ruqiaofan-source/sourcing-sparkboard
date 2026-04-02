@@ -439,7 +439,14 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <SEOHead title="Equilinq - Sourcing from China for European SMEs" description="End-to-end sourcing, QC, customization and logistics from China. Transparent pricing, low MOQs, and dedicated support for European SMEs." keywords="sourcing from China, European SME sourcing, China manufacturing, quality control, private label, transparent pricing, low MOQ, China logistics" />
+      <SEOHead
+        title="Equilinq - Sourcing from China for European SMEs"
+        description="End-to-end sourcing, QC, customization and logistics from China. Transparent pricing, low MOQs, and dedicated support for European SMEs."
+        keywords="sourcing from China, European SME sourcing, China manufacturing, quality control, private label, transparent pricing, low MOQ, China logistics"
+        breadcrumbs={[
+          { name: "Home", url: "https://equilinq.eu/" },
+        ]}
+      />
       
       {/* JSON-LD Structured Data */}
       <script
