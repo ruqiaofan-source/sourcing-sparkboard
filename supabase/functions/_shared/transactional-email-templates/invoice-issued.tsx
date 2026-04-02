@@ -59,6 +59,7 @@ const InvoiceIssuedEmail = ({
     <Preview>Your invoice {invoiceNumber} from {SITE_NAME} is ready - payment instructions inside</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Equilinq" width="40" height="40" style={{ margin: '0 0 20px' }} />
         <Heading style={h1}>
           {customerName ? `Hi ${customerName},` : 'Hello,'}
         </Heading>
