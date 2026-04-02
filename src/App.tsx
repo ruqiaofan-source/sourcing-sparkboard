@@ -45,6 +45,9 @@ import Customization from "./pages/public/Customization";
 import Pricing from "./pages/public/Pricing";
 import HowItWorks from "./pages/public/HowItWorks";
 import HowItWorksStep from "./pages/public/HowItWorksStep";
+import Privacy from "./pages/public/Privacy";
+import CookiesPage from "./pages/public/Cookies";
+import { CookieConsent } from "./components/CookieConsent";
 const queryClient = new QueryClient();
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -105,6 +108,8 @@ const App = () => (
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
               <Route path="/how-it-works/:slug" element={<HowItWorksStep />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/cookies" element={<CookiesPage />} />
               <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/unsubscribe" element={<Unsubscribe />} />
@@ -138,6 +143,7 @@ const App = () => (
               
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <CookieConsent />
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

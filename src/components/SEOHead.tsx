@@ -86,7 +86,11 @@ export function SEOHead({ title, description, canonical, ogType = "website", ogI
       email: "contact@equilinq.eu",
       foundingDate: "2024",
       areaServed: "Europe",
-      sameAs: [],
+      sameAs: [
+        "https://www.linkedin.com/company/equilinq/",
+        "https://www.tiktok.com/@equilinq",
+        "https://www.instagram.com/equilinq.eu/",
+      ],
     });
 
     // Breadcrumb JSON-LD
