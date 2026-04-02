@@ -358,11 +358,22 @@ function MagneticButton({ children, className = "" }: { children: React.ReactNod
 
 function FeatureVideoCard({ feature: f }: { feature: typeof features[number] }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
   const videoY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setIsVisible(true); observer.disconnect(); } },
+      { rootMargin: "200px" }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <motion.div
@@ -373,18 +384,19 @@ function FeatureVideoCard({ feature: f }: { feature: typeof features[number] }) 
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       className="relative rounded-2xl overflow-hidden min-h-[340px] sm:min-h-[380px] flex items-end group"
     >
-      {/* Video background with parallax */}
+      {/* Video background with parallax - lazy loaded */}
       <motion.div className="absolute inset-[-30%] " style={{ y: videoY }}>
-        <iframe
-          src={`https://player.vimeo.com/video/${f.vimeoId}?muted=1&autoplay=1&autopause=0&loop=1&background=1`}
-          className="absolute inset-0 w-full h-full scale-[1.4]"
-          style={{ objectFit: "cover" }}
-          frameBorder="0"
-          allow="autoplay; fullscreen"
-          allowFullScreen
-          title={f.title}
-          loading="lazy"
-        />
+        {isVisible && (
+          <iframe
+            src={`https://player.vimeo.com/video/${f.vimeoId}?muted=1&autoplay=1&autopause=0&loop=1&background=1`}
+            className="absolute inset-0 w-full h-full scale-[1.4]"
+            style={{ objectFit: "cover" }}
+            frameBorder="0"
+            allow="autoplay; fullscreen"
+            allowFullScreen
+            title={f.title}
+          />
+        )}
       </motion.div>
 
       {/* Gradient overlay */}
