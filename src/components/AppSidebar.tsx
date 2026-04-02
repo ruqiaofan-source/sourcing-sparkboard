@@ -1,4 +1,5 @@
 import { LayoutDashboard, ShoppingCart, BarChart3, Settings, LogOut, Plus, FileText, Send, MessageCircle, Users, Newspaper, Inbox } from "lucide-react";
+import { NotificationBell } from "@/components/NotificationBell";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useRole } from "@/hooks/useRole";
