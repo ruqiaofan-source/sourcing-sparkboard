@@ -15,6 +15,7 @@ const Unsubscribe = () => {
   const token = searchParams.get("token");
   const [status, setStatus] = useState<Status>("loading");
   const [processing, setProcessing] = useState(false);
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!token) {
