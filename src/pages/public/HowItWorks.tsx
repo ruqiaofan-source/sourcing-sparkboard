@@ -246,6 +246,52 @@ export default function HowItWorks() {
         </motion.div>
       </section>
 
+      {/* ── ALL STEPS grid ── */}
+      <section className="px-4 pb-16 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="block text-[11px] font-bold tracking-[0.2em] text-muted-foreground mb-6"
+          >
+            ALL STEPS
+          </motion.span>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {steps.map((step, i) => (
+              <motion.a
+                key={step.slug}
+                href={`#step-${i}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById(`step-${i}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  setActiveStep(i);
+                }}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                whileHover={{ scale: 1.03, borderColor: "hsl(239 100% 65% / 0.5)" }}
+                className={`rounded-xl border p-4 transition-all cursor-pointer ${
+                  activeStep === i
+                    ? "border-primary/50 bg-primary/5 shadow-[0_0_20px_hsl(239,100%,60%/0.15)]"
+                    : "border-border/30 bg-card/20 hover:bg-card/40"
+                }`}
+              >
+                <span className="text-[10px] font-semibold text-primary/70 tracking-wider block mb-1.5">
+                  Step {step.step}
+                </span>
+                <span className={`text-sm font-semibold leading-snug block ${
+                  activeStep === i ? "text-primary" : "text-foreground/80"
+                }`}>
+                  {step.title}
+                </span>
+              </motion.a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Mobile progress bar */}
       <div className="sticky top-16 z-30 xl:hidden">
         <div className="bg-background/80 backdrop-blur-md border-b border-border/20 px-4 py-2">
