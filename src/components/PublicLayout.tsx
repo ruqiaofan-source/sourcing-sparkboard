@@ -31,6 +31,7 @@ export function PublicNavbar() {
   const [customizationOpen, setCustomizationOpen] = useState(false);
   const [mobileCustomizationOpen, setMobileCustomizationOpen] = useState(false);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { theme } = useTheme();
 
   const handleMouseEnter = () => {
     if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
