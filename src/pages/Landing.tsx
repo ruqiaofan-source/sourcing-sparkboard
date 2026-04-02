@@ -691,6 +691,8 @@ export default function Landing() {
               <img
                 src={logo.src}
                 alt={logo.alt}
+                width={logo.isSquare ? 48 : 140}
+                height={logo.isSquare ? 48 : 56}
                 className={`object-contain transition-all duration-500 ${
                   logo.isSquare ? "h-9 w-9 sm:h-12 sm:w-12" : "h-full w-auto max-w-[100px] sm:max-w-[140px]"
                 }`}
