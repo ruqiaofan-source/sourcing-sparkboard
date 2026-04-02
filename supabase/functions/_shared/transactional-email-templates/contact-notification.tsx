@@ -20,6 +20,7 @@ const ContactNotificationEmail = ({ name, email, reason, message }: ContactNotif
     <Preview>New contact form submission from {name || 'a visitor'}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Equilinq" width="40" height="40" style={{ margin: '0 0 20px' }} />
         <Heading style={h1}>New contact form submission</Heading>
         <Section style={detailsBox}>
           <Text style={label}>Name</Text>

@@ -18,6 +18,7 @@ const ContactConfirmationEmail = ({ name }: ContactConfirmationProps) => (
     <Preview>Thanks for reaching out to {SITE_NAME}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Equilinq" width="40" height="40" style={{ margin: '0 0 20px' }} />
         <Heading style={h1}>
           {name ? `Thank you, ${name}!` : 'Thank you for reaching out!'}
         </Heading>
