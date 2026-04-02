@@ -65,7 +65,15 @@ export default function HowItWorks() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <SEOHead title="How It Works - Equilinq Sourcing Process in 8 Steps" description="From sourcing request to delivery: learn Equilinq's 8-step process for transparent, reliable manufacturing from China." />
+      <SEOHead
+        title="How It Works - Equilinq Sourcing Process in 8 Steps"
+        description="From sourcing request to delivery: learn Equilinq's 8-step process for transparent, reliable manufacturing from China."
+        keywords="sourcing process, China manufacturing steps, how sourcing works, supplier vetting, quality control process"
+        breadcrumbs={[
+          { name: "Home", url: "https://equilinq.eu/" },
+          { name: "How It Works", url: "https://equilinq.eu/how-it-works" },
+        ]}
+      />
       <PublicNavbar />
 
       {/* Hero with top image */}
