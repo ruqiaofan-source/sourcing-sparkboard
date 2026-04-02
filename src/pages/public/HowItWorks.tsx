@@ -74,6 +74,25 @@ export default function HowItWorks() {
           { name: "How It Works", url: "https://equilinq.eu/how-it-works" },
         ]}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "How China Sourcing Works with Equilinq",
+            description: "From sourcing request to delivery: Equilinq's 8-step process for transparent, reliable manufacturing from China.",
+            totalTime: "P30D",
+            step: steps.map((s, i) => ({
+              "@type": "HowToStep",
+              position: i + 1,
+              name: s.title,
+              text: s.desc,
+              url: `https://equilinq.eu/how-it-works/${s.slug}`,
+            })),
+          }),
+        }}
+      />
       <PublicNavbar />
 
       {/* Hero with top image */}

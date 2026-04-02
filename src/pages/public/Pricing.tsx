@@ -26,6 +26,29 @@ export default function Pricing() {
           { name: "Pricing", url: "https://equilinq.eu/pricing" },
         ]}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "Pricing - Equilinq Sourcing Service",
+            url: "https://equilinq.eu/pricing",
+            description: "Transparent, itemized pricing for every order. No hidden fees.",
+            isPartOf: { "@type": "WebSite", name: "Equilinq", url: "https://equilinq.eu" },
+            mainEntity: {
+              "@type": "PriceSpecification",
+              description: "Equilinq service fee based on order value",
+              priceCurrency: "EUR",
+              eligibleTransactionVolume: [
+                { "@type": "PriceSpecification", description: "Orders under EUR 5,000: 6% (min EUR 99)" },
+                { "@type": "PriceSpecification", description: "Orders EUR 5,000 - EUR 19,999: 5%" },
+                { "@type": "PriceSpecification", description: "Orders EUR 20,000+: 4%" },
+              ],
+            },
+          }),
+        }}
+      />
       <PublicNavbar />
 
       <section className="pt-32 pb-20 px-4 relative overflow-hidden">
