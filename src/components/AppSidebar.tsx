@@ -53,7 +53,7 @@ export function AppSidebar() {
         <div className="w-full">
           {/* Logo */}
           <div className="pt-6 pb-4 flex flex-col items-center border-b border-border/30 w-full px-2">
-            <img src={equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
+            <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
           </div>
 
           {/* Main nav */}
