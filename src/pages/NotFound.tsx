@@ -12,7 +12,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background">
+    <main className="flex min-h-screen items-center justify-center bg-muted">
       <SEOHead
         title="Page Not Found - Equilinq"
         description="The page you are looking for does not exist. Return to the Equilinq homepage."

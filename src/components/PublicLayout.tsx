@@ -43,16 +43,16 @@ export function PublicNavbar() {
 
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl" aria-label="Main navigation">
-      <div className="flex items-center justify-between rounded-2xl border border-border bg-card backdrop-blur-xl px-5 py-3 shadow-lg">
+      <div className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white backdrop-blur-xl px-5 py-3 shadow-lg">
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
-          <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" />
-          <span className="font-heading text-lg font-bold tracking-wider uppercase text-foreground">
+          <img src={equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" />
+          <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
           </span>
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-base font-medium text-muted-foreground">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-base font-medium text-gray-700">
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div
@@ -63,7 +63,7 @@ export function PublicNavbar() {
               >
                   <Link
                     to={link.href}
-                    className="flex items-center gap-1 hover:text-foreground transition-colors whitespace-nowrap text-base"
+                    className="flex items-center gap-1 hover:text-gray-900 transition-colors whitespace-nowrap text-base"
                   >
                   {link.label}
                   <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${customizationOpen ? "rotate-180" : ""}`} />
@@ -78,28 +78,28 @@ export function PublicNavbar() {
                       transition={{ duration: 0.15 }}
                       className="absolute top-full left-0 pt-3"
                     >
-                      <div className="w-[420px] rounded-2xl border border-border bg-card shadow-xl p-3 grid grid-cols-2 gap-1">
+                      <div className="w-[420px] rounded-2xl border border-gray-200 bg-white shadow-xl p-3 grid grid-cols-2 gap-1">
                         {customizationCategories.map((cat) => (
                           <Link
                             key={cat.label}
                             to={cat.href}
                             onClick={() => setCustomizationOpen(false)}
-                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-accent transition-colors group"
+                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-gray-50 transition-colors group"
                           >
-                            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-primary/20 transition-colors">
-                              <cat.icon className="h-4 w-4 text-primary" />
+                            <div className="h-8 w-8 rounded-lg bg-indigo-50 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-indigo-100 transition-colors">
+                              <cat.icon className="h-4 w-4 text-indigo-600" />
                             </div>
                             <div className="min-w-0">
-                              <p className="text-sm font-medium text-foreground leading-tight">{cat.label}</p>
-                              <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{cat.desc}</p>
+                              <p className="text-sm font-medium text-gray-900 leading-tight">{cat.label}</p>
+                              <p className="text-xs text-gray-500 mt-0.5 leading-snug">{cat.desc}</p>
                             </div>
                           </Link>
                         ))}
-                        <div className="col-span-2 border-t border-border mt-1 pt-2 px-3 pb-1">
+                        <div className="col-span-2 border-t border-gray-100 mt-1 pt-2 px-3 pb-1">
                           <Link
                             to="/customization"
                             onClick={() => setCustomizationOpen(false)}
-                            className="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1"
+                            className="text-xs font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
                           >
                             View all services
                             <ArrowRight className="h-3 w-3" />
@@ -114,7 +114,7 @@ export function PublicNavbar() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="hover:text-foreground transition-colors whitespace-nowrap text-base"
+                className="hover:text-gray-900 transition-colors whitespace-nowrap text-base"
               >
                 {link.label}
               </Link>
@@ -124,7 +124,7 @@ export function PublicNavbar() {
 
         <div className="flex items-center gap-3">
           <Link to="/auth" className="hidden lg:block">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground rounded-full text-base">
+            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-base">
               Login
             </Button>
           </Link>
@@ -137,7 +137,7 @@ export function PublicNavbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-foreground p-1"
+            className="lg:hidden text-gray-900 p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -154,7 +154,7 @@ export function PublicNavbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mt-2 rounded-2xl border border-border bg-card backdrop-blur-xl p-4 lg:hidden shadow-lg"
+            className="mt-2 rounded-2xl border border-gray-200 bg-white backdrop-blur-xl p-4 lg:hidden shadow-lg"
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link) =>
@@ -162,7 +162,7 @@ export function PublicNavbar() {
                   <div key={link.label}>
                     <button
                       onClick={() => setMobileCustomizationOpen(!mobileCustomizationOpen)}
-                      className="flex items-center justify-between w-full text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2.5 px-1"
+                      className="flex items-center justify-between w-full text-base font-medium text-gray-700 hover:text-gray-900 transition-colors py-2.5 px-1"
                     >
                       {link.label}
                       <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileCustomizationOpen ? "rotate-180" : ""}`} />
@@ -182,16 +182,16 @@ export function PublicNavbar() {
                                 key={cat.label}
                                 to={cat.href}
                                 onClick={() => { setMobileOpen(false); setMobileCustomizationOpen(false); }}
-                                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors py-1.5"
+                                className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors py-1.5"
                               >
-                                <cat.icon className="h-3.5 w-3.5 text-primary" />
+                                <cat.icon className="h-3.5 w-3.5 text-indigo-500" />
                                 {cat.label}
                               </Link>
                             ))}
                             <Link
                               to="/customization"
                               onClick={() => { setMobileOpen(false); setMobileCustomizationOpen(false); }}
-                              className="flex items-center gap-1 text-xs font-medium text-primary pt-1"
+                              className="flex items-center gap-1 text-xs font-medium text-indigo-600 pt-1"
                             >
                               View all
                               <ArrowRight className="h-3 w-3" />
@@ -206,13 +206,13 @@ export function PublicNavbar() {
                     key={link.label}
                     to={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2.5 px-1"
+                    className="text-base font-medium text-gray-700 hover:text-gray-900 transition-colors py-2.5 px-1"
                   >
                     {link.label}
                   </Link>
                 )
               )}
-              <div className="border-t border-border pt-3 mt-2 flex gap-3">
+              <div className="border-t border-gray-200 pt-3 mt-2 flex gap-3">
                 <Link to="/auth" onClick={() => setMobileOpen(false)} className="flex-1">
                   <Button variant="outline" size="sm" className="w-full rounded-full">Login</Button>
                 </Link>
