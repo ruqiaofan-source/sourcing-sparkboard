@@ -1023,8 +1023,10 @@ export default function Landing() {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <img
-                src="https://framerusercontent.com/images/mAjvmxaxBda8vHxrvk40mSOZOo.jpg?width=200&height=300"
+                src="https://framerusercontent.com/images/mAjvmxaxBda8vHxrvk40mSOZOo.jpg?lossless=1&w=256&h=378"
                 alt="Founder"
+                width={126}
+                height={189}
                 className="w-32 h-44 rounded-2xl object-cover border border-border/40"
                 loading="lazy"
               />
