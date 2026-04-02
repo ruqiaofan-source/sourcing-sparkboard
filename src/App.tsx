@@ -27,6 +27,7 @@ import AdminRequests from "./pages/admin/AdminRequests";
 import AdminQuotes from "./pages/admin/AdminQuotes";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminInsights from "./pages/admin/AdminInsights";
+import AdminContactSubmissions from "./pages/admin/AdminContactSubmissions";
 
 // Shared pages
 import Auth from "./pages/Auth";
