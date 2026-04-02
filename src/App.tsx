@@ -118,6 +118,8 @@ const App = () => (
                 <Route path="/insights/:slug" element={<InsightArticle />} />
                 <Route path="/customization" element={<Customization />} />
                 <Route path="/pricing" element={<Pricing />} />
+                <Route path="/quality-control" element={<QualityControl />} />
+                <Route path="/oem-odm" element={<OemOdm />} />
                 <Route path="/how-it-works" element={<HowItWorks />} />
                 <Route path="/how-it-works/:slug" element={<HowItWorksStep />} />
                 <Route path="/privacy" element={<Privacy />} />

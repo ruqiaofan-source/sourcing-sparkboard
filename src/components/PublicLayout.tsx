@@ -264,8 +264,8 @@ export function PublicFooter() {
             <nav className="flex flex-col gap-2" aria-label="Services">
               <Link to="/how-it-works" className="text-xs text-muted-foreground hover:text-foreground transition-colors">How It Works</Link>
               <Link to="/customization" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Customization</Link>
-              <Link to="/customization?tab=quality-inspection" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Quality Control</Link>
-              <Link to="/customization?tab=oem-odm" className="text-xs text-muted-foreground hover:text-foreground transition-colors">OEM / ODM</Link>
+              <Link to="/quality-control" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Quality Control</Link>
+              <Link to="/oem-odm" className="text-xs text-muted-foreground hover:text-foreground transition-colors">OEM / ODM</Link>
               <Link to="/pricing" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
             </nav>
           </div>
