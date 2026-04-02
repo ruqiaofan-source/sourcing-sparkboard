@@ -192,6 +192,7 @@ export type Database = {
           invoice_number: string
           logistics_cost: number
           order_id: string | null
+          payment_status: string
           pdf_path: string | null
           product_name: string
           quantity: number
@@ -214,6 +215,7 @@ export type Database = {
           invoice_number: string
           logistics_cost?: number
           order_id?: string | null
+          payment_status?: string
           pdf_path?: string | null
           product_name?: string
           quantity?: number
@@ -236,6 +238,7 @@ export type Database = {
           invoice_number?: string
           logistics_cost?: number
           order_id?: string | null
+          payment_status?: string
           pdf_path?: string | null
           product_name?: string
           quantity?: number
