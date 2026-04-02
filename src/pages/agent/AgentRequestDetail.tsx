@@ -177,6 +177,22 @@ const AgentRequestDetail = () => {
     },
   });
 
+  const confirmPayment = useMutation({
+    mutationFn: async (invoiceId: string) => {
+      const { error } = await supabase.from("invoices" as any)
+        .update({ payment_status: "confirmed" } as any)
+        .eq("id", invoiceId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["agent-request-invoices", id] });
+      toast({ title: "Payment confirmed", description: "The customer's payment has been confirmed." });
+    },
+    onError: (err: any) => {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    },
+  });
+
   const submitQuote = useMutation({
     mutationFn: async () => {
       const requestAddons = (request as any)?.service_addons as string[] | null;
