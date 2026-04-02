@@ -333,6 +333,19 @@ const AuthPage = () => {
                     </div>
                   )}
 
+                  {isSignUp && !isForgotPassword && (
+                    <div className="space-y-1.5">
+                      <Label htmlFor="confirmPassword" className="text-card-foreground text-sm">Confirm Password</Label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input id="confirmPassword" type={showPassword ? "text" : "password"} placeholder="••••••••" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="pl-10 bg-secondary border-border focus:border-primary h-11" required minLength={6} />
+                      </div>
+                      {confirmPassword && password !== confirmPassword && (
+                        <p className="text-xs text-destructive mt-1">Passwords do not match</p>
+                      )}
+                    </div>
+                  )}
+
                   <Button type="submit" disabled={loading} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium rounded-full h-11">
                     {loading ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
