@@ -1,11 +1,12 @@
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Text, Hr,
+  Body, Container, Head, Heading, Html, Preview, Text, Hr, Img,
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = 'Equilinq'
 const PRIMARY_COLOR = '#6366F1'
+const LOGO_URL = 'https://chmoabjmtbbqdrgigspm.supabase.co/storage/v1/object/public/email-assets/equilinq-logo.png'
 
 interface ContactConfirmationProps {
   name?: string
@@ -17,6 +18,7 @@ const ContactConfirmationEmail = ({ name }: ContactConfirmationProps) => (
     <Preview>Thanks for reaching out to {SITE_NAME}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Equilinq" width="40" height="40" style={{ margin: '0 0 20px' }} />
         <Heading style={h1}>
           {name ? `Thank you, ${name}!` : 'Thank you for reaching out!'}
         </Heading>

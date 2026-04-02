@@ -1,11 +1,12 @@
 /// <reference types="npm:@types/react@18.3.1" />
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Text, Button, Hr, Section, Row, Column,
+  Body, Container, Head, Heading, Html, Preview, Text, Button, Hr, Section, Row, Column, Img,
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = "Equilinq"
+const LOGO_URL = 'https://chmoabjmtbbqdrgigspm.supabase.co/storage/v1/object/public/email-assets/equilinq-logo.png'
 
 interface InvoiceIssuedProps {
   customerName?: string
@@ -58,6 +59,7 @@ const InvoiceIssuedEmail = ({
     <Preview>Your invoice {invoiceNumber} from {SITE_NAME} is ready - payment instructions inside</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Equilinq" width="40" height="40" style={{ margin: '0 0 20px' }} />
         <Heading style={h1}>
           {customerName ? `Hi ${customerName},` : 'Hello,'}
         </Heading>

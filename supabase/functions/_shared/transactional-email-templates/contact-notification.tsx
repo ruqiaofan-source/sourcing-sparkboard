@@ -1,10 +1,11 @@
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Text, Hr, Section,
+  Body, Container, Head, Heading, Html, Preview, Text, Hr, Section, Img,
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = 'Equilinq'
+const LOGO_URL = 'https://chmoabjmtbbqdrgigspm.supabase.co/storage/v1/object/public/email-assets/equilinq-logo.png'
 
 interface ContactNotificationProps {
   name?: string
@@ -19,6 +20,7 @@ const ContactNotificationEmail = ({ name, email, reason, message }: ContactNotif
     <Preview>New contact form submission from {name || 'a visitor'}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Equilinq" width="40" height="40" style={{ margin: '0 0 20px' }} />
         <Heading style={h1}>New contact form submission</Heading>
         <Section style={detailsBox}>
           <Text style={label}>Name</Text>
