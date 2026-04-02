@@ -10,6 +10,7 @@ import { useParams, Link, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Package, DollarSign, MapPin, Leaf, Clock, Check, X, Factory, Truck, FileText, Paperclip, MessageCircle, Wrench, Receipt, Download } from "lucide-react";
+import { PaymentDetails } from "@/components/PaymentDetails";
 import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 
 const CustomerRequestDetail = () => {
