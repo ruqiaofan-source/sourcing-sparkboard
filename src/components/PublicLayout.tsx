@@ -304,7 +304,7 @@ export function PublicFooter() {
           <p className="text-[11px] text-muted-foreground">
             &copy; {new Date().getFullYear()} Equilinq Limited. All rights reserved.
           </p>
-          <div className="flex items-center gap-4 text-[11px] text-muted-foreground/60">
+          <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
             <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
             <Link to="/cookies" className="hover:text-foreground transition-colors">Cookie Policy</Link>
           </div>
