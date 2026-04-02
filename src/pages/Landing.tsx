@@ -546,6 +546,8 @@ export default function Landing() {
                   { "@type": "SiteNavigationElement", name: "How It Works", url: "https://equilinq.eu/how-it-works" },
                   { "@type": "SiteNavigationElement", name: "Pricing", url: "https://equilinq.eu/pricing" },
                   { "@type": "SiteNavigationElement", name: "Customization", url: "https://equilinq.eu/customization" },
+                  { "@type": "SiteNavigationElement", name: "Quality Control", url: "https://equilinq.eu/quality-control" },
+                  { "@type": "SiteNavigationElement", name: "OEM / ODM", url: "https://equilinq.eu/oem-odm" },
                   { "@type": "SiteNavigationElement", name: "Insights", url: "https://equilinq.eu/insights" },
                   { "@type": "SiteNavigationElement", name: "Contact", url: "https://equilinq.eu/contact" },
                   { "@type": "SiteNavigationElement", name: "Sign In", url: "https://equilinq.eu/auth" },
