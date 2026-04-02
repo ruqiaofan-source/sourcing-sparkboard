@@ -506,6 +506,7 @@ export default function Landing() {
       />
 
       <PublicNavbar />
+      <main>
 
       {/* ───── HERO: Centered like Airweave ───── */}
       <section
@@ -1198,6 +1199,7 @@ export default function Landing() {
         </motion.div>
       </section>
 
+      </main>
       <PublicFooter />
     </div>
   );
