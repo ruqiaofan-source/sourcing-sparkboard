@@ -4,6 +4,8 @@
   <url><loc>https://equilinq.eu/pricing</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://equilinq.eu/how-it-works</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://equilinq.eu/customization</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://equilinq.eu/customization?tab=quality-inspection</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://equilinq.eu/customization?tab=oem-odm</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://equilinq.eu/insights</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://equilinq.eu/contact</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://equilinq.eu/auth</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
