@@ -35,6 +35,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Orders = lazy(() => import("./pages/Orders"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const Settings = lazy(() => import("./pages/Settings"));
+const Alerts = lazy(() => import("./pages/Alerts"));
 const InvoiceView = lazy(() => import("./pages/InvoiceView"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Unsubscribe = lazy(() => import("./pages/Unsubscribe"));
@@ -150,6 +151,7 @@ const App = () => (
                 <Route path="/invoice/:id" element={<ProtectedRoute><InvoiceView /></ProtectedRoute>} />
                 <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
                 <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+                <Route path="/alerts" element={<ProtectedRoute><Alerts /></ProtectedRoute>} />
                 
                 <Route path="*" element={<NotFound />} />
               </Routes>
