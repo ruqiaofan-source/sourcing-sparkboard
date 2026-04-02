@@ -41,6 +41,30 @@ export default function Insights() {
           { name: "Insights", url: "https://equilinq.eu/insights" },
         ]}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Insights - Equilinq Sourcing Trends & Market Reports",
+            url: "https://equilinq.eu/insights",
+            description: "Best-selling products, pricing trends, and supplier signals from China. Actionable sourcing insights for European SMEs.",
+            isPartOf: { "@type": "WebSite", name: "Equilinq", url: "https://equilinq.eu" },
+            ...(posts.length > 0 ? {
+              mainEntity: {
+                "@type": "ItemList",
+                itemListElement: posts.slice(0, 10).map((post, i) => ({
+                  "@type": "ListItem",
+                  position: i + 1,
+                  url: `https://equilinq.eu/insights/${post.slug}`,
+                  name: post.title,
+                })),
+              },
+            } : {}),
+          }),
+        }}
+      />
       <PublicNavbar />
 
       <section className="pt-32 pb-24 px-4 relative overflow-hidden">
