@@ -7,6 +7,15 @@ import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { ArrowRight } from "lucide-react";
 import { format } from "date-fns";
 
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+const fadeUp = {
+  hidden: { opacity: 0, y: 24, scale: 0.97 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const } },
+};
+
 export default function Insights() {
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ["insights-public"],
@@ -34,8 +43,21 @@ export default function Insights() {
       />
       <PublicNavbar />
 
-      <section className="pt-32 pb-24 px-4 relative">
-        <div className="absolute inset-0 pointer-events-none opacity-30" style={{ background: "var(--glow-blue)" }} />
+      <section className="pt-32 pb-24 px-4 relative overflow-hidden">
+        {/* Animated background glow */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <motion.div
+            className="absolute w-[500px] h-[500px] rounded-full"
+            style={{
+              background: "radial-gradient(circle, hsl(var(--primary) / 0.1) 0%, transparent 70%)",
+              top: "-10%",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+            animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
 
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.div
@@ -44,12 +66,36 @@ export default function Insights() {
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3 block">
-              Blog Posts
-            </span>
-            <h1 className="font-heading text-4xl sm:text-5xl font-bold text-foreground">
-              Latest News & Insights
-            </h1>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1, type: "spring", stiffness: 250 }}
+              className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6"
+            >
+              <motion.span
+                className="h-1.5 w-1.5 rounded-full bg-primary"
+                animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <span className="text-[11px] text-muted-foreground tracking-wide uppercase">Blog Posts</span>
+            </motion.div>
+
+            <motion.h1
+              className="font-heading text-4xl sm:text-5xl font-bold text-foreground"
+              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Latest News &{" "}
+              <span
+                className="bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(260 80% 68%))",
+                }}
+              >
+                Insights
+              </span>
+            </motion.h1>
           </motion.div>
 
           {isLoading ? (
@@ -57,26 +103,33 @@ export default function Insights() {
               <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
             </div>
           ) : (
-            <div className="space-y-6">
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-40px" }}
+              className="space-y-6"
+            >
               {posts.map((post, i) => (
-                <motion.div
-                  key={post.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                >
+                <motion.div key={post.id} variants={fadeUp}>
                   <Link
                     to={`/insights/${post.slug}`}
                     className="group block rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm overflow-hidden hover:border-primary/30 transition-all duration-300"
                   >
-                    <div className="flex flex-col md:flex-row">
-                      <div className="md:w-2/5 aspect-video md:aspect-auto">
+                    <motion.div
+                      className="flex flex-col md:flex-row"
+                      whileHover={{ y: -4, scale: 1.01 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                      <div className="md:w-2/5 aspect-video md:aspect-auto overflow-hidden">
                         {post.cover_image_url && (
-                          <img
+                          <motion.img
                             src={post.cover_image_url}
                             alt={post.title}
                             className="w-full h-full object-cover"
                             loading="lazy"
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.4 }}
                           />
                         )}
                       </div>
@@ -102,11 +155,11 @@ export default function Insights() {
                           <ArrowRight className="h-3.5 w-3.5" />
                         </span>
                       </div>
-                    </div>
+                    </motion.div>
                   </Link>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
       </section>
