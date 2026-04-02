@@ -645,7 +645,7 @@ export default function Landing() {
             transition={{ duration: 0.4 }}
             className="text-center mb-12"
           >
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-3 block">By the Numbers</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] mb-3 block" style={{ color: 'hsl(239 100% 75%)' }}>By the Numbers</span>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">Why SMEs Trust Equilinq</h2>
           </motion.div>
           <motion.div

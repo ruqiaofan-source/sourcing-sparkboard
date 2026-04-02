@@ -284,7 +284,7 @@ export function PublicFooter() {
               <a href="mailto:contact@equilinq.eu" className="text-xs text-muted-foreground hover:text-primary transition-colors">
                 contact@equilinq.eu
               </a>
-              <p className="text-[11px] text-muted-foreground/60 leading-relaxed mt-1">
+              <p className="text-[11px] text-muted-foreground leading-relaxed mt-1">
                 Equilinq Limited
                 <br />
                 Hong Kong Company No. 79372452
@@ -301,10 +301,10 @@ export function PublicFooter() {
 
         {/* Bottom bar */}
         <div className="border-t border-border/30 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[11px] text-muted-foreground/60">
+          <p className="text-[11px] text-muted-foreground">
             &copy; {new Date().getFullYear()} Equilinq Limited. All rights reserved.
           </p>
-          <div className="flex items-center gap-4 text-[11px] text-muted-foreground/60">
+          <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
             <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
             <Link to="/cookies" className="hover:text-foreground transition-colors">Cookie Policy</Link>
           </div>
