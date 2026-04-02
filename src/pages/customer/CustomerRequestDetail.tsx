@@ -144,6 +144,22 @@ const CustomerRequestDetail = () => {
     },
   });
 
+  const markAsPaid = useMutation({
+    mutationFn: async (invoiceId: string) => {
+      const { error } = await supabase.from("invoices" as any)
+        .update({ payment_status: "paid" } as any)
+        .eq("id", invoiceId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["customer-request-invoices", id] });
+      toast({ title: "Payment marked", description: "Your payment status has been updated. Our team will confirm receipt shortly." });
+    },
+    onError: (err: any) => {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    },
+  });
+
   if (isLoading) {
     return <DashboardLayout title="Request Details"><Skeleton className="h-40 w-full" /></DashboardLayout>;
   }
