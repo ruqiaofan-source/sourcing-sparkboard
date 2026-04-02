@@ -14,8 +14,8 @@ const customizationCategories = [
   { label: "Product Packaging", href: "/customization?tab=product-packaging", icon: Package, desc: "Wrapping, sealing, protection" },
   { label: "Parcel Reinforcement", href: "/customization?tab=parcel-reinforcement", icon: Box, desc: "Filling, crating, film wrapping" },
   { label: "Photography & Media", href: "/customization?tab=photography-media", icon: Camera, desc: "Photos, videos, model shots" },
-  { label: "Quality Inspection", href: "/customization?tab=quality-inspection", icon: ClipboardCheck, desc: "Standard, detailed, electrical QC" },
-  { label: "OEM / ODM", href: "/customization?tab=oem-odm", icon: Wrench, desc: "Custom manufacturing & design" },
+  { label: "Quality Inspection", href: "/quality-control", icon: ClipboardCheck, desc: "Standard, detailed, electrical QC" },
+  { label: "OEM / ODM", href: "/oem-odm", icon: Wrench, desc: "Custom manufacturing & design" },
 ];
 
 const navLinks = [
@@ -264,8 +264,8 @@ export function PublicFooter() {
             <nav className="flex flex-col gap-2" aria-label="Services">
               <Link to="/how-it-works" className="text-xs text-muted-foreground hover:text-foreground transition-colors">How It Works</Link>
               <Link to="/customization" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Customization</Link>
-              <Link to="/customization?tab=quality-inspection" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Quality Control</Link>
-              <Link to="/customization?tab=oem-odm" className="text-xs text-muted-foreground hover:text-foreground transition-colors">OEM / ODM</Link>
+              <Link to="/quality-control" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Quality Control</Link>
+              <Link to="/oem-odm" className="text-xs text-muted-foreground hover:text-foreground transition-colors">OEM / ODM</Link>
               <Link to="/pricing" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
             </nav>
           </div>

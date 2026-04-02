@@ -45,6 +45,8 @@ const Insights = lazy(() => import("./pages/public/Insights"));
 const InsightArticle = lazy(() => import("./pages/public/InsightArticle"));
 const Customization = lazy(() => import("./pages/public/Customization"));
 const Pricing = lazy(() => import("./pages/public/Pricing"));
+const QualityControl = lazy(() => import("./pages/public/QualityControl"));
+const OemOdm = lazy(() => import("./pages/public/OemOdm"));
 const HowItWorks = lazy(() => import("./pages/public/HowItWorks"));
 const HowItWorksStep = lazy(() => import("./pages/public/HowItWorksStep"));
 const Privacy = lazy(() => import("./pages/public/Privacy"));
@@ -116,6 +118,8 @@ const App = () => (
                 <Route path="/insights/:slug" element={<InsightArticle />} />
                 <Route path="/customization" element={<Customization />} />
                 <Route path="/pricing" element={<Pricing />} />
+                <Route path="/quality-control" element={<QualityControl />} />
+                <Route path="/oem-odm" element={<OemOdm />} />
                 <Route path="/how-it-works" element={<HowItWorks />} />
                 <Route path="/how-it-works/:slug" element={<HowItWorksStep />} />
                 <Route path="/privacy" element={<Privacy />} />
