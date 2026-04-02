@@ -698,7 +698,7 @@ export default function Landing() {
                 onMouseEnter={(e) => { e.currentTarget.style.filter = "none"; }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.filter = isTransparent
-                    ? isDark ? "brightness(0) invert(1)" : "brightness(0) opacity(0.5)"
+                    ? isDark ? "grayscale(100%) brightness(0.7) invert(0)" : "grayscale(100%) opacity(0.5)"
                     : "grayscale(100%) opacity(0.6)";
                 }}
               />
