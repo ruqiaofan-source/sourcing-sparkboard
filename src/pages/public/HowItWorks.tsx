@@ -201,6 +201,29 @@ export default function HowItWorks() {
             We handle every stage so you can focus on growing your business.
           </motion.p>
 
+          {/* Quick summary strip */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+            className="mt-10 flex flex-wrap items-center justify-center gap-3"
+          >
+            {[
+              "Verified Factories",
+              "Transparent Quotes",
+              "Multi-Stage QC",
+              "Full Logistics",
+            ].map((label) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-2 rounded-full border border-border/30 bg-card/30 backdrop-blur-sm px-4 py-2 text-xs font-medium text-foreground/80"
+              >
+                <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
+                {label}
+              </span>
+            ))}
+          </motion.div>
+
           {/* Scroll indicator */}
           <motion.div
             className="mt-12"
