@@ -177,6 +177,22 @@ const AgentRequestDetail = () => {
     },
   });
 
+  const confirmPayment = useMutation({
+    mutationFn: async (invoiceId: string) => {
+      const { error } = await supabase.from("invoices" as any)
+        .update({ payment_status: "confirmed" } as any)
+        .eq("id", invoiceId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["agent-request-invoices", id] });
+      toast({ title: "Payment confirmed", description: "The customer's payment has been confirmed." });
+    },
+    onError: (err: any) => {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    },
+  });
+
   const submitQuote = useMutation({
     mutationFn: async () => {
       const requestAddons = (request as any)?.service_addons as string[] | null;
@@ -545,11 +561,24 @@ const AgentRequestDetail = () => {
                             {inv.product_name} · {inv.quantity} units · {inv.factory_name}
                           </p>
                         </div>
-                        <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-                          isDraft ? "bg-amber-500/15 text-amber-500 border-amber-500/30" : "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
-                        }`}>
-                          {inv.status}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          {!isDraft && (
+                            <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
+                              inv.payment_status === "confirmed"
+                                ? "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
+                                : inv.payment_status === "paid"
+                                ? "bg-blue-500/15 text-blue-500 border-blue-500/30"
+                                : "bg-amber-500/15 text-amber-500 border-amber-500/30"
+                            }`}>
+                              {inv.payment_status === "confirmed" ? "Payment Confirmed" : inv.payment_status === "paid" ? "Payment Sent" : "Awaiting Payment"}
+                            </span>
+                          )}
+                          <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
+                            isDraft ? "bg-amber-500/15 text-amber-500 border-amber-500/30" : "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
+                          }`}>
+                            {inv.status}
+                          </span>
+                        </div>
                       </div>
 
                       {isEditing ? (
@@ -625,6 +654,21 @@ const AgentRequestDetail = () => {
                             </Button>
                           ) : (
                             <div className="mt-4 flex flex-wrap gap-2">
+                              {inv.payment_status === "paid" && (
+                                <Button
+                                  size="sm"
+                                  onClick={() => confirmPayment.mutate(inv.id)}
+                                  disabled={confirmPayment.isPending}
+                                  className="bg-emerald-600 text-white hover:bg-emerald-700"
+                                >
+                                  <Check className="h-3.5 w-3.5 mr-1.5" /> Confirm Payment Received
+                                </Button>
+                              )}
+                              {inv.payment_status === "confirmed" && (
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 text-sm font-medium">
+                                  <Check className="h-4 w-4" /> Payment Confirmed
+                                </span>
+                              )}
                               <Link to={`/invoice/${inv.id}`} target="_blank">
                                 <Button variant="outline" size="sm">
                                   <Download className="h-3.5 w-3.5 mr-1.5" /> Download PDF
