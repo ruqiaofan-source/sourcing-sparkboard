@@ -301,7 +301,7 @@ export function PublicFooter() {
 
         {/* Bottom bar */}
         <div className="border-t border-border/30 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[11px] text-muted-foreground/60">
+          <p className="text-[11px] text-muted-foreground">
             &copy; {new Date().getFullYear()} Equilinq Limited. All rights reserved.
           </p>
           <div className="flex items-center gap-4 text-[11px] text-muted-foreground/60">
