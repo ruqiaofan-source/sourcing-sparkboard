@@ -106,53 +106,54 @@ const App = () => (
         <BrowserRouter>
           <AuthProvider>
             <ScrollToTop />
-            <Routes>
-              {/* Public pages */}
-              <Route path="/" element={<Landing />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/insights" element={<Insights />} />
-              <Route path="/insights/:slug" element={<InsightArticle />} />
-              <Route path="/customization" element={<Customization />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/how-it-works" element={<HowItWorks />} />
-              <Route path="/how-it-works/:slug" element={<HowItWorksStep />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/cookies" element={<CookiesPage />} />
-              <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/unsubscribe" element={<Unsubscribe />} />
-              
-              {/* Role-aware dashboard */}
-              <Route path="/dashboard" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>} />
-              
-              {/* Customer routes */}
-              <Route path="/new-request" element={<ProtectedRoute><NewRequest /></ProtectedRoute>} />
-              <Route path="/sourcing-requests" element={<ProtectedRoute><SourcingRequests /></ProtectedRoute>} />
-              <Route path="/sourcing-requests/:id" element={<ProtectedRoute><CustomerRequestDetail /></ProtectedRoute>} />
-              <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
-              
-              {/* Agent routes */}
-              <Route path="/agent/requests" element={<ProtectedRoute><AgentRequests /></ProtectedRoute>} />
-              <Route path="/agent/requests/:id" element={<ProtectedRoute><AgentRequestDetail /></ProtectedRoute>} />
-              <Route path="/agent/messages" element={<ProtectedRoute><AgentMessages /></ProtectedRoute>} />
-              
-              {/* Admin routes */}
-              <Route path="/admin/requests" element={<ProtectedRoute><AdminRequests /></ProtectedRoute>} />
-              <Route path="/admin/requests/:id" element={<ProtectedRoute><AgentRequestDetail /></ProtectedRoute>} />
-              <Route path="/admin/quotes" element={<ProtectedRoute><AdminQuotes /></ProtectedRoute>} />
-              <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
-              <Route path="/admin/insights" element={<ProtectedRoute><AdminInsights /></ProtectedRoute>} />
-              <Route path="/admin/contact" element={<ProtectedRoute><AdminContactSubmissions /></ProtectedRoute>} />
-              
-              {/* Shared routes */}
-              <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
-              <Route path="/invoice/:id" element={<ProtectedRoute><InvoiceView /></ProtectedRoute>} />
-              <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
-              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-              
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <CookieConsent />
+            <Suspense fallback={<LazyFallback />}>
+              <Routes>
+                {/* Public pages */}
+                <Route path="/" element={<Landing />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/insights" element={<Insights />} />
+                <Route path="/insights/:slug" element={<InsightArticle />} />
+                <Route path="/customization" element={<Customization />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/how-it-works" element={<HowItWorks />} />
+                <Route path="/how-it-works/:slug" element={<HowItWorksStep />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/cookies" element={<CookiesPage />} />
+                <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/unsubscribe" element={<Unsubscribe />} />
+                
+                {/* Role-aware dashboard */}
+                <Route path="/dashboard" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>} />
+                
+                {/* Customer routes */}
+                <Route path="/new-request" element={<ProtectedRoute><NewRequest /></ProtectedRoute>} />
+                <Route path="/sourcing-requests" element={<ProtectedRoute><SourcingRequests /></ProtectedRoute>} />
+                <Route path="/sourcing-requests/:id" element={<ProtectedRoute><CustomerRequestDetail /></ProtectedRoute>} />
+                <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+                
+                {/* Agent routes */}
+                <Route path="/agent/requests" element={<ProtectedRoute><AgentRequests /></ProtectedRoute>} />
+                <Route path="/agent/requests/:id" element={<ProtectedRoute><AgentRequestDetail /></ProtectedRoute>} />
+                <Route path="/agent/messages" element={<ProtectedRoute><AgentMessages /></ProtectedRoute>} />
+                
+                {/* Admin routes */}
+                <Route path="/admin/requests" element={<ProtectedRoute><AdminRequests /></ProtectedRoute>} />
+                <Route path="/admin/requests/:id" element={<ProtectedRoute><AgentRequestDetail /></ProtectedRoute>} />
+                <Route path="/admin/quotes" element={<ProtectedRoute><AdminQuotes /></ProtectedRoute>} />
+                <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
+                <Route path="/admin/insights" element={<ProtectedRoute><AdminInsights /></ProtectedRoute>} />
+                <Route path="/admin/contact" element={<ProtectedRoute><AdminContactSubmissions /></ProtectedRoute>} />
+                
+                {/* Shared routes */}
+                <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+                <Route path="/invoice/:id" element={<ProtectedRoute><InvoiceView /></ProtectedRoute>} />
+                <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+                
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <CookieConsent />
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
