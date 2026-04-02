@@ -561,11 +561,24 @@ const AgentRequestDetail = () => {
                             {inv.product_name} · {inv.quantity} units · {inv.factory_name}
                           </p>
                         </div>
-                        <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-                          isDraft ? "bg-amber-500/15 text-amber-500 border-amber-500/30" : "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
-                        }`}>
-                          {inv.status}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          {!isDraft && (
+                            <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
+                              inv.payment_status === "confirmed"
+                                ? "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
+                                : inv.payment_status === "paid"
+                                ? "bg-blue-500/15 text-blue-500 border-blue-500/30"
+                                : "bg-amber-500/15 text-amber-500 border-amber-500/30"
+                            }`}>
+                              {inv.payment_status === "confirmed" ? "Payment Confirmed" : inv.payment_status === "paid" ? "Payment Sent" : "Awaiting Payment"}
+                            </span>
+                          )}
+                          <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
+                            isDraft ? "bg-amber-500/15 text-amber-500 border-amber-500/30" : "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
+                          }`}>
+                            {inv.status}
+                          </span>
+                        </div>
                       </div>
 
                       {isEditing ? (
