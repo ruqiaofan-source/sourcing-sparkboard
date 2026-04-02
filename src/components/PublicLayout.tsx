@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Menu, X, ChevronDown, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck } from "lucide-react";
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "@/hooks/useTheme";
 import equilinqLogo from "@/assets/equilinq-logo.webp";
+import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
 
 const customizationCategories = [
   { label: "Brand Assets", href: "/customization?tab=brand-assets", icon: Tag, desc: "Custom bags, labels, hangtags" },
