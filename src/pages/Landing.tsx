@@ -641,15 +641,15 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ───── FEATURES - Optiverse-style alternating ───── */}
+      {/* ───── FEATURES - 2x2 grid with parallax ───── */}
       <section id="features" className="py-28 px-4 relative">
-        <div className="max-w-5xl mx-auto relative z-10">
+        <div className="max-w-6xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
-            className="text-center mb-24"
+            className="text-center mb-16"
           >
             <motion.span
               initial={{ opacity: 0, scale: 0.8 }}
@@ -667,76 +667,10 @@ export default function Landing() {
             </h2>
           </motion.div>
 
-          <div className="space-y-8">
-            {features.map((f, i) => {
-              const isReversed = i % 2 !== 0;
-              return (
-                <motion.div
-                  key={f.title}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative rounded-3xl overflow-hidden min-h-[420px] sm:min-h-[480px] flex items-end"
-                >
-                  {/* Video background */}
-                  <div className="absolute inset-0">
-                    <iframe
-                      src={`https://player.vimeo.com/video/${f.vimeoId}?muted=1&autoplay=1&autopause=0&loop=1&background=1`}
-                      className="absolute inset-0 w-full h-full scale-[1.3]"
-                      style={{ objectFit: "cover" }}
-                      frameBorder="0"
-                      allow="autoplay; fullscreen"
-                      allowFullScreen
-                      title={f.title}
-                      loading="lazy"
-                    />
-                  </div>
-
-                  {/* Gradient overlay for readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
-
-                  {/* Content overlay */}
-                  <div className={`relative z-10 p-8 sm:p-12 w-full max-w-xl ${isReversed ? "ml-auto text-right" : ""}`}>
-                    <div className={`flex items-center gap-3 mb-4 ${isReversed ? "justify-end" : ""}`}>
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        whileInView={{ scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-                        className="h-11 w-11 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center"
-                      >
-                        <f.icon className="h-5 w-5 text-white" />
-                      </motion.div>
-                    </div>
-                    <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white mb-2">
-                      {f.title}
-                    </h3>
-                    <p className="text-white/70 text-sm sm:text-base font-medium mb-2">
-                      {f.subtitle}
-                    </p>
-                    <p className="text-white/60 text-sm leading-relaxed mb-5">
-                      {f.desc}
-                    </p>
-                    <ul className={`space-y-2 ${isReversed ? "flex flex-col items-end" : ""}`}>
-                      {f.bullets.map((bullet, bi) => (
-                        <motion.li
-                          key={bullet}
-                          className="flex items-center gap-2 text-sm text-white/80"
-                          initial={{ opacity: 0, x: isReversed ? 15 : -15 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.4, delay: 0.4 + bi * 0.1 }}
-                        >
-                          <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
-                          <span>{bullet}</span>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-                </motion.div>
-              );
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {features.map((f) => (
+              <FeatureVideoCard key={f.title} feature={f} />
+            ))}
           </div>
         </div>
       </section>
