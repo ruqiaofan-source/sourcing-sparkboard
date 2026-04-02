@@ -284,7 +284,7 @@ export function PublicFooter() {
               <a href="mailto:contact@equilinq.eu" className="text-xs text-muted-foreground hover:text-primary transition-colors">
                 contact@equilinq.eu
               </a>
-              <p className="text-[11px] text-muted-foreground/60 leading-relaxed mt-1">
+              <p className="text-[11px] text-muted-foreground leading-relaxed mt-1">
                 Equilinq Limited
                 <br />
                 Hong Kong Company No. 79372452
