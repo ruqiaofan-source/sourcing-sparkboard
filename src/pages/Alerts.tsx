@@ -89,7 +89,7 @@ export default function Alerts() {
   const unreadCount = notifications.filter((n: any) => !n.read).length;
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title="Alerts">
       <div className="max-w-3xl mx-auto py-8 px-4">
         <div className="flex items-center justify-between mb-6">
           <div>

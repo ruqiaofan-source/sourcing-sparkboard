@@ -143,27 +143,30 @@ export function NotificationBell({ collapsed }: { collapsed?: boolean }) {
 
   return (
     <div className="relative w-full">
-      <button
-        ref={buttonRef}
-        onClick={() => setOpen(!open)}
-        className="group flex flex-col items-center justify-center gap-1.5 w-full rounded-xl py-2.5 px-1 transition-all text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/40 relative"
-      >
-        <div className="relative">
-          <Bell className="h-6 w-6" strokeWidth={1.7} />
-          {unreadCount > 0 && (
-            <motion.span
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-1.5 -right-1.5 h-4.5 min-w-[18px] flex items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold px-1"
-            >
-              {unreadCount > 9 ? "9+" : unreadCount}
-            </motion.span>
+      <div className="flex w-full">
+        {/* Main button navigates to alerts page */}
+        <button
+          ref={buttonRef}
+          onClick={() => navigate("/alerts")}
+          className="group flex flex-col items-center justify-center gap-1.5 flex-1 rounded-xl py-2.5 px-1 transition-all text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/40 relative"
+        >
+          <div className="relative">
+            <Bell className="h-6 w-6" strokeWidth={1.7} />
+            {unreadCount > 0 && (
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="absolute -top-1.5 -right-1.5 h-4.5 min-w-[18px] flex items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold px-1"
+              >
+                {unreadCount > 9 ? "9+" : unreadCount}
+              </motion.span>
+            )}
+          </div>
+          {!collapsed && (
+            <span className="text-[13px] font-semibold leading-none text-center">Alerts</span>
           )}
-        </div>
-        {!collapsed && (
-          <span className="text-[13px] font-semibold leading-none text-center">Alerts</span>
-        )}
-      </button>
+        </button>
+      </div>
 
       {open && createPortal(
         <AnimatePresence>
