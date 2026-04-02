@@ -41,7 +41,8 @@ const features = [
 
 const AuthPage = () => {
   const [greeting] = useState(getRandomGreeting);
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [isSignUp, setIsSignUp] = useState(searchParams.get("signup") === "true");
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [emailSentType, setEmailSentType] = useState<"signup" | "reset">("signup");
