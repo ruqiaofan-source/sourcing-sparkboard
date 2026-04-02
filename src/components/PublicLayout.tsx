@@ -229,6 +229,7 @@ export function PublicNavbar() {
 }
 
 export function PublicFooter() {
+  const { theme } = useTheme();
   return (
     <footer className="border-t border-border/40 py-12 px-4">
       <div className="max-w-5xl mx-auto">
