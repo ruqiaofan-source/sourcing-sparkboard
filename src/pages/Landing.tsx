@@ -11,12 +11,12 @@ import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
 import heroBg from "@/assets/hero-bg.jpg";
-import logoSoleRunning from "@/assets/logos/sole-running.png";
-import logoLKK from "@/assets/logos/lkk.png";
-import logoIMMO from "@/assets/logos/immo.png";
-import logoBuckyDrop from "@/assets/logos/buckydrop.png";
-import logoUnilever from "@/assets/logos/unilever.png";
-import logoVolkswagen from "@/assets/logos/volkswagen.png";
+import logoSoleRunning from "@/assets/logos/sole-running.webp";
+import logoLKK from "@/assets/logos/lkk.webp";
+import logoIMMO from "@/assets/logos/immo.webp";
+import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
+import logoUnilever from "@/assets/logos/unilever.webp";
+import logoVolkswagen from "@/assets/logos/volkswagen.webp";
 
 /* ──────────────────── DATA ──────────────────── */
 
