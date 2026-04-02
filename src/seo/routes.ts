@@ -71,6 +71,16 @@ export const routeSeoMap: Record<string, RouteMeta> = {
     description: "60+ customization options: private labels, custom packaging, quality inspection, OEM/ODM manufacturing. Build your brand with Equilinq.",
     keywords: "custom packaging China, private label manufacturing, OEM ODM China, branding services, product customization",
   },
+  "/quality-control": {
+    title: "Quality Control - Equilinq Multi-Stage QC",
+    description: "Multi-stage quality control for every order. Pre-production validation, in-process monitoring, final inspection, and photo documentation.",
+    keywords: "quality control China, product inspection, pre-shipment inspection, QC services, quality assurance",
+  },
+  "/oem-odm": {
+    title: "OEM / ODM Manufacturing - Equilinq Custom Production",
+    description: "Custom OEM and ODM manufacturing from China. From concept to finished product -- factory sourcing, sampling, production management, and delivery.",
+    keywords: "OEM manufacturing China, ODM China, custom manufacturing, private label production, product development",
+  },
   "/insights": {
     title: "Insights - Equilinq Sourcing Trends & Market Reports",
     description: "Best-selling products, pricing trends, and supplier signals from China. Actionable sourcing insights for European SMEs.",
