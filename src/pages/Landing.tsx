@@ -506,6 +506,7 @@ export default function Landing() {
       />
 
       <PublicNavbar />
+      <main>
 
       {/* ───── HERO: Centered like Airweave ───── */}
       <section
