@@ -78,6 +78,7 @@ export function AppSidebar() {
 
         {/* Footer */}
         <div className="flex flex-col items-center gap-1 w-full px-2 pb-5 border-t border-border/30 pt-3">
+          <NotificationBell collapsed={collapsed} />
           <ThemeToggle collapsed={collapsed} />
 
           <NavLink
