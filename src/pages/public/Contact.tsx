@@ -451,6 +451,24 @@ export default function Contact() {
         </div>
       </section>
 
+      {/* Cross-links */}
+      <section className="pb-20 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              { to: "/how-it-works", title: "How It Works", desc: "Our 8-step sourcing process" },
+              { to: "/pricing", title: "Pricing", desc: "Transparent cost breakdown" },
+              { to: "/insights", title: "Insights", desc: "Sourcing trends and market reports" },
+            ].map((link) => (
+              <Link key={link.to} to={link.to} className="group block p-5 rounded-xl border border-border/30 bg-card/20 hover:border-primary/30 hover:bg-card/40 transition-all">
+                <h3 className="font-heading text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{link.title}</h3>
+                <p className="text-xs text-muted-foreground">{link.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <PublicFooter />
     </div>
   );
