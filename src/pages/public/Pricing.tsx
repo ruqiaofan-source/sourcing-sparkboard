@@ -305,13 +305,9 @@ export default function Pricing() {
         </div>
       </section>
 
-        {/* Cross-links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="max-w-5xl mx-auto px-4 pb-20"
-        >
+      {/* Cross-links */}
+      <section className="pb-20 px-4">
+        <div className="max-w-5xl mx-auto">
           <div className="grid sm:grid-cols-3 gap-4">
             {[
               { to: "/how-it-works", title: "How It Works", desc: "See our 8-step sourcing process" },
@@ -324,7 +320,7 @@ export default function Pricing() {
               </Link>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
       <PublicFooter />
