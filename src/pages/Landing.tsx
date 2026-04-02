@@ -354,6 +354,79 @@ function MagneticButton({ children, className = "" }: { children: React.ReactNod
   );
 }
 
+/* ──────────────────── FEATURE VIDEO CARD WITH PARALLAX ──────────────────── */
+
+function FeatureVideoCard({ feature: f }: { feature: typeof features[number] }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const videoY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className="relative rounded-2xl overflow-hidden min-h-[340px] sm:min-h-[380px] flex items-end group"
+    >
+      {/* Video background with parallax */}
+      <motion.div className="absolute inset-[-30%] " style={{ y: videoY }}>
+        <iframe
+          src={`https://player.vimeo.com/video/${f.vimeoId}?muted=1&autoplay=1&autopause=0&loop=1&background=1`}
+          className="absolute inset-0 w-full h-full scale-[1.4]"
+          style={{ objectFit: "cover" }}
+          frameBorder="0"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          title={f.title}
+          loading="lazy"
+        />
+      </motion.div>
+
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10 group-hover:from-black/95 group-hover:via-black/60 transition-all duration-500" />
+
+      {/* Content */}
+      <div className="relative z-10 p-6 sm:p-8 w-full">
+        <motion.div
+          initial={{ scale: 0 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+          className="h-10 w-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center mb-3"
+        >
+          <f.icon className="h-5 w-5 text-white" />
+        </motion.div>
+        <h3 className="font-heading text-xl sm:text-2xl font-bold text-white mb-1">
+          {f.title}
+        </h3>
+        <p className="text-white/60 text-sm leading-relaxed mb-4">
+          {f.subtitle}
+        </p>
+        <ul className="space-y-1.5">
+          {f.bullets.map((bullet, bi) => (
+            <motion.li
+              key={bullet}
+              className="flex items-center gap-2 text-xs sm:text-sm text-white/75"
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.3 + bi * 0.08 }}
+            >
+              <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
+              <span>{bullet}</span>
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+    </motion.div>
+  );
+}
+
 /* ──────────────────── MAIN PAGE ──────────────────── */
 
 export default function Landing() {
