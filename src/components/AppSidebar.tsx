@@ -1,4 +1,5 @@
 import { LayoutDashboard, ShoppingCart, BarChart3, Settings, LogOut, Plus, FileText, Send, MessageCircle, Users, Newspaper, Inbox } from "lucide-react";
+import { NotificationBell } from "@/components/NotificationBell";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useRole } from "@/hooks/useRole";
@@ -77,6 +78,7 @@ export function AppSidebar() {
 
         {/* Footer */}
         <div className="flex flex-col items-center gap-1 w-full px-2 pb-5 border-t border-border/30 pt-3">
+          <NotificationBell collapsed={collapsed} />
           <ThemeToggle collapsed={collapsed} />
 
           <NavLink

@@ -163,6 +163,29 @@ const CustomerRequestDetail = () => {
               },
             });
           }
+
+          // Notify the agent
+          if (acceptedQuote.agent_id) {
+            await supabase.from("notifications" as any).insert({
+              user_id: acceptedQuote.agent_id,
+              title: "Quote Accepted",
+              message: `Customer accepted your quote for "${request.title}". Invoice issued, awaiting payment.`,
+              type: "quote_accepted",
+              link: `/agent/requests/${id}`,
+            } as any);
+          }
+        }
+      } else {
+        // Notify agent of rejection
+        const rejectedQuote = quotes.find((q: any) => q.id === quoteId);
+        if (rejectedQuote?.agent_id) {
+          await supabase.from("notifications" as any).insert({
+            user_id: rejectedQuote.agent_id,
+            title: "Quote Rejected",
+            message: `Customer rejected your quote for "${request?.title}".`,
+            type: "quote_rejected",
+            link: `/agent/requests/${id}`,
+          } as any);
         }
       }
     },
@@ -187,6 +210,22 @@ const CustomerRequestDetail = () => {
         .update({ payment_status: "paid" } as any)
         .eq("id", invoiceId);
       if (error) throw error;
+
+      // Notify all agents about the payment
+      const { data: agents } = await supabase
+        .from("user_roles")
+        .select("user_id")
+        .in("role", ["agent", "admin"]);
+      if (agents && request) {
+        const notifs = agents.map((a: any) => ({
+          user_id: a.user_id,
+          title: "Payment Sent",
+          message: `Customer has sent payment for "${request.title}". Please verify and confirm.`,
+          type: "payment_sent",
+          link: `/agent/requests/${id}`,
+        }));
+        await supabase.from("notifications" as any).insert(notifs as any);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customer-request-invoices", id] });

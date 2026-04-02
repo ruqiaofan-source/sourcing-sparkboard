@@ -124,6 +124,17 @@ const AgentRequestDetail = () => {
         .update({ payment_status: "confirmed" } as any)
         .eq("id", invoiceId);
       if (error) throw error;
+
+      // Notify the customer
+      if (request) {
+        await supabase.from("notifications" as any).insert({
+          user_id: request.user_id,
+          title: "Payment Confirmed",
+          message: `Your payment for "${request.title}" has been confirmed. Production will begin shortly.`,
+          type: "payment_confirmed",
+          link: `/sourcing-requests/${id}`,
+        } as any);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["agent-request-invoices", id] });
@@ -157,6 +168,15 @@ const AgentRequestDetail = () => {
       if (quoteError) throw quoteError;
       const { error: updateError } = await supabase.from("sourcing_requests").update({ status: "quoted", agent_id: user!.id }).eq("id", id!);
       if (updateError) throw updateError;
+
+      // Notify the customer
+      await supabase.from("notifications" as any).insert({
+        user_id: request.user_id,
+        title: "Quote Ready",
+        message: `Your sourcing request "${request.title}" has a new quote from ${quote.factory_name}. Review and accept to proceed.`,
+        type: "quote_ready",
+        link: `/sourcing-requests/${id}`,
+      } as any);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["request-quotes", id] });
