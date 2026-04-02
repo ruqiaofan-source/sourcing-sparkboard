@@ -667,96 +667,73 @@ export default function Landing() {
             </h2>
           </motion.div>
 
-          <div className="space-y-32">
+          <div className="space-y-8">
             {features.map((f, i) => {
               const isReversed = i % 2 !== 0;
               return (
                 <motion.div
                   key={f.title}
-                  initial={{ opacity: 0, y: 50, x: isReversed ? 40 : -40 }}
-                  whileInView={{ opacity: 1, y: 0, x: 0 }}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
                   transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  className={`flex flex-col ${isReversed ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-12 lg:gap-20`}
+                  className="relative rounded-3xl overflow-hidden min-h-[420px] sm:min-h-[480px] flex items-end"
                 >
-                  {/* Text side */}
-                  <div className="flex-1 max-w-lg">
-                    <motion.div
-                      initial={{ scale: 0, rotate: -20 }}
-                      whileInView={{ scale: 1, rotate: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-                      whileHover={{ scale: 1.05, rotate: 3 }}
-                      className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6"
-                    >
-                      <f.icon className="h-7 w-7 text-primary" />
-                    </motion.div>
-                    <motion.h3
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                      className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-3"
-                    >
+                  {/* Video background */}
+                  <div className="absolute inset-0">
+                    <iframe
+                      src={`https://player.vimeo.com/video/${f.vimeoId}?muted=1&autoplay=1&autopause=0&loop=1&background=1`}
+                      className="absolute inset-0 w-full h-full scale-[1.3]"
+                      style={{ objectFit: "cover" }}
+                      frameBorder="0"
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
+                      title={f.title}
+                      loading="lazy"
+                    />
+                  </div>
+
+                  {/* Gradient overlay for readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
+
+                  {/* Content overlay */}
+                  <div className={`relative z-10 p-8 sm:p-12 w-full max-w-xl ${isReversed ? "ml-auto text-right" : ""}`}>
+                    <div className={`flex items-center gap-3 mb-4 ${isReversed ? "justify-end" : ""}`}>
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+                        className="h-11 w-11 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center"
+                      >
+                        <f.icon className="h-5 w-5 text-white" />
+                      </motion.div>
+                    </div>
+                    <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white mb-2">
                       {f.title}
-                    </motion.h3>
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.4 }}
-                      className="text-primary/80 text-lg font-medium mb-4"
-                    >
+                    </h3>
+                    <p className="text-white/70 text-sm sm:text-base font-medium mb-2">
                       {f.subtitle}
-                    </motion.p>
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.45 }}
-                      className="text-muted-foreground leading-relaxed mb-6"
-                    >
+                    </p>
+                    <p className="text-white/60 text-sm leading-relaxed mb-5">
                       {f.desc}
-                    </motion.p>
-                    <ul className="space-y-3">
+                    </p>
+                    <ul className={`space-y-2 ${isReversed ? "flex flex-col items-end" : ""}`}>
                       {f.bullets.map((bullet, bi) => (
                         <motion.li
                           key={bullet}
-                          className="flex items-start gap-3 text-sm text-foreground/80"
-                          initial={{ opacity: 0, x: -15 }}
+                          className="flex items-center gap-2 text-sm text-white/80"
+                          initial={{ opacity: 0, x: isReversed ? 15 : -15 }}
                           whileInView={{ opacity: 1, x: 0 }}
                           viewport={{ once: true }}
-                          transition={{ duration: 0.4, delay: 0.5 + bi * 0.1 }}
-                          whileHover={{ x: 4 }}
+                          transition={{ duration: 0.4, delay: 0.4 + bi * 0.1 }}
                         >
-                          <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                          <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
                           <span>{bullet}</span>
                         </motion.li>
                       ))}
                     </ul>
                   </div>
-
-                  {/* Visual side - Vimeo video */}
-                  <motion.div
-                    className="flex-1 w-full max-w-md"
-                    initial={{ opacity: 0, scale: 0.85, rotate: isReversed ? -3 : 3 }}
-                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                    whileHover={{ y: -6, scale: 1.02 }}
-                  >
-                    <div className="relative aspect-[9/16] sm:aspect-[3/4] rounded-3xl border border-border/30 bg-card/20 overflow-hidden">
-                      <iframe
-                        src={`https://player.vimeo.com/video/${f.vimeoId}?muted=1&autoplay=1&autopause=0&loop=1&background=1`}
-                        className="absolute inset-0 w-full h-full"
-                        frameBorder="0"
-                        allow="autoplay; fullscreen"
-                        allowFullScreen
-                        title={f.title}
-                        loading="lazy"
-                      />
-                    </div>
-                  </motion.div>
                 </motion.div>
               );
             })}
