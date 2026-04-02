@@ -308,6 +308,7 @@ export function PublicFooter() {
             <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
             <Link to="/cookies" className="hover:text-foreground transition-colors">Cookie Policy</Link>
           </div>
+        </div>
       </div>
     </footer>
   );
