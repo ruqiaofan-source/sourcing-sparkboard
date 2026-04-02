@@ -236,7 +236,7 @@ export function PublicFooter() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <img src={equilinqLogo} alt="Equilinq" className="h-7 w-7 rounded-md object-cover" />
+              <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-7 w-7 rounded-md object-cover" />
               <span className="font-heading text-sm font-bold tracking-wider uppercase text-foreground">Equilinq</span>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed mb-3">
