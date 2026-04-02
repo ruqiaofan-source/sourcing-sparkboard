@@ -53,6 +53,7 @@ const AuthPage = () => {
   const [areaOfResidence, setAreaOfResidence] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [loading, setLoading] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
 
@@ -69,6 +70,11 @@ const AuthPage = () => {
         setEmailSentType("reset");
         setEmailSent(true);
       } else if (isSignUp) {
+        if (password !== confirmPassword) {
+          toast({ title: "Passwords don't match", description: "Please make sure both passwords are identical.", variant: "destructive" });
+          setLoading(false);
+          return;
+        }
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
@@ -324,6 +330,19 @@ const AuthPage = () => {
                           {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                         </button>
                       </div>
+                    </div>
+                  )}
+
+                  {isSignUp && !isForgotPassword && (
+                    <div className="space-y-1.5">
+                      <Label htmlFor="confirmPassword" className="text-card-foreground text-sm">Confirm Password</Label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input id="confirmPassword" type={showPassword ? "text" : "password"} placeholder="••••••••" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="pl-10 bg-secondary border-border focus:border-primary h-11" required minLength={6} />
+                      </div>
+                      {confirmPassword && password !== confirmPassword && (
+                        <p className="text-xs text-destructive mt-1">Passwords do not match</p>
+                      )}
                     </div>
                   )}
 
