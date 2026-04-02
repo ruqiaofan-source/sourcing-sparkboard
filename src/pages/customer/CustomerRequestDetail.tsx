@@ -499,6 +499,11 @@ const CustomerRequestDetail = () => {
                     );
                   })}
                 </div>
+
+                {/* Payment Details - show when there's an issued invoice */}
+                {invoices.some((inv: any) => inv.status !== "draft") && (
+                  <PaymentDetails invoiceCurrency={invoices.find((inv: any) => inv.status !== "draft")?.currency} />
+                )}
               </motion.div>
             )}
           </>
