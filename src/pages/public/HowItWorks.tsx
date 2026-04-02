@@ -333,6 +333,83 @@ export default function HowItWorks() {
           </div>
         </div>
 
+        {/* ── Step detail preview (bottom) ── */}
+        <motion.div
+          key={activeStep}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-3xl mx-auto mt-24"
+        >
+          <div className="flex items-center gap-2 text-xs text-muted-foreground mb-6">
+            <Link to="/how-it-works" className="hover:text-foreground transition-colors">How It Works</Link>
+            <span>/</span>
+            <span className="text-foreground font-medium">Step {steps[activeStep]?.step}</span>
+          </div>
+
+          <div className="flex items-center gap-5 mb-5">
+            <div className="h-16 w-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+              {(() => { const Icon = steps[activeStep]?.icon; return Icon ? <Icon className="h-8 w-8 text-primary" /> : null; })()}
+            </div>
+            <div>
+              <span className="text-[11px] font-bold text-primary tracking-wider block">STEP {steps[activeStep]?.step}</span>
+              <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground">{steps[activeStep]?.title}</h2>
+            </div>
+          </div>
+
+          <p className="text-muted-foreground text-base leading-relaxed mb-8">{steps[activeStep]?.desc}</p>
+
+          <div className="rounded-2xl border border-border/30 bg-card/20 backdrop-blur-sm p-6 sm:p-8">
+            <h3 className="font-heading text-lg font-bold text-foreground mb-5">What's included</h3>
+            <ul className="space-y-4">
+              {steps[activeStep]?.details.map((d, i) => (
+                <motion.li
+                  key={d}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.08 }}
+                  className="flex items-start gap-3 text-sm text-foreground/80"
+                >
+                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                  <span>{d}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Prev/Next navigation */}
+          <div className="flex items-center justify-between mt-8">
+            {activeStep > 0 ? (
+              <button
+                onClick={() => {
+                  setActiveStep(activeStep - 1);
+                  document.getElementById(`step-${activeStep - 1}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }}
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Step {steps[activeStep - 1]?.step}
+              </button>
+            ) : (
+              <div />
+            )}
+            {activeStep < steps.length - 1 ? (
+              <button
+                onClick={() => {
+                  setActiveStep(activeStep + 1);
+                  document.getElementById(`step-${activeStep + 1}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }}
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Step {steps[activeStep + 1]?.step}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            ) : (
+              <div />
+            )}
+          </div>
+        </motion.div>
+
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.96 }}
