@@ -45,6 +45,9 @@ import Customization from "./pages/public/Customization";
 import Pricing from "./pages/public/Pricing";
 import HowItWorks from "./pages/public/HowItWorks";
 import HowItWorksStep from "./pages/public/HowItWorksStep";
+import Privacy from "./pages/public/Privacy";
+import CookiesPage from "./pages/public/Cookies";
+import { CookieConsent } from "./components/CookieConsent";
 const queryClient = new QueryClient();
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
