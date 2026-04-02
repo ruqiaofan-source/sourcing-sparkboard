@@ -32,6 +32,7 @@ const adminItems = [
   { title: "Users", url: "/admin/users", icon: Users },
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
   { title: "Insights", url: "/admin/insights", icon: Newspaper },
+  { title: "Contact", url: "/admin/contact", icon: Inbox },
 ];
 
 export function AppSidebar() {
