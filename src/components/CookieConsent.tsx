@@ -47,7 +47,7 @@ export function CookieConsent() {
                 <p className="text-sm font-medium text-foreground mb-1">We use cookies</p>
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   We use cookies to improve your experience and analyze site traffic. By clicking "Accept", you agree to our use of cookies.{" "}
-                  <Link to="/cookies" className="text-primary hover:underline">Learn more about our cookie policy</Link>
+                  <Link to="/cookies" className="text-primary underline hover:text-primary/80">Learn more about our cookie policy</Link>
                 </p>
               </div>
             </div>
