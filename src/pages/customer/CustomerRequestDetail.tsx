@@ -302,13 +302,26 @@ const CustomerRequestDetail = () => {
           </span>
         </div>
 
-        {/* Progress stepper */}
+        {/* Progress stepper - horizontal on desktop, vertical on mobile */}
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
-          <OrderProgressStepper
-            requestStatus={request.status}
-            paymentStatus={paymentStatus}
-            orderStatus={order?.status}
-          />
+          <h3 className="font-heading font-semibold text-foreground text-sm mb-4">Order Progress</h3>
+          <div className="hidden sm:block">
+            <OrderProgressStepper
+              requestStatus={request.status}
+              paymentStatus={paymentStatus}
+              orderStatus={order?.status}
+              createdAt={request.created_at}
+            />
+          </div>
+          <div className="sm:hidden">
+            <OrderProgressStepper
+              requestStatus={request.status}
+              paymentStatus={paymentStatus}
+              orderStatus={order?.status}
+              createdAt={request.created_at}
+              variant="vertical"
+            />
+          </div>
         </motion.div>
 
         {/* Tabs */}
