@@ -1000,7 +1000,7 @@ export default function Landing() {
                 >
                   <b.icon className="h-6 w-6 text-primary" strokeWidth={1.5} />
                 </motion.div>
-                <h4 className="font-heading text-base font-semibold text-foreground mb-1.5">{b.title}</h4>
+                <h3 className="font-heading text-base font-semibold text-foreground mb-1.5">{b.title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">{b.desc}</p>
               </motion.div>
             ))}
