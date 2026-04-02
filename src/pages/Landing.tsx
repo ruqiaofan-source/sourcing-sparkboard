@@ -530,6 +530,26 @@ export default function Landing() {
                 "@type": "WebSite",
                 name: "Equilinq",
                 url: "https://equilinq.eu",
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: {
+                    "@type": "EntryPoint",
+                    urlTemplate: "https://equilinq.eu/insights?q={search_term_string}",
+                  },
+                  "query-input": "required name=search_term_string",
+                },
+              },
+              {
+                "@type": "SiteNavigationElement",
+                name: "Main Navigation",
+                hasPart: [
+                  { "@type": "SiteNavigationElement", name: "How It Works", url: "https://equilinq.eu/how-it-works" },
+                  { "@type": "SiteNavigationElement", name: "Pricing", url: "https://equilinq.eu/pricing" },
+                  { "@type": "SiteNavigationElement", name: "Customization", url: "https://equilinq.eu/customization" },
+                  { "@type": "SiteNavigationElement", name: "Insights", url: "https://equilinq.eu/insights" },
+                  { "@type": "SiteNavigationElement", name: "Contact", url: "https://equilinq.eu/contact" },
+                  { "@type": "SiteNavigationElement", name: "Sign In", url: "https://equilinq.eu/auth" },
+                ],
               },
             ],
           }),
