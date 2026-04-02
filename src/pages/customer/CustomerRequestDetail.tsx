@@ -160,7 +160,7 @@ const CustomerRequestDetail = () => {
       queryClient.invalidateQueries({ queryKey: ["customer-request-invoices", id] });
       toast({
         title: action === "accepted" ? "Quote accepted!" : "Quote rejected",
-        description: action === "accepted" ? "Your order and invoice have been created." : "The agent will be notified.",
+        description: action === "accepted" ? "Your invoice has been issued and payment instructions sent to your email." : "The agent will be notified.",
       });
     },
     onError: (err: any) => {
