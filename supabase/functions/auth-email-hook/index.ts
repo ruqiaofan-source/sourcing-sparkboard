@@ -36,7 +36,7 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
 }
 
 // Configuration
-const SITE_NAME = "equilinq-insight-hub"
+const SITE_NAME = "Equilinq"
 const SENDER_DOMAIN = "notify.equilinq.eu"
 const ROOT_DOMAIN = "equilinq.eu"
 const FROM_DOMAIN = "equilinq.eu" // Domain shown in From address (may be root or sender subdomain)
