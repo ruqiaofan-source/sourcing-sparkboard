@@ -163,6 +163,29 @@ const CustomerRequestDetail = () => {
               },
             });
           }
+
+          // Notify the agent
+          if (acceptedQuote.agent_id) {
+            await supabase.from("notifications" as any).insert({
+              user_id: acceptedQuote.agent_id,
+              title: "Quote Accepted",
+              message: `Customer accepted your quote for "${request.title}". Invoice issued, awaiting payment.`,
+              type: "quote_accepted",
+              link: `/agent/requests/${id}`,
+            } as any);
+          }
+        }
+      } else {
+        // Notify agent of rejection
+        const rejectedQuote = quotes.find((q: any) => q.id === quoteId);
+        if (rejectedQuote?.agent_id) {
+          await supabase.from("notifications" as any).insert({
+            user_id: rejectedQuote.agent_id,
+            title: "Quote Rejected",
+            message: `Customer rejected your quote for "${request?.title}".`,
+            type: "quote_rejected",
+            link: `/agent/requests/${id}`,
+          } as any);
         }
       }
     },
