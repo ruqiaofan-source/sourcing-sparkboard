@@ -5,6 +5,7 @@ import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import {
   Mail,
@@ -36,14 +37,49 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
-    toast({ title: "Message sent", description: "We'll get back to you shortly." });
-    setSent(true);
-    setName("");
-    setEmail("");
-    setReason("");
-    setMessage("");
-    setLoading(false);
+
+    try {
+      const id = crypto.randomUUID();
+
+      // Save to database
+      const { error: dbError } = await supabase
+        .from("contact_submissions")
+        .insert({ id, name: name.trim(), email: email.trim(), reason: reason || null, message: message.trim() });
+
+      if (dbError) throw dbError;
+
+      // Send confirmation to the person who submitted
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "contact-confirmation",
+          recipientEmail: email.trim(),
+          idempotencyKey: `contact-confirm-${id}`,
+          templateData: { name: name.trim() },
+        },
+      });
+
+      // Send notification to the team
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "contact-notification",
+          recipientEmail: "contact@equilinq.eu",
+          idempotencyKey: `contact-notify-${id}`,
+          templateData: { name: name.trim(), email: email.trim(), reason, message: message.trim() },
+        },
+      });
+
+      toast({ title: "Message sent", description: "We'll get back to you shortly." });
+      setSent(true);
+      setName("");
+      setEmail("");
+      setReason("");
+      setMessage("");
+    } catch (err) {
+      console.error("Contact form error:", err);
+      toast({ title: "Something went wrong", description: "Please try again or email us directly.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
