@@ -19,7 +19,7 @@ interface MagicLinkEmailProps {
   confirmationUrl: string
 }
 
-const LOGO_URL = 'https://lglbprioqttkkyuftpav.supabase.co/storage/v1/object/public/email-assets/equilinq-logo.png'
+const LOGO_URL = 'https://chmoabjmtbbqdrgigspm.supabase.co/storage/v1/object/public/email-assets/equilinq-logo.png'
 
 export const MagicLinkEmail = ({
   siteName,
