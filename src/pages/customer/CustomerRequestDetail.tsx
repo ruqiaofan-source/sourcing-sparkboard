@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Package, DollarSign, MapPin, Leaf, Clock, Check, X, Factory, Truck, FileText, Paperclip, MessageCircle, Wrench, Receipt, Download } from "lucide-react";
+import { ArrowLeft, Package, DollarSign, MapPin, Leaf, Clock, Check, X, Factory, Truck, FileText, Paperclip, MessageCircle, Wrench, Receipt, Download, CreditCard, BanknoteIcon } from "lucide-react";
 import { PaymentDetails } from "@/components/PaymentDetails";
 import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 
@@ -138,6 +138,22 @@ const CustomerRequestDetail = () => {
         title: action === "accepted" ? "Quote accepted!" : "Quote rejected",
         description: action === "accepted" ? "Your order and invoice have been created." : "The agent will be notified.",
       });
+    },
+    onError: (err: any) => {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    },
+  });
+
+  const markAsPaid = useMutation({
+    mutationFn: async (invoiceId: string) => {
+      const { error } = await supabase.from("invoices" as any)
+        .update({ payment_status: "paid" } as any)
+        .eq("id", invoiceId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["customer-request-invoices", id] });
+      toast({ title: "Payment marked", description: "Your payment status has been updated. Our team will confirm receipt shortly." });
     },
     onError: (err: any) => {
       toast({ title: "Error", description: err.message, variant: "destructive" });
@@ -442,11 +458,26 @@ const CustomerRequestDetail = () => {
                               {isDraft ? "Pending agent finalization" : `Issued ${new Date(inv.created_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`}
                             </p>
                           </div>
-                          <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-                            isDraft ? "bg-amber-500/15 text-amber-500 border-amber-500/30" : "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
-                          }`}>
-                            {inv.status}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            {/* Payment status badge */}
+                            {!isDraft && (
+                              <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
+                                inv.payment_status === "paid"
+                                  ? "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
+                                  : inv.payment_status === "confirmed"
+                                  ? "bg-blue-500/15 text-blue-500 border-blue-500/30"
+                                  : "bg-amber-500/15 text-amber-500 border-amber-500/30"
+                              }`}>
+                                <BanknoteIcon className="h-3 w-3 mr-1" />
+                                {inv.payment_status === "paid" ? "Payment Sent" : inv.payment_status === "confirmed" ? "Payment Confirmed" : "Awaiting Payment"}
+                              </span>
+                            )}
+                            <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
+                              isDraft ? "bg-amber-500/15 text-amber-500 border-amber-500/30" : "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
+                            }`}>
+                              {inv.status}
+                            </span>
+                          </div>
                         </div>
 
                         {isDraft ? (
@@ -481,19 +512,31 @@ const CustomerRequestDetail = () => {
                           </div>
                         )}
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between gap-3 flex-wrap">
                           <div className="text-xs text-muted-foreground space-y-0.5">
                             <p><span className="font-medium text-card-foreground">Product:</span> {inv.product_name}</p>
                             <p><span className="font-medium text-card-foreground">Factory:</span> {inv.factory_name}</p>
                             {inv.delivery_address && <p><span className="font-medium text-card-foreground">Delivery:</span> {inv.delivery_address}</p>}
                           </div>
-                          {!isDraft && (
-                            <Link to={`/invoice/${inv.id}`} target="_blank">
-                              <Button variant="outline" size="sm">
-                                <Download className="h-3.5 w-3.5 mr-1.5" /> Download PDF
+                          <div className="flex gap-2 shrink-0">
+                            {!isDraft && inv.payment_status === "unpaid" && (
+                              <Button
+                                size="sm"
+                                onClick={() => markAsPaid.mutate(inv.id)}
+                                disabled={markAsPaid.isPending}
+                                className="bg-emerald-600 text-white hover:bg-emerald-700"
+                              >
+                                <CreditCard className="h-3.5 w-3.5 mr-1.5" /> I've Sent Payment
                               </Button>
-                            </Link>
-                          )}
+                            )}
+                            {!isDraft && (
+                              <Link to={`/invoice/${inv.id}`} target="_blank">
+                                <Button variant="outline" size="sm">
+                                  <Download className="h-3.5 w-3.5 mr-1.5" /> Download PDF
+                                </Button>
+                              </Link>
+                            )}
+                          </div>
                         </div>
                       </div>
                     );
