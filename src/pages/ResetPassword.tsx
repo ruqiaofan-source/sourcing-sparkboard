@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Lock, Loader2, Eye, EyeOff, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import equilinqLogo from "@/assets/equilinq-logo.png";
+import equilinqLogo from "@/assets/equilinq-logo.webp";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");

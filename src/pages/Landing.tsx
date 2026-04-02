@@ -11,12 +11,12 @@ import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
 import heroBg from "@/assets/hero-bg.jpg";
-import logoSoleRunning from "@/assets/logos/sole-running.png";
-import logoLKK from "@/assets/logos/lkk.png";
-import logoIMMO from "@/assets/logos/immo.png";
-import logoBuckyDrop from "@/assets/logos/buckydrop.png";
-import logoUnilever from "@/assets/logos/unilever.png";
-import logoVolkswagen from "@/assets/logos/volkswagen.png";
+import logoSoleRunning from "@/assets/logos/sole-running.webp";
+import logoLKK from "@/assets/logos/lkk.webp";
+import logoIMMO from "@/assets/logos/immo.webp";
+import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
+import logoUnilever from "@/assets/logos/unilever.webp";
+import logoVolkswagen from "@/assets/logos/volkswagen.webp";
 
 /* ──────────────────── DATA ──────────────────── */
 
@@ -501,7 +501,7 @@ export default function Landing() {
         className="relative pt-28 sm:pt-36 pb-16 px-4"
       >
         <div className="absolute inset-0">
-          <img src={heroBg} alt="" className="w-full h-full object-cover" width={1920} height={1080} />
+          <img src={heroBg} alt="" className="w-full h-full object-cover" width={1920} height={1080} fetchPriority="high" />
           <div className="absolute inset-0 bg-background/75" />
         </div>
 
@@ -691,6 +691,8 @@ export default function Landing() {
               <img
                 src={logo.src}
                 alt={logo.alt}
+                width={logo.isSquare ? 48 : 140}
+                height={logo.isSquare ? 48 : 56}
                 className={`object-contain transition-all duration-500 ${
                   logo.isSquare ? "h-9 w-9 sm:h-12 sm:w-12" : "h-full w-auto max-w-[100px] sm:max-w-[140px]"
                 }`}
@@ -1021,8 +1023,10 @@ export default function Landing() {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <img
-                src="https://framerusercontent.com/images/mAjvmxaxBda8vHxrvk40mSOZOo.jpg?width=200&height=300"
+                src="https://framerusercontent.com/images/mAjvmxaxBda8vHxrvk40mSOZOo.jpg?lossless=1&w=256&h=378"
                 alt="Founder"
+                width={126}
+                height={189}
                 className="w-32 h-44 rounded-2xl object-cover border border-border/40"
                 loading="lazy"
               />

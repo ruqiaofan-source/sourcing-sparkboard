@@ -3,7 +3,7 @@ import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useRole } from "@/hooks/useRole";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import equilinqLogo from "@/assets/equilinq-logo.png";
+import equilinqLogo from "@/assets/equilinq-logo.webp";
 import {
   Sidebar,
   SidebarContent,

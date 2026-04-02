@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Mail, CheckCircle, XCircle, Loader2 } from "lucide-react";
-import equilinqLogo from "@/assets/equilinq-logo.png";
+import equilinqLogo from "@/assets/equilinq-logo.webp";
 
 type Status = "loading" | "valid" | "already" | "invalid" | "success" | "error";
 
