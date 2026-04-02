@@ -106,9 +106,10 @@ const CustomerRequestDetail = () => {
 
           const addonTotal = addonFees.reduce((sum: number, a: any) => sum + (Number(a.cost) || 0), 0);
 
-          // Create draft invoice
+          // Create issued invoice with full quote breakdown
           const invoiceNumber = `INV-${Date.now().toString(36).toUpperCase()}`;
-          await supabase.from("invoices" as any).insert({
+          const invoiceTotal = (Number(acceptedQuote.factory_cost) + Number(acceptedQuote.service_fee) + Number(acceptedQuote.logistics_cost) + addonTotal) * request.quantity;
+          const { data: invoiceData } = await supabase.from("invoices" as any).insert({
             user_id: user!.id,
             order_id: orderData?.id || null,
             quote_id: quoteId,
@@ -119,14 +120,37 @@ const CustomerRequestDetail = () => {
             logistics_cost: Number(acceptedQuote.logistics_cost) * request.quantity,
             service_fee: Number(acceptedQuote.service_fee) * request.quantity,
             financial_costs: 0,
-            total_amount: (Number(acceptedQuote.factory_cost) + Number(acceptedQuote.service_fee) + Number(acceptedQuote.logistics_cost) + addonTotal) * request.quantity,
+            total_amount: invoiceTotal,
             currency: acceptedQuote.currency,
             quantity: request.quantity,
             product_name: request.title,
             factory_name: acceptedQuote.factory_name,
             delivery_address: (request as any).delivery_address || request.delivery_country || "",
-            status: "draft",
-          } as any);
+            status: "issued",
+          } as any).select("id").single();
+
+          // Send invoice email automatically
+          const customerEmail = user!.email;
+          if (customerEmail) {
+            const { data: profileData } = await supabase.from("profiles").select("display_name, full_name").eq("user_id", user!.id).single();
+            const customerName = profileData?.full_name || profileData?.display_name || undefined;
+            const invoiceViewId = (invoiceData as any)?.id || "";
+            await supabase.functions.invoke("send-transactional-email", {
+              body: {
+                templateName: "invoice-issued",
+                recipientEmail: customerEmail,
+                idempotencyKey: `invoice-issued-${invoiceNumber}`,
+                templateData: {
+                  customerName,
+                  invoiceNumber,
+                  totalAmount: invoiceTotal.toFixed(2),
+                  currency: acceptedQuote.currency,
+                  productName: request.title,
+                  invoiceUrl: `${window.location.origin}/invoice/${invoiceViewId}`,
+                },
+              },
+            });
+          }
         }
       }
     },
