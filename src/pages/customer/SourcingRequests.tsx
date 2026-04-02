@@ -14,16 +14,14 @@ import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 type StatusPhase = "sourcing" | "ordered" | "delivered";
 
 const statusConfig: Record<string, { label: string; style: string; phase: StatusPhase }> = {
-  // Sourcing phase
-  pending: { label: "Pending", style: "bg-amber-500/15 text-amber-500 border-amber-500/30", phase: "sourcing" },
+  pending: { label: "Under Review", style: "bg-amber-500/15 text-amber-500 border-amber-500/30", phase: "sourcing" },
   active: { label: "Sourcing", style: "bg-blue-500/15 text-blue-500 border-blue-500/30", phase: "sourcing" },
   quoted: { label: "Quote Ready", style: "bg-purple-500/15 text-purple-500 border-purple-500/30", phase: "sourcing" },
-  confirmed: { label: "Confirmed", style: "bg-emerald-500/15 text-emerald-500 border-emerald-500/30", phase: "sourcing" },
+  confirmed: { label: "Awaiting Payment", style: "bg-amber-500/15 text-amber-500 border-amber-500/30", phase: "ordered" },
   cancelled: { label: "Cancelled", style: "bg-red-500/15 text-red-500 border-red-500/30", phase: "sourcing" },
-  // Order phase
-  processing: { label: "Processing", style: "bg-amber-500/15 text-amber-400 border-amber-500/30", phase: "ordered" },
+  processing: { label: "In Production", style: "bg-blue-500/15 text-blue-400 border-blue-500/30", phase: "ordered" },
   qc_review: { label: "QC Review", style: "bg-purple-500/15 text-purple-400 border-purple-500/30", phase: "ordered" },
-  in_transit: { label: "In Transit", style: "bg-blue-500/15 text-blue-400 border-blue-500/30", phase: "ordered" },
+  in_transit: { label: "Shipped", style: "bg-blue-500/15 text-blue-400 border-blue-500/30", phase: "ordered" },
   delivered: { label: "Delivered", style: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30", phase: "delivered" },
 };
 
