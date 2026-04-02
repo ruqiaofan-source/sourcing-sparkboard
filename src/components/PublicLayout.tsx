@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Menu, X, ChevronDown, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck } from "lucide-react";
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "@/hooks/useTheme";
 import equilinqLogo from "@/assets/equilinq-logo.webp";
+import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
 
 const customizationCategories = [
   { label: "Brand Assets", href: "/customization?tab=brand-assets", icon: Tag, desc: "Custom bags, labels, hangtags" },
@@ -29,6 +31,7 @@ export function PublicNavbar() {
   const [customizationOpen, setCustomizationOpen] = useState(false);
   const [mobileCustomizationOpen, setMobileCustomizationOpen] = useState(false);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { theme } = useTheme();
 
   const handleMouseEnter = () => {
     if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
@@ -42,7 +45,7 @@ export function PublicNavbar() {
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl" aria-label="Main navigation">
       <div className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white backdrop-blur-xl px-5 py-3 shadow-lg">
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
-          <img src={equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" />
+          <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" />
           <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
           </span>
@@ -226,6 +229,7 @@ export function PublicNavbar() {
 }
 
 export function PublicFooter() {
+  const { theme } = useTheme();
   return (
     <footer className="border-t border-border/40 py-12 px-4">
       <div className="max-w-5xl mx-auto">
@@ -233,7 +237,7 @@ export function PublicFooter() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <img src={equilinqLogo} alt="Equilinq" className="h-7 w-7 rounded-md object-cover" />
+              <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-7 w-7 rounded-md object-cover" />
               <span className="font-heading text-sm font-bold tracking-wider uppercase text-foreground">Equilinq</span>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed mb-3">

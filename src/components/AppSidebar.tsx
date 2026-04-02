@@ -3,7 +3,9 @@ import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useRole } from "@/hooks/useRole";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "@/hooks/useTheme";
 import equilinqLogo from "@/assets/equilinq-logo.webp";
+import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
 import {
   Sidebar,
   SidebarContent,
@@ -40,6 +42,7 @@ export function AppSidebar() {
   const collapsed = state === "collapsed";
   const { signOut } = useAuth();
   const { primaryRole } = useRole();
+  const { theme } = useTheme();
 
   const mainItems = primaryRole === "admin" ? adminItems : primaryRole === "agent" ? agentItems : customerItems;
 
@@ -50,7 +53,7 @@ export function AppSidebar() {
         <div className="w-full">
           {/* Logo */}
           <div className="pt-6 pb-4 flex flex-col items-center border-b border-border/30 w-full px-2">
-            <img src={equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
+            <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
           </div>
 
           {/* Main nav */}

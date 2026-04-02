@@ -183,9 +183,10 @@ const AuthPage = () => {
           className="w-full max-w-md"
         >
           {/* Mobile logo */}
-          <div className="lg:hidden text-center mb-8">
-            <Link to="/" className="inline-flex items-center gap-3 mb-3 hover:opacity-80 transition-opacity">
-              <img src={equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
+          <div className="lg:hidden flex items-center justify-center mb-8">
+            <Link to="/" className="inline-flex items-center gap-3 hover:opacity-80 transition-opacity">
+              <img src={equilinqLogoWhite} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover hidden dark:block" />
+              <img src={equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover dark:hidden" />
               <h1 className="font-heading text-2xl font-bold text-foreground tracking-wider uppercase">
                 Equilinq
               </h1>
