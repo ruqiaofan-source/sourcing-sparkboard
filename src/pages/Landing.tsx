@@ -471,13 +471,49 @@ export default function Landing() {
                 "@type": "Organization",
                 name: "Equilinq",
                 url: "https://equilinq.eu",
+                logo: "https://equilinq.eu/og-image.png",
                 description: "Managed sourcing infrastructure for European SMEs. End-to-end sourcing, QC, customization and logistics from China.",
                 foundingDate: "2024",
-                areaServed: "Europe",
+                areaServed: {
+                  "@type": "Place",
+                  name: "Europe",
+                },
                 serviceType: "Product Sourcing and Procurement",
                 sameAs: [
                   "https://www.linkedin.com/company/equilinq"
                 ],
+                contactPoint: {
+                  "@type": "ContactPoint",
+                  contactType: "customer service",
+                  url: "https://equilinq.eu/contact",
+                  availableLanguage: ["English", "Dutch", "Chinese"],
+                },
+              },
+              {
+                "@type": "Service",
+                name: "China Sourcing for European SMEs",
+                provider: {
+                  "@type": "Organization",
+                  name: "Equilinq",
+                },
+                description: "End-to-end sourcing, quality control, customization and logistics from China with transparent pricing and low MOQs starting from 10 units.",
+                areaServed: "Europe",
+                serviceType: "Product Sourcing",
+                offers: {
+                  "@type": "Offer",
+                  description: "Service fee from 4-6% based on order value",
+                  priceCurrency: "EUR",
+                },
+                hasOfferCatalog: {
+                  "@type": "OfferCatalog",
+                  name: "Sourcing Services",
+                  itemListElement: [
+                    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Factory Sourcing & Verification" } },
+                    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Quality Control & Inspection" } },
+                    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Private Label & Customization" } },
+                    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Logistics & Fulfillment" } },
+                  ],
+                },
               },
               {
                 "@type": "FAQPage",
@@ -494,11 +530,6 @@ export default function Landing() {
                 "@type": "WebSite",
                 name: "Equilinq",
                 url: "https://equilinq.eu",
-                potentialAction: {
-                  "@type": "SearchAction",
-                  target: "https://equilinq.eu/search?q={search_term_string}",
-                  "query-input": "required name=search_term_string",
-                },
               },
             ],
           }),
