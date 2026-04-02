@@ -210,6 +210,22 @@ const CustomerRequestDetail = () => {
         .update({ payment_status: "paid" } as any)
         .eq("id", invoiceId);
       if (error) throw error;
+
+      // Notify all agents about the payment
+      const { data: agents } = await supabase
+        .from("user_roles")
+        .select("user_id")
+        .in("role", ["agent", "admin"]);
+      if (agents && request) {
+        const notifs = agents.map((a: any) => ({
+          user_id: a.user_id,
+          title: "Payment Sent",
+          message: `Customer has sent payment for "${request.title}". Please verify and confirm.`,
+          type: "payment_sent",
+          link: `/agent/requests/${id}`,
+        }));
+        await supabase.from("notifications" as any).insert(notifs as any);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customer-request-invoices", id] });
