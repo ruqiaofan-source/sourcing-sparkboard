@@ -690,8 +690,8 @@ export default function Landing() {
                 style={{
                   filter: isTransparent
                     ? isDark
-                      ? "brightness(0) invert(1)"
-                      : "brightness(0) opacity(0.5)"
+                      ? "grayscale(100%) brightness(0.7) invert(0)"
+                      : "grayscale(100%) opacity(0.5)"
                     : "grayscale(100%) opacity(0.6)",
                   transition: "filter 0.5s, opacity 0.5s",
                 }}
