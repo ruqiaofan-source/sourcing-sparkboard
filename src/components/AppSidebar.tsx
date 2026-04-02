@@ -42,6 +42,7 @@ export function AppSidebar() {
   const collapsed = state === "collapsed";
   const { signOut } = useAuth();
   const { primaryRole } = useRole();
+  const { theme } = useTheme();
 
   const mainItems = primaryRole === "admin" ? adminItems : primaryRole === "agent" ? agentItems : customerItems;
 
