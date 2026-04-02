@@ -53,6 +53,7 @@ const AuthPage = () => {
   const [areaOfResidence, setAreaOfResidence] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [loading, setLoading] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
 
