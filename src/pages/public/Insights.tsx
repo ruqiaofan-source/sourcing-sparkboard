@@ -23,7 +23,15 @@ export default function Insights() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SEOHead title="Insights - Equilinq Sourcing Trends & Market Reports" description="Best-selling products, pricing trends, and supplier signals from China. Actionable sourcing insights for European SMEs." />
+      <SEOHead
+        title="Insights - Equilinq Sourcing Trends & Market Reports"
+        description="Best-selling products, pricing trends, and supplier signals from China. Actionable sourcing insights for European SMEs."
+        keywords="China sourcing trends, market reports, best selling products China, supplier insights, European SME sourcing"
+        breadcrumbs={[
+          { name: "Home", url: "https://equilinq.eu/" },
+          { name: "Insights", url: "https://equilinq.eu/insights" },
+        ]}
+      />
       <PublicNavbar />
 
       <section className="pt-32 pb-24 px-4 relative">

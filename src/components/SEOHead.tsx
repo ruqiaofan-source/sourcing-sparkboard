@@ -4,6 +4,11 @@ import { useLocation } from "react-router-dom";
 const BASE_URL = "https://equilinq.eu";
 const OG_IMAGE = "https://equilinq.eu/og-image.png";
 
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
 interface SEOHeadProps {
   title: string;
   description: string;
@@ -12,9 +17,11 @@ interface SEOHeadProps {
   ogImage?: string;
   keywords?: string;
   noindex?: boolean;
+  breadcrumbs?: BreadcrumbItem[];
+  jsonLd?: Record<string, unknown>;
 }
 
-export function SEOHead({ title, description, canonical, ogType = "website", ogImage, keywords, noindex }: SEOHeadProps) {
+export function SEOHead({ title, description, canonical, ogType = "website", ogImage, keywords, noindex, breadcrumbs, jsonLd }: SEOHeadProps) {
   const { pathname } = useLocation();
   const canonicalUrl = canonical || `${BASE_URL}${pathname}`;
   const imageUrl = ogImage || OG_IMAGE;
@@ -60,10 +67,71 @@ export function SEOHead({ title, description, canonical, ogType = "website", ogI
     }
     link.setAttribute("href", canonicalUrl);
 
+    // Organization JSON-LD (always present)
+    const orgId = "equilinq-org-jsonld";
+    let orgScript = document.getElementById(orgId) as HTMLScriptElement | null;
+    if (!orgScript) {
+      orgScript = document.createElement("script");
+      orgScript.id = orgId;
+      orgScript.type = "application/ld+json";
+      document.head.appendChild(orgScript);
+    }
+    orgScript.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Equilinq",
+      url: BASE_URL,
+      logo: `${BASE_URL}/equilinq-logo.png`,
+      description: "End-to-end sourcing, QC, customization and logistics from China for European SMEs.",
+      email: "contact@equilinq.eu",
+      foundingDate: "2024",
+      areaServed: "Europe",
+      sameAs: [],
+    });
+
+    // Breadcrumb JSON-LD
+    const bcId = "equilinq-breadcrumb-jsonld";
+    let bcScript = document.getElementById(bcId) as HTMLScriptElement | null;
+    if (breadcrumbs && breadcrumbs.length > 0) {
+      if (!bcScript) {
+        bcScript = document.createElement("script");
+        bcScript.id = bcId;
+        bcScript.type = "application/ld+json";
+        document.head.appendChild(bcScript);
+      }
+      bcScript.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: breadcrumbs.map((item, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: item.name,
+          item: item.url,
+        })),
+      });
+    } else if (bcScript) {
+      bcScript.remove();
+    }
+
+    // Custom JSON-LD
+    const customId = "equilinq-custom-jsonld";
+    let customScript = document.getElementById(customId) as HTMLScriptElement | null;
+    if (jsonLd) {
+      if (!customScript) {
+        customScript = document.createElement("script");
+        customScript.id = customId;
+        customScript.type = "application/ld+json";
+        document.head.appendChild(customScript);
+      }
+      customScript.textContent = JSON.stringify({ "@context": "https://schema.org", ...jsonLd });
+    } else if (customScript) {
+      customScript.remove();
+    }
+
     return () => {
       document.title = "Equilinq - Sourcing from China for European SMEs";
     };
-  }, [title, description, canonical, canonicalUrl, ogType]);
+  }, [title, description, canonical, canonicalUrl, ogType, imageUrl, keywords, noindex, breadcrumbs, jsonLd]);
 
   return null;
 }

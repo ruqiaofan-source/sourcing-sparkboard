@@ -17,7 +17,15 @@ const fadeUp = {
 export default function Pricing() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SEOHead title="Pricing - Equilinq Sourcing Service" description="Transparent, itemized pricing for every order. No hidden fees. Submit a sourcing request and receive your exact cost breakdown." />
+      <SEOHead
+        title="Pricing - Equilinq Sourcing Service"
+        description="Transparent, itemized pricing for every order. No hidden fees. Submit a sourcing request and receive your exact cost breakdown."
+        keywords="sourcing pricing, China import costs, transparent pricing, sourcing service fees, no hidden fees"
+        breadcrumbs={[
+          { name: "Home", url: "https://equilinq.eu/" },
+          { name: "Pricing", url: "https://equilinq.eu/pricing" },
+        ]}
+      />
       <PublicNavbar />
 
       <section className="pt-32 pb-20 px-4">
