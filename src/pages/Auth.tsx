@@ -70,6 +70,11 @@ const AuthPage = () => {
         setEmailSentType("reset");
         setEmailSent(true);
       } else if (isSignUp) {
+        if (password !== confirmPassword) {
+          toast({ title: "Passwords don't match", description: "Please make sure both passwords are identical.", variant: "destructive" });
+          setLoading(false);
+          return;
+        }
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
