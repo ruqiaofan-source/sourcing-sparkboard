@@ -52,7 +52,7 @@ export const steps = [
       "Factory cost (wholesale price)",
       "China operational costs",
       "Logistics and shipping estimate",
-      "Equilinq service fee (7% or custom)",
+      "Equilinq service fee",
     ],
     seoTitle: "Step 3: Transparent Quote & Pricing - Equilinq",
     seoDesc: "Receive a fully itemized sourcing quote. See factory cost, logistics, and service fees -- no hidden markups.",
