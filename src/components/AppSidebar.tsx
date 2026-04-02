@@ -1,4 +1,4 @@
-import { LayoutDashboard, ShoppingCart, BarChart3, Settings, LogOut, Plus, FileText, Send, MessageCircle, Users, Newspaper } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, BarChart3, Settings, LogOut, Plus, FileText, Send, MessageCircle, Users, Newspaper, Inbox } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useRole } from "@/hooks/useRole";
@@ -32,6 +32,7 @@ const adminItems = [
   { title: "Users", url: "/admin/users", icon: Users },
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
   { title: "Insights", url: "/admin/insights", icon: Newspaper },
+  { title: "Contact", url: "/admin/contact", icon: Inbox },
 ];
 
 export function AppSidebar() {
