@@ -776,10 +776,10 @@ export default function Landing() {
         >
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">Pricing</span>
           <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            We Source It 20% Cheaper Then Charge You 7%
+            Transparent Pricing, Tailored to Your Order
           </RevealHeading>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-            Transparent pricing with no hidden markups. See our full pricing breakdown.
+            Every quote is fully itemized. Submit a request and see exactly where every euro goes.
           </p>
           <Link to="/pricing">
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
