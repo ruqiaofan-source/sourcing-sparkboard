@@ -362,7 +362,7 @@ export default function Customization() {
                     />
                   )}
                   <cat.icon className={`h-5 w-5 relative z-10 ${isActive ? "text-primary" : ""}`} />
-                  <span className="relative z-10 text-center leading-tight">{cat.title}</span>
+                  <span className="relative z-10 text-center leading-tight text-sm font-semibold">{cat.title}</span>
                   <span className="relative z-10 text-[10px] opacity-50">{cat.items.length} items</span>
                 </motion.button>
               );

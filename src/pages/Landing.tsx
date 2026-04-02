@@ -814,35 +814,61 @@ export default function Landing() {
             <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground">What Our Clients Say</RevealHeading>
           </motion.div>
 
+          {/* Trustpilot summary */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="flex items-center justify-center gap-3 mb-10"
+          >
+            <a href="https://www.trustpilot.com/review/equilinq.eu" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
+              <div className="flex items-center gap-1.5">
+                <span className="font-heading text-2xl font-bold text-foreground">4.0</span>
+                <div className="flex gap-0.5">
+                  {[1,2,3,4].map((s) => (
+                    <svg key={s} className="h-5 w-5 text-[#00b67a]" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                  <svg className="h-5 w-5 text-muted-foreground/30" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+              </div>
+              <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">on Trustpilot (5 reviews)</span>
+            </a>
+          </motion.div>
+
           <motion.div
             variants={stagger}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
           >
             {[
               {
-                quote: "Equilinq handled everything from factory selection to doorstep delivery. We launched our product line 3 months faster than expected.",
-                name: "Thomas V.",
-                role: "E-commerce Brand Owner",
-                country: "Netherlands",
+                quote: "Service was good! Equilinq got us a good factory and the per unit price was lower than our original supplier. Also was nice they are also based in Amsterdam and were able to reply quickly.",
+                name: "AR Glasses Buyer",
+                stars: 5,
+                title: "AR glasses",
               },
               {
-                quote: "The transparency is what sold me. I could see every cost line item. No surprises, no hidden fees. Exactly what I needed as a small business.",
-                name: "Marie L.",
-                role: "Private Label Seller",
-                country: "France",
+                quote: "They helped me source the products I needed, and it was much cheaper than other platforms. Their inspection service was really helpful, they checked every package and identified defects beforehand.",
+                name: "Verified Buyer",
+                stars: 5,
+                title: "Great sourcing experience",
               },
               {
-                quote: "Their QC process caught defects that would have cost us thousands. The photo reports before shipping gave us complete peace of mind.",
-                name: "Stefan K.",
-                role: "Startup Founder",
-                country: "Germany",
+                quote: "We weren't sure how complicated sourcing from China would be, but they explained everything clearly. There were no surprise fees and they showed us different factory options instead of pushing just one.",
+                name: "Ari",
+                stars: 5,
+                title: "Sustainable Yoga Mats",
               },
-            ].map((t, i) => (
+            ].map((t) => (
               <motion.div
-                key={t.name}
+                key={t.title}
                 variants={fadeUp}
                 whileHover={{
                   y: -8,
@@ -851,46 +877,50 @@ export default function Landing() {
                 }}
                 className="relative rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-7 transition-all duration-300 overflow-hidden group"
               >
-                {/* Gradient border glow on hover */}
                 <motion.div
                   className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{
                     background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--chart-2) / 0.1), hsl(var(--primary) / 0.08))",
                   }}
                 />
-                <motion.div
-                  className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-primary/0 group-hover:bg-primary/10 blur-2xl transition-all duration-700 pointer-events-none"
-                />
                 <div className="relative z-10">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, s) => (
-                      <motion.svg
-                        key={s}
-                        className="h-4 w-4 text-primary"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        initial={{ opacity: 0, scale: 0, rotate: -30 }}
-                        whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.3 + s * 0.08, type: "spring", stiffness: 300 }}
-                      >
+                  <div className="flex gap-0.5 mb-3">
+                    {[...Array(t.stars)].map((_, s) => (
+                      <svg key={s} className="h-4 w-4 text-[#00b67a]" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </motion.svg>
+                      </svg>
                     ))}
                   </div>
-                  <p className="text-sm text-foreground/80 leading-relaxed mb-5 italic">"{t.quote}"</p>
+                  <h3 className="text-sm font-semibold text-foreground mb-2">{t.title}</h3>
+                  <p className="text-sm text-foreground/80 leading-relaxed mb-5">"{t.quote}"</p>
                   <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">
+                    <div className="h-8 w-8 rounded-full bg-[#00b67a]/20 flex items-center justify-center text-xs font-bold text-[#00b67a]">
                       {t.name.charAt(0)}
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                      <p className="text-xs text-muted-foreground">{t.role} - {t.country}</p>
+                      <p className="text-xs text-muted-foreground">via Trustpilot</p>
                     </div>
                   </div>
                 </div>
               </motion.div>
             ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <a
+              href="https://www.trustpilot.com/review/equilinq.eu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-primary hover:underline font-medium"
+            >
+              Read all reviews on Trustpilot →
+            </a>
           </motion.div>
 
           {/* Trust badges */}
