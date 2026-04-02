@@ -12,6 +12,7 @@ import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
 import { useTheme } from "@/hooks/useTheme";
 
 const ResetPassword = () => {
+  const { theme } = useTheme();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
