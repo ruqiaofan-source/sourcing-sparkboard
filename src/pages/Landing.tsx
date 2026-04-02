@@ -501,7 +501,7 @@ export default function Landing() {
         className="relative pt-28 sm:pt-36 pb-16 px-4"
       >
         <div className="absolute inset-0">
-          <img src={heroBg} alt="" className="w-full h-full object-cover" width={1920} height={1080} />
+          <img src={heroBg} alt="" className="w-full h-full object-cover" width={1920} height={1080} fetchPriority="high" />
           <div className="absolute inset-0 bg-background/75" />
         </div>
 
