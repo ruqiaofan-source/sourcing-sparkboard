@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, ArrowLeft, Send, Loader2, Check, Leaf, LeafyGreen, Award, Sparkles, ShieldCheck, Globe, Zap, CheckCircle2, ArrowUpRight, Camera, Shirt, Tag, PackageCheck, Truck, Search, Scissors, Ruler, Box, Layers, ScanLine, Video, ImagePlus, Palette, Stamp, Shield, Wrench, Package, Warehouse, ShoppingBag, Plug, Brush } from "lucide-react";
+import { ArrowRight, ArrowLeft, Send, Loader2, Check, Leaf, LeafyGreen, Award, Sparkles, ShieldCheck, Globe, Zap, CheckCircle2, ArrowUpRight, Camera, Shirt, Tag, PackageCheck, Truck, Search, Scissors, Ruler, Box, Layers, ScanLine, Video, ImagePlus, Palette, Stamp, Shield, Wrench, Package, Warehouse, ShoppingBag, Plug, Brush, ChevronDown } from "lucide-react";
 import FileUpload from "@/components/FileUpload";
 
 const currencies = ["EUR", "USD", "GBP", "CNY", "JPY"];
