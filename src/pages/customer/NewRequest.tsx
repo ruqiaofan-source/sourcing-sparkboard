@@ -513,6 +513,23 @@ const NewRequest = () => {
                                 transition={{ duration: 0.2 }}
                                 className="overflow-hidden"
                               >
+                                <div className="flex justify-end px-3 pt-1">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const itemIds = items.map((a) => a.id);
+                                      const allSelected = itemIds.every((id) => selectedAddons.includes(id));
+                                      if (allSelected) {
+                                        setSelectedAddons((prev) => prev.filter((id) => !itemIds.includes(id)));
+                                      } else {
+                                        setSelectedAddons((prev) => [...new Set([...prev, ...itemIds])]);
+                                      }
+                                    }}
+                                    className={`text-[11px] font-medium transition-colors ${colors.icon} hover:underline`}
+                                  >
+                                    {items.every((a) => selectedAddons.includes(a.id)) ? "Deselect all" : "Select all"}
+                                  </button>
+                                </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 px-3 pb-3 pt-1">
                                   {items.map((addon, i) => {
                                     const isSelected = selectedAddons.includes(addon.id);
