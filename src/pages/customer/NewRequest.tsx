@@ -115,6 +115,8 @@ const NewRequest = () => {
   const [customCountry, setCustomCountry] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
+  const [addonSearch, setAddonSearch] = useState("");
+  const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
 
   const [form, setForm] = useState({
     title: "",
