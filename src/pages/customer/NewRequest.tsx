@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, ArrowLeft, Send, Loader2, Check, Leaf, LeafyGreen, Award, Sparkles, ShieldCheck, Globe, Zap, CheckCircle2, ArrowUpRight, Camera, Shirt, Tag, PackageCheck, Truck, Search, Scissors, Ruler, Box, Layers, ScanLine, Video, ImagePlus, Palette, Stamp, Shield, Wrench, Package, Warehouse, ShoppingBag, Plug, Brush } from "lucide-react";
+import { ArrowRight, ArrowLeft, Send, Loader2, Check, Leaf, LeafyGreen, Award, Sparkles, ShieldCheck, Globe, Zap, CheckCircle2, ArrowUpRight, Camera, Shirt, Tag, PackageCheck, Truck, Search, Scissors, Ruler, Box, Layers, ScanLine, Video, ImagePlus, Palette, Stamp, Shield, Wrench, Package, Warehouse, ShoppingBag, Plug, Brush, ChevronDown } from "lucide-react";
 import FileUpload from "@/components/FileUpload";
 
 const currencies = ["EUR", "USD", "GBP", "CNY", "JPY"];
@@ -115,6 +115,8 @@ const NewRequest = () => {
   const [customCountry, setCustomCountry] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
+  const [addonSearch, setAddonSearch] = useState("");
+  const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
 
   const [form, setForm] = useState({
     title: "",
@@ -463,46 +465,88 @@ const NewRequest = () => {
 
               {step === 6 && (
                 <StepWrapper number="06" title="Want any service add-ons?" subtitle="Optional value-added services powered by our China operations partner. Select all that apply.">
-                  <div className="space-y-4 max-h-[340px] overflow-y-auto pr-1">
+                  <div className="relative mb-3">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search add-ons..."
+                      value={addonSearch}
+                      onChange={(e) => setAddonSearch(e.target.value)}
+                      className="pl-9 h-9 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
                     {addonCategories.map((cat) => {
-                      const items = serviceAddons.filter((a) => a.category === cat);
+                      const allItems = serviceAddons.filter((a) => a.category === cat);
+                      const items = addonSearch
+                        ? allItems.filter((a) => a.label.toLowerCase().includes(addonSearch.toLowerCase()) || a.desc.toLowerCase().includes(addonSearch.toLowerCase()))
+                        : allItems;
+                      if (addonSearch && items.length === 0) return null;
                       const colors = categoryColors[cat] || categoryColors["Quality & Inspection"];
+                      const isExpanded = addonSearch.length > 0 || expandedCategories.includes(cat);
+                      const selectedCount = allItems.filter((a) => selectedAddons.includes(a.id)).length;
                       return (
-                        <div key={cat}>
-                          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 mb-2">
-                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-widest border ${colors.badge}`}>{cat}</span>
-                          </motion.div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {items.map((addon, i) => {
-                              const isSelected = selectedAddons.includes(addon.id);
-                              return (
-                                <motion.button
-                                  key={addon.id}
-                                  type="button"
-                                  initial={{ opacity: 0, y: 15 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  transition={{ delay: i * 0.04 }}
-                                  onClick={() => toggleAddon(addon.id)}
-                                  className={`text-left rounded-xl border p-3 transition-all ${
-                                    isSelected
-                                      ? `${colors.border} ${colors.bg} ring-1 ${colors.ring}`
-                                      : "border-border bg-secondary/20 hover:border-primary/20 hover:bg-secondary/40"
-                                  }`}
-                                >
-                                  <div className="flex items-center gap-2">
-                                    <addon.icon className={`h-3.5 w-3.5 shrink-0 ${isSelected ? colors.icon : "text-muted-foreground"}`} />
-                                    <span className={`text-sm font-medium ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>{addon.label}</span>
-                                    {isSelected && (
-                                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="ml-auto">
-                                        <Check className={`h-3.5 w-3.5 ${colors.icon}`} />
-                                      </motion.div>
-                                    )}
-                                  </div>
-                                  <p className="text-[11px] text-muted-foreground/70 mt-1 ml-5.5">{addon.desc}</p>
-                                </motion.button>
+                        <div key={cat} className={`rounded-xl border transition-colors ${isExpanded ? colors.border : "border-border"}`}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (addonSearch) return;
+                              setExpandedCategories((prev) =>
+                                prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
                               );
-                            })}
-                          </div>
+                            }}
+                            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-colors ${isExpanded ? colors.bg : "hover:bg-secondary/30"}`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-widest border ${colors.badge}`}>{cat}</span>
+                              {selectedCount > 0 && (
+                                <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold ${colors.badge}`}>{selectedCount}</span>
+                              )}
+                            </div>
+                            <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
+                          </button>
+                          <AnimatePresence>
+                            {isExpanded && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="overflow-hidden"
+                              >
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 px-3 pb-3 pt-1">
+                                  {items.map((addon, i) => {
+                                    const isSelected = selectedAddons.includes(addon.id);
+                                    return (
+                                      <motion.button
+                                        key={addon.id}
+                                        type="button"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: i * 0.03 }}
+                                        onClick={() => toggleAddon(addon.id)}
+                                        className={`text-left rounded-lg border p-2.5 transition-all ${
+                                          isSelected
+                                            ? `${colors.border} ${colors.bg} ring-1 ${colors.ring}`
+                                            : "border-border bg-secondary/20 hover:border-primary/20 hover:bg-secondary/40"
+                                        }`}
+                                      >
+                                        <div className="flex items-center gap-2">
+                                          <addon.icon className={`h-3.5 w-3.5 shrink-0 ${isSelected ? colors.icon : "text-muted-foreground"}`} />
+                                          <span className={`text-sm font-medium ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>{addon.label}</span>
+                                          {isSelected && (
+                                            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="ml-auto">
+                                              <Check className={`h-3.5 w-3.5 ${colors.icon}`} />
+                                            </motion.div>
+                                          )}
+                                        </div>
+                                        <p className="text-[11px] text-muted-foreground/70 mt-1 ml-5.5">{addon.desc}</p>
+                                      </motion.button>
+                                    );
+                                  })}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </div>
                       );
                     })}
