@@ -20,48 +20,51 @@ export function ArticleHero({ article, readTime }: ArticleHeroProps) {
     <section className="relative pt-24 sm:pt-28">
       {/* Full-bleed cover image */}
       {article.cover_image_url && (
-        <div className="relative w-full max-h-[520px] overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background z-10" />
+        <div className="relative w-full overflow-hidden" style={{ maxHeight: "480px" }}>
+          <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-transparent to-background z-10" />
           <img
             src={article.cover_image_url}
             alt={article.title}
-            className="w-full h-[520px] object-cover"
+            className="w-full h-[480px] object-cover"
             loading="eager"
           />
         </div>
       )}
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 relative z-20" style={{ marginTop: article.cover_image_url ? "-6rem" : "2rem" }}>
+      <div
+        className="max-w-2xl mx-auto px-6 sm:px-8 relative z-20"
+        style={{ marginTop: article.cover_image_url ? "-5rem" : "2rem" }}
+      >
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-6">
+          <nav aria-label="Breadcrumb" className="mb-8">
             <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <li>
                 <Link to="/insights" className="inline-flex items-center gap-1.5 hover:text-primary transition-colors">
                   <ArrowLeft className="h-4 w-4" /> Insights
                 </Link>
               </li>
-              <li className="text-muted-foreground/40">/</li>
-              <li className="text-foreground/60 truncate max-w-[200px]">{article.title}</li>
+              <li className="text-muted-foreground/30">/</li>
+              <li className="text-foreground/50 truncate max-w-[220px]">{article.title}</li>
             </ol>
           </nav>
 
           {/* Tag pill */}
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full px-3 py-1 mb-4">
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full px-3 py-1 mb-5">
             <Tag className="h-3 w-3" />
             {article.tag}
           </span>
 
           {/* Title */}
-          <h1 className="font-heading text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-foreground leading-[1.15] mb-5">
+          <h1 className="font-heading text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-foreground leading-[1.18] mb-6 tracking-tight">
             {article.title}
           </h1>
 
           {/* Meta row */}
-          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6 pb-6 border-b border-border/40">
+          <div className="flex flex-wrap items-center gap-5 text-sm text-muted-foreground mb-8">
             {article.published_at && (
               <span className="flex items-center gap-1.5">
-                <Calendar className="h-3.5 w-3.5" />
+                <Calendar className="h-3.5 w-3.5 opacity-60" />
                 <time dateTime={article.published_at}>
                   {format(new Date(article.published_at), "MMMM d, yyyy")}
                 </time>
@@ -69,19 +72,22 @@ export function ArticleHero({ article, readTime }: ArticleHeroProps) {
             )}
             {article.author_name && (
               <span className="flex items-center gap-1.5">
-                <User className="h-3.5 w-3.5" />
+                <User className="h-3.5 w-3.5 opacity-60" />
                 {article.author_name}
               </span>
             )}
             <span className="flex items-center gap-1.5">
-              <Clock className="h-3.5 w-3.5" />
+              <Clock className="h-3.5 w-3.5 opacity-60" />
               {readTime} min read
             </span>
           </div>
 
-          {/* Excerpt */}
+          {/* Divider */}
+          <div className="h-px bg-border/40 mb-8" />
+
+          {/* Excerpt / lead paragraph */}
           {article.excerpt && (
-            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed font-light mb-8">
+            <p className="text-lg sm:text-xl text-muted-foreground leading-[1.7] font-light mb-10">
               {article.excerpt}
             </p>
           )}

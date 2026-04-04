@@ -9,49 +9,65 @@ export function ArticleBody({ content }: ArticleBodyProps) {
   if (!content) return null;
 
   return (
-    <article className="px-4 sm:px-6 pb-16">
+    <article className="px-6 sm:px-8 pb-20">
       <motion.div
-        className="max-w-3xl mx-auto"
+        className="max-w-2xl mx-auto"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.15 }}
       >
-        <div className="prose prose-lg dark:prose-invert max-w-none
-          prose-headings:font-heading prose-headings:text-foreground prose-headings:tracking-tight
-          prose-h2:text-2xl prose-h2:sm:text-[1.65rem] prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-border/30
-          prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-3
-          prose-p:text-foreground/80 prose-p:leading-[1.8] prose-p:mb-5
-          prose-li:text-foreground/80 prose-li:leading-[1.8]
-          prose-strong:text-foreground prose-strong:font-semibold
-          prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-          prose-blockquote:border-l-2 prose-blockquote:border-primary/40 prose-blockquote:pl-5 prose-blockquote:italic prose-blockquote:text-muted-foreground prose-blockquote:not-italic prose-blockquote:font-light
-          prose-ul:my-6 prose-ol:my-6
-        ">
+        <div className="article-content">
           <ReactMarkdown
             components={{
               h2: ({ children }) => (
-                <h2>{children}</h2>
+                <h2 className="font-heading text-[1.55rem] sm:text-[1.7rem] font-bold text-foreground tracking-tight mt-14 mb-5 first:mt-0">
+                  {children}
+                </h2>
               ),
               h3: ({ children }) => (
-                <h3>{children}</h3>
+                <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground tracking-tight mt-10 mb-4">
+                  {children}
+                </h3>
               ),
               p: ({ children }) => (
-                <p>{children}</p>
+                <p className="text-[1.05rem] text-foreground/80 leading-[1.85] mb-6">
+                  {children}
+                </p>
               ),
               ul: ({ children }) => (
-                <ul className="space-y-2 list-none pl-0">{children}</ul>
+                <ul className="space-y-3 my-7 pl-1">{children}</ul>
+              ),
+              ol: ({ children }) => (
+                <ol className="space-y-3 my-7 pl-1 list-decimal list-inside">{children}</ol>
               ),
               li: ({ children }) => (
-                <li className="flex items-start gap-3 pl-0">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary mt-[0.65rem] shrink-0" />
+                <li className="text-[1.05rem] text-foreground/80 leading-[1.8] flex items-start gap-3">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary mt-[0.7rem] shrink-0" />
                   <span>{children}</span>
                 </li>
               ),
+              strong: ({ children }) => (
+                <strong className="text-foreground font-semibold">{children}</strong>
+              ),
               blockquote: ({ children }) => (
-                <blockquote className="bg-muted/30 rounded-r-lg py-4 pr-4">{children}</blockquote>
+                <blockquote className="border-l-[3px] border-primary/30 pl-6 my-8 py-1">
+                  <div className="text-[1.05rem] text-muted-foreground leading-[1.8] italic">
+                    {children}
+                  </div>
+                </blockquote>
               ),
               a: ({ href, children }) => (
-                <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>
+                <a
+                  href={href}
+                  className="text-primary underline underline-offset-2 decoration-primary/30 hover:decoration-primary transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {children}
+                </a>
+              ),
+              hr: () => (
+                <hr className="my-10 border-border/30" />
               ),
             }}
           >
