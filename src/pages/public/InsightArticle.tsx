@@ -83,6 +83,14 @@ export default function InsightArticle() {
       <SEOHead
         title={article.meta_title || `${article.title} - Equilinq Insights`}
         description={article.meta_description || article.excerpt}
+        ogImage={article.cover_image_url || undefined}
+        ogType="article"
+        keywords={`${article.tag}, China sourcing, European SME, ${article.title.split(' ').slice(0, 3).join(', ')}`}
+        breadcrumbs={[
+          { name: "Home", url: "https://equilinq.eu/" },
+          { name: "Insights", url: "https://equilinq.eu/insights" },
+          { name: article.title, url: `https://equilinq.eu/insights/${article.slug}` },
+        ]}
       />
 
       <ArticleStructuredData article={article} />
