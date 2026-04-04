@@ -230,6 +230,58 @@ serve(async (req) => {
 
     console.log(`Audit complete: ${findings.length} findings`);
 
+    // ──── EMAIL ALERT for high/critical findings ────
+    const criticalFindings = findings.filter(f => f.severity === "high" || f.severity === "critical");
+    if (criticalFindings.length > 0) {
+      try {
+        // Get all admin user IDs
+        const { data: adminRoles } = await supabase
+          .from("user_roles")
+          .select("user_id")
+          .eq("role", "admin");
+
+        if (adminRoles && adminRoles.length > 0) {
+          // Get admin emails from profiles
+          const adminUserIds = adminRoles.map(r => r.user_id);
+          const { data: adminProfiles } = await supabase
+            .from("profiles")
+            .select("email")
+            .in("user_id", adminUserIds);
+
+          const adminEmails = (adminProfiles || [])
+            .map(p => p.email)
+            .filter(Boolean) as string[];
+
+          // Send alert email to each admin
+          for (const email of adminEmails) {
+            const alertRes = await fetch(`${SUPABASE_URL}/functions/v1/send-transactional-email`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+              },
+              body: JSON.stringify({
+                template_name: "audit-alert",
+                recipient_email: email,
+                templateData: {
+                  findings: criticalFindings,
+                  summary: aiSummary,
+                  date: new Date().toISOString().split("T")[0],
+                },
+              }),
+            });
+            if (!alertRes.ok) {
+              console.error(`Failed to send audit alert to ${email}:`, await alertRes.text());
+            } else {
+              console.log(`Audit alert sent to ${email}`);
+            }
+          }
+        }
+      } catch (alertErr) {
+        console.error("Failed to send audit alert emails (non-fatal):", alertErr);
+      }
+    }
+
     return new Response(
       JSON.stringify({
         success: true,
