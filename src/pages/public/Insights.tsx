@@ -145,8 +145,8 @@ export default function Insights() {
                       whileHover={{ y: -4, scale: 1.01 }}
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     >
-                      <div className="md:w-2/5 aspect-video md:aspect-auto overflow-hidden">
-                        {post.cover_image_url && (
+                      <div className="md:w-2/5 aspect-video md:aspect-auto overflow-hidden bg-gradient-to-br from-primary/10 via-secondary to-primary/5">
+                        {post.cover_image_url ? (
                           <motion.img
                             src={post.cover_image_url}
                             alt={post.title}
@@ -155,6 +155,10 @@ export default function Insights() {
                             whileHover={{ scale: 1.05 }}
                             transition={{ duration: 0.4 }}
                           />
+                        ) : (
+                          <div className="w-full h-full min-h-[180px] flex items-center justify-center">
+                            <span className="text-4xl font-heading font-bold text-primary/10">{post.tag}</span>
+                          </div>
                         )}
                       </div>
                       <div className="flex-1 p-6 sm:p-8 flex flex-col justify-center">
