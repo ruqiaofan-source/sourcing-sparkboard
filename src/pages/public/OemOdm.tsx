@@ -39,8 +39,8 @@ export default function OemOdm() {
         description="Custom OEM and ODM manufacturing from China. From concept to finished product -- factory sourcing, sampling, production management, and delivery to Europe."
         keywords="OEM manufacturing China, ODM China, custom manufacturing, private label production, product development China"
         breadcrumbs={[
-          { name: "Home", url: "https://equilinq.eu/" },
-          { name: "OEM / ODM", url: "https://equilinq.eu/oem-odm" },
+          { name: "Home", url: "https://www.equilinq.eu/" },
+          { name: "OEM / ODM", url: "https://www.equilinq.eu/oem-odm" },
         ]}
       />
       <script
@@ -50,9 +50,9 @@ export default function OemOdm() {
             "@context": "https://schema.org",
             "@type": "Service",
             name: "OEM / ODM Manufacturing - Equilinq",
-            url: "https://equilinq.eu/oem-odm",
+            url: "https://www.equilinq.eu/oem-odm",
             description: "Custom OEM and ODM manufacturing services from China for European businesses.",
-            provider: { "@type": "Organization", name: "Equilinq", url: "https://equilinq.eu" },
+            provider: { "@type": "Organization", name: "Equilinq", url: "https://www.equilinq.eu" },
           }),
         }}
       />

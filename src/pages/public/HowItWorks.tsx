@@ -70,8 +70,8 @@ export default function HowItWorks() {
         description="From sourcing request to delivery: learn Equilinq's 8-step process for transparent, reliable manufacturing from China."
         keywords="sourcing process, China manufacturing steps, how sourcing works, supplier vetting, quality control process"
         breadcrumbs={[
-          { name: "Home", url: "https://equilinq.eu/" },
-          { name: "How It Works", url: "https://equilinq.eu/how-it-works" },
+          { name: "Home", url: "https://www.equilinq.eu/" },
+          { name: "How It Works", url: "https://www.equilinq.eu/how-it-works" },
         ]}
       />
       <script
@@ -88,7 +88,7 @@ export default function HowItWorks() {
               position: i + 1,
               name: s.title,
               text: s.desc,
-              url: `https://equilinq.eu/how-it-works/${s.slug}`,
+              url: `https://www.equilinq.eu/how-it-works/${s.slug}`,
             })),
           }),
         }}

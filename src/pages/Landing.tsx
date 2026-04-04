@@ -456,7 +456,7 @@ export default function Landing() {
         description="End-to-end sourcing, QC, customization and logistics from China. Transparent pricing, low MOQs, and dedicated support for European SMEs."
         keywords="sourcing from China, European SME sourcing, China manufacturing, quality control, private label, transparent pricing, low MOQ, China logistics"
         breadcrumbs={[
-          { name: "Home", url: "https://equilinq.eu/" },
+          { name: "Home", url: "https://www.equilinq.eu/" },
         ]}
       />
       
@@ -470,8 +470,8 @@ export default function Landing() {
               {
                 "@type": "Organization",
                 name: "Equilinq",
-                url: "https://equilinq.eu",
-                logo: "https://equilinq.eu/og-image.png",
+                url: "https://www.equilinq.eu",
+                logo: "https://www.equilinq.eu/og-image.png",
                 description: "Managed sourcing infrastructure for European SMEs. End-to-end sourcing, QC, customization and logistics from China.",
                 foundingDate: "2024",
                 areaServed: {
@@ -485,7 +485,7 @@ export default function Landing() {
                 contactPoint: {
                   "@type": "ContactPoint",
                   contactType: "customer service",
-                  url: "https://equilinq.eu/contact",
+                  url: "https://www.equilinq.eu/contact",
                   availableLanguage: ["English", "Dutch", "Chinese"],
                 },
               },
@@ -529,12 +529,12 @@ export default function Landing() {
               {
                 "@type": "WebSite",
                 name: "Equilinq",
-                url: "https://equilinq.eu",
+                url: "https://www.equilinq.eu",
                 potentialAction: {
                   "@type": "SearchAction",
                   target: {
                     "@type": "EntryPoint",
-                    urlTemplate: "https://equilinq.eu/insights?q={search_term_string}",
+                    urlTemplate: "https://www.equilinq.eu/insights?q={search_term_string}",
                   },
                   "query-input": "required name=search_term_string",
                 },
@@ -543,14 +543,14 @@ export default function Landing() {
                 "@type": "SiteNavigationElement",
                 name: "Main Navigation",
                 hasPart: [
-                  { "@type": "SiteNavigationElement", name: "How It Works", url: "https://equilinq.eu/how-it-works" },
-                  { "@type": "SiteNavigationElement", name: "Pricing", url: "https://equilinq.eu/pricing" },
-                  { "@type": "SiteNavigationElement", name: "Customization", url: "https://equilinq.eu/customization" },
-                  { "@type": "SiteNavigationElement", name: "Quality Control", url: "https://equilinq.eu/quality-control" },
-                  { "@type": "SiteNavigationElement", name: "OEM / ODM", url: "https://equilinq.eu/oem-odm" },
-                  { "@type": "SiteNavigationElement", name: "Insights", url: "https://equilinq.eu/insights" },
-                  { "@type": "SiteNavigationElement", name: "Contact", url: "https://equilinq.eu/contact" },
-                  { "@type": "SiteNavigationElement", name: "Sign In", url: "https://equilinq.eu/auth" },
+                  { "@type": "SiteNavigationElement", name: "How It Works", url: "https://www.equilinq.eu/how-it-works" },
+                  { "@type": "SiteNavigationElement", name: "Pricing", url: "https://www.equilinq.eu/pricing" },
+                  { "@type": "SiteNavigationElement", name: "Customization", url: "https://www.equilinq.eu/customization" },
+                  { "@type": "SiteNavigationElement", name: "Quality Control", url: "https://www.equilinq.eu/quality-control" },
+                  { "@type": "SiteNavigationElement", name: "OEM / ODM", url: "https://www.equilinq.eu/oem-odm" },
+                  { "@type": "SiteNavigationElement", name: "Insights", url: "https://www.equilinq.eu/insights" },
+                  { "@type": "SiteNavigationElement", name: "Contact", url: "https://www.equilinq.eu/contact" },
+                  { "@type": "SiteNavigationElement", name: "Sign In", url: "https://www.equilinq.eu/auth" },
                 ],
               },
             ],

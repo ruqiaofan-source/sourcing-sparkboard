@@ -124,8 +124,8 @@ export default function Contact() {
         description="Questions about sourcing from China? Contact Equilinq for a free consultation. Book a call or send us a message."
         keywords="contact Equilinq, sourcing consultation, China sourcing help, European SME supplier contact"
         breadcrumbs={[
-          { name: "Home", url: "https://equilinq.eu/" },
-          { name: "Contact", url: "https://equilinq.eu/contact" },
+          { name: "Home", url: "https://www.equilinq.eu/" },
+          { name: "Contact", url: "https://www.equilinq.eu/contact" },
         ]}
         jsonLd={{
           "@type": "FAQPage",

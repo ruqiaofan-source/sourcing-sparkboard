@@ -87,9 +87,9 @@ export default function InsightArticle() {
         ogType="article"
         keywords={`${article.tag}, China sourcing, European SME, ${article.title.split(' ').slice(0, 3).join(', ')}`}
         breadcrumbs={[
-          { name: "Home", url: "https://equilinq.eu/" },
-          { name: "Insights", url: "https://equilinq.eu/insights" },
-          { name: article.title, url: `https://equilinq.eu/insights/${article.slug}` },
+          { name: "Home", url: "https://www.equilinq.eu/" },
+          { name: "Insights", url: "https://www.equilinq.eu/insights" },
+          { name: article.title, url: `https://www.equilinq.eu/insights/${article.slug}` },
         ]}
       />
 

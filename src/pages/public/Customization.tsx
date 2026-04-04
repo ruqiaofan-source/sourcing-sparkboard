@@ -249,8 +249,8 @@ export default function Customization() {
         description="60+ customization options: private labels, custom packaging, quality inspection, OEM/ODM manufacturing. Build your brand with Equilinq."
         keywords="custom packaging China, private label manufacturing, OEM ODM China, branding services, product customization, quality inspection"
         breadcrumbs={[
-          { name: "Home", url: "https://equilinq.eu/" },
-          { name: "Customization", url: "https://equilinq.eu/customization" },
+          { name: "Home", url: "https://www.equilinq.eu/" },
+          { name: "Customization", url: "https://www.equilinq.eu/customization" },
         ]}
       />
       <PublicNavbar />
