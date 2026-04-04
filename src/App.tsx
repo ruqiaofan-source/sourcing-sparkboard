@@ -30,6 +30,7 @@ const AdminQuotes = lazy(() => import("./pages/admin/AdminQuotes"));
 const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
 const AdminInsights = lazy(() => import("./pages/admin/AdminInsights"));
 const AdminContactSubmissions = lazy(() => import("./pages/admin/AdminContactSubmissions"));
+const AdminAudit = lazy(() => import("./pages/admin/AdminAudit"));
 
 const Auth = lazy(() => import("./pages/Auth"));
 const Orders = lazy(() => import("./pages/Orders"));
@@ -149,6 +150,7 @@ const App = () => (
                 <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
                 <Route path="/admin/insights" element={<ProtectedRoute><AdminInsights /></ProtectedRoute>} />
                 <Route path="/admin/contact" element={<ProtectedRoute><AdminContactSubmissions /></ProtectedRoute>} />
+                <Route path="/admin/audit" element={<ProtectedRoute><AdminAudit /></ProtectedRoute>} />
                 
                 {/* Shared routes */}
                 <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
