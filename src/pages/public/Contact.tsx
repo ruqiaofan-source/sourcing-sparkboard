@@ -127,6 +127,14 @@ export default function Contact() {
           { name: "Home", url: "https://equilinq.eu/" },
           { name: "Contact", url: "https://equilinq.eu/contact" },
         ]}
+        jsonLd={{
+          "@type": "FAQPage",
+          mainEntity: [
+            { "@type": "Question", name: "What's your minimum order?", acceptedAnswer: { "@type": "Answer", text: "As low as 10 units per SKU." } },
+            { "@type": "Question", name: "Do I need sourcing experience?", acceptedAnswer: { "@type": "Answer", text: "No, we guide you through every step of the sourcing process." } },
+            { "@type": "Question", name: "How fast can I get a quote?", acceptedAnswer: { "@type": "Answer", text: "Usually within 2-3 business days." } },
+          ],
+        }}
       />
       <PublicNavbar />
 
