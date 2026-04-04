@@ -165,7 +165,9 @@ serve(async (req) => {
     // Step 2: Generate cover image
     let coverImageUrl: string | null = null;
     try {
-      console.log("Generating cover image...");
+      console.log("Starting cover image generation...");
+      console.log("Image prompt:", article.cover_image_prompt?.substring(0, 100));
+      
       const imageResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -184,16 +186,18 @@ serve(async (req) => {
         }),
       });
 
+      console.log("Image API response status:", imageResponse.status);
+
       if (imageResponse.ok) {
         const imageData = await imageResponse.json();
         const base64Image = imageData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+        console.log("Got base64 image:", !!base64Image, "length:", base64Image?.length || 0);
 
         if (base64Image) {
-          // Extract base64 data
           const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
-          const imageBytes = decode(base64Data);
+          const imageBytes = base64ToUint8Array(base64Data);
+          console.log("Decoded image bytes:", imageBytes.length);
 
-          // Upload to storage
           const dateSlug = now.toISOString().split("T")[0];
           const imagePath = `${article.slug}-${dateSlug}.png`;
 
@@ -205,20 +209,23 @@ serve(async (req) => {
             });
 
           if (uploadError) {
-            console.error("Image upload error:", uploadError);
+            console.error("Image upload error:", JSON.stringify(uploadError));
           } else {
             const { data: publicUrlData } = supabase.storage
               .from("insight-covers")
               .getPublicUrl(imagePath);
             coverImageUrl = publicUrlData.publicUrl;
-            console.log(`Cover image uploaded: ${coverImageUrl}`);
+            console.log("Cover image uploaded:", coverImageUrl);
           }
+        } else {
+          console.log("No image in AI response. Full response keys:", JSON.stringify(Object.keys(imageData)));
         }
       } else {
-        console.error("Image generation failed:", imageResponse.status);
+        const errBody = await imageResponse.text();
+        console.error("Image generation failed:", imageResponse.status, errBody.substring(0, 300));
       }
     } catch (imgErr) {
-      console.error("Image generation error (non-fatal):", imgErr);
+      console.error("Image generation error (non-fatal):", String(imgErr));
     }
 
     // Step 3: Insert article
