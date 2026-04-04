@@ -25,6 +25,14 @@ export default function Pricing() {
           { name: "Home", url: "https://equilinq.eu/" },
           { name: "Pricing", url: "https://equilinq.eu/pricing" },
         ]}
+        jsonLd={{
+          "@type": "FAQPage",
+          mainEntity: [
+            { "@type": "Question", name: "What does Equilinq charge for sourcing?", acceptedAnswer: { "@type": "Answer", text: "Equilinq charges a transparent service fee: 6% for orders under EUR 5,000 (minimum EUR 99), 5% for EUR 5,000-19,999, and 4% for orders over EUR 20,000." } },
+            { "@type": "Question", name: "Are there any hidden fees?", acceptedAnswer: { "@type": "Answer", text: "No. Every quote is fully itemized showing factory cost, logistics, China operations, and Equilinq service fee separately." } },
+            { "@type": "Question", name: "What is included in every order?", acceptedAnswer: { "@type": "Answer", text: "Every order includes supplier sourcing, price negotiation, sample coordination, production tracking, multi-stage quality control, photo documentation, logistics coordination, customs documentation, and a dedicated human agent." } },
+          ],
+        }}
       />
       <script
         type="application/ld+json"
