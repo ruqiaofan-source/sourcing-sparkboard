@@ -25,4 +25,4 @@ Disallow: /invoice/
 Disallow: /reset-password
 Disallow: /unsubscribe
 
-Sitemap: https://chmoabjmtbbqdrgigspm.supabase.co/functions/v1/dynamic-sitemap
+Sitemap: https://www.equilinq.eu/sitemap.xml
