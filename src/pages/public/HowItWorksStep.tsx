@@ -157,15 +157,15 @@ export default function HowItWorksStep() {
         description={step.seoDesc}
         keywords={`${step.title}, China sourcing, Equilinq process, ${step.details.slice(0, 2).join(', ')}`}
         breadcrumbs={[
-          { name: "Home", url: "https://equilinq.eu/" },
-          { name: "How It Works", url: "https://equilinq.eu/how-it-works" },
-          { name: step.title, url: `https://equilinq.eu/how-it-works/${step.slug}` },
+          { name: "Home", url: "https://www.equilinq.eu/" },
+          { name: "How It Works", url: "https://www.equilinq.eu/how-it-works" },
+          { name: step.title, url: `https://www.equilinq.eu/how-it-works/${step.slug}` },
         ]}
         jsonLd={{
           "@type": "HowToStep",
           name: step.title,
           text: step.desc,
-          url: `https://equilinq.eu/how-it-works/${step.slug}`,
+          url: `https://www.equilinq.eu/how-it-works/${step.slug}`,
           position: parseInt(step.step),
         }}
       />

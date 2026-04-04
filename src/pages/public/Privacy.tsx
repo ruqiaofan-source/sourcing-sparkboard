@@ -10,8 +10,8 @@ export default function Privacy() {
         description="Learn how Equilinq collects, uses, discloses, and protects your personal information."
         keywords="privacy policy, data protection, GDPR, personal information, Equilinq"
         breadcrumbs={[
-          { name: "Home", url: "https://equilinq.eu/" },
-          { name: "Privacy Policy", url: "https://equilinq.eu/privacy" },
+          { name: "Home", url: "https://www.equilinq.eu/" },
+          { name: "Privacy Policy", url: "https://www.equilinq.eu/privacy" },
         ]}
       />
       <PublicNavbar />

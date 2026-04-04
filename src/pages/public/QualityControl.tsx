@@ -39,8 +39,8 @@ export default function QualityControl() {
         description="Multi-stage quality control for every order. Pre-production validation, in-process monitoring, final inspection, and photo documentation. No defects, no surprises."
         keywords="quality control China, product inspection, pre-shipment inspection, QC services, quality assurance sourcing"
         breadcrumbs={[
-          { name: "Home", url: "https://equilinq.eu/" },
-          { name: "Quality Control", url: "https://equilinq.eu/quality-control" },
+          { name: "Home", url: "https://www.equilinq.eu/" },
+          { name: "Quality Control", url: "https://www.equilinq.eu/quality-control" },
         ]}
       />
       <script
@@ -50,9 +50,9 @@ export default function QualityControl() {
             "@context": "https://schema.org",
             "@type": "Service",
             name: "Quality Control - Equilinq",
-            url: "https://equilinq.eu/quality-control",
+            url: "https://www.equilinq.eu/quality-control",
             description: "Multi-stage quality control and product inspection services for China sourcing.",
-            provider: { "@type": "Organization", name: "Equilinq", url: "https://equilinq.eu" },
+            provider: { "@type": "Organization", name: "Equilinq", url: "https://www.equilinq.eu" },
           }),
         }}
       />
