@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Send, Loader2, Check, Leaf, LeafyGreen, Award, Sparkles, ShieldCheck, Globe, Zap, CheckCircle2, ArrowUpRight, Camera, Shirt, Tag, PackageCheck, Truck, Search, Scissors, Ruler, Box, Layers, ScanLine, Video, ImagePlus, Palette, Stamp, Shield, Wrench, Package, Warehouse, ShoppingBag, Plug, Brush, ChevronDown } from "lucide-react";
 import FileUpload from "@/components/FileUpload";
+import SourcingAssistant from "@/components/SourcingAssistant";
 
 const currencies = ["EUR", "USD", "GBP", "CNY", "JPY"];
 const countries = [
@@ -416,6 +417,19 @@ const NewRequest = () => {
               {step === 1 && (
                 <StepWrapper number="01" title="Which product do you want to source?" subtitle="Give it a short, descriptive name so we know what to look for.">
                   <Input autoFocus value={form.title} onChange={(e) => update("title", e.target.value)} placeholder="e.g., Branded USB-C cables, Custom tote bags, Phone cases..." className="bg-secondary/50 border-border h-14 text-lg placeholder:text-muted-foreground/40 focus:ring-2 focus:ring-primary/30 transition-all" />
+                  <SourcingAssistant
+                    onApplySuggestion={(s) => {
+                      setForm((f) => ({
+                        ...f,
+                        title: s.title,
+                        description: s.description,
+                        quantity: String(s.quantity_recommended),
+                        budget_per_unit: String(s.budget_per_unit_eur),
+                        currency: "EUR",
+                        eco_friendly: s.eco_friendly,
+                      }));
+                    }}
+                  />
                 </StepWrapper>
               )}
 
