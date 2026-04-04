@@ -379,6 +379,10 @@ export type Database = {
       }
       orders: {
         Row: {
+          buckydrop_order_id: string | null
+          buckydrop_status: string | null
+          buckydrop_synced_at: string | null
+          buckydrop_tracking_number: string | null
           created_at: string
           eta: string | null
           id: string
@@ -395,6 +399,10 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          buckydrop_order_id?: string | null
+          buckydrop_status?: string | null
+          buckydrop_synced_at?: string | null
+          buckydrop_tracking_number?: string | null
           created_at?: string
           eta?: string | null
           id?: string
@@ -411,6 +419,10 @@ export type Database = {
           user_id: string
         }
         Update: {
+          buckydrop_order_id?: string | null
+          buckydrop_status?: string | null
+          buckydrop_synced_at?: string | null
+          buckydrop_tracking_number?: string | null
           created_at?: string
           eta?: string | null
           id?: string
