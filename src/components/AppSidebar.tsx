@@ -36,6 +36,7 @@ const adminItems = [
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
   { title: "Insights", url: "/admin/insights", icon: Newspaper },
   { title: "Contact", url: "/admin/contact", icon: Inbox },
+  { title: "Audit", url: "/admin/audit", icon: ShieldCheck },
 ];
 
 export function AppSidebar() {

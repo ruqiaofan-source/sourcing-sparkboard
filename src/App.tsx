@@ -150,6 +150,7 @@ const App = () => (
                 <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
                 <Route path="/admin/insights" element={<ProtectedRoute><AdminInsights /></ProtectedRoute>} />
                 <Route path="/admin/contact" element={<ProtectedRoute><AdminContactSubmissions /></ProtectedRoute>} />
+                <Route path="/admin/audit" element={<ProtectedRoute><AdminAudit /></ProtectedRoute>} />
                 
                 {/* Shared routes */}
                 <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
