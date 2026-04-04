@@ -19,9 +19,11 @@ export function RelatedArticles({ articles }: RelatedArticlesProps) {
   if (articles.length === 0) return null;
 
   return (
-    <section className="border-t border-border/30 bg-muted/20 py-16 px-4 sm:px-6">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="font-heading text-xl font-bold text-foreground mb-8">Related Insights</h2>
+    <section className="border-t border-border/30 bg-muted/10 py-20 px-6 sm:px-8">
+      <div className="max-w-2xl mx-auto">
+        <h2 className="font-heading text-xl font-bold text-foreground mb-8 tracking-tight">
+          Related Insights
+        </h2>
         <div className="grid sm:grid-cols-3 gap-5">
           {articles.map((post) => (
             <Link
@@ -40,12 +42,14 @@ export function RelatedArticles({ articles }: RelatedArticlesProps) {
                 </div>
               )}
               <div className="p-4">
-                <span className="text-[10px] text-primary uppercase tracking-wider font-semibold">{post.tag}</span>
-                <h3 className="font-heading text-sm font-semibold text-foreground mt-1 group-hover:text-primary transition-colors line-clamp-2">
+                <span className="text-[10px] text-primary uppercase tracking-wider font-semibold">
+                  {post.tag}
+                </span>
+                <h3 className="font-heading text-sm font-semibold text-foreground mt-1.5 group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                   {post.title}
                 </h3>
                 {post.published_at && (
-                  <p className="text-[11px] text-muted-foreground mt-2">
+                  <p className="text-[11px] text-muted-foreground mt-2.5">
                     {format(new Date(post.published_at), "MMM d, yyyy")}
                   </p>
                 )}
