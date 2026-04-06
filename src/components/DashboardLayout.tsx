@@ -52,7 +52,7 @@ export function DashboardLayout({ children, title }: { children: React.ReactNode
             style={{ background: "var(--glow-blue-bottom)" }}
           />
 
-          <header className="h-14 flex items-center border-b border-border/60 px-3 sm:px-6 relative z-10 gap-2 bg-background/80 backdrop-blur-sm">
+          <header className="h-14 flex items-center border-b border-border/40 px-3 sm:px-6 relative z-10 gap-2 bg-background/70 backdrop-blur-md">
             <SidebarTrigger className="shrink-0" />
             
             {/* Breadcrumb */}

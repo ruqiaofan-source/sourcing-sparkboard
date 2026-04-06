@@ -130,11 +130,11 @@ const CustomerDashboard = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.5 }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-3"
         >
           <Link to="/sourcing-requests" className="group">
-            <div className="rounded-xl border border-border bg-card p-5 hover:border-primary/30 transition-all h-full flex items-center gap-4">
-              <div className="h-10 w-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0">
+            <div className="rounded-xl border border-border/60 bg-card/80 backdrop-blur-sm p-5 hover:border-primary/30 hover:shadow-[0_0_30px_-8px_hsl(239_100%_65%/0.15)] transition-all h-full flex items-center gap-4">
+              <div className="h-10 w-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
                 <FileText className="h-5 w-5 text-blue-500" />
               </div>
               <div className="min-w-0 flex-1">
@@ -147,9 +147,22 @@ const CustomerDashboard = () => {
             </div>
           </Link>
 
+          <Link to="/order-tracking" className="group">
+            <div className="rounded-xl border border-border/60 bg-card/80 backdrop-blur-sm p-5 hover:border-primary/30 hover:shadow-[0_0_30px_-8px_hsl(239_100%_65%/0.15)] transition-all h-full flex items-center gap-4">
+              <div className="h-10 w-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
+                <Package className="h-5 w-5 text-amber-500" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="font-heading font-semibold text-foreground group-hover:text-primary transition-colors text-sm">Order Tracking</p>
+                <p className="text-xs text-muted-foreground">Track your orders</p>
+              </div>
+              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+            </div>
+          </Link>
+
           <Link to="/messages" className="group relative">
-            <div className="rounded-xl border border-border bg-card p-5 hover:border-primary/30 transition-all h-full flex items-center gap-4">
-              <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
+            <div className="rounded-xl border border-border/60 bg-card/80 backdrop-blur-sm p-5 hover:border-primary/30 hover:shadow-[0_0_30px_-8px_hsl(239_100%_65%/0.15)] transition-all h-full flex items-center gap-4">
+              <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
                 <MessageCircle className="h-5 w-5 text-emerald-500" />
               </div>
               <div className="min-w-0 flex-1">
@@ -188,7 +201,7 @@ const CustomerDashboard = () => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="rounded-xl border border-border bg-card shadow-[var(--shadow-card)]"
+            className="rounded-xl border border-border/60 bg-card/80 backdrop-blur-sm shadow-[var(--shadow-card)]"
           >
             <div className="flex items-center justify-between px-5 py-4 border-b border-border">
               <h2 className="font-heading font-semibold text-foreground text-sm">Recent Requests</h2>
