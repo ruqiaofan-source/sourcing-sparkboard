@@ -417,11 +417,41 @@ export default function HowItWorksStep() {
             </ul>
           </motion.div>
 
+          {/* CTA Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.06] to-primary/[0.02] p-8 sm:p-10 mb-12 text-center"
+          >
+            <h2 className="font-heading text-xl sm:text-2xl font-bold text-foreground mb-3">
+              Ready to start sourcing?
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto mb-6 leading-relaxed">
+              {next
+                ? "Create your free account and submit your first sourcing request in minutes."
+                : "You have seen the full process. Let us handle your sourcing from start to finish."}
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link to="/auth?signup=true">
+                <Button size="lg" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 font-semibold border border-primary/20">
+                  Get Started Free
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="lg" className="rounded-full px-6">
+                  Book a Call
+                </Button>
+              </a>
+            </div>
+          </motion.div>
+
           {/* Nav */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
+            transition={{ duration: 0.4, delay: 0.55 }}
             className="flex items-center justify-between"
           >
             {prev ? (
@@ -448,10 +478,10 @@ export default function HowItWorksStep() {
                 </Button>
               </Link>
             ) : (
-              <Link to="/auth?signup=true">
-                <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 font-semibold border border-primary/20">
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
+              <Link to="/how-it-works">
+                <Button variant="ghost" className="gap-2 text-muted-foreground hover:text-foreground">
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Overview
                 </Button>
               </Link>
             )}
