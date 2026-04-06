@@ -93,7 +93,34 @@ const AgentRequestDetail = () => {
     enabled: !!id && !!user,
   });
 
-  const { data: invoices = [] } = useQuery({
+  // Fetch agents for assignment (admin only)
+  const { data: agents = [] } = useQuery({
+    queryKey: ["all-agents"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("user_id, profiles!inner(display_name, full_name)")
+        .in("role", ["agent", "admin"]);
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user && primaryRole === "admin",
+  });
+
+  const assignAgent = useMutation({
+    mutationFn: async (agentId: string) => {
+      const { error } = await supabase.from("sourcing_requests").update({ agent_id: agentId }).eq("id", id!);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["agent-request-detail", id] });
+      toast({ title: "Agent assigned", description: "Request has been assigned." });
+    },
+    onError: (err: any) => {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    },
+  });
+
     queryKey: ["agent-request-invoices", id],
     queryFn: async () => {
       const { data, error } = await supabase
