@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { useRole } from "@/hooks/useRole";
+import { RoleGuard } from "@/components/RoleGuard";
 
 import Landing from "./pages/Landing";
 import Contact from "./pages/public/Contact";
