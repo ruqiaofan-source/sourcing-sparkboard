@@ -34,10 +34,10 @@ export function PublicNavbar() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { theme } = useTheme();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      // 0 at top, 1 at 300px scroll
       const progress = Math.min(window.scrollY / 300, 1);
       setScrollProgress(progress);
     };
@@ -54,25 +54,45 @@ export function PublicNavbar() {
     dropdownTimeout.current = setTimeout(() => setCustomizationOpen(false), 200);
   };
 
+  const isActive = (href: string) => location.pathname === href || location.pathname.startsWith(href + "/");
+
   // Dynamic navbar styles based on scroll
-  const blur = 12 + scrollProgress * 12; // 12px -> 24px
-  const shadow = 0.08 + scrollProgress * 0.1; // 0.08 -> 0.18
+  const blur = 12 + scrollProgress * 12;
+  const shadow = 0.08 + scrollProgress * 0.1;
   const borderOpacity = 0.15 + scrollProgress * 0.1;
+  const navScale = 1 - scrollProgress * 0.01; // subtle shrink on scroll
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl" aria-label="Main navigation">
-      <div
-        className="flex items-center justify-between rounded-2xl border bg-card px-5 py-3"
+    <motion.nav
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl"
+      aria-label="Main navigation"
+    >
+      <motion.div
+        className="flex items-center justify-between rounded-2xl border bg-white px-5 py-3"
         style={{
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
           boxShadow: `0 4px 24px -4px rgba(0, 0, 0, ${shadow}), 0 1px 3px rgba(0, 0, 0, ${shadow * 0.5})`,
-          borderColor: `hsl(var(--border) / ${borderOpacity})`,
+          borderColor: `rgba(209, 213, 219, ${borderOpacity})`,
+          transform: `scale(${navScale})`,
         }}
       >
-        <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
-          <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" width={32} height={32} className="h-8 w-8 object-contain" loading="eager" decoding="sync" fetchPriority="high" />
-          <span className="font-heading text-lg font-bold tracking-wider uppercase text-foreground">
+        <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0 group">
+          <motion.img
+            src={equilinqLogo}
+            alt="Equilinq"
+            width={32}
+            height={32}
+            className="h-8 w-8 object-contain"
+            loading="eager"
+            decoding="sync"
+            fetchPriority="high"
+            whileHover={{ rotate: [0, -8, 8, -4, 0], transition: { duration: 0.5 } }}
+          />
+          <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
           </span>
         </Link>
