@@ -274,12 +274,7 @@ export default function HowItWorks() {
             className="relative rounded-2xl overflow-hidden mb-8 sm:mb-10 h-40 sm:h-64"
           >
             <img src={heroBottomImg} alt="Equilinq quality control inspection" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8">
-              <p className="text-foreground font-heading text-base sm:text-2xl font-bold max-w-md leading-snug">
-                Your products, sourced with full transparency and quality assurance.
-              </p>
-            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
           </motion.div>
 
           <motion.div
