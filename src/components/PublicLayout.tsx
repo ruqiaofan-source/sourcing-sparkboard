@@ -71,7 +71,7 @@ export function PublicNavbar() {
       aria-label="Main navigation"
     >
       <motion.div
-        className="flex items-center justify-between rounded-2xl border bg-white px-5 py-3"
+        className="flex items-center justify-between rounded-2xl border bg-white px-4 py-2.5 overflow-hidden"
         style={{
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
