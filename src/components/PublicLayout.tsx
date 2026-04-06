@@ -75,7 +75,7 @@ export function PublicNavbar() {
       >
         {/* Glow trace effect */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-0 group-hover/nav:opacity-100 transition-opacity duration-500 rounded-2xl"
+          className="pointer-events-none absolute inset-0 opacity-0 group-hover/nav:opacity-100 transition-opacity duration-500 rounded-2xl overflow-hidden"
           style={{
             background: 'radial-gradient(250px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(var(--primary) / 0.1), transparent 60%)',
           }}
