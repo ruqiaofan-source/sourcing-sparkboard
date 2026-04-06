@@ -332,12 +332,12 @@ export default function HowItWorksStep() {
       <section className="pb-20 px-4">
         <div className="max-w-3xl mx-auto">
 
-          {/* Details */}
+          {/* What's included */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.15 }}
-            className="rounded-2xl border border-border/30 bg-card/30 p-6 mb-12"
+            className="rounded-2xl border border-border/30 bg-card/30 p-6 sm:p-8 mb-8"
           >
             <h2 className="font-heading text-lg font-semibold text-foreground mb-4">What's included</h2>
             <ul className="space-y-3">
@@ -347,10 +347,71 @@ export default function HowItWorksStep() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: 0.2 + i * 0.05 }}
-                  className="flex items-start gap-3 text-sm text-foreground/80"
+                  className="flex items-start gap-3 text-sm sm:text-base text-foreground/80"
                 >
                   <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                   <span>{detail}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Why it matters */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.25 }}
+            className="rounded-2xl border border-border/30 bg-card/30 p-6 sm:p-8 mb-8"
+          >
+            <h2 className="font-heading text-lg font-semibold text-foreground mb-3">Why it matters</h2>
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{step.whyItMatters}</p>
+          </motion.div>
+
+          {/* How it works */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.35 }}
+            className="rounded-2xl border border-border/30 bg-card/30 p-6 sm:p-8 mb-8"
+          >
+            <h2 className="font-heading text-lg font-semibold text-foreground mb-4">How it works</h2>
+            <ol className="space-y-4">
+              {step.howItWorks.map((item, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.4 + i * 0.06 }}
+                  className="flex items-start gap-3 text-sm sm:text-base text-foreground/80"
+                >
+                  <span className="flex items-center justify-center h-6 w-6 rounded-full bg-primary/10 text-primary text-xs font-bold shrink-0 mt-0.5">
+                    {i + 1}
+                  </span>
+                  <span>{item}</span>
+                </motion.li>
+              ))}
+            </ol>
+          </motion.div>
+
+          {/* What you get */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.45 }}
+            className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 sm:p-8 mb-12"
+          >
+            <h2 className="font-heading text-lg font-semibold text-foreground mb-4">What you get</h2>
+            <ul className="space-y-3">
+              {step.whatYouGet.map((item, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.5 + i * 0.05 }}
+                  className="flex items-start gap-3 text-sm sm:text-base text-foreground/80"
+                >
+                  <ArrowRight className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                  <span>{item}</span>
                 </motion.li>
               ))}
             </ul>
