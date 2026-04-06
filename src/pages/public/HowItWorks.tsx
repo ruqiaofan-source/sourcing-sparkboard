@@ -17,30 +17,10 @@ function TimelineStep({ step, index }: { step: (typeof steps)[number]; index: nu
 
   return (
     <div ref={ref} className="relative">
-      {/* ── 3-column grid: left | spine | right ── */}
-      <div className="grid grid-cols-[1fr_48px_1fr] sm:grid-cols-[1fr_56px_1fr] items-stretch">
-
-        {/* Left column */}
-        <div className="flex items-center justify-end">
-          {isLeft && (
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full hidden sm:block"
-            >
-              <Link to={`/how-it-works/${step.slug}`} className="block group">
-                <div className="text-right p-5 sm:p-6 rounded-xl border border-transparent group-hover:border-primary/20 group-hover:bg-primary/[0.03] transition-all duration-300 cursor-pointer">
-                  <StepContent step={step} index={index} align="right" inView={inView} />
-                </div>
-              </Link>
-            </motion.div>
-          )}
-        </div>
-
-        {/* Center spine */}
+      {/* ── Mobile: simple left-spine layout ── */}
+      <div className="md:hidden grid grid-cols-[40px_1fr] items-stretch">
+        {/* Spine */}
         <div className="relative flex flex-col items-center">
-          {/* Continuous line behind the node */}
           {index > 0 && (
             <motion.div
               initial={{ scaleY: 0 }}
@@ -57,13 +37,82 @@ function TimelineStep({ step, index }: { step: (typeof steps)[number]; index: nu
               className="absolute top-1/2 bottom-0 w-[2px] bg-gradient-to-b from-primary/60 to-primary/30 origin-top"
             />
           )}
-
-          {/* Spacer top */}
           <div className="flex-1" />
-
-          {/* Node circle */}
           <div className="relative z-10">
-            {/* Pulse ring */}
+            {inView && (
+              <motion.div
+                className="absolute inset-0 rounded-full bg-primary/20"
+                initial={{ scale: 1, opacity: 0.6 }}
+                animate={{ scale: [1, 1.8, 1.8], opacity: [0.5, 0, 0] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1.5, ease: "easeOut" }}
+              />
+            )}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={inView ? { scale: 1 } : {}}
+              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.08 }}
+              className="relative h-9 w-9 rounded-full border-2 border-primary/30 bg-background flex items-center justify-center shrink-0 shadow-[0_0_24px_-4px_hsl(239,100%,60%/0.15)]"
+            >
+              <Icon className="h-4 w-4 text-primary" />
+            </motion.div>
+          </div>
+          <div className="flex-1" />
+        </div>
+
+        {/* Content */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Link to={`/how-it-works/${step.slug}`} className="block group">
+            <div className="text-left p-4 rounded-xl border border-transparent group-hover:border-primary/20 group-hover:bg-primary/[0.03] transition-all duration-300">
+              <StepContent step={step} index={index} align="left" inView={inView} showIcon={false} />
+            </div>
+          </Link>
+        </motion.div>
+      </div>
+
+      {/* ── Desktop: 3-column alternating grid ── */}
+      <div className="hidden md:grid grid-cols-[1fr_56px_1fr] items-stretch">
+        {/* Left column */}
+        <div className="flex items-center justify-end">
+          {isLeft && (
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full"
+            >
+              <Link to={`/how-it-works/${step.slug}`} className="block group">
+                <div className="text-right p-6 rounded-xl border border-transparent group-hover:border-primary/20 group-hover:bg-primary/[0.03] transition-all duration-300 cursor-pointer">
+                  <StepContent step={step} index={index} align="right" inView={inView} />
+                </div>
+              </Link>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Center spine */}
+        <div className="relative flex flex-col items-center">
+          {index > 0 && (
+            <motion.div
+              initial={{ scaleY: 0 }}
+              animate={inView ? { scaleY: 1 } : {}}
+              transition={{ duration: 0.5 }}
+              className="absolute top-0 bottom-1/2 w-[2px] bg-gradient-to-b from-primary/30 to-primary/60 origin-top"
+            />
+          )}
+          {!isLast && (
+            <motion.div
+              initial={{ scaleY: 0 }}
+              animate={inView ? { scaleY: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="absolute top-1/2 bottom-0 w-[2px] bg-gradient-to-b from-primary/60 to-primary/30 origin-top"
+            />
+          )}
+          <div className="flex-1" />
+          <div className="relative z-10">
             {inView && (
               <motion.div
                 className="absolute inset-0 rounded-full bg-primary/20"
@@ -77,28 +126,25 @@ function TimelineStep({ step, index }: { step: (typeof steps)[number]; index: nu
               animate={inView ? { scale: 1 } : {}}
               transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.08 }}
               whileHover={{ scale: 1.2, boxShadow: "0 0 32px 4px hsl(239 100% 60% / 0.35)" }}
-              className="relative h-11 w-11 sm:h-13 sm:w-13 rounded-full border-2 border-primary/30 bg-background flex items-center justify-center shrink-0 shadow-[0_0_24px_-4px_hsl(239,100%,60%/0.15)] transition-shadow duration-300 cursor-pointer hover:border-primary/60"
+              className="relative h-13 w-13 rounded-full border-2 border-primary/30 bg-background flex items-center justify-center shrink-0 shadow-[0_0_24px_-4px_hsl(239,100%,60%/0.15)] transition-shadow duration-300 cursor-pointer hover:border-primary/60"
             >
-              <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+              <Icon className="h-5 w-5 text-primary" />
             </motion.div>
           </div>
-
-          {/* Spacer bottom */}
           <div className="flex-1" />
         </div>
 
         {/* Right column */}
         <div className="flex items-center">
-          {/* Mobile: always show here. Desktop: only odd steps */}
-          {(!isLeft || true) && (
+          {!isLeft && (
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              className={`w-full ${isLeft ? "sm:hidden" : ""}`}
+              className="w-full"
             >
               <Link to={`/how-it-works/${step.slug}`} className="block group">
-                <div className="text-left p-5 sm:p-6 rounded-xl border border-transparent group-hover:border-primary/20 group-hover:bg-primary/[0.03] transition-all duration-300 cursor-pointer">
+                <div className="text-left p-6 rounded-xl border border-transparent group-hover:border-primary/20 group-hover:bg-primary/[0.03] transition-all duration-300 cursor-pointer">
                   <StepContent step={step} index={index} align="left" inView={inView} />
                 </div>
               </Link>
@@ -116,11 +162,13 @@ function StepContent({
   index,
   align,
   inView,
+  showIcon = true,
 }: {
   step: (typeof steps)[number];
   index: number;
   align: "left" | "right";
   inView: boolean;
+  showIcon?: boolean;
 }) {
   return (
     <div className={align === "right" ? "text-right" : "text-left"}>
@@ -134,7 +182,7 @@ function StepContent({
       </motion.span>
 
       <div className={`flex items-center gap-3 mt-2 mb-2.5 ${align === "right" ? "justify-end" : "justify-start"}`}>
-        <step.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary/70 shrink-0" />
+        {showIcon && <step.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary/70 shrink-0" />}
         <h2 className="font-heading text-xl sm:text-2xl lg:text-3xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-200">
           {step.title}
         </h2>
