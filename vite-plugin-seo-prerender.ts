@@ -37,7 +37,10 @@ function injectMeta(html: string, route: string, meta: { title: string; descript
     );
   }
 
-  // Inject canonical (not in static HTML anymore, so add before </head>)
+  // Remove any existing canonical to avoid duplicates
+  html = html.replace(/<link rel="canonical" href="[^"]*"\s*\/?>\s*\n?/g, "");
+
+  // Inject canonical + OG/Twitter tags before </head>
   html = html.replace(
     "</head>",
     `  <link rel="canonical" href="${canonicalUrl}" />\n` +
