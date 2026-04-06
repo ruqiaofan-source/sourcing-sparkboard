@@ -88,7 +88,7 @@ export function PublicNavbar() {
               >
                   <Link
                     to={link.href}
-                    className="flex items-center gap-1 hover:text-gray-900 transition-colors whitespace-nowrap text-base"
+                    className="flex items-center gap-1 hover:text-foreground transition-colors whitespace-nowrap text-base"
                   >
                   {link.label}
                   <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${customizationOpen ? "rotate-180" : ""}`} />
@@ -103,28 +103,28 @@ export function PublicNavbar() {
                       transition={{ duration: 0.15 }}
                       className="absolute top-full left-0 pt-3"
                     >
-                      <div className="w-[420px] rounded-2xl border border-gray-200 bg-white shadow-xl p-3 grid grid-cols-2 gap-1">
+                      <div className="w-[420px] rounded-2xl border border-border bg-card shadow-xl p-3 grid grid-cols-2 gap-1">
                         {customizationCategories.map((cat) => (
                           <Link
                             key={cat.label}
                             to={cat.href}
                             onClick={() => setCustomizationOpen(false)}
-                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-gray-50 transition-colors group"
+                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-accent transition-colors group"
                           >
-                            <div className="h-8 w-8 rounded-lg bg-indigo-50 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-indigo-100 transition-colors">
-                              <cat.icon className="h-4 w-4 text-indigo-600" />
+                            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-primary/20 transition-colors">
+                              <cat.icon className="h-4 w-4 text-primary" />
                             </div>
                             <div className="min-w-0">
-                              <p className="text-sm font-medium text-gray-900 leading-tight">{cat.label}</p>
-                              <p className="text-xs text-gray-500 mt-0.5 leading-snug">{cat.desc}</p>
+                              <p className="text-sm font-medium text-foreground leading-tight">{cat.label}</p>
+                              <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{cat.desc}</p>
                             </div>
                           </Link>
                         ))}
-                        <div className="col-span-2 border-t border-gray-100 mt-1 pt-2 px-3 pb-1">
+                        <div className="col-span-2 border-t border-border mt-1 pt-2 px-3 pb-1">
                           <Link
                             to="/customization"
                             onClick={() => setCustomizationOpen(false)}
-                            className="text-xs font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
+                            className="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1"
                           >
                             View all services
                             <ArrowRight className="h-3 w-3" />
@@ -139,7 +139,7 @@ export function PublicNavbar() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="hover:text-gray-900 transition-colors whitespace-nowrap text-base"
+                className="hover:text-foreground transition-colors whitespace-nowrap text-base"
               >
                 {link.label}
               </Link>
