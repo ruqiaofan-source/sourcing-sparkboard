@@ -763,75 +763,87 @@ export default function Landing() {
       </section>
 
       {/* ───── PARTNER LOGO CAROUSEL ───── */}
-      <section className="py-12 border-y border-border/20 bg-background/90 relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-80"
-          style={{
-            background: "linear-gradient(135deg, transparent 0%, hsl(var(--primary) / 0.06) 35%, transparent 70%)",
-          }}
-        />
+      <section className="py-14 sm:py-16 relative overflow-hidden">
+        {/* Subtle divider lines */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="relative z-10 text-center mb-6 sm:mb-8"
+          className="relative z-10 text-center mb-8 sm:mb-10"
         >
-          <span className="text-sm sm:text-base font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">Trusted By</span>
+          <div className="inline-flex items-center gap-3">
+            <span className="h-px w-8 bg-border/50" />
+            <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground/60">
+              Trusted by leading brands
+            </span>
+            <span className="h-px w-8 bg-border/50" />
+          </div>
         </motion.div>
         <div className="relative z-10">
-        <Marquee speed={40}>
-          {[
-            { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/", hasBackground: true, isSquare: false },
-            { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true, isSquare: false },
-            { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true, isSquare: false },
-            { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false, isSquare: true },
-            { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false, isSquare: true },
-            { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false, isSquare: true },
-          ].map((logo) => {
-            const isTransparent = !logo.hasBackground;
-            const isDark = theme === "dark";
-            return (
-            <a
-              key={logo.alt}
-              href={logo.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex shrink-0 items-center justify-center gap-2 h-10 sm:h-14 transition-all duration-500 px-3"
-            >
-              <img
-                src={logo.src}
-                alt={logo.alt}
-                width={logo.isSquare ? 48 : 140}
-                height={logo.isSquare ? 48 : 56}
-                className={`object-contain transition-all duration-500 ${
-                  logo.isSquare ? "h-9 w-9 sm:h-12 sm:w-12" : "h-full w-auto max-w-[100px] sm:max-w-[140px]"
-                }`}
-                style={{
-                  filter: isTransparent
-                    ? isDark
-                      ? "grayscale(100%) brightness(0.7) invert(0)"
-                      : "grayscale(100%) opacity(0.5)"
-                    : "grayscale(100%) opacity(0.6)",
-                  transition: "filter 0.5s, opacity 0.5s",
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.filter = "none"; }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.filter = isTransparent
-                    ? isDark ? "grayscale(100%) brightness(0.7) invert(0)" : "grayscale(100%) opacity(0.5)"
-                    : "grayscale(100%) opacity(0.6)";
-                }}
-              />
-              {logo.isSquare && (
-                <span className={`text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-500 ${
-                  isDark ? "text-white/70" : "text-gray-500"
-                }`}>{logo.alt === "Stichting iMMO" ? "iMMO" : logo.alt}</span>
-              )}
-            </a>
-            );
-          })}
-        </Marquee>
+          {/* Fade edges */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-32 z-20 bg-gradient-to-r from-background to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-32 z-20 bg-gradient-to-l from-background to-transparent" />
+          <Marquee speed={45}>
+            {[
+              { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/", hasBackground: true, isSquare: false },
+              { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true, isSquare: false },
+              { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true, isSquare: false },
+              { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false, isSquare: true },
+              { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false, isSquare: true },
+              { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false, isSquare: true },
+            ].map((logo) => {
+              const isTransparent = !logo.hasBackground;
+              const isDark = theme === "dark";
+              return (
+                <a
+                  key={logo.alt}
+                  href={logo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex shrink-0 items-center justify-center gap-2.5 px-5 sm:px-8 transition-all duration-500"
+                >
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={logo.isSquare ? 44 : 140}
+                    height={logo.isSquare ? 44 : 48}
+                    className={`object-contain transition-all duration-500 group-hover:scale-105 ${
+                      logo.isSquare
+                        ? "h-8 w-8 sm:h-10 sm:w-10"
+                        : "h-8 sm:h-10 w-auto max-w-[100px] sm:max-w-[130px]"
+                    }`}
+                    style={{
+                      filter: isTransparent
+                        ? isDark
+                          ? "grayscale(100%) brightness(0.6) invert(1)"
+                          : "grayscale(100%) opacity(0.4)"
+                        : isDark
+                          ? "grayscale(100%) brightness(0.8) invert(0.15)"
+                          : "grayscale(100%) opacity(0.45)",
+                      transition: "filter 0.5s, transform 0.3s",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.filter = "none"; }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.filter = isTransparent
+                        ? isDark ? "grayscale(100%) brightness(0.6) invert(1)" : "grayscale(100%) opacity(0.4)"
+                        : isDark ? "grayscale(100%) brightness(0.8) invert(0.15)" : "grayscale(100%) opacity(0.45)";
+                    }}
+                  />
+                  {logo.isSquare && (
+                    <span className={`text-xs font-medium whitespace-nowrap transition-all duration-500 ${
+                      isDark ? "text-muted-foreground/60 group-hover:text-foreground" : "text-muted-foreground/50 group-hover:text-foreground"
+                    }`}>
+                      {logo.alt === "Stichting iMMO" ? "iMMO" : logo.alt}
+                    </span>
+                  )}
+                </a>
+              );
+            })}
+          </Marquee>
         </div>
       </section>
 
