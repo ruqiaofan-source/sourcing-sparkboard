@@ -142,6 +142,8 @@ const App = () => (
                 <Route path="/sourcing-requests" element={<ProtectedRoute><SourcingRequests /></ProtectedRoute>} />
                 <Route path="/sourcing-requests/:id" element={<ProtectedRoute><CustomerRequestDetail /></ProtectedRoute>} />
                 <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+                <Route path="/addresses" element={<ProtectedRoute><AddressManagement /></ProtectedRoute>} />
+                <Route path="/help" element={<ProtectedRoute><HelpSupport /></ProtectedRoute>} />
                 
                 {/* Agent routes */}
                 <Route path="/agent/requests" element={<ProtectedRoute><AgentRequests /></ProtectedRoute>} />
