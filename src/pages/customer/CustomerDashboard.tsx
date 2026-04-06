@@ -66,10 +66,13 @@ const CustomerDashboard = () => {
   const displayName = profile?.display_name || user?.email?.split("@")[0] || "there";
   const hasRequests = requests.length > 0;
   const quotedCount = requests.filter((r: any) => r.status === "quoted").length;
+  const activeRequests = requests.filter((r: any) => ["pending", "active"].includes(r.status)).length;
+  const confirmedRequests = requests.filter((r: any) => r.status === "confirmed").length;
+  const totalSpent = orders.reduce((sum: number, o: any) => sum + Number(o.total_amount || 0), 0);
 
   return (
     <DashboardLayout title="Home">
-      <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="space-y-6 max-w-4xl mx-auto">
         {/* Hero CTA - the first and biggest thing */}
         <motion.div
           initial={{ opacity: 0, y: 20, scale: 0.98 }}
