@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Menu, X, ChevronDown, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/hooks/useTheme";
 import equilinqLogo from "@/assets/equilinq-logo.png";
@@ -33,10 +34,10 @@ export function PublicNavbar() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { theme } = useTheme();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      // 0 at top, 1 at 300px scroll
       const progress = Math.min(window.scrollY / 300, 1);
       setScrollProgress(progress);
     };
@@ -53,31 +54,51 @@ export function PublicNavbar() {
     dropdownTimeout.current = setTimeout(() => setCustomizationOpen(false), 200);
   };
 
+  const isActive = (href: string) => location.pathname === href || location.pathname.startsWith(href + "/");
+
   // Dynamic navbar styles based on scroll
-  const blur = 12 + scrollProgress * 12; // 12px -> 24px
-  const shadow = 0.08 + scrollProgress * 0.1; // 0.08 -> 0.18
+  const blur = 12 + scrollProgress * 12;
+  const shadow = 0.08 + scrollProgress * 0.1;
   const borderOpacity = 0.15 + scrollProgress * 0.1;
+  const navScale = 1 - scrollProgress * 0.01; // subtle shrink on scroll
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl" aria-label="Main navigation">
-      <div
-        className="flex items-center justify-between rounded-2xl border bg-card px-5 py-3"
+    <motion.nav
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl"
+      aria-label="Main navigation"
+    >
+      <motion.div
+        className="flex items-center justify-between rounded-2xl border bg-white px-4 lg:px-5 py-2.5"
         style={{
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
           boxShadow: `0 4px 24px -4px rgba(0, 0, 0, ${shadow}), 0 1px 3px rgba(0, 0, 0, ${shadow * 0.5})`,
-          borderColor: `hsl(var(--border) / ${borderOpacity})`,
+          borderColor: `rgba(209, 213, 219, ${borderOpacity})`,
+          transform: `scale(${navScale})`,
         }}
       >
-        <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
-          <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" width={32} height={32} className="h-8 w-8 object-contain" loading="eager" decoding="sync" fetchPriority="high" />
-          <span className="font-heading text-lg font-bold tracking-wider uppercase text-foreground">
+        <Link to="/" className="flex items-center gap-1.5 shrink-0 group">
+          <motion.img
+            src={equilinqLogo}
+            alt="Equilinq"
+            width={32}
+            height={32}
+            className="h-7 w-7 object-contain"
+            loading="eager"
+            decoding="sync"
+            fetchPriority="high"
+            whileHover={{ rotate: [0, -8, 8, -4, 0], transition: { duration: 0.5 } }}
+          />
+          <span className="font-heading text-base font-bold tracking-wide uppercase text-gray-900">
             Equilinq
           </span>
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-base font-medium text-muted-foreground">
+        <div className="hidden lg:flex items-center gap-3 xl:gap-5 text-sm font-medium text-gray-500">
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div
@@ -86,12 +107,21 @@ export function PublicNavbar() {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                  <Link
-                    to={link.href}
-                    className="flex items-center gap-1 hover:text-foreground transition-colors whitespace-nowrap text-base"
-                  >
+                <Link
+                  to={link.href}
+                 className={`relative flex items-center gap-1 transition-colors whitespace-nowrap text-sm ${
+                    isActive(link.href) ? "text-gray-900" : "hover:text-gray-900"
+                  }`}
+                >
                   {link.label}
                   <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${customizationOpen ? "rotate-180" : ""}`} />
+                  {isActive(link.href) && (
+                    <motion.div
+                      layoutId="nav-underline"
+                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary rounded-full"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
                 </Link>
 
                 <AnimatePresence>
@@ -103,28 +133,28 @@ export function PublicNavbar() {
                       transition={{ duration: 0.15 }}
                       className="absolute top-full left-0 pt-3"
                     >
-                      <div className="w-[420px] rounded-2xl border border-border bg-card shadow-xl p-3 grid grid-cols-2 gap-1">
+                      <div className="w-[420px] rounded-2xl border border-gray-200 bg-white shadow-xl p-3 grid grid-cols-2 gap-1">
                         {customizationCategories.map((cat) => (
                           <Link
                             key={cat.label}
                             to={cat.href}
                             onClick={() => setCustomizationOpen(false)}
-                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-accent transition-colors group"
+                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-gray-50 transition-colors group"
                           >
-                            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-primary/20 transition-colors">
-                              <cat.icon className="h-4 w-4 text-primary" />
+                            <div className="h-8 w-8 rounded-lg bg-indigo-50 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-indigo-100 transition-colors">
+                              <cat.icon className="h-4 w-4 text-indigo-600" />
                             </div>
                             <div className="min-w-0">
-                              <p className="text-sm font-medium text-foreground leading-tight">{cat.label}</p>
-                              <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{cat.desc}</p>
+                              <p className="text-sm font-medium text-gray-900 leading-tight">{cat.label}</p>
+                              <p className="text-xs text-gray-500 mt-0.5 leading-snug">{cat.desc}</p>
                             </div>
                           </Link>
                         ))}
-                        <div className="col-span-2 border-t border-border mt-1 pt-2 px-3 pb-1">
+                        <div className="col-span-2 border-t border-gray-100 mt-1 pt-2 px-3 pb-1">
                           <Link
                             to="/customization"
                             onClick={() => setCustomizationOpen(false)}
-                            className="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1"
+                            className="text-xs font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
                           >
                             View all services
                             <ArrowRight className="h-3 w-3" />
@@ -139,37 +169,58 @@ export function PublicNavbar() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="hover:text-foreground transition-colors whitespace-nowrap text-base"
+                className={`relative transition-colors whitespace-nowrap text-sm ${
+                  isActive(link.href) ? "text-gray-900" : "hover:text-gray-900"
+                }`}
               >
                 {link.label}
+                {isActive(link.href) && (
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary rounded-full"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
               </Link>
             )
           )}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Link to="/auth" className="hidden lg:block">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground rounded-full text-base">
+            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-sm px-3">
               Login
             </Button>
           </Link>
           <Link to="/auth?signup=true" className="hidden lg:block">
-            <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 border border-primary/20">
-              Get Started
-              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-            </Button>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-4 text-sm border border-primary/20 shadow-[0_0_20px_-4px_hsl(239,100%,60%/0.3)]">
+                Get Started
+                <ArrowRight className="ml-1 h-3.5 w-3.5" />
+              </Button>
+            </motion.div>
           </Link>
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-foreground p-1"
+            className="lg:hidden text-gray-900 p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <AnimatePresence mode="wait" initial={false}>
+              {mobileOpen ? (
+                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <X className="h-5 w-5" />
+                </motion.div>
+              ) : (
+                <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <Menu className="h-5 w-5" />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Mobile menu */}
       <AnimatePresence>
@@ -179,7 +230,7 @@ export function PublicNavbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mt-2 rounded-2xl border border-border bg-card backdrop-blur-xl p-4 lg:hidden shadow-lg"
+            className="mt-2 rounded-2xl border border-gray-200 bg-white backdrop-blur-xl p-4 lg:hidden shadow-lg"
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link) =>
@@ -187,7 +238,7 @@ export function PublicNavbar() {
                   <div key={link.label}>
                     <button
                       onClick={() => setMobileCustomizationOpen(!mobileCustomizationOpen)}
-                      className="flex items-center justify-between w-full text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2.5 px-1"
+                      className="flex items-center justify-between w-full text-base font-medium text-gray-700 hover:text-gray-900 transition-colors py-2.5 px-1"
                     >
                       {link.label}
                       <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileCustomizationOpen ? "rotate-180" : ""}`} />
@@ -207,16 +258,16 @@ export function PublicNavbar() {
                                 key={cat.label}
                                 to={cat.href}
                                 onClick={() => { setMobileOpen(false); setMobileCustomizationOpen(false); }}
-                                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors py-1.5"
+                                className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors py-1.5"
                               >
-                                <cat.icon className="h-3.5 w-3.5 text-primary" />
+                                <cat.icon className="h-3.5 w-3.5 text-indigo-500" />
                                 {cat.label}
                               </Link>
                             ))}
                             <Link
                               to="/customization"
                               onClick={() => { setMobileOpen(false); setMobileCustomizationOpen(false); }}
-                              className="flex items-center gap-1 text-xs font-medium text-primary pt-1"
+                              className="flex items-center gap-1 text-xs font-medium text-indigo-600 pt-1"
                             >
                               View all
                               <ArrowRight className="h-3 w-3" />
@@ -231,13 +282,13 @@ export function PublicNavbar() {
                     key={link.label}
                     to={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2.5 px-1"
+                    className="text-base font-medium text-gray-700 hover:text-gray-900 transition-colors py-2.5 px-1"
                   >
                     {link.label}
                   </Link>
                 )
               )}
-              <div className="border-t border-border pt-3 mt-2 flex gap-3">
+              <div className="border-t border-gray-200 pt-3 mt-2 flex gap-3">
                 <Link to="/auth" onClick={() => setMobileOpen(false)} className="flex-1">
                   <Button variant="outline" size="sm" className="w-full rounded-full">Login</Button>
                 </Link>
@@ -249,7 +300,7 @@ export function PublicNavbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 }
 
