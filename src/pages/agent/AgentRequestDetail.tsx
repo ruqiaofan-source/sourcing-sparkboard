@@ -121,6 +121,7 @@ const AgentRequestDetail = () => {
     },
   });
 
+  const { data: invoices = [] } = useQuery({
     queryKey: ["agent-request-invoices", id],
     queryFn: async () => {
       const { data, error } = await supabase
