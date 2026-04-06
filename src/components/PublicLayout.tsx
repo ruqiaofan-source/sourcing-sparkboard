@@ -54,18 +54,17 @@ export function PublicNavbar() {
   };
 
   // Dynamic navbar styles based on scroll
-  const blur = 12 + scrollProgress * 12; // 12px -> 24px
-  const shadow = 0.08 + scrollProgress * 0.1; // 0.08 -> 0.18
+  const blur = 12 + scrollProgress * 12;
   const borderOpacity = 0.15 + scrollProgress * 0.1;
 
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl group/nav" aria-label="Main navigation">
       <div
-        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-white dark:bg-gray-950 transition-shadow duration-500 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.35),0_0_60px_-10px_hsl(var(--primary)/0.15)] overflow-hidden"
+        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-background/95 transition-all duration-300 overflow-hidden"
         style={{
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
-          boxShadow: `0 4px 24px -4px rgba(0, 0, 0, ${shadow}), 0 1px 3px rgba(0, 0, 0, ${shadow * 0.5})`,
+          boxShadow: `0 2px 16px -4px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04)`,
           borderColor: `hsl(var(--border) / ${borderOpacity})`,
         }}
         onMouseMove={(e) => {
@@ -76,9 +75,9 @@ export function PublicNavbar() {
       >
         {/* Glow trace effect */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-0 group-hover/nav:opacity-100 transition-opacity duration-300 rounded-2xl"
+          className="pointer-events-none absolute inset-0 opacity-0 group-hover/nav:opacity-100 transition-opacity duration-500 rounded-2xl"
           style={{
-            background: 'radial-gradient(300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(var(--primary) / 0.12), transparent 60%)',
+            background: 'radial-gradient(250px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(var(--primary) / 0.1), transparent 60%)',
           }}
         />
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
