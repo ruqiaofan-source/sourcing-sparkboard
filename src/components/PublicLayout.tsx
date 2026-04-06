@@ -122,12 +122,6 @@ export function PublicNavbar() {
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                   )}
-                    <motion.div
-                      layoutId="nav-indicator"
-                      className="absolute bottom-0 left-3 right-3 h-[2px] bg-primary rounded-full"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
                 </Link>
 
                 <AnimatePresence>
