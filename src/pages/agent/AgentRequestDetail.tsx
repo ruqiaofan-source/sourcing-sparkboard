@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
+import { useRole } from "@/hooks/useRole";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useParams, useNavigate, Link, useSearchParams } from "react-router-dom";
@@ -28,6 +30,7 @@ import RequestChat from "@/components/RequestChat";
 const AgentRequestDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
+  const { primaryRole } = useRole();
   useRealtimeSync("agent", user?.id);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -88,6 +91,34 @@ const AgentRequestDetail = () => {
       return count || 0;
     },
     enabled: !!id && !!user,
+  });
+
+  // Fetch agents for assignment (admin only)
+  const { data: agents = [] } = useQuery({
+    queryKey: ["all-agents"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("user_id, profiles!inner(display_name, full_name)")
+        .in("role", ["agent", "admin"]);
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user && primaryRole === "admin",
+  });
+
+  const assignAgent = useMutation({
+    mutationFn: async (agentId: string) => {
+      const { error } = await supabase.from("sourcing_requests").update({ agent_id: agentId }).eq("id", id!);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["agent-request-detail", id] });
+      toast({ title: "Agent assigned", description: "Request has been assigned." });
+    },
+    onError: (err: any) => {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    },
   });
 
   const { data: invoices = [] } = useQuery({
@@ -247,9 +278,34 @@ const AgentRequestDetail = () => {
   return (
     <DashboardLayout title="Request Details">
       <div className="max-w-4xl mx-auto space-y-6">
-        <Link to="/agent/requests" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+        <Link to={primaryRole === "admin" ? "/admin/requests" : "/agent/requests"} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="h-4 w-4" /> Back to Requests
         </Link>
+
+        {/* Admin: Assign Agent */}
+        {primaryRole === "admin" && (
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] flex items-center gap-4">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground shrink-0">
+              <User className="h-4 w-4" />
+              <span>Assigned Agent:</span>
+            </div>
+            <Select
+              value={request.agent_id || "unassigned"}
+              onValueChange={(v) => assignAgent.mutate(v)}
+            >
+              <SelectTrigger className="w-[220px] bg-secondary border-border">
+                <SelectValue placeholder="Select agent..." />
+              </SelectTrigger>
+              <SelectContent>
+                {agents.map((a: any) => (
+                  <SelectItem key={a.user_id} value={a.user_id}>
+                    {a.profiles?.display_name || a.profiles?.full_name || a.user_id.slice(0, 8)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </motion.div>
+        )}
 
         {/* Title bar */}
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">

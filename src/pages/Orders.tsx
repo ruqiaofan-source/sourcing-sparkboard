@@ -6,6 +6,7 @@ import { Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Link } from "react-router-dom";
 
 const statusStyles: Record<string, string> = {
   "in_transit": "bg-blue-500/15 text-blue-400 border-blue-500/30",
@@ -130,7 +131,9 @@ const Orders = () => {
                 ) : (
                   filtered.map((order) => (
                     <tr key={order.id} className="border-b border-border/50 last:border-0 hover:bg-muted/20 transition-colors">
-                      <td className="p-4 text-sm font-medium text-primary">{order.order_number}</td>
+                      <td className="p-4 text-sm font-medium text-primary">
+                        <Link to={`/orders/${order.id}`} className="hover:underline">{order.order_number}</Link>
+                      </td>
                       <td className="p-4 text-sm text-card-foreground">{(order.suppliers as any)?.name || "-"}</td>
                       <td className="p-4 text-sm text-muted-foreground">{order.product_name}</td>
                       <td className="p-4 text-sm text-muted-foreground">{order.quantity}</td>
