@@ -175,17 +175,15 @@ export function PublicNavbar() {
               <Link
                 key={link.label}
                 to={link.href}
-                className={`relative px-2.5 py-1.5 rounded-lg transition-all duration-200 whitespace-nowrap text-sm ${
-                  isActive(link.href)
-                    ? "text-gray-900 bg-gray-100"
-                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                className={`relative transition-colors whitespace-nowrap text-sm ${
+                  isActive(link.href) ? "text-gray-900" : "hover:text-gray-900"
                 }`}
               >
                 {link.label}
                 {isActive(link.href) && (
                   <motion.div
-                    layoutId="nav-indicator"
-                    className="absolute bottom-0 left-3 right-3 h-[2px] bg-primary rounded-full"
+                    layoutId="nav-underline"
+                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary rounded-full"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
                 )}
