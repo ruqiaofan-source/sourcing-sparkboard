@@ -1,10 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, forwardRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
-const NotFound = () => {
+const NotFound = forwardRef<HTMLElement>(function NotFound(_props, ref) {
   const location = useLocation();
 
   useEffect(() => {
@@ -37,6 +37,6 @@ const NotFound = () => {
       </div>
     </main>
   );
-};
+});
 
 export default NotFound;
