@@ -171,43 +171,62 @@ export default function HowItWorksStep() {
       />
       <PublicNavbar />
 
-      <section className="pt-32 pb-20 px-4">
-        <div className="max-w-3xl mx-auto">
+      {/* Hero */}
+      <section className="pt-28 sm:pt-36 pb-16 sm:pb-20 px-4 text-center relative">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[400px] rounded-full bg-primary/[0.03] blur-[100px]" />
+        </div>
+        <div className="max-w-2xl mx-auto relative z-10">
           {/* Breadcrumb */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="flex items-center gap-2 text-xs text-muted-foreground mb-8"
+            className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-8"
           >
             <Link to="/how-it-works" className="hover:text-primary transition-colors">How It Works</Link>
             <span>/</span>
             <span className="text-foreground">Step {step.step}</span>
           </motion.div>
 
-          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="flex items-center gap-4 mb-6">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6">
+              <motion.span
+                className="h-1.5 w-1.5 rounded-full bg-primary"
+                animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <span className="text-[11px] text-muted-foreground tracking-wide uppercase">Step {step.step} of 08</span>
+            </span>
+
+            <div className="flex items-center justify-center gap-4 mb-5">
               <motion.div
                 initial={{ scale: 0.8, rotate: -10 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ duration: 0.4, type: "spring", stiffness: 200 }}
-                className="h-16 w-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center"
+                className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center"
               >
-                <Icon className="h-8 w-8 text-primary" />
+                <Icon className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
               </motion.div>
-              <div>
-                <span className="text-xs font-bold text-primary/60 font-heading tracking-wider">STEP {step.step}</span>
-                <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">{step.title}</h1>
-              </div>
             </div>
 
-            <p className="text-muted-foreground text-lg leading-relaxed mb-10">{step.desc}</p>
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.08] mb-5">
+              <span className="bg-gradient-to-r from-primary to-[hsl(239,80%,75%)] bg-clip-text text-transparent">
+                {step.title}
+              </span>
+            </h1>
+
+            <p className="text-muted-foreground text-base sm:text-lg max-w-lg mx-auto leading-relaxed">{step.desc}</p>
           </motion.div>
+        </div>
+      </section>
+
+      <section className="pb-20 px-4">
+        <div className="max-w-3xl mx-auto">
 
           {/* Details */}
           <motion.div
