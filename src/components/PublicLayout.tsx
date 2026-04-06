@@ -264,7 +264,7 @@ export function PublicNavbar() {
                                 onClick={() => { setMobileOpen(false); setMobileCustomizationOpen(false); }}
                                 className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors py-1.5"
                               >
-                                <cat.icon className="h-3.5 w-3.5 text-primary" />
+                                <cat.icon className="h-3.5 w-3.5 text-indigo-500" />
                                 {cat.label}
                               </Link>
                             ))}
