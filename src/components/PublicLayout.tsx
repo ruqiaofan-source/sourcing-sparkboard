@@ -59,16 +59,28 @@ export function PublicNavbar() {
   const borderOpacity = 0.15 + scrollProgress * 0.1;
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl" aria-label="Main navigation">
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl group/nav" aria-label="Main navigation">
       <div
-        className="flex items-center justify-between rounded-2xl border bg-card px-5 py-3"
+        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-white dark:bg-gray-950 transition-shadow duration-500 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.35),0_0_60px_-10px_hsl(var(--primary)/0.15)] overflow-hidden"
         style={{
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
           boxShadow: `0 4px 24px -4px rgba(0, 0, 0, ${shadow}), 0 1px 3px rgba(0, 0, 0, ${shadow * 0.5})`,
           borderColor: `hsl(var(--border) / ${borderOpacity})`,
         }}
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        }}
       >
+        {/* Glow trace effect */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-0 group-hover/nav:opacity-100 transition-opacity duration-300 rounded-2xl"
+          style={{
+            background: 'radial-gradient(300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(var(--primary) / 0.12), transparent 60%)',
+          }}
+        />
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
           <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" width={32} height={32} className="h-8 w-8 object-contain" loading="eager" decoding="sync" fetchPriority="high" />
           <span className="font-heading text-lg font-bold tracking-wider uppercase text-foreground">
