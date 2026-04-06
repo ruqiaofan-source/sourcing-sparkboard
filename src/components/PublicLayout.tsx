@@ -98,7 +98,7 @@ export function PublicNavbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden xl:flex items-center gap-0.5 xl:gap-1 text-sm font-medium text-gray-500">
+        <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-sm font-medium text-gray-500">
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div
@@ -191,12 +191,12 @@ export function PublicNavbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Link to="/auth" className="hidden xl:block">
+          <Link to="/auth" className="hidden lg:block">
             <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-sm px-3">
               Login
             </Button>
           </Link>
-          <Link to="/auth?signup=true" className="hidden xl:block">
+          <Link to="/auth?signup=true" className="hidden lg:block">
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-4 text-sm border border-primary/20 shadow-[0_0_20px_-4px_hsl(239,100%,60%/0.3)]">
                 Get Started
@@ -207,7 +207,7 @@ export function PublicNavbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="xl:hidden text-gray-900 p-1"
+            className="lg:hidden text-gray-900 p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -234,7 +234,7 @@ export function PublicNavbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mt-2 rounded-2xl border border-gray-200 bg-white backdrop-blur-xl p-4 xl:hidden shadow-lg"
+            className="mt-2 rounded-2xl border border-gray-200 bg-white backdrop-blur-xl p-4 lg:hidden shadow-lg"
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link) =>
