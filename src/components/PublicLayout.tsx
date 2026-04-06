@@ -60,7 +60,7 @@ export function PublicNavbar() {
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl group/nav" aria-label="Main navigation">
       <div
-        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-white dark:bg-white transition-all duration-300 overflow-hidden"
+        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-white dark:bg-white transition-all duration-300"
         style={{
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
