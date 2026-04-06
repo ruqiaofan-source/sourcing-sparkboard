@@ -171,7 +171,7 @@ export function PublicNavbar() {
               <Link
                 key={link.label}
                 to={link.href}
-                className={`relative px-3 py-1.5 rounded-lg transition-all duration-200 whitespace-nowrap text-base ${
+                className={`relative px-2.5 py-1.5 rounded-lg transition-all duration-200 whitespace-nowrap text-sm ${
                   isActive(link.href)
                     ? "text-gray-900 bg-gray-100"
                     : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
