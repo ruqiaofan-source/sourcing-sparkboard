@@ -30,6 +30,7 @@ import RequestChat from "@/components/RequestChat";
 const AgentRequestDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
+  const { primaryRole } = useRole();
   useRealtimeSync("agent", user?.id);
   const { toast } = useToast();
   const navigate = useNavigate();
