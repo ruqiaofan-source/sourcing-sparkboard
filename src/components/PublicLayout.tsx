@@ -60,7 +60,7 @@ export function PublicNavbar() {
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl group/nav" aria-label="Main navigation">
       <div
-        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-white dark:bg-white transition-all duration-300 overflow-hidden"
+        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-white dark:bg-white transition-all duration-300"
         style={{
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
@@ -75,7 +75,7 @@ export function PublicNavbar() {
       >
         {/* Glow trace effect */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-0 group-hover/nav:opacity-100 transition-opacity duration-500 rounded-2xl"
+          className="pointer-events-none absolute inset-0 opacity-0 group-hover/nav:opacity-100 transition-opacity duration-500 rounded-2xl overflow-hidden"
           style={{
             background: 'radial-gradient(250px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(var(--primary) / 0.1), transparent 60%)',
           }}
