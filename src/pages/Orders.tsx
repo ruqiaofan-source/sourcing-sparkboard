@@ -131,7 +131,9 @@ const Orders = () => {
                 ) : (
                   filtered.map((order) => (
                     <tr key={order.id} className="border-b border-border/50 last:border-0 hover:bg-muted/20 transition-colors">
-                      <td className="p-4 text-sm font-medium text-primary">{order.order_number}</td>
+                      <td className="p-4 text-sm font-medium text-primary">
+                        <Link to={`/orders/${order.id}`} className="hover:underline">{order.order_number}</Link>
+                      </td>
                       <td className="p-4 text-sm text-card-foreground">{(order.suppliers as any)?.name || "-"}</td>
                       <td className="p-4 text-sm text-muted-foreground">{order.product_name}</td>
                       <td className="p-4 text-sm text-muted-foreground">{order.quantity}</td>

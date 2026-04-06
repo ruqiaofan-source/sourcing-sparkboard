@@ -153,6 +153,7 @@ const App = () => (
                 
                 {/* Shared routes */}
                 <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+                <Route path="/orders/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
                 <Route path="/invoice/:id" element={<ProtectedRoute><InvoiceView /></ProtectedRoute>} />
                 <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
                 <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
