@@ -162,11 +162,13 @@ function StepContent({
   index,
   align,
   inView,
+  showIcon = true,
 }: {
   step: (typeof steps)[number];
   index: number;
   align: "left" | "right";
   inView: boolean;
+  showIcon?: boolean;
 }) {
   return (
     <div className={align === "right" ? "text-right" : "text-left"}>
@@ -180,7 +182,7 @@ function StepContent({
       </motion.span>
 
       <div className={`flex items-center gap-3 mt-2 mb-2.5 ${align === "right" ? "justify-end" : "justify-start"}`}>
-        <step.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary/70 shrink-0" />
+        {showIcon && <step.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary/70 shrink-0" />}
         <h2 className="font-heading text-xl sm:text-2xl lg:text-3xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-200">
           {step.title}
         </h2>
