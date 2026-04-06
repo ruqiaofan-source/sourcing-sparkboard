@@ -80,19 +80,19 @@ export function PublicNavbar() {
           transform: `scale(${navScale})`,
         }}
       >
-        <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0 group">
+        <Link to="/" className="flex items-center gap-1.5 shrink-0 group">
           <motion.img
             src={equilinqLogo}
             alt="Equilinq"
             width={32}
             height={32}
-            className="h-8 w-8 object-contain"
+            className="h-7 w-7 object-contain"
             loading="eager"
             decoding="sync"
             fetchPriority="high"
             whileHover={{ rotate: [0, -8, 8, -4, 0], transition: { duration: 0.5 } }}
           />
-          <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
+          <span className="font-heading text-base font-bold tracking-wide uppercase text-gray-900">
             Equilinq
           </span>
         </Link>
