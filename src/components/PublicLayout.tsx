@@ -102,7 +102,7 @@ export function PublicNavbar() {
               WebkitMaskComposite: 'xor',
               padding: '1.5px',
             }}
-          </div>
+          />
         </div>
 
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0 group/logo">
