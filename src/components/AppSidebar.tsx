@@ -16,6 +16,7 @@ import {
 const customerItems = [
   { title: "Home", url: "/dashboard", icon: LayoutDashboard },
   { title: "Requests", url: "/sourcing-requests", icon: FileText },
+  { title: "Orders", url: "/order-tracking", icon: ShoppingCart },
   { title: "Messages", url: "/messages", icon: MessageCircle },
   { title: "New Request", url: "/new-request", icon: Plus },
   { title: "Addresses", url: "/addresses", icon: MapPin },
