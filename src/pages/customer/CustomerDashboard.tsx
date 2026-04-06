@@ -38,6 +38,19 @@ const CustomerDashboard = () => {
     enabled: !!user,
   });
 
+  const { data: orders = [] } = useQuery({
+    queryKey: ["customer-orders-summary", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("user_id", user!.id);
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user,
+  });
+
   const { data: unreadCount = 0 } = useQuery({
     queryKey: ["unread-messages-count", user?.id],
     queryFn: async () => {
