@@ -7,7 +7,89 @@
  *   https://chmoabjmtbbqdrgigspm.supabase.co/functions/v1/buckydrop-webhook
  *
  * Requires secrets:
- *   BUCKYDROP_WEBHOOK_SECRET — Shared secret for verifying webhook authenticity
+ *   BUCKYDROP_WEBHOOK_SECRET -- Shared secret for verifying webhook authenticity
+ *
+ * ============================================================================
+ * EXAMPLE REQUEST / RESPONSE SHAPES
+ * ============================================================================
+ *
+ * --- INCOMING WEBHOOK (from BuckyDrop to us) ---
+ *
+ * BuckyDrop will POST to this URL when an order status changes.
+ *
+ * Headers (pick whichever BuckyDrop actually sends):
+ *   x-webhook-secret: "<shared_secret>"
+ *   -- OR --
+ *   Authorization: "Bearer <shared_secret>"
+ *   -- OR --
+ *   Query param: ?secret=<shared_secret>
+ *
+ * Example payload -- Order shipped:
+ *   {
+ *     "event": "order.status_changed",
+ *     "order_id": "BD-88001",
+ *     "external_order_id": "EQ-20240315-001",
+ *     "status": "shipped",
+ *     "tracking_number": "SF1234567890",
+ *     "carrier": "SF Express",
+ *     "estimated_delivery": "2024-04-02T00:00:00Z",
+ *     "updated_at": "2024-03-25T14:22:00Z"
+ *   }
+ *
+ * Example payload -- Order delivered:
+ *   {
+ *     "event": "order.status_changed",
+ *     "order_id": "BD-88001",
+ *     "external_order_id": "EQ-20240315-001",
+ *     "status": "delivered",
+ *     "tracking_number": "SF1234567890",
+ *     "carrier": "SF Express",
+ *     "delivered_at": "2024-04-01T09:15:00Z"
+ *   }
+ *
+ * Example payload -- Quality check:
+ *   {
+ *     "event": "order.status_changed",
+ *     "order_id": "BD-88001",
+ *     "status": "quality_check",
+ *     "qc_notes": "Passed visual inspection, 2 units rejected",
+ *     "qc_pass_rate": 0.996
+ *   }
+ *
+ * --- RESPONSES FROM THIS FUNCTION ---
+ *
+ * Success:
+ *   HTTP 200
+ *   { "success": true }
+ *
+ * Missing order_id:
+ *   HTTP 400
+ *   { "error": "Missing order_id in webhook payload" }
+ *
+ * Order not found:
+ *   HTTP 404
+ *   { "error": "Order not found" }
+ *
+ * Auth failed:
+ *   HTTP 403
+ *   { "error": "Forbidden" }
+ *
+ * ============================================================================
+ * STATUS MAPPING
+ * ============================================================================
+ *
+ * BuckyDrop status   -> Equilinq status
+ * -----------------     ----------------
+ * pending            -> processing
+ * processing         -> processing
+ * purchased          -> processing
+ * shipped            -> in_transit
+ * in_transit         -> in_transit
+ * delivered          -> delivered
+ * quality_check      -> qc_review
+ * cancelled          -> processing      (TODO: decide on cancellation handling)
+ *
+ * ============================================================================
  */
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
@@ -19,8 +101,8 @@ const WEBHOOK_SECRET = Deno.env.get("BUCKYDROP_WEBHOOK_SECRET") ?? "";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-// ─── STATUS MAP ──────────────────────────────────────────────────
-// TODO: Update these once you have BuckyDrop's actual status values
+// --- STATUS MAP -------------------------------------------------------------
+// TODO: Update these once you have BuckyDrop's confirmed status values
 const STATUS_MAP: Record<string, string> = {
   pending: "processing",
   processing: "processing",
@@ -29,7 +111,7 @@ const STATUS_MAP: Record<string, string> = {
   in_transit: "in_transit",
   delivered: "delivered",
   quality_check: "qc_review",
-  cancelled: "processing", // or handle cancellation differently
+  cancelled: "processing",
 };
 
 Deno.serve(async (req) => {
@@ -38,9 +120,9 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // ── Verify webhook authenticity ──
-    // TODO: Adjust verification based on BuckyDrop's actual method
-    //       (could be header signature, query param, or shared token)
+    // -- Verify webhook authenticity --
+    // BuckyDrop may send the secret via header or query param.
+    // TODO: Confirm which method BuckyDrop uses and remove the others.
     const authToken = req.headers.get("x-webhook-secret")
       ?? req.headers.get("authorization")?.replace("Bearer ", "")
       ?? new URL(req.url).searchParams.get("secret");
@@ -53,10 +135,11 @@ Deno.serve(async (req) => {
       });
     }
 
+    // -- Parse incoming webhook payload --
+    // Expected shape (see examples in header comment):
+    //   { order_id, status, tracking_number?, carrier?, estimated_delivery? }
     const payload = await req.json();
 
-    // ── Extract data from webhook payload ──
-    // TODO: Adjust field names to match BuckyDrop's actual webhook payload
     const buckyOrderId = payload.order_id ?? payload.external_order_id ?? payload.data?.order_id;
     const buckyStatus = payload.status ?? payload.data?.status;
     const trackingNumber = payload.tracking_number ?? payload.data?.tracking_number;
@@ -69,7 +152,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    // ── Find order by BuckyDrop ID ──
+    // -- Find order by BuckyDrop ID --
     const { data: order, error: findErr } = await supabase
       .from("orders")
       .select("id, status")
@@ -77,7 +160,7 @@ Deno.serve(async (req) => {
       .single();
 
     if (findErr || !order) {
-      // Try matching by order_number (external_order_id)
+      // Fallback: try matching by order_number (external_order_id)
       const { data: orderByNum, error: findErr2 } = await supabase
         .from("orders")
         .select("id, status")
@@ -92,7 +175,6 @@ Deno.serve(async (req) => {
         );
       }
 
-      // Update found order
       await updateOrder(orderByNum.id, buckyOrderId, buckyStatus, trackingNumber, eta);
       return new Response(JSON.stringify({ success: true }), {
         status: 200,
