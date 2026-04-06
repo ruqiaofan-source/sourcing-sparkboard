@@ -67,7 +67,7 @@ export function PublicNavbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[96%] max-w-[1200px]"
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[96%]"
       aria-label="Main navigation"
     >
       <motion.div
