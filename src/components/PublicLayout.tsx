@@ -179,7 +179,7 @@ export function PublicNavbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mt-2 rounded-2xl border border-gray-200 bg-white backdrop-blur-xl p-4 lg:hidden shadow-lg"
+            className="mt-2 rounded-2xl border border-border bg-card backdrop-blur-xl p-4 lg:hidden shadow-lg"
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link) =>
@@ -187,7 +187,7 @@ export function PublicNavbar() {
                   <div key={link.label}>
                     <button
                       onClick={() => setMobileCustomizationOpen(!mobileCustomizationOpen)}
-                      className="flex items-center justify-between w-full text-base font-medium text-gray-700 hover:text-gray-900 transition-colors py-2.5 px-1"
+                      className="flex items-center justify-between w-full text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2.5 px-1"
                     >
                       {link.label}
                       <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileCustomizationOpen ? "rotate-180" : ""}`} />
@@ -207,16 +207,16 @@ export function PublicNavbar() {
                                 key={cat.label}
                                 to={cat.href}
                                 onClick={() => { setMobileOpen(false); setMobileCustomizationOpen(false); }}
-                                className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors py-1.5"
+                                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors py-1.5"
                               >
-                                <cat.icon className="h-3.5 w-3.5 text-indigo-500" />
+                                <cat.icon className="h-3.5 w-3.5 text-primary" />
                                 {cat.label}
                               </Link>
                             ))}
                             <Link
                               to="/customization"
                               onClick={() => { setMobileOpen(false); setMobileCustomizationOpen(false); }}
-                              className="flex items-center gap-1 text-xs font-medium text-indigo-600 pt-1"
+                              className="flex items-center gap-1 text-xs font-medium text-primary pt-1"
                             >
                               View all
                               <ArrowRight className="h-3 w-3" />
@@ -231,13 +231,13 @@ export function PublicNavbar() {
                     key={link.label}
                     to={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="text-base font-medium text-gray-700 hover:text-gray-900 transition-colors py-2.5 px-1"
+                    className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2.5 px-1"
                   >
                     {link.label}
                   </Link>
                 )
               )}
-              <div className="border-t border-gray-200 pt-3 mt-2 flex gap-3">
+              <div className="border-t border-border pt-3 mt-2 flex gap-3">
                 <Link to="/auth" onClick={() => setMobileOpen(false)} className="flex-1">
                   <Button variant="outline" size="sm" className="w-full rounded-full">Login</Button>
                 </Link>
