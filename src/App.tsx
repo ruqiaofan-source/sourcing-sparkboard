@@ -59,7 +59,6 @@ const CookieConsent = lazy(() => import("./components/CookieConsent").then(m => 
 const AddressManagement = lazy(() => import("./pages/customer/AddressManagement"));
 const HelpSupport = lazy(() => import("./pages/customer/HelpSupport"));
 const CustomerOrderTracking = lazy(() => import("./pages/customer/CustomerOrderTracking"));
-const HelpSupport = lazy(() => import("./pages/customer/HelpSupport"));
 
 const LazyFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-background">
