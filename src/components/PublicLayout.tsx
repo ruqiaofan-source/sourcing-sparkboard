@@ -81,24 +81,29 @@ export function PublicNavbar() {
           e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
         }}
       >
-        {/* Glow trace effect */}
+        {/* White glow pulse effect */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-0 group-hover/nav:opacity-100 transition-opacity duration-500 rounded-2xl overflow-hidden"
+          className="pointer-events-none absolute -inset-[2px] rounded-[18px] opacity-0 group-hover/nav:opacity-100 transition-opacity duration-500"
           style={{
-            background: 'radial-gradient(250px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(var(--primary) / 0.08), transparent 60%)',
+            boxShadow: '0 0 20px 4px rgba(255, 255, 255, 0.5), 0 0 60px 10px rgba(255, 255, 255, 0.2), inset 0 0 20px 2px rgba(255, 255, 255, 0.1)',
+            animation: 'nav-white-glow 2s ease-in-out infinite',
           }}
         />
-        {/* Animated border shimmer on hover */}
+        {/* White shimmer border sweep */}
         <div
-          className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover/nav:opacity-100 transition-opacity duration-700"
-          style={{
-            background: `conic-gradient(from var(--shimmer-angle, 0deg) at 50% 50%, transparent 0%, hsl(var(--primary) / 0.15) 10%, transparent 20%)`,
-            mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-            maskComposite: 'exclude',
-            WebkitMaskComposite: 'xor',
-            padding: '1px',
-          }}
-        />
+          className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover/nav:opacity-100 transition-opacity duration-700 overflow-hidden"
+        >
+          <div
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              background: `conic-gradient(from var(--shimmer-angle, 0deg) at 50% 50%, transparent 0%, rgba(255, 255, 255, 0.4) 10%, transparent 20%)`,
+              mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              maskComposite: 'exclude',
+              WebkitMaskComposite: 'xor',
+              padding: '1.5px',
+            }}
+          />
+        </div>
 
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0 group/logo">
           <motion.img
