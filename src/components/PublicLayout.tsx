@@ -134,11 +134,10 @@ export function PublicNavbar() {
                 >
                   <Link
                     to={link.href}
-                    className="relative flex items-center gap-1 hover:text-gray-900 transition-colors whitespace-nowrap text-base group/link"
+                    className="relative flex items-center gap-1 hover:text-gray-900 transition-all whitespace-nowrap text-base group/link hover:drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
                   >
                     {link.label}
                     <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${customizationOpen ? "rotate-180" : ""}`} />
-                    <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-primary rounded-full transition-all duration-300 group-hover/link:w-full" />
                   </Link>
                 </motion.div>
 
