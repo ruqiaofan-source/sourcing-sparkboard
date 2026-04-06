@@ -37,6 +37,6 @@ const NotFound = forwardRef<HTMLElement>(function NotFound(_props, ref) {
       </div>
     </main>
   );
-};
+});
 
 export default NotFound;

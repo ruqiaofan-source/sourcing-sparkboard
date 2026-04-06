@@ -73,4 +73,4 @@ export const CookieConsent = forwardRef<HTMLDivElement>(function CookieConsent(_
       )}
     </AnimatePresence>
   );
-}
+});
