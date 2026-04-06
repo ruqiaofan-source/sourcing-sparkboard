@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
@@ -83,34 +85,14 @@ const benefits = [
 
 
 
-const faqs = [
+const fallbackFaqs = [
   {
     q: "What is the minimum order quantity (MOQ) and how does pricing work?",
-    a: "For most standard products, our MOQ starts at just 10 units per SKU, making Equilinq ideal for product testing, pilot runs, and small-batch launches. Some factories or highly customized products may require higher MOQs - in such cases, we clearly communicate the minimum requirement upfront before you commit to production.\n\nWe operate on a zero-markup pricing model. Your quote includes: factory wholesale price, a transparent Equilinq service fee covering sourcing, supplier coordination, quality control, and order management. Optional add-on services (e.g., customization, packaging adjustments, branding) are listed separately under 'Customization.' Shipping fee estimates are provided once shipment weight, volume, and destination are confirmed.\n\nThere are no hidden markups or inflated product prices. Every cost line is visible in your quote.",
+    a: "For most standard products, our MOQ starts at just 10 units per SKU. We operate on a zero-markup pricing model with transparent cost breakdowns.",
   },
   {
-    q: "How long does shipping take and what are the shipping costs?",
-    a: "Shipping times and costs depend on the shipping method, parcel count, weight, dimensions, and destination country.\n\nWe offer multiple service levels:\n- Standard shipping: ~15-25 days\n- Express shipping: ~7-14 days\n- Premium shipping: ~5-10 days\n\nShipping costs are calculated based on total shipment weight and volume, number of parcels, and destination country and delivery type (B2B or B2C).\n\nWe work with established international logistics partners to provide competitive, transparent shipping rates. All shipments include real-time tracking, and our team handles export documentation and customs coordination. Shipping costs are always quoted before confirmation, so there are no surprises after production.",
-  },
-  {
-    q: "What quality control measures do you have in place?",
-    a: "Every order goes through a structured quality control process before shipment. We inspect products for defects, verify specifications against approved samples, and ensure proper packaging and labeling. Visual documentation is provided prior to dispatch, and our on-the-ground QC team regularly rejects products that do not meet agreed standards, preventing defective or non-compliant goods from reaching customers.",
-  },
-  {
-    q: "Can you help with custom branding and packaging?",
-    a: "When placing an order, you can choose from a range of customization options, including product branding, labeling, and packaging services. Our team reviews your selections to confirm feasibility, pricing, and timelines before production begins.",
-  },
-  {
-    q: "How do returns and refunds work if there are issues?",
-    a: "If an issue is identified that results from a verified quality control or production error, we work with the factory to arrange an appropriate resolution. This may include a replacement, partial refund, or credit, depending on the circumstances.\n\nFor customer-initiated returns, we assist in coordinating the return process and liaising with suppliers where possible. All cases are reviewed individually to ensure a fair and practical outcome.",
-  },
-  {
-    q: "How do you handle high-value or complex products?",
-    a: "For high-value, technically complex, or regulated products, Equilinq operates using a more hands-on, project-based sourcing model. These products typically require closer coordination with factory and engineering teams, more detailed specification reviews and sampling rounds, enhanced quality control and documentation, and in some cases, long-term production agreements or exclusivity arrangements.\n\nDue to this increased complexity, pricing for these projects is variable and depends on factors such as product specifications, compliance requirements, production scale, and the level of ongoing coordination involved.\n\nOur team acts as a dedicated coordination layer between you and the factory, aligning on technical requirements, production feasibility, timelines, pricing, and regulatory or quality expectations before mass production begins.",
-  },
-  {
-    q: "How are VAT and customs duties handled?",
-    a: "Equilinq acts as a sourcing and procurement service provider and does not act as the Importer of Record. This means that VAT, customs duties, and any applicable import taxes are the responsibility of the customer, in accordance with the import rules of the destination country.\n\nEquilinq supports the process by preparing and coordinating export and customs documentation, working with logistics partners to ensure smooth customs clearance, and providing cost estimates where possible so you can plan ahead.\n\nThis structure keeps pricing transparent, avoids hidden tax markups, and ensures customers remain compliant with local VAT and customs regulations.",
+    q: "How long does shipping take?",
+    a: "Standard shipping takes ~15-25 days, express ~7-14 days, premium ~5-10 days. All shipments include real-time tracking.",
   },
 ];
 
@@ -449,6 +431,21 @@ export default function Landing() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+
+  const { data: dbFaqs = [] } = useQuery({
+    queryKey: ["public-faq-items"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("faq_items")
+        .select("*")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return data.map((item: any) => ({ q: item.question, a: item.answer }));
+    },
+  });
+
+  const faqs = dbFaqs.length > 0 ? dbFaqs : fallbackFaqs;
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
