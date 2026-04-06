@@ -73,7 +73,7 @@ export function PublicNavbar() {
         }}
       >
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
-          <img src={equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" loading="eager" decoding="sync" />
+          <img src={equilinqLogo} alt="Equilinq" width={32} height={32} className="h-8 w-8 object-contain" loading="eager" decoding="sync" fetchPriority="high" />
           <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
           </span>
