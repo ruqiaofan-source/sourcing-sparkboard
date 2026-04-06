@@ -161,11 +161,11 @@ export default function HowItWorks() {
       <ScrollProgress />
 
       {/* ── Hero ── */}
-      <section ref={heroRef} className="relative min-h-[90vh] flex items-center justify-center px-4 overflow-hidden">
+      <section ref={heroRef} className="relative min-h-[90vh] flex items-center justify-center px-4 overflow-hidden z-20">
         {/* Background image */}
         <div className="absolute inset-0">
-          <img src={heroTopImg} alt="" className="w-full h-full object-cover" aria-hidden="true" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/80 to-background" />
+          <img src={heroTopImg} alt="" className="w-full h-full object-cover opacity-40" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/90 to-background" />
         </div>
 
         <motion.div
