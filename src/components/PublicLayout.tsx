@@ -98,7 +98,7 @@ export function PublicNavbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-base font-medium text-muted-foreground">
+        <div className="hidden lg:flex items-center gap-1 xl:gap-2 text-base font-medium text-gray-500">
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div
@@ -107,12 +107,23 @@ export function PublicNavbar() {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                  <Link
-                    to={link.href}
-                    className="flex items-center gap-1 hover:text-foreground transition-colors whitespace-nowrap text-base"
-                  >
+                <Link
+                  to={link.href}
+                  className={`relative flex items-center gap-1 px-3 py-1.5 rounded-lg transition-all duration-200 whitespace-nowrap text-base ${
+                    isActive(link.href)
+                      ? "text-gray-900 bg-gray-100"
+                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
+                >
                   {link.label}
                   <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${customizationOpen ? "rotate-180" : ""}`} />
+                  {isActive(link.href) && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute bottom-0 left-3 right-3 h-[2px] bg-primary rounded-full"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
                 </Link>
 
                 <AnimatePresence>
@@ -124,28 +135,28 @@ export function PublicNavbar() {
                       transition={{ duration: 0.15 }}
                       className="absolute top-full left-0 pt-3"
                     >
-                      <div className="w-[420px] rounded-2xl border border-border bg-card shadow-xl p-3 grid grid-cols-2 gap-1">
+                      <div className="w-[420px] rounded-2xl border border-gray-200 bg-white shadow-xl p-3 grid grid-cols-2 gap-1">
                         {customizationCategories.map((cat) => (
                           <Link
                             key={cat.label}
                             to={cat.href}
                             onClick={() => setCustomizationOpen(false)}
-                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-accent transition-colors group"
+                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-gray-50 transition-colors group"
                           >
-                            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-primary/20 transition-colors">
-                              <cat.icon className="h-4 w-4 text-primary" />
+                            <div className="h-8 w-8 rounded-lg bg-indigo-50 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-indigo-100 transition-colors">
+                              <cat.icon className="h-4 w-4 text-indigo-600" />
                             </div>
                             <div className="min-w-0">
-                              <p className="text-sm font-medium text-foreground leading-tight">{cat.label}</p>
-                              <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{cat.desc}</p>
+                              <p className="text-sm font-medium text-gray-900 leading-tight">{cat.label}</p>
+                              <p className="text-xs text-gray-500 mt-0.5 leading-snug">{cat.desc}</p>
                             </div>
                           </Link>
                         ))}
-                        <div className="col-span-2 border-t border-border mt-1 pt-2 px-3 pb-1">
+                        <div className="col-span-2 border-t border-gray-100 mt-1 pt-2 px-3 pb-1">
                           <Link
                             to="/customization"
                             onClick={() => setCustomizationOpen(false)}
-                            className="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1"
+                            className="text-xs font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
                           >
                             View all services
                             <ArrowRight className="h-3 w-3" />
@@ -160,9 +171,20 @@ export function PublicNavbar() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="hover:text-foreground transition-colors whitespace-nowrap text-base"
+                className={`relative px-3 py-1.5 rounded-lg transition-all duration-200 whitespace-nowrap text-base ${
+                  isActive(link.href)
+                    ? "text-gray-900 bg-gray-100"
+                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                }`}
               >
                 {link.label}
+                {isActive(link.href) && (
+                  <motion.div
+                    layoutId="nav-indicator"
+                    className="absolute bottom-0 left-3 right-3 h-[2px] bg-primary rounded-full"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
               </Link>
             )
           )}
@@ -170,27 +192,39 @@ export function PublicNavbar() {
 
         <div className="flex items-center gap-3">
           <Link to="/auth" className="hidden lg:block">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground rounded-full text-base">
+            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-base">
               Login
             </Button>
           </Link>
           <Link to="/auth?signup=true" className="hidden lg:block">
-            <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 border border-primary/20">
-              Get Started
-              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-            </Button>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 border border-primary/20 shadow-[0_0_20px_-4px_hsl(239,100%,60%/0.3)]">
+                Get Started
+                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+              </Button>
+            </motion.div>
           </Link>
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-foreground p-1"
+            className="lg:hidden text-gray-900 p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <AnimatePresence mode="wait" initial={false}>
+              {mobileOpen ? (
+                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <X className="h-5 w-5" />
+                </motion.div>
+              ) : (
+                <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <Menu className="h-5 w-5" />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Mobile menu */}
       <AnimatePresence>
