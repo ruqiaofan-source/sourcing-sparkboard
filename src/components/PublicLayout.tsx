@@ -58,13 +58,21 @@ export function PublicNavbar() {
   const borderOpacity = 0.15 + scrollProgress * 0.1;
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl group/nav" aria-label="Main navigation">
+    <motion.nav
+      initial={{ y: -60, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl group/nav"
+      aria-label="Main navigation"
+    >
       <div
-        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-white dark:bg-white transition-all duration-300"
+        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-white dark:bg-white transition-all duration-500"
         style={{
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
-          boxShadow: `0 2px 16px -4px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04)`,
+          boxShadow: scrollProgress > 0.3
+            ? `0 4px 24px -4px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06)`
+            : `0 2px 16px -4px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04)`,
           borderColor: `hsl(var(--border) / ${borderOpacity})`,
         }}
         onMouseMove={(e) => {
@@ -77,11 +85,33 @@ export function PublicNavbar() {
         <div
           className="pointer-events-none absolute inset-0 opacity-0 group-hover/nav:opacity-100 transition-opacity duration-500 rounded-2xl overflow-hidden"
           style={{
-            background: 'radial-gradient(250px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(var(--primary) / 0.1), transparent 60%)',
+            background: 'radial-gradient(250px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(var(--primary) / 0.08), transparent 60%)',
           }}
         />
-        <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
-          <img src={equilinqLogo} alt="Equilinq" width={32} height={32} className="h-8 w-8 object-contain" loading="eager" decoding="sync" fetchPriority="high" />
+        {/* Animated border shimmer on hover */}
+        <div
+          className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover/nav:opacity-100 transition-opacity duration-700"
+          style={{
+            background: `conic-gradient(from var(--shimmer-angle, 0deg) at 50% 50%, transparent 0%, hsl(var(--primary) / 0.15) 10%, transparent 20%)`,
+            mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            maskComposite: 'exclude',
+            WebkitMaskComposite: 'xor',
+            padding: '1px',
+          }}
+        />
+
+        <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0 group/logo">
+          <motion.img
+            src={equilinqLogo}
+            alt="Equilinq"
+            width={32}
+            height={32}
+            className="h-8 w-8 object-contain"
+            loading="eager"
+            decoding="sync"
+            fetchPriority="high"
+            whileHover={{ rotate: [0, -8, 8, 0], transition: { duration: 0.5 } }}
+          />
           <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
           </span>
@@ -89,7 +119,7 @@ export function PublicNavbar() {
 
         {/* Desktop links */}
         <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-base font-medium text-gray-600">
-          {navLinks.map((link) =>
+          {navLinks.map((link, i) =>
             link.hasDropdown ? (
               <div
                 key={link.label}
@@ -97,48 +127,61 @@ export function PublicNavbar() {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.1 + i * 0.05 }}
+                >
                   <Link
                     to={link.href}
-                    className="flex items-center gap-1 hover:text-gray-900 transition-colors whitespace-nowrap text-base"
+                    className="relative flex items-center gap-1 hover:text-gray-900 transition-colors whitespace-nowrap text-base group/link"
                   >
-                  {link.label}
-                  <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${customizationOpen ? "rotate-180" : ""}`} />
-                </Link>
+                    {link.label}
+                    <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${customizationOpen ? "rotate-180" : ""}`} />
+                    <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-primary rounded-full transition-all duration-300 group-hover/link:w-full" />
+                  </Link>
+                </motion.div>
 
                 <AnimatePresence>
                   {customizationOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                      initial={{ opacity: 0, y: 12, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.15 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                       className="absolute top-full left-0 pt-3"
                     >
                       <div className="w-[420px] rounded-2xl border border-border bg-card shadow-xl p-3 grid grid-cols-2 gap-1">
-                        {customizationCategories.map((cat) => (
-                          <Link
+                        {customizationCategories.map((cat, ci) => (
+                          <motion.div
                             key={cat.label}
-                            to={cat.href}
-                            onClick={() => setCustomizationOpen(false)}
-                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-accent transition-colors group"
+                            initial={{ opacity: 0, x: -8 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.2, delay: ci * 0.03 }}
                           >
-                            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-primary/20 transition-colors">
-                              <cat.icon className="h-4 w-4 text-primary" />
-                            </div>
-                            <div className="min-w-0">
-                              <p className="text-sm font-medium text-foreground leading-tight">{cat.label}</p>
-                              <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{cat.desc}</p>
-                            </div>
-                          </Link>
+                            <Link
+                              to={cat.href}
+                              onClick={() => setCustomizationOpen(false)}
+                              className="flex items-start gap-3 rounded-xl px-3 py-2.5 hover:bg-accent transition-colors group"
+                            >
+                              <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-200">
+                                <cat.icon className="h-4 w-4 text-primary" />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-sm font-medium text-foreground leading-tight">{cat.label}</p>
+                                <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{cat.desc}</p>
+                              </div>
+                            </Link>
+                          </motion.div>
                         ))}
                         <div className="col-span-2 border-t border-border mt-1 pt-2 px-3 pb-1">
                           <Link
                             to="/customization"
                             onClick={() => setCustomizationOpen(false)}
-                            className="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1"
+                            className="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1 group/all"
                           >
                             View all services
-                            <ArrowRight className="h-3 w-3" />
+                            <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover/all:translate-x-1" />
                           </Link>
                         </div>
                       </div>
@@ -147,13 +190,20 @@ export function PublicNavbar() {
                 </AnimatePresence>
               </div>
             ) : (
-              <Link
+              <motion.div
                 key={link.label}
-                to={link.href}
-                className="hover:text-gray-900 transition-colors whitespace-nowrap text-base"
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 + i * 0.05 }}
               >
-                {link.label}
-              </Link>
+                <Link
+                  to={link.href}
+                  className="relative hover:text-gray-900 transition-colors whitespace-nowrap text-base group/link"
+                >
+                  {link.label}
+                  <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-primary rounded-full transition-all duration-300 group-hover/link:w-full" />
+                </Link>
+              </motion.div>
             )
           )}
         </div>
@@ -165,20 +215,33 @@ export function PublicNavbar() {
             </Button>
           </Link>
           <Link to="/auth?signup=true" className="hidden lg:block">
-            <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 border border-primary/20">
-              Get Started
-              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-            </Button>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+              <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 border border-primary/20">
+                Get Started
+                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+              </Button>
+            </motion.div>
           </Link>
 
           {/* Mobile hamburger */}
-          <button
+          <motion.button
             className="lg:hidden text-gray-900 p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
+            whileTap={{ scale: 0.9 }}
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+            <AnimatePresence mode="wait">
+              {mobileOpen ? (
+                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <X className="h-5 w-5" />
+                </motion.div>
+              ) : (
+                <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <Menu className="h-5 w-5" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
         </div>
       </div>
 
