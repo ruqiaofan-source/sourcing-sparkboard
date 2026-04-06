@@ -95,98 +95,18 @@ const CustomerRequestDetail = () => {
 
   const respondToQuote = useMutation({
     mutationFn: async ({ quoteId, action }: { quoteId: string; action: "accepted" | "rejected" }) => {
-      const { error } = await supabase.from("quotes").update({ status: action }).eq("id", quoteId);
-      if (error) throw error;
       if (action === "accepted") {
-        await supabase.from("sourcing_requests").update({ status: "confirmed" }).eq("id", id!);
-
-        const acceptedQuote = quotes.find((q: any) => q.id === quoteId);
-        if (acceptedQuote && request) {
-          const orderNumber = `EQ-${Date.now().toString(36).toUpperCase()}`;
-          const totalAmount = Number(acceptedQuote.total_cost) * request.quantity;
-          const addonFees = (acceptedQuote as any).addon_fees || [];
-
-          const { data: orderData } = await supabase.from("orders").insert({
-            user_id: user!.id,
-            order_number: orderNumber,
-            product_name: request.title,
-            quantity: String(request.quantity),
-            total_amount: totalAmount,
-            status: "processing",
-            sourcing_request_id: id!,
-            quote_id: quoteId,
-            notes: `Factory: ${acceptedQuote.factory_name} - ${acceptedQuote.currency} ${Number(acceptedQuote.total_cost).toFixed(2)}/unit`,
-          } as any).select("id").single();
-
-          const addonTotal = addonFees.reduce((sum: number, a: any) => sum + (Number(a.cost) || 0), 0);
-          const invoiceNumber = `INV-${Date.now().toString(36).toUpperCase()}`;
-          const invoiceTotal = (Number(acceptedQuote.factory_cost) + Number(acceptedQuote.service_fee) + Number(acceptedQuote.logistics_cost) + addonTotal) * request.quantity;
-          const { data: invoiceData } = await supabase.from("invoices" as any).insert({
-            user_id: user!.id,
-            order_id: orderData?.id || null,
-            quote_id: quoteId,
-            sourcing_request_id: id!,
-            invoice_number: invoiceNumber,
-            factory_cost: Number(acceptedQuote.factory_cost) * request.quantity,
-            china_ops_cost: 0,
-            logistics_cost: Number(acceptedQuote.logistics_cost) * request.quantity,
-            service_fee: Number(acceptedQuote.service_fee) * request.quantity,
-            financial_costs: 0,
-            total_amount: invoiceTotal,
-            currency: acceptedQuote.currency,
-            quantity: request.quantity,
-            product_name: request.title,
-            factory_name: acceptedQuote.factory_name,
-            delivery_address: (request as any).delivery_address || request.delivery_country || "",
-            status: "issued",
-          } as any).select("id").single();
-
-          // Send invoice email
-          const customerEmail = user!.email;
-          if (customerEmail) {
-            const { data: profileData } = await supabase.from("profiles").select("display_name, full_name").eq("user_id", user!.id).single();
-            const customerName = profileData?.full_name || profileData?.display_name || undefined;
-            const invoiceViewId = (invoiceData as any)?.id || "";
-            await supabase.functions.invoke("send-transactional-email", {
-              body: {
-                templateName: "invoice-issued",
-                recipientEmail: customerEmail,
-                idempotencyKey: `invoice-issued-${invoiceNumber}`,
-                templateData: {
-                  customerName,
-                  invoiceNumber,
-                  totalAmount: invoiceTotal.toFixed(2),
-                  currency: acceptedQuote.currency,
-                  productName: request.title,
-                  invoiceUrl: `${window.location.origin}/invoice/${invoiceViewId}`,
-                },
-              },
-            });
-          }
-
-          // Notify the agent
-          if (acceptedQuote.agent_id) {
-            await supabase.from("notifications" as any).insert({
-              user_id: acceptedQuote.agent_id,
-              title: "Quote Accepted",
-              message: `Customer accepted your quote for "${request.title}". Invoice issued, awaiting payment.`,
-              type: "quote_accepted",
-              link: `/agent/requests/${id}`,
-            } as any);
-          }
-        }
+        // Use server-side edge function for secure order/invoice creation
+        const { data, error } = await supabase.functions.invoke("accept-quote", {
+          body: { quote_id: quoteId },
+        });
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+        return data;
       } else {
-        // Notify agent of rejection
-        const rejectedQuote = quotes.find((q: any) => q.id === quoteId);
-        if (rejectedQuote?.agent_id) {
-          await supabase.from("notifications" as any).insert({
-            user_id: rejectedQuote.agent_id,
-            title: "Quote Rejected",
-            message: `Customer rejected your quote for "${request?.title}".`,
-            type: "quote_rejected",
-            link: `/agent/requests/${id}`,
-          } as any);
-        }
+        // Rejection is simple - just update the quote status
+        const { error } = await supabase.from("quotes").update({ status: "rejected" }).eq("id", quoteId);
+        if (error) throw error;
       }
     },
     onSuccess: (_, { action }) => {
