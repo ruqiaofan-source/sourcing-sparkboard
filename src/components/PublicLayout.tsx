@@ -149,7 +149,7 @@ export function PublicNavbar() {
 
         <div className="flex items-center gap-3">
           <Link to="/auth" className="hidden lg:block">
-            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-base">
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground rounded-full text-base">
               Login
             </Button>
           </Link>
@@ -162,7 +162,7 @@ export function PublicNavbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-gray-900 p-1"
+            className="lg:hidden text-foreground p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
