@@ -81,14 +81,6 @@ export function PublicNavbar() {
           e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
         }}
       >
-        {/* White glow pulse effect */}
-        <div
-          className="pointer-events-none absolute -inset-[2px] rounded-[18px] opacity-0 group-hover/nav:opacity-100 transition-opacity duration-500"
-          style={{
-            boxShadow: '0 0 20px 4px rgba(255, 255, 255, 0.5), 0 0 60px 10px rgba(255, 255, 255, 0.2), inset 0 0 20px 2px rgba(255, 255, 255, 0.1)',
-            animation: 'nav-white-glow 2s ease-in-out infinite',
-          }}
-        />
         {/* White shimmer border sweep */}
         <div
           className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover/nav:opacity-100 transition-opacity duration-700 overflow-hidden"
