@@ -190,17 +190,17 @@ export function PublicNavbar() {
           )}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Link to="/auth" className="hidden lg:block">
-            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-base">
+            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-sm px-3">
               Login
             </Button>
           </Link>
           <Link to="/auth?signup=true" className="hidden lg:block">
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 border border-primary/20 shadow-[0_0_20px_-4px_hsl(239,100%,60%/0.3)]">
+              <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-4 text-sm border border-primary/20 shadow-[0_0_20px_-4px_hsl(239,100%,60%/0.3)]">
                 Get Started
-                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                <ArrowRight className="ml-1 h-3.5 w-3.5" />
               </Button>
             </motion.div>
           </Link>
