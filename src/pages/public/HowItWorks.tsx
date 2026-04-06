@@ -182,9 +182,13 @@ export default function HowItWorks() {
           transition={{ duration: 0.5 }}
           className="relative z-10 max-w-2xl mx-auto"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.06] px-4 py-1.5 mb-6">
-            <Sparkles className="h-3 w-3 text-primary" />
-            <span className="text-[11px] text-primary/80 tracking-wide font-medium">Managed end-to-end</span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6">
+            <motion.span
+              className="h-1.5 w-1.5 rounded-full bg-primary"
+              animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <span className="text-[11px] text-muted-foreground tracking-wide uppercase">8-Step Process</span>
           </span>
 
           <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.08] mb-5">
@@ -194,9 +198,22 @@ export default function HowItWorks() {
             </span>
           </h1>
 
-          <p className="text-muted-foreground text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
-            8 transparent steps. Verified factories, multi-stage QC, and door-to-door logistics -- all managed for you.
+          <p className="text-muted-foreground text-base sm:text-lg max-w-lg mx-auto leading-relaxed mb-8">
+            Verified factories, transparent pricing, multi-stage quality control, and door-to-door delivery. All managed for you.
           </p>
+
+          <div className="flex items-center justify-center gap-3 flex-wrap">
+            <Link to="/auth?signup=true">
+              <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-11 text-sm font-semibold border border-primary/20 shadow-[0_0_40px_-8px_hsl(239,100%,60%/0.35)]">
+                Get Started <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+            <Link to="/contact">
+              <Button variant="outline" size="lg" className="rounded-full border-border/40 px-8 h-11 text-sm">
+                Talk to Us
+              </Button>
+            </Link>
+          </div>
         </motion.div>
       </section>
 
