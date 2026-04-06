@@ -6,6 +6,7 @@ import { Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Link } from "react-router-dom";
 
 const statusStyles: Record<string, string> = {
   "in_transit": "bg-blue-500/15 text-blue-400 border-blue-500/30",
