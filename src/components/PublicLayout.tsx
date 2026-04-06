@@ -60,7 +60,7 @@ export function PublicNavbar() {
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl group/nav" aria-label="Main navigation">
       <div
-        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-background/95 transition-all duration-300 overflow-hidden"
+        className="relative flex items-center justify-between rounded-2xl border px-5 py-3 bg-white dark:bg-white transition-all duration-300 overflow-hidden"
         style={{
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
@@ -81,14 +81,14 @@ export function PublicNavbar() {
           }}
         />
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
-          <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" width={32} height={32} className="h-8 w-8 object-contain" loading="eager" decoding="sync" fetchPriority="high" />
-          <span className="font-heading text-lg font-bold tracking-wider uppercase text-foreground">
+          <img src={equilinqLogo} alt="Equilinq" width={32} height={32} className="h-8 w-8 object-contain" loading="eager" decoding="sync" fetchPriority="high" />
+          <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
           </span>
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-base font-medium text-muted-foreground">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-base font-medium text-gray-600">
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div
@@ -99,7 +99,7 @@ export function PublicNavbar() {
               >
                   <Link
                     to={link.href}
-                    className="flex items-center gap-1 hover:text-foreground transition-colors whitespace-nowrap text-base"
+                    className="flex items-center gap-1 hover:text-gray-900 transition-colors whitespace-nowrap text-base"
                   >
                   {link.label}
                   <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${customizationOpen ? "rotate-180" : ""}`} />
@@ -150,7 +150,7 @@ export function PublicNavbar() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="hover:text-foreground transition-colors whitespace-nowrap text-base"
+                className="hover:text-gray-900 transition-colors whitespace-nowrap text-base"
               >
                 {link.label}
               </Link>
@@ -160,7 +160,7 @@ export function PublicNavbar() {
 
         <div className="flex items-center gap-3">
           <Link to="/auth" className="hidden lg:block">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground rounded-full text-base">
+            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-base">
               Login
             </Button>
           </Link>
@@ -173,7 +173,7 @@ export function PublicNavbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-foreground p-1"
+            className="lg:hidden text-gray-900 p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
