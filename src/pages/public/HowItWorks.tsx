@@ -46,7 +46,7 @@ function TimelineStep({ step, index }: { step: (typeof steps)[number]; index: nu
               initial={{ scaleY: 0 }}
               animate={inView ? { scaleY: 1 } : {}}
               transition={{ duration: 0.5 }}
-              className="absolute top-0 bottom-1/2 w-px bg-gradient-to-b from-primary/10 to-primary/25 origin-top"
+              className="absolute top-0 bottom-1/2 w-[2px] bg-gradient-to-b from-primary/30 to-primary/60 origin-top"
             />
           )}
           {!isLast && (
@@ -54,7 +54,7 @@ function TimelineStep({ step, index }: { step: (typeof steps)[number]; index: nu
               initial={{ scaleY: 0 }}
               animate={inView ? { scaleY: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="absolute top-1/2 bottom-0 w-px bg-gradient-to-b from-primary/25 to-primary/10 origin-top"
+              className="absolute top-1/2 bottom-0 w-[2px] bg-gradient-to-b from-primary/60 to-primary/30 origin-top"
             />
           )}
 
