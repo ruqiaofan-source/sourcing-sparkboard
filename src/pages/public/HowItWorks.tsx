@@ -9,10 +9,13 @@ import { steps } from "./HowItWorksStep";
 import heroTopImg from "@/assets/how-it-works-top.jpeg";
 import heroBottomImg from "@/assets/how-it-works-bottom.jpeg";
 
-/* ── Rich step card with icon, number badge, and details ── */
+/* ── Rich step card with icon parallax ── */
 function StepCard({ step, index }: { step: (typeof steps)[number]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const iconY = useTransform(scrollYProgress, [0, 1], [20, -20]);
+  const iconRotate = useTransform(scrollYProgress, [0, 1], [-4, 4]);
   const Icon = step.icon;
   const isEven = index % 2 === 0;
 
@@ -23,9 +26,7 @@ function StepCard({ step, index }: { step: (typeof steps)[number]; index: number
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className={`relative rounded-2xl border border-border/20 bg-card/10 overflow-hidden group-hover:border-primary/30 group-hover:bg-card/30 transition-all duration-300 ${
-            isEven ? "" : ""
-          }`}
+          className="relative rounded-2xl border border-border/20 bg-card/10 overflow-hidden group-hover:border-primary/30 group-hover:bg-card/30 transition-all duration-300"
         >
           {/* Glow accent */}
           <div className={`absolute top-0 ${isEven ? "right-0" : "left-0"} w-1/2 h-full bg-gradient-to-${isEven ? "l" : "r"} from-transparent to-primary/[0.03] pointer-events-none`} />
@@ -35,9 +36,7 @@ function StepCard({ step, index }: { step: (typeof steps)[number]; index: number
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
                 <motion.div
-                  initial={{ scale: 0.6, opacity: 0 }}
-                  animate={inView ? { scale: 1, opacity: 1 } : {}}
-                  transition={{ duration: 0.4, delay: 0.15, type: "spring", stiffness: 250 }}
+                  style={{ y: iconY, rotate: iconRotate }}
                   className="h-12 w-12 sm:h-14 sm:w-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 group-hover:shadow-[0_0_25px_hsl(239,100%,60%/0.15)] transition-all duration-300"
                 >
                   <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
