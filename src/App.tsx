@@ -9,10 +9,19 @@ import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { useRole } from "@/hooks/useRole";
 
-// Landing loaded eagerly (initial page)
 import Landing from "./pages/Landing";
+import Contact from "./pages/public/Contact";
+import Insights from "./pages/public/Insights";
+import InsightArticle from "./pages/public/InsightArticle";
+import Customization from "./pages/public/Customization";
+import Pricing from "./pages/public/Pricing";
+import QualityControl from "./pages/public/QualityControl";
+import OemOdm from "./pages/public/OemOdm";
+import HowItWorks from "./pages/public/HowItWorks";
+import HowItWorksStep from "./pages/public/HowItWorksStep";
+import Privacy from "./pages/public/Privacy";
+import CookiesPage from "./pages/public/Cookies";
 
-// Lazy-loaded pages
 const CustomerDashboard = lazy(() => import("./pages/customer/CustomerDashboard"));
 const NewRequest = lazy(() => import("./pages/customer/NewRequest"));
 const SourcingRequests = lazy(() => import("./pages/customer/SourcingRequests"));
@@ -41,17 +50,6 @@ const InvoiceView = lazy(() => import("./pages/InvoiceView"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Unsubscribe = lazy(() => import("./pages/Unsubscribe"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const Contact = lazy(() => import("./pages/public/Contact"));
-const Insights = lazy(() => import("./pages/public/Insights"));
-const InsightArticle = lazy(() => import("./pages/public/InsightArticle"));
-const Customization = lazy(() => import("./pages/public/Customization"));
-const Pricing = lazy(() => import("./pages/public/Pricing"));
-const QualityControl = lazy(() => import("./pages/public/QualityControl"));
-const OemOdm = lazy(() => import("./pages/public/OemOdm"));
-const HowItWorks = lazy(() => import("./pages/public/HowItWorks"));
-const HowItWorksStep = lazy(() => import("./pages/public/HowItWorksStep"));
-const Privacy = lazy(() => import("./pages/public/Privacy"));
-const CookiesPage = lazy(() => import("./pages/public/Cookies"));
 const CookieConsent = lazy(() => import("./components/CookieConsent").then(m => ({ default: m.CookieConsent })));
 
 const LazyFallback = () => (
