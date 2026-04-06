@@ -38,6 +38,19 @@ const CustomerDashboard = () => {
     enabled: !!user,
   });
 
+  const { data: orders = [] } = useQuery({
+    queryKey: ["customer-orders-summary", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("user_id", user!.id);
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user,
+  });
+
   const { data: unreadCount = 0 } = useQuery({
     queryKey: ["unread-messages-count", user?.id],
     queryFn: async () => {
@@ -53,10 +66,13 @@ const CustomerDashboard = () => {
   const displayName = profile?.display_name || user?.email?.split("@")[0] || "there";
   const hasRequests = requests.length > 0;
   const quotedCount = requests.filter((r: any) => r.status === "quoted").length;
+  const activeRequests = requests.filter((r: any) => ["pending", "active"].includes(r.status)).length;
+  const confirmedRequests = requests.filter((r: any) => r.status === "confirmed").length;
+  const totalSpent = orders.reduce((sum: number, o: any) => sum + Number(o.total_amount || 0), 0);
 
   return (
     <DashboardLayout title="Home">
-      <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="space-y-6 max-w-4xl mx-auto">
         {/* Hero CTA - the first and biggest thing */}
         <motion.div
           initial={{ opacity: 0, y: 20, scale: 0.98 }}
@@ -124,6 +140,29 @@ const CustomerDashboard = () => {
             </div>
           </Link>
         </motion.div>
+
+        {/* KPI Summary Cards */}
+        {hasRequests && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="grid grid-cols-2 sm:grid-cols-5 gap-3"
+          >
+            {[
+              { label: "Total Requests", value: requests.length, color: "text-primary" },
+              { label: "Active", value: activeRequests, color: "text-blue-500" },
+              { label: "Confirmed", value: confirmedRequests, color: "text-emerald-500" },
+              { label: "Total Orders", value: orders.length, color: "text-amber-500" },
+              { label: "Total Spent", value: `€${totalSpent.toLocaleString()}`, color: "text-emerald-500" },
+            ].map((k) => (
+              <div key={k.label} className="rounded-xl border border-border/60 bg-card/80 backdrop-blur-sm p-3.5 text-center">
+                <p className="text-[11px] text-muted-foreground mb-1">{k.label}</p>
+                <p className={`font-heading text-xl font-bold ${k.color}`}>{k.value}</p>
+              </div>
+            ))}
+          </motion.div>
+        )}
 
         {/* Quick links - secondary actions */}
         <motion.div

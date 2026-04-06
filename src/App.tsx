@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { useRole } from "@/hooks/useRole";
+import { RoleGuard } from "@/components/RoleGuard";
 
 import Landing from "./pages/Landing";
 import Contact from "./pages/public/Contact";
@@ -148,22 +149,22 @@ const App = () => (
                 <Route path="/order-tracking" element={<ProtectedRoute><CustomerOrderTracking /></ProtectedRoute>} />
                 
                 {/* Agent routes */}
-                <Route path="/agent/requests" element={<ProtectedRoute><AgentRequests /></ProtectedRoute>} />
-                <Route path="/agent/requests/:id" element={<ProtectedRoute><AgentRequestDetail /></ProtectedRoute>} />
-                <Route path="/agent/messages" element={<ProtectedRoute><AgentMessages /></ProtectedRoute>} />
+                <Route path="/agent/requests" element={<ProtectedRoute><RoleGuard allowed={["agent", "admin"]}><AgentRequests /></RoleGuard></ProtectedRoute>} />
+                <Route path="/agent/requests/:id" element={<ProtectedRoute><RoleGuard allowed={["agent", "admin"]}><AgentRequestDetail /></RoleGuard></ProtectedRoute>} />
+                <Route path="/agent/messages" element={<ProtectedRoute><RoleGuard allowed={["agent", "admin"]}><AgentMessages /></RoleGuard></ProtectedRoute>} />
                 
                 {/* Admin routes */}
-                <Route path="/admin/requests" element={<ProtectedRoute><AdminRequests /></ProtectedRoute>} />
-                <Route path="/admin/requests/:id" element={<ProtectedRoute><AgentRequestDetail /></ProtectedRoute>} />
-                <Route path="/admin/quotes" element={<ProtectedRoute><AdminQuotes /></ProtectedRoute>} />
-                <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
-                <Route path="/admin/insights" element={<ProtectedRoute><AdminInsights /></ProtectedRoute>} />
-                <Route path="/admin/contact" element={<ProtectedRoute><AdminContactSubmissions /></ProtectedRoute>} />
-                <Route path="/admin/audit" element={<ProtectedRoute><AdminAudit /></ProtectedRoute>} />
-                <Route path="/admin/agents" element={<ProtectedRoute><AdminAgents /></ProtectedRoute>} />
-                <Route path="/admin/applications" element={<ProtectedRoute><AdminAgentApplications /></ProtectedRoute>} />
-                <Route path="/admin/qa" element={<ProtectedRoute><AdminQA /></ProtectedRoute>} />
-                <Route path="/admin/testimonials" element={<ProtectedRoute><AdminTestimonials /></ProtectedRoute>} />
+                <Route path="/admin/requests" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminRequests /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/requests/:id" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AgentRequestDetail /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/quotes" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminQuotes /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/users" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminUsers /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/insights" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminInsights /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/contact" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminContactSubmissions /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/audit" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminAudit /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/agents" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminAgents /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/applications" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminAgentApplications /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/qa" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminQA /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/testimonials" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminTestimonials /></RoleGuard></ProtectedRoute>} />
                 
                 {/* Shared routes */}
                 <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />

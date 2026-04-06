@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import { TestimonialsFromDB } from "@/components/landing/TestimonialsFromDB";
 import { useTheme } from "@/hooks/useTheme";
 import heroBg from "@/assets/hero-bg.jpg";
 import logoSoleRunning from "@/assets/logos/sole-running.webp";
@@ -1066,6 +1067,9 @@ export default function Landing() {
           </motion.div>
         </div>
       </section>
+
+      {/* ───── DB TESTIMONIALS ───── */}
+      <TestimonialsFromDB />
 
       <section id="benefits" className="py-28 px-4 relative">
         <AnimatedGlow />
