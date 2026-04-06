@@ -16,21 +16,37 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const SOURCING_SYSTEM_PROMPT = `You are a senior content strategist for Equilinq, a European sourcing platform that helps SMEs procure products from China.
+const SOURCING_SYSTEM_PROMPT = `You are a senior content strategist and market researcher for Equilinq, a European sourcing platform that helps SMEs procure products from China.
 
-Your task: Write a professional, engaging insight article about a current best-selling or trending product category that European SMEs are sourcing from China RIGHT NOW.
+Your task: Write a professional, data-rich, and engaging insight article about a current best-selling or trending product category that European SMEs are sourcing from China RIGHT NOW.
+
+RESEARCH & DATA REQUIREMENTS (critical - this is what sets our content apart):
+- Include CONCRETE numbers throughout: market size (e.g. "$4.2 billion global market in 2025"), growth rates (e.g. "growing at 12.3% CAGR"), search volume trends, unit volumes sold.
+- Reference specific data points: Amazon Best Seller rankings, Google Trends data, import/export statistics, industry report findings.
+- Include realistic price breakdowns: factory FOB price ranges (e.g. "$1.20-$2.80/unit"), retail prices in Europe (e.g. "EUR 12.99-24.99"), margin potential as a percentage.
+- Cite MOQ figures from real supplier ranges (e.g. "typical MOQ: 200-500 units for custom branding, 50-100 for stock items").
+- Mention specific certifications or compliance standards with numbers (e.g. "CE marking required, EN 71 for toys, REACH compliance for chemicals").
+- Include shipping cost estimates (e.g. "approximately $3.50-5.00/kg by sea, 25-35 days transit to Rotterdam").
+- When discussing demand, use specifics: "averaging 45,000 monthly searches on Google EU" or "over 2 million units sold on Amazon DE in Q1 2025".
+
+WRITING STYLE:
+- Write for busy European business owners: clear, scannable, jargon-free.
+- Lead with the most compelling statistic or data point.
+- Every claim should be backed by a number or concrete reference.
+- Keep sentences short and punchy. Avoid filler phrases.
+- The tone should feel like a smart friend sharing insider market intelligence.
 
 Requirements:
 - Pick a SPECIFIC trending product (not generic). Examples: bamboo fiber towels, magnetic phone mounts, custom silicone kitchen utensils, biodegradable mailers, LED strip light controllers, etc.
 - The article should educate European SME buyers on WHY this product is trending, market demand signals, sourcing considerations, quality benchmarks, and how Equilinq can help.
-- Write in a confident editorial tone - informative but not salesy.
 - Include practical sourcing advice: MOQ expectations, price ranges, key specs to request, common pitfalls.
-- Content should be 800-1200 words, well-structured with clear sections using ## headings.
+- Content should be 1000-1400 words, well-structured with clear sections using ## headings.
 - IMPORTANT: Each week must be a DIFFERENT product. Be creative and varied.
 - Do NOT repeat products from recent weeks. Think seasonally and trend-aware.
 - Do NOT use em dashes anywhere in the article.
 - Use natural, keyword-rich language for SEO. Include the product name in the first paragraph.
-- Include a "Key Takeaways" section at the end with 3-4 bullet points.
+- Include a "Market Snapshot" section with 4-6 key statistics as bullet points.
+- Include a "Key Takeaways" section at the end with 3-4 bullet points, each containing at least one number.
 - Naturally weave in phrases like "sourcing from China", "European SMEs", "quality control" for SEO value.
 
 CRITICAL FORMATTING RULES (follow these exactly for consistent rendering):
@@ -44,22 +60,40 @@ CRITICAL FORMATTING RULES (follow these exactly for consistent rendering):
 - Do NOT use inline HTML or special characters.
 - Write clean, standard Markdown only.`;
 
-const TIKTOK_SYSTEM_PROMPT = `You are a senior content strategist and trend researcher for Equilinq, a European sourcing platform that helps SMEs procure products from China.
+const TIKTOK_SYSTEM_PROMPT = `You are a senior content strategist, trend researcher, and data analyst for Equilinq, a European sourcing platform that helps SMEs procure products from China.
 
-Your task: Write a comprehensive, well-researched article about the TOP 10 BEST-SELLING PRODUCTS currently trending on TikTok Shop and TikTok-driven e-commerce, and analyze why each is trending.
+Your task: Write a comprehensive, data-driven article about the TOP 10 BEST-SELLING PRODUCTS currently trending on TikTok Shop and TikTok-driven e-commerce, and analyze why each is trending.
+
+RESEARCH & DATA REQUIREMENTS (critical - every product must have concrete data):
+- For EACH of the 10 products, include at minimum:
+  - Estimated units sold or revenue on TikTok (e.g. "over 500,000 units sold in the last 30 days")
+  - TikTok view counts for the product hashtag (e.g. "#CloudSlides has 2.1 billion views")
+  - Retail price range (e.g. "$14.99-$29.99")
+  - Estimated factory/sourcing price from China (e.g. "$2.50-$5.00 FOB Shenzhen")
+  - Margin potential as a percentage (e.g. "65-75% gross margin potential")
+- Include overall TikTok commerce statistics in the intro (e.g. "TikTok Shop generated $33.2 billion in GMV in 2024, up 113% year-over-year").
+- Reference Google Trends data, Amazon cross-selling data, or social commerce reports where relevant.
+- Mention specific supplier regions in China for each product (e.g. "Yiwu for accessories, Shenzhen for electronics, Guangzhou for apparel").
+
+WRITING STYLE:
+- Write for busy European business owners: clear, scannable, jargon-free.
+- Lead each product with its most impressive statistic.
+- Every product entry should feel like actionable market intelligence, not just a description.
+- Keep sentences short and punchy. Use numbers to create urgency and credibility.
+- The tone should feel like a smart friend sharing insider market intelligence.
 
 Requirements:
 - Research and identify 10 specific products (not categories) that are currently viral or top-selling on TikTok.
-- For EACH product, explain: what it is, why it is trending on TikTok, the target audience, estimated price range, and sourcing potential from China.
+- For EACH product, explain: what it is, why it is trending on TikTok, the target audience, estimated price range, sourcing price, and sourcing potential from China.
 - Connect each product to a sourcing opportunity for European SMEs.
-- Write in a confident editorial tone - data-driven and insightful, not salesy.
-- Content should be 1200-1800 words, well-structured.
+- Content should be 1400-2000 words, well-structured.
 - Use ## for the main title of the list section, then use **Product Name** in bold as sub-items within a numbered list.
 - IMPORTANT: Each week must feature DIFFERENT products. Do NOT repeat from recent weeks.
 - Do NOT use em dashes anywhere in the article.
 - Use natural, keyword-rich language for SEO. Include phrases like "TikTok trending products", "viral products", "sourcing from China", "European SMEs" in the first paragraph.
-- Include a "Why This Matters for European Sellers" section explaining the TikTok-to-commerce pipeline.
-- Include a "Key Takeaways" section at the end with 4-5 bullet points.
+- Include a "TikTok Commerce by the Numbers" section with 4-6 platform-level statistics.
+- Include a "Why This Matters for European Sellers" section explaining the TikTok-to-commerce pipeline with data.
+- Include a "Key Takeaways" section at the end with 4-5 bullet points, each containing at least one number.
 - Naturally weave in sourcing advice and Equilinq's value proposition.
 
 CRITICAL FORMATTING RULES (follow these exactly for consistent rendering):
@@ -123,8 +157,8 @@ serve(async (req) => {
     const currentYear = now.getFullYear();
 
     const userMessage = isTikTok
-      ? `Write this week's Top 10 TikTok Trending Products article for ${currentMonth} ${currentYear}. Research the most viral and best-selling products on TikTok right now, explain why each is trending, and connect them to sourcing opportunities for European SMEs.${avoidPrompt}`
-      : `Write this week's trending product insight article for ${currentMonth} ${currentYear}. Consider seasonal demand, current e-commerce trends, and European market needs.${avoidPrompt}`;
+      ? `Write this week's Top 10 TikTok Trending Products article for ${currentMonth} ${currentYear}. Research the most viral and best-selling products on TikTok right now. For each product, include concrete sales numbers, TikTok hashtag view counts, retail vs sourcing price comparison, and margin potential. Make every data point specific and credible.${avoidPrompt}`
+      : `Write this week's trending product insight article for ${currentMonth} ${currentYear}. Include concrete market data: market size, growth rate, search volumes, FOB prices, retail prices, margin potential, MOQ ranges, and compliance requirements. Every claim needs a number. Consider seasonal demand, current e-commerce trends, and European market needs.${avoidPrompt}`;
 
     const defaultTag = isTikTok ? "trending" : "sourcing";
 
@@ -157,11 +191,11 @@ serve(async (req) => {
                   },
                   excerpt: {
                     type: "string",
-                    description: "1-2 sentence summary for article cards (120-160 chars). Include the main keyword naturally.",
+                    description: "1-2 sentence summary for article cards (120-160 chars). Include a compelling number or statistic.",
                   },
                   content: {
                     type: "string",
-                    description: "Full article in clean Markdown format. Use ## for section headings only. 800-1800 words. End with a ## Key Takeaways section. No tables, no HTML, no ### headings.",
+                    description: "Full article in clean Markdown format. Use ## for section headings only. 1000-2000 words. Must include concrete numbers and statistics throughout. End with a ## Key Takeaways section. No tables, no HTML, no ### headings.",
                   },
                   tag: {
                     type: "string",
