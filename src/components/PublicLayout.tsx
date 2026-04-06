@@ -271,7 +271,7 @@ export function PublicNavbar() {
                             <Link
                               to="/customization"
                               onClick={() => { setMobileOpen(false); setMobileCustomizationOpen(false); }}
-                              className="flex items-center gap-1 text-xs font-medium text-primary pt-1"
+                              className="flex items-center gap-1 text-xs font-medium text-indigo-600 pt-1"
                             >
                               View all
                               <ArrowRight className="h-3 w-3" />
