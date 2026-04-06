@@ -67,11 +67,11 @@ export function PublicNavbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl"
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[96%] max-w-[1200px]"
       aria-label="Main navigation"
     >
       <motion.div
-        className="flex items-center justify-between rounded-2xl border bg-white px-4 py-2.5 overflow-hidden"
+        className="flex items-center justify-between rounded-2xl border bg-white px-4 lg:px-5 py-2.5"
         style={{
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
