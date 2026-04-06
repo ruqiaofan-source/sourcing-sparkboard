@@ -304,7 +304,7 @@ export function PublicNavbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 }
 
