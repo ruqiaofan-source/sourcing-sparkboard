@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link, useNavigate } from "react-router-dom";
 import { useRealtimeSync } from "@/hooks/useRealtimeSync";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const statusConfig: Record<string, { label: string; style: string }> = {
   pending: { label: "Pending", style: "bg-amber-500/15 text-amber-500 border-amber-500/30" },
@@ -24,6 +25,7 @@ const AdminRequests = () => {
   useRealtimeSync("admin", user?.id);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
+  const [agentFilter, setAgentFilter] = useState("all");
 
   const { data: requests = [], isLoading } = useQuery({
     queryKey: ["admin-all-requests-list"],
@@ -32,6 +34,16 @@ const AdminRequests = () => {
         .from("sourcing_requests")
         .select("*, profiles!sourcing_requests_user_id_profiles_fkey(display_name)")
         .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user,
+  });
+
+  const { data: agents = [] } = useQuery({
+    queryKey: ["admin-agents-list"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("agents").select("id, user_id, name");
       if (error) throw error;
       return data;
     },
@@ -53,7 +65,8 @@ const AdminRequests = () => {
   const filtered = requests.filter((r: any) => {
     const matchSearch = r.title.toLowerCase().includes(search.toLowerCase());
     const matchFilter = filter === "All" || r.status === filter;
-    return matchSearch && matchFilter;
+    const matchAgent = agentFilter === "all" || r.agent_id === agentFilter || (agentFilter === "unassigned" && !r.agent_id);
+    return matchSearch && matchFilter && matchAgent;
   });
 
   return (
@@ -68,9 +81,23 @@ const AdminRequests = () => {
               </button>
             ))}
           </div>
-          <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 bg-card border-border" />
+          <div className="flex gap-2 w-full sm:w-auto">
+            <Select value={agentFilter} onValueChange={setAgentFilter}>
+              <SelectTrigger className="w-[160px] bg-card border-border text-sm">
+                <SelectValue placeholder="Agent" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Agents</SelectItem>
+                <SelectItem value="unassigned">Unassigned</SelectItem>
+                {agents.map((a: any) => (
+                  <SelectItem key={a.user_id} value={a.user_id}>{a.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <div className="relative flex-1 sm:w-72">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 bg-card border-border" />
+            </div>
           </div>
         </motion.div>
 
@@ -81,6 +108,7 @@ const AdminRequests = () => {
                 <tr className="border-b border-border bg-muted/30">
                   <th className="text-left text-xs font-medium text-muted-foreground p-4">Request</th>
                   <th className="text-left text-xs font-medium text-muted-foreground p-4 hidden sm:table-cell">Customer</th>
+                  <th className="text-left text-xs font-medium text-muted-foreground p-4 hidden lg:table-cell">Agent</th>
                   <th className="text-left text-xs font-medium text-muted-foreground p-4 hidden md:table-cell">Qty</th>
                   <th className="text-left text-xs font-medium text-muted-foreground p-4 hidden md:table-cell">Budget</th>
                   <th className="text-left text-xs font-medium text-muted-foreground p-4">Status</th>
@@ -91,18 +119,20 @@ const AdminRequests = () => {
               <tbody>
                 {isLoading ? (
                   Array.from({ length: 5 }).map((_, i) => (
-                    <tr key={i} className="border-b border-border/50">{Array.from({ length: 7 }).map((_, j) => (<td key={j} className="p-4"><Skeleton className="h-4 w-20" /></td>))}</tr>
+                    <tr key={i} className="border-b border-border/50">{Array.from({ length: 8 }).map((_, j) => (<td key={j} className="p-4"><Skeleton className="h-4 w-20" /></td>))}</tr>
                   ))
                 ) : filtered.length === 0 ? (
-                  <tr><td colSpan={7} className="p-8 text-center text-muted-foreground text-sm">No requests found.</td></tr>
+                  <tr><td colSpan={8} className="p-8 text-center text-muted-foreground text-sm">No requests found.</td></tr>
                 ) : (
                   filtered.map((r: any) => {
                     const sc = statusConfig[r.status] || statusConfig.pending;
                     const qCount = (quoteCounts as Record<string, number>)[r.id] || 0;
+                    const agentName = agents.find((a: any) => a.user_id === r.agent_id)?.name;
                     return (
                       <tr key={r.id} className="border-b border-border/50 last:border-0 hover:bg-muted/20 transition-colors cursor-pointer" onClick={() => navigate(`/admin/requests/${r.id}`)}>
                         <td className="p-4"><p className="text-sm font-medium text-card-foreground truncate max-w-[200px] hover:text-primary transition-colors">{r.title}</p></td>
                         <td className="p-4 text-sm text-muted-foreground hidden sm:table-cell">{(r as any).profiles?.display_name || "-"}</td>
+                        <td className="p-4 text-sm text-muted-foreground hidden lg:table-cell">{agentName || "-"}</td>
                         <td className="p-4 text-sm text-muted-foreground hidden md:table-cell">{r.quantity?.toLocaleString()}</td>
                         <td className="p-4 text-sm text-card-foreground hidden md:table-cell">{r.currency} {Number(r.budget_per_unit).toFixed(2)}</td>
                         <td className="p-4"><span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${sc.style}`}>{sc.label}</span></td>
