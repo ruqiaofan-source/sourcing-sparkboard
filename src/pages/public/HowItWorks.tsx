@@ -46,7 +46,7 @@ function TimelineStep({ step, index }: { step: (typeof steps)[number]; index: nu
               initial={{ scaleY: 0 }}
               animate={inView ? { scaleY: 1 } : {}}
               transition={{ duration: 0.5 }}
-              className="absolute top-0 bottom-1/2 w-px bg-gradient-to-b from-primary/10 to-primary/25 origin-top"
+              className="absolute top-0 bottom-1/2 w-[2px] bg-gradient-to-b from-primary/30 to-primary/60 origin-top"
             />
           )}
           {!isLast && (
@@ -54,7 +54,7 @@ function TimelineStep({ step, index }: { step: (typeof steps)[number]; index: nu
               initial={{ scaleY: 0 }}
               animate={inView ? { scaleY: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="absolute top-1/2 bottom-0 w-px bg-gradient-to-b from-primary/25 to-primary/10 origin-top"
+              className="absolute top-1/2 bottom-0 w-[2px] bg-gradient-to-b from-primary/60 to-primary/30 origin-top"
             />
           )}
 
@@ -116,23 +116,26 @@ function StepContent({
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ delay: 0.2 }}
-        className="text-xs font-bold tracking-widest text-primary/50 uppercase"
+        className="text-sm font-bold tracking-widest text-primary/60 uppercase"
       >
         Step {String(index + 1).padStart(2, "0")}
       </motion.span>
 
-      <h2 className="font-heading text-lg sm:text-2xl font-bold text-foreground mt-1.5 mb-2 leading-tight group-hover:text-primary transition-colors duration-200">
-        {step.title}
-      </h2>
+      <div className={`flex items-center gap-3 mt-2 mb-2.5 ${align === "right" ? "justify-end" : "justify-start"}`}>
+        <step.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary/70 shrink-0" />
+        <h2 className="font-heading text-xl sm:text-2xl lg:text-3xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-200">
+          {step.title}
+        </h2>
+      </div>
 
-      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed max-w-sm inline-block">
+      <p className="text-muted-foreground text-sm sm:text-base lg:text-lg leading-relaxed max-w-md inline-block">
         {step.shortDesc}
       </p>
 
-      <div className="mt-3 flex items-center gap-1 text-primary/60 group-hover:text-primary transition-colors text-xs sm:text-sm font-medium"
+      <div className="mt-4 flex items-center gap-1.5 text-primary/60 group-hover:text-primary transition-colors text-sm sm:text-base font-medium"
         style={{ justifyContent: align === "right" ? "flex-end" : "flex-start" }}
       >
-        Learn more <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+        Learn more <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
       </div>
     </div>
   );
