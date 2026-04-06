@@ -15,9 +15,15 @@ const routeNames: Record<string, string> = {
   "/products": "Products",
   "/analytics": "Analytics",
   "/settings": "Settings",
+  "/addresses": "Addresses",
+  "/help": "Help & Support",
+  "/admin/agents": "Agent Management",
+  "/admin/applications": "Agent Applications",
+  "/admin/qa": "QA Management",
+  "/admin/testimonials": "Testimonials",
 };
 
-export function DashboardLayout({ children, title }: { children: React.ReactNode; title: string }) {
+export function DashboardLayout({ children, title }: { children: React.ReactNode; title?: string }) {
   const { user } = useAuth();
   const { primaryRole } = useRole();
   const location = useLocation();

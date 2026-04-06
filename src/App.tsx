@@ -40,6 +40,10 @@ const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
 const AdminInsights = lazy(() => import("./pages/admin/AdminInsights"));
 const AdminContactSubmissions = lazy(() => import("./pages/admin/AdminContactSubmissions"));
 const AdminAudit = lazy(() => import("./pages/admin/AdminAudit"));
+const AdminAgents = lazy(() => import("./pages/admin/AdminAgents"));
+const AdminAgentApplications = lazy(() => import("./pages/admin/AdminAgentApplications"));
+const AdminQA = lazy(() => import("./pages/admin/AdminQA"));
+const AdminTestimonials = lazy(() => import("./pages/admin/AdminTestimonials"));
 
 const Auth = lazy(() => import("./pages/Auth"));
 const Orders = lazy(() => import("./pages/Orders"));
@@ -52,6 +56,8 @@ const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Unsubscribe = lazy(() => import("./pages/Unsubscribe"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const CookieConsent = lazy(() => import("./components/CookieConsent").then(m => ({ default: m.CookieConsent })));
+const AddressManagement = lazy(() => import("./pages/customer/AddressManagement"));
+const HelpSupport = lazy(() => import("./pages/customer/HelpSupport"));
 
 const LazyFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-background">
@@ -136,6 +142,8 @@ const App = () => (
                 <Route path="/sourcing-requests" element={<ProtectedRoute><SourcingRequests /></ProtectedRoute>} />
                 <Route path="/sourcing-requests/:id" element={<ProtectedRoute><CustomerRequestDetail /></ProtectedRoute>} />
                 <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+                <Route path="/addresses" element={<ProtectedRoute><AddressManagement /></ProtectedRoute>} />
+                <Route path="/help" element={<ProtectedRoute><HelpSupport /></ProtectedRoute>} />
                 
                 {/* Agent routes */}
                 <Route path="/agent/requests" element={<ProtectedRoute><AgentRequests /></ProtectedRoute>} />
@@ -150,6 +158,10 @@ const App = () => (
                 <Route path="/admin/insights" element={<ProtectedRoute><AdminInsights /></ProtectedRoute>} />
                 <Route path="/admin/contact" element={<ProtectedRoute><AdminContactSubmissions /></ProtectedRoute>} />
                 <Route path="/admin/audit" element={<ProtectedRoute><AdminAudit /></ProtectedRoute>} />
+                <Route path="/admin/agents" element={<ProtectedRoute><AdminAgents /></ProtectedRoute>} />
+                <Route path="/admin/applications" element={<ProtectedRoute><AdminAgentApplications /></ProtectedRoute>} />
+                <Route path="/admin/qa" element={<ProtectedRoute><AdminQA /></ProtectedRoute>} />
+                <Route path="/admin/testimonials" element={<ProtectedRoute><AdminTestimonials /></ProtectedRoute>} />
                 
                 {/* Shared routes */}
                 <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
