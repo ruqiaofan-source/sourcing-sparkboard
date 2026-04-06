@@ -30,8 +30,20 @@ export function PublicNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [customizationOpen, setCustomizationOpen] = useState(false);
   const [mobileCustomizationOpen, setMobileCustomizationOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { theme } = useTheme();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // 0 at top, 1 at 300px scroll
+      const progress = Math.min(window.scrollY / 300, 1);
+      setScrollProgress(progress);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleMouseEnter = () => {
     if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
@@ -41,9 +53,24 @@ export function PublicNavbar() {
     dropdownTimeout.current = setTimeout(() => setCustomizationOpen(false), 200);
   };
 
+  // Dynamic navbar styles based on scroll
+  const bgOpacity = 0.7 + scrollProgress * 0.3; // 0.7 -> 1.0
+  const blur = 12 + scrollProgress * 12; // 12px -> 24px
+  const shadow = scrollProgress * 0.15; // 0 -> 0.15
+  const borderOpacity = 0.1 + scrollProgress * 0.1; // subtle border that strengthens
+
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl" aria-label="Main navigation">
-      <div className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white backdrop-blur-xl px-5 py-3 shadow-lg">
+      <div
+        className="flex items-center justify-between rounded-2xl border px-5 py-3 transition-all duration-300"
+        style={{
+          backgroundColor: `rgba(255, 255, 255, ${bgOpacity})`,
+          backdropFilter: `blur(${blur}px)`,
+          WebkitBackdropFilter: `blur(${blur}px)`,
+          boxShadow: `0 4px 24px -4px rgba(0, 0, 0, ${shadow}), 0 1px 3px rgba(0, 0, 0, ${shadow * 0.5})`,
+          borderColor: `rgba(209, 213, 219, ${borderOpacity})`,
+        }}
+      >
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
           <img src={equilinqLogo} alt="Equilinq" className="h-8 w-8 object-contain" loading="eager" decoding="sync" />
           <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
