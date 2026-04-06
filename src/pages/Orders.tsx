@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
+import { useRole } from "@/hooks/useRole";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const statusStyles: Record<string, string> = {
   "in_transit": "bg-blue-500/15 text-blue-400 border-blue-500/30",
@@ -27,6 +29,9 @@ const statusFilters = ["All", "in_transit", "processing", "delivered", "qc_revie
 const Orders = () => {
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
+  const [customerFilter, setCustomerFilter] = useState("all");
+  const { isAdmin, isAgent } = useRole();
+  const isStaff = isAdmin || isAgent;
 
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["orders"],
@@ -40,12 +45,34 @@ const Orders = () => {
     },
   });
 
+  const { data: profiles = [] } = useQuery({
+    queryKey: ["admin-profiles-for-orders"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("profiles").select("user_id, display_name");
+      if (error) throw error;
+      return data;
+    },
+    enabled: isStaff,
+  });
+
+  // Build unique customer list from orders
+  const customerMap = new Map<string, string>();
+  if (isStaff) {
+    orders.forEach((o) => {
+      if (!customerMap.has(o.user_id)) {
+        const p = profiles.find((p: any) => p.user_id === o.user_id);
+        customerMap.set(o.user_id, p?.display_name || o.user_id.slice(0, 8));
+      }
+    });
+  }
+
   const filtered = orders.filter((o) => {
     const matchesSearch = o.order_number.toLowerCase().includes(search.toLowerCase()) ||
       o.product_name.toLowerCase().includes(search.toLowerCase()) ||
       (o.suppliers as any)?.name?.toLowerCase().includes(search.toLowerCase());
     const matchesFilter = activeFilter === "All" || o.status === activeFilter;
-    return matchesSearch && matchesFilter;
+    const matchesCustomer = customerFilter === "all" || o.user_id === customerFilter;
+    return matchesSearch && matchesFilter && matchesCustomer;
   });
 
   const counts = {
@@ -91,9 +118,24 @@ const Orders = () => {
               </button>
             ))}
           </div>
-          <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search orders..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 bg-card border-border" />
+          <div className="flex gap-2 w-full sm:w-auto">
+            {isStaff && (
+              <Select value={customerFilter} onValueChange={setCustomerFilter}>
+                <SelectTrigger className="w-[160px] bg-card border-border text-sm">
+                  <SelectValue placeholder="Customer" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Customers</SelectItem>
+                  {Array.from(customerMap.entries()).map(([id, name]) => (
+                    <SelectItem key={id} value={id}>{name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+            <div className="relative flex-1 sm:w-72">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search orders..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 bg-card border-border" />
+            </div>
           </div>
         </motion.div>
 
@@ -104,11 +146,13 @@ const Orders = () => {
               <thead>
                 <tr className="border-b border-border bg-muted/30">
                   <th className="text-left text-xs font-medium text-muted-foreground p-4">Order ID</th>
+                  {isStaff && <th className="text-left text-xs font-medium text-muted-foreground p-4 hidden lg:table-cell">Customer</th>}
                   <th className="text-left text-xs font-medium text-muted-foreground p-4">Supplier</th>
                   <th className="text-left text-xs font-medium text-muted-foreground p-4">Product</th>
                   <th className="text-left text-xs font-medium text-muted-foreground p-4">Quantity</th>
                   <th className="text-left text-xs font-medium text-muted-foreground p-4">Total</th>
                   <th className="text-left text-xs font-medium text-muted-foreground p-4">Status</th>
+                  {isStaff && <th className="text-left text-xs font-medium text-muted-foreground p-4 hidden md:table-cell">BuckyDrop</th>}
                   <th className="text-left text-xs font-medium text-muted-foreground p-4">Date</th>
                   <th className="text-left text-xs font-medium text-muted-foreground p-4">ETA</th>
                 </tr>
@@ -117,36 +161,47 @@ const Orders = () => {
                 {isLoading ? (
                   Array.from({ length: 5 }).map((_, i) => (
                     <tr key={i} className="border-b border-border/50">
-                      {Array.from({ length: 8 }).map((_, j) => (
+                      {Array.from({ length: isStaff ? 10 : 8 }).map((_, j) => (
                         <td key={j} className="p-4"><Skeleton className="h-4 w-20" /></td>
                       ))}
                     </tr>
                   ))
                 ) : filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="p-8 text-center text-muted-foreground text-sm">
+                    <td colSpan={isStaff ? 10 : 8} className="p-8 text-center text-muted-foreground text-sm">
                       {orders.length === 0 ? "No orders yet. Orders will appear here once created." : "No orders matching your criteria."}
                     </td>
                   </tr>
                 ) : (
-                  filtered.map((order) => (
-                    <tr key={order.id} className="border-b border-border/50 last:border-0 hover:bg-muted/20 transition-colors">
-                      <td className="p-4 text-sm font-medium text-primary">
-                        <Link to={`/orders/${order.id}`} className="hover:underline">{order.order_number}</Link>
-                      </td>
-                      <td className="p-4 text-sm text-card-foreground">{(order.suppliers as any)?.name || "-"}</td>
-                      <td className="p-4 text-sm text-muted-foreground">{order.product_name}</td>
-                      <td className="p-4 text-sm text-muted-foreground">{order.quantity}</td>
-                      <td className="p-4 text-sm font-medium text-card-foreground">${order.total_amount.toLocaleString()}</td>
-                      <td className="p-4">
-                        <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusStyles[order.status] || ""}`}>
-                          {statusLabel[order.status] || order.status}
-                        </span>
-                      </td>
-                      <td className="p-4 text-sm text-muted-foreground">{new Date(order.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</td>
-                      <td className="p-4 text-sm text-muted-foreground">{order.eta ? new Date(order.eta).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-"}</td>
-                    </tr>
-                  ))
+                  filtered.map((order) => {
+                    const customerName = isStaff ? (profiles.find((p: any) => p.user_id === order.user_id)?.display_name || "-") : null;
+                    return (
+                      <tr key={order.id} className="border-b border-border/50 last:border-0 hover:bg-muted/20 transition-colors">
+                        <td className="p-4 text-sm font-medium text-primary">
+                          <Link to={`/orders/${order.id}`} className="hover:underline">{order.order_number}</Link>
+                        </td>
+                        {isStaff && <td className="p-4 text-sm text-muted-foreground hidden lg:table-cell">{customerName}</td>}
+                        <td className="p-4 text-sm text-card-foreground">{(order.suppliers as any)?.name || "-"}</td>
+                        <td className="p-4 text-sm text-muted-foreground">{order.product_name}</td>
+                        <td className="p-4 text-sm text-muted-foreground">{order.quantity}</td>
+                        <td className="p-4 text-sm font-medium text-card-foreground">€{order.total_amount.toLocaleString()}</td>
+                        <td className="p-4">
+                          <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusStyles[order.status] || ""}`}>
+                            {statusLabel[order.status] || order.status}
+                          </span>
+                        </td>
+                        {isStaff && (
+                          <td className="p-4 text-sm text-muted-foreground hidden md:table-cell">
+                            {order.buckydrop_status ? (
+                              <span className="inline-flex items-center rounded-full bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 text-xs text-blue-400">{order.buckydrop_status}</span>
+                            ) : "-"}
+                          </td>
+                        )}
+                        <td className="p-4 text-sm text-muted-foreground">{new Date(order.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</td>
+                        <td className="p-4 text-sm text-muted-foreground">{order.eta ? new Date(order.eta).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-"}</td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>
