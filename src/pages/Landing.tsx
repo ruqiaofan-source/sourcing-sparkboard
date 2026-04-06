@@ -432,6 +432,21 @@ export default function Landing() {
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
+  const { data: dbFaqs = [] } = useQuery({
+    queryKey: ["public-faq-items"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("faq_items")
+        .select("*")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return data.map((item: any) => ({ q: item.question, a: item.answer }));
+    },
+  });
+
+  const faqs = dbFaqs.length > 0 ? dbFaqs : fallbackFaqs;
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <SEOHead
