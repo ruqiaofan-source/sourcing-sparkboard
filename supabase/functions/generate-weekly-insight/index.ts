@@ -16,7 +16,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const SYSTEM_PROMPT = `You are a senior content strategist for Equilinq, a European sourcing platform that helps SMEs procure products from China.
+const SOURCING_SYSTEM_PROMPT = `You are a senior content strategist for Equilinq, a European sourcing platform that helps SMEs procure products from China.
 
 Your task: Write a professional, engaging insight article about a current best-selling or trending product category that European SMEs are sourcing from China RIGHT NOW.
 
@@ -31,7 +31,48 @@ Requirements:
 - Do NOT use em dashes anywhere in the article.
 - Use natural, keyword-rich language for SEO. Include the product name in the first paragraph.
 - Include a "Key Takeaways" section at the end with 3-4 bullet points.
-- Naturally weave in phrases like "sourcing from China", "European SMEs", "quality control" for SEO value.`;
+- Naturally weave in phrases like "sourcing from China", "European SMEs", "quality control" for SEO value.
+
+CRITICAL FORMATTING RULES (follow these exactly for consistent rendering):
+- Use ## for all section headings (never # or ###).
+- Use **bold** for emphasis, never ALL CAPS.
+- Use bullet lists with - prefix. Never use numbered sub-lists inside bullet lists.
+- Keep paragraphs to 2-4 sentences each.
+- Separate every section with a blank line before and after the ## heading.
+- Do NOT mix list styles within a section.
+- Do NOT use tables - use bullet lists instead.
+- Do NOT use inline HTML or special characters.
+- Write clean, standard Markdown only.`;
+
+const TIKTOK_SYSTEM_PROMPT = `You are a senior content strategist and trend researcher for Equilinq, a European sourcing platform that helps SMEs procure products from China.
+
+Your task: Write a comprehensive, well-researched article about the TOP 10 BEST-SELLING PRODUCTS currently trending on TikTok Shop and TikTok-driven e-commerce, and analyze why each is trending.
+
+Requirements:
+- Research and identify 10 specific products (not categories) that are currently viral or top-selling on TikTok.
+- For EACH product, explain: what it is, why it is trending on TikTok, the target audience, estimated price range, and sourcing potential from China.
+- Connect each product to a sourcing opportunity for European SMEs.
+- Write in a confident editorial tone - data-driven and insightful, not salesy.
+- Content should be 1200-1800 words, well-structured.
+- Use ## for the main title of the list section, then use **Product Name** in bold as sub-items within a numbered list.
+- IMPORTANT: Each week must feature DIFFERENT products. Do NOT repeat from recent weeks.
+- Do NOT use em dashes anywhere in the article.
+- Use natural, keyword-rich language for SEO. Include phrases like "TikTok trending products", "viral products", "sourcing from China", "European SMEs" in the first paragraph.
+- Include a "Why This Matters for European Sellers" section explaining the TikTok-to-commerce pipeline.
+- Include a "Key Takeaways" section at the end with 4-5 bullet points.
+- Naturally weave in sourcing advice and Equilinq's value proposition.
+
+CRITICAL FORMATTING RULES (follow these exactly for consistent rendering):
+- Use ## for all section headings (never # or ###).
+- Use **bold** for emphasis and product names, never ALL CAPS.
+- Use numbered lists (1. 2. 3.) for the top 10 products.
+- Use bullet lists with - prefix for details under each product.
+- Keep paragraphs to 2-4 sentences each.
+- Separate every section with a blank line before and after the ## heading.
+- Do NOT mix list styles within a section.
+- Do NOT use tables - use bullet lists instead.
+- Do NOT use inline HTML or special characters.
+- Write clean, standard Markdown only.`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -45,6 +86,22 @@ serve(async (req) => {
 
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
     if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) throw new Error("Supabase env not configured");
+
+    // Determine article type from request body
+    let articleType = "sourcing"; // default Monday post
+    try {
+      const body = await req.json();
+      if (body?.type === "tiktok") {
+        articleType = "tiktok";
+      }
+    } catch {
+      // No body or invalid JSON, default to sourcing
+    }
+
+    const isTikTok = articleType === "tiktok";
+    const systemPrompt = isTikTok ? TIKTOK_SYSTEM_PROMPT : SOURCING_SYSTEM_PROMPT;
+
+    console.log(`Generating ${articleType} article...`);
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
@@ -65,6 +122,12 @@ serve(async (req) => {
     const currentMonth = monthNames[now.getMonth()];
     const currentYear = now.getFullYear();
 
+    const userMessage = isTikTok
+      ? `Write this week's Top 10 TikTok Trending Products article for ${currentMonth} ${currentYear}. Research the most viral and best-selling products on TikTok right now, explain why each is trending, and connect them to sourcing opportunities for European SMEs.${avoidPrompt}`
+      : `Write this week's trending product insight article for ${currentMonth} ${currentYear}. Consider seasonal demand, current e-commerce trends, and European market needs.${avoidPrompt}`;
+
+    const defaultTag = isTikTok ? "trending" : "sourcing";
+
     // Step 1: Generate article content
     console.log("Generating article content...");
     const articleResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -76,11 +139,8 @@ serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          {
-            role: "user",
-            content: `Write this week's trending product insight article for ${currentMonth} ${currentYear}. Consider seasonal demand, current e-commerce trends, and European market needs.${avoidPrompt}`,
-          },
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userMessage },
         ],
         tools: [
           {
@@ -101,7 +161,7 @@ serve(async (req) => {
                   },
                   content: {
                     type: "string",
-                    description: "Full article in Markdown format. Use ## for section headings. 800-1200 words. End with a ## Key Takeaways section.",
+                    description: "Full article in clean Markdown format. Use ## for section headings only. 800-1800 words. End with a ## Key Takeaways section. No tables, no HTML, no ### headings.",
                   },
                   tag: {
                     type: "string",
@@ -236,7 +296,7 @@ serve(async (req) => {
       title: article.title,
       excerpt: article.excerpt,
       content: article.content,
-      tag: article.tag,
+      tag: article.tag || defaultTag,
       slug: uniqueSlug,
       meta_title: article.meta_title,
       meta_description: article.meta_description,
@@ -251,10 +311,10 @@ serve(async (req) => {
       throw new Error(`Failed to insert article: ${insertError.message}`);
     }
 
-    console.log(`Published article: "${inserted.title}" (${inserted.slug}) with cover: ${!!inserted.cover_image_url}`);
+    console.log(`Published ${articleType} article: "${inserted.title}" (${inserted.slug}) with cover: ${!!inserted.cover_image_url}`);
 
     return new Response(
-      JSON.stringify({ success: true, article: inserted }),
+      JSON.stringify({ success: true, type: articleType, article: inserted }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e) {
