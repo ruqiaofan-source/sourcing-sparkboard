@@ -7,142 +7,122 @@ import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { steps } from "./HowItWorksStep";
 
-/* ── Feature highlight cards shown beside certain steps ── */
-const featureCards: Record<number, { left?: { title: string; desc: string }[]; right?: { title: string; desc: string }[] }> = {
-  0: {
-    right: [
-      { title: "Fast responses.", desc: "Initial supplier matches within 24 hours." },
-      { title: "Pre-Verification.", desc: "Suppliers are pre-verified against international standards." },
-    ],
-  },
-  1: {
-    left: [
-      { title: "Direct access.", desc: "No trading companies. Real factory connections only." },
-      { title: "MOQ flexibility.", desc: "Negotiate lower minimums for small-batch testing." },
-    ],
-  },
-  2: {
-    right: [
-      { title: "Full transparency.", desc: "Every cost line visible. No hidden markups." },
-      { title: "Compare easily.", desc: "Side-by-side quote comparison across factories." },
-    ],
-  },
-  4: {
-    left: [
-      { title: "Photo updates.", desc: "Regular production photos and video check-ins." },
-      { title: "Spec tracking.", desc: "Continuous adherence checks against your requirements." },
-    ],
-  },
-  5: {
-    right: [
-      { title: "AQL standards.", desc: "Industry-standard defect rate assessment." },
-      { title: "QC reports.", desc: "Detailed inspection reports with photo evidence." },
-    ],
-  },
-  7: {
-    left: [
-      { title: "Reorder easily.", desc: "One-click reorders with saved specifications." },
-      { title: "Long-term support.", desc: "Ongoing supplier relationship management." },
-    ],
-  },
-};
-
-/* ── Feature card component ── */
-function FeatureCard({ title, desc, delay }: { title: string; desc: string; delay: number }) {
+/* ── Timeline step ── */
+function TimelineStep({ step, index }: { step: (typeof steps)[number]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const Icon = step.icon;
+  const isLeft = index % 2 === 0;
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay }}
-      className="rounded-xl border border-border/30 bg-card/20 backdrop-blur-sm p-4 sm:p-5"
-    >
-      <h4 className="font-heading text-sm font-bold text-foreground mb-1">{title}</h4>
-      <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
-    </motion.div>
+    <div ref={ref} className="relative grid grid-cols-[1fr_auto_1fr] gap-0">
+      {/* Left content */}
+      <div className={`py-6 sm:py-10 pr-6 sm:pr-10 ${isLeft ? "" : "hidden sm:block"}`}>
+        {isLeft && (
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="text-right"
+          >
+            <StepContent step={step} index={index} align="right" />
+          </motion.div>
+        )}
+      </div>
+
+      {/* Center spine */}
+      <div className="relative flex flex-col items-center w-10 sm:w-12">
+        {/* Line above */}
+        {index > 0 && (
+          <motion.div
+            initial={{ scaleY: 0 }}
+            animate={inView ? { scaleY: 1 } : {}}
+            transition={{ duration: 0.4 }}
+            className="w-px flex-1 bg-border/40 origin-top"
+          />
+        )}
+        {index === 0 && <div className="flex-1" />}
+
+        {/* Node */}
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={inView ? { scale: 1 } : {}}
+          transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
+          className="relative z-10 h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-primary/30 bg-background flex items-center justify-center shrink-0"
+        >
+          <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+        </motion.div>
+
+        {/* Line below */}
+        {index < steps.length - 1 && (
+          <motion.div
+            initial={{ scaleY: 0 }}
+            animate={inView ? { scaleY: 1 } : {}}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="w-px flex-1 bg-border/40 origin-top"
+          />
+        )}
+        {index === steps.length - 1 && <div className="flex-1" />}
+      </div>
+
+      {/* Right content */}
+      <div className={`py-6 sm:py-10 pl-6 sm:pl-10 ${isLeft ? "block sm:hidden" : ""}`}>
+        {/* On mobile, always show on right side */}
+        {isLeft && (
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="sm:hidden"
+          >
+            <StepContent step={step} index={index} align="left" />
+          </motion.div>
+        )}
+        {!isLeft && (
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <StepContent step={step} index={index} align="left" />
+          </motion.div>
+        )}
+      </div>
+    </div>
   );
 }
 
-/* ── Single step row ── */
-function StepRow({ step, index }: { step: (typeof steps)[number]; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const Icon = step.icon;
-  const features = featureCards[index];
-
+/* ── Step content block ── */
+function StepContent({
+  step,
+  index,
+  align,
+}: {
+  step: (typeof steps)[number];
+  index: number;
+  align: "left" | "right";
+}) {
   return (
-    <div ref={ref} className="relative">
-      {/* Connector line above (except first) */}
-      {index > 0 && (
-        <div className="absolute left-1/2 -translate-x-px -top-px h-16 sm:h-24 w-px bg-gradient-to-b from-transparent via-border/40 to-border/40 hidden md:block" />
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-8 items-start">
-        {/* Left feature cards */}
-        <div className="hidden md:flex flex-col gap-3 justify-center min-h-[120px]">
-          {features?.left?.map((f, i) => (
-            <FeatureCard key={f.title} title={f.title} desc={f.desc} delay={0.2 + i * 0.1} />
-          ))}
-        </div>
-
-        {/* Center: step content */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-md mx-auto md:mx-0"
-        >
-          {/* Step number + icon */}
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={inView ? { scale: 1 } : {}}
-            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
-            className="mx-auto mb-4 h-14 w-14 sm:h-16 sm:w-16 rounded-2xl border border-primary/20 bg-primary/[0.08] flex items-center justify-center"
+    <div className={align === "right" ? "text-right" : "text-left"}>
+      <span className="text-[10px] sm:text-xs font-bold tracking-widest text-primary/60 uppercase">
+        Step {String(index + 1).padStart(2, "0")}
+      </span>
+      <h2 className="font-heading text-base sm:text-xl font-bold text-foreground mt-1 mb-2 leading-tight">
+        {step.title}
+      </h2>
+      <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed mb-3 max-w-sm inline-block">
+        {step.shortDesc}
+      </p>
+      <div>
+        <Link to={`/how-it-works/${step.slug}`}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-primary hover:text-primary hover:bg-primary/10 text-xs px-0 h-7 gap-1"
           >
-            <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
-          </motion.div>
-
-          <span className="font-heading text-3xl sm:text-4xl font-bold text-foreground/15 block mb-1">
-            {index + 1}.
-          </span>
-
-          <h2 className="font-heading text-lg sm:text-2xl font-bold text-foreground mb-2 leading-tight">
-            {step.title}
-          </h2>
-
-          <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed mb-4 max-w-sm mx-auto">
-            {step.desc}
-          </p>
-
-          <Link to={`/how-it-works/${step.slug}`}>
-            <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full border-primary/30 text-primary hover:bg-primary/10 hover:text-primary text-xs px-5 h-8"
-            >
-              Learn more
-            </Button>
-          </Link>
-
-          {/* Mobile feature cards */}
-          {(features?.left || features?.right) && (
-            <div className="mt-5 flex flex-col gap-2 md:hidden">
-              {[...(features?.left || []), ...(features?.right || [])].map((f, i) => (
-                <FeatureCard key={f.title} title={f.title} desc={f.desc} delay={0.3 + i * 0.1} />
-              ))}
-            </div>
-          )}
-        </motion.div>
-
-        {/* Right feature cards */}
-        <div className="hidden md:flex flex-col gap-3 justify-center min-h-[120px]">
-          {features?.right?.map((f, i) => (
-            <FeatureCard key={f.title} title={f.title} desc={f.desc} delay={0.2 + i * 0.1} />
-          ))}
-        </div>
+            Learn more <ArrowRight className="h-3 w-3" />
+          </Button>
+        </Link>
       </div>
     </div>
   );
@@ -182,102 +162,65 @@ export default function HowItWorks() {
       <PublicNavbar />
 
       {/* ── Hero ── */}
-      <section className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 text-center relative">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 text-center relative">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-primary/[0.04] blur-[120px]" />
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[400px] h-[400px] rounded-full bg-primary/[0.04] blur-[120px]" />
         </div>
-
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative z-10 max-w-2xl mx-auto"
+          transition={{ duration: 0.5 }}
+          className="relative z-10 max-w-xl mx-auto"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.06] backdrop-blur-sm px-4 py-1.5 mb-6">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.06] px-4 py-1.5 mb-5">
             <Sparkles className="h-3 w-3 text-primary" />
             <span className="text-[11px] text-primary/80 tracking-wide font-medium">8-step managed process</span>
           </span>
-
-          <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.08] mb-5">
+          <h1 className="font-heading text-3xl sm:text-5xl font-bold text-foreground leading-[1.1] mb-4">
             How It Works
           </h1>
-
-          <p className="text-muted-foreground text-sm sm:text-base max-w-lg mx-auto mb-8 leading-relaxed">
-            From your first request to door-to-door delivery -- a transparent, managed sourcing process with verified factories and multi-stage quality control.
+          <p className="text-muted-foreground text-sm max-w-md mx-auto leading-relaxed">
+            From your first request to door-to-door delivery -- transparent sourcing with verified factories.
           </p>
-
-          <div className="flex items-center justify-center gap-3 flex-wrap">
-            <Link to="/auth?signup=true">
-              <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-11 text-sm font-semibold border border-primary/20 shadow-[0_0_40px_-8px_hsl(239,100%,60%/0.35)]">
-                Get Started Free
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-            <Link to="/contact">
-              <Button variant="outline" size="lg" className="rounded-full border-border/40 px-8 h-11 text-sm">
-                Talk to Us
-              </Button>
-            </Link>
-          </div>
         </motion.div>
       </section>
 
-      {/* ── Steps ── */}
-      <section className="px-4 pb-16 sm:pb-24 relative z-10">
-        <div className="max-w-5xl mx-auto space-y-16 sm:space-y-24">
+      {/* ── Timeline ── */}
+      <section className="px-4 pb-16 sm:pb-24">
+        <div className="max-w-3xl mx-auto">
           {steps.map((step, i) => (
-            <StepRow key={step.slug} step={step} index={i} />
+            <TimelineStep key={step.slug} step={step} index={i} />
           ))}
         </div>
       </section>
 
-      {/* ── Bottom CTA ── */}
+      {/* ── CTA ── */}
       <section className="px-4 pb-16 sm:pb-24">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-2xl mx-auto text-center rounded-2xl border border-border/20 bg-card/15 p-8 sm:p-14 relative overflow-hidden"
+          transition={{ duration: 0.5 }}
+          className="max-w-lg mx-auto text-center rounded-2xl border border-border/20 bg-card/15 p-8 sm:p-12 relative overflow-hidden"
         >
-          <div className="absolute -top-20 -right-20 w-48 h-48 rounded-full bg-primary/[0.05] blur-3xl pointer-events-none" />
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground mb-3">Ready to Get Started?</h2>
-          <p className="text-muted-foreground mb-7 max-w-sm mx-auto text-sm">
-            Submit your first sourcing request in minutes. No commitment, no upfront costs.
+          <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-primary/[0.05] blur-3xl pointer-events-none" />
+          <h2 className="font-heading text-xl sm:text-2xl font-bold text-foreground mb-2">Ready to start?</h2>
+          <p className="text-muted-foreground mb-6 text-sm">
+            Submit your first sourcing request in minutes.
           </p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <Link to="/auth?signup=true">
-              <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-11 text-sm font-semibold border border-primary/20 shadow-[0_0_40px_-8px_hsl(239,100%,60%/0.35)]">
-                Get Started Now
-                <ArrowRight className="ml-2 h-4 w-4" />
+              <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-7 h-10 text-sm font-semibold border border-primary/20">
+                Get Started <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
             <Link to="/pricing">
-              <Button variant="outline" size="lg" className="rounded-full border-border/40 px-8 h-11 text-sm">
+              <Button variant="outline" size="lg" className="rounded-full border-border/40 px-7 h-10 text-sm">
                 View Pricing
               </Button>
             </Link>
           </div>
         </motion.div>
-      </section>
-
-      {/* Cross-links */}
-      <section className="pb-16 sm:pb-20 px-4">
-        <div className="max-w-3xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {[
-              { to: "/pricing", title: "Pricing", desc: "Transparent, itemized cost breakdown", emoji: "💰" },
-              { to: "/customization", title: "Customization", desc: "35+ branding and packaging options", emoji: "🎨" },
-              { to: "/insights", title: "Insights", desc: "Sourcing trends and market reports", emoji: "📊" },
-            ].map((link) => (
-              <Link key={link.to} to={link.to} className="group block p-5 rounded-xl border border-border/20 bg-card/10 hover:border-primary/25 hover:bg-card/30 transition-all duration-200">
-                <span className="text-lg block mb-1.5">{link.emoji}</span>
-                <h3 className="font-heading text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-0.5">{link.title}</h3>
-                <p className="text-xs text-muted-foreground">{link.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
       </section>
 
       <PublicFooter />
