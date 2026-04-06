@@ -160,7 +160,7 @@ export function PublicNavbar() {
 
         <div className="flex items-center gap-3">
           <Link to="/auth" className="hidden lg:block">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground rounded-full text-base">
+            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-base">
               Login
             </Button>
           </Link>
