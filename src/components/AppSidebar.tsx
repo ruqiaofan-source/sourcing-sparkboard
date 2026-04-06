@@ -1,4 +1,4 @@
-import { LayoutDashboard, ShoppingCart, BarChart3, Settings, LogOut, Plus, FileText, Send, MessageCircle, Users, Newspaper, Inbox, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, BarChart3, Settings, LogOut, Plus, FileText, Send, MessageCircle, Users, Newspaper, Inbox, ShieldCheck, UserCheck, ClipboardList, HelpCircle, MessageSquareQuote, MapPin } from "lucide-react";
 import { NotificationBell } from "@/components/NotificationBell";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
@@ -18,6 +18,8 @@ const customerItems = [
   { title: "Requests", url: "/sourcing-requests", icon: FileText },
   { title: "Messages", url: "/messages", icon: MessageCircle },
   { title: "New Request", url: "/new-request", icon: Plus },
+  { title: "Addresses", url: "/addresses", icon: MapPin },
+  { title: "Help", url: "/help", icon: HelpCircle },
 ];
 
 const agentItems = [
@@ -33,6 +35,10 @@ const adminItems = [
   { title: "Quotes", url: "/admin/quotes", icon: Send },
   { title: "Orders", url: "/orders", icon: ShoppingCart },
   { title: "Users", url: "/admin/users", icon: Users },
+  { title: "Agents", url: "/admin/agents", icon: UserCheck },
+  { title: "Applications", url: "/admin/applications", icon: ClipboardList },
+  { title: "QA", url: "/admin/qa", icon: HelpCircle },
+  { title: "Testimonials", url: "/admin/testimonials", icon: MessageSquareQuote },
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
   { title: "Insights", url: "/admin/insights", icon: Newspaper },
   { title: "Contact", url: "/admin/contact", icon: Inbox },

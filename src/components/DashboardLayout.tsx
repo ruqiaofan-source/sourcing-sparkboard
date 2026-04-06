@@ -17,7 +17,7 @@ const routeNames: Record<string, string> = {
   "/settings": "Settings",
 };
 
-export function DashboardLayout({ children, title }: { children: React.ReactNode; title: string }) {
+export function DashboardLayout({ children, title }: { children: React.ReactNode; title?: string }) {
   const { user } = useAuth();
   const { primaryRole } = useRole();
   const location = useLocation();
