@@ -62,13 +62,14 @@ export function PublicNavbar() {
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl" aria-label="Main navigation">
       <div
-        className="flex items-center justify-between rounded-2xl border px-5 py-3 transition-all duration-300"
+        className="flex items-center justify-between rounded-2xl border px-5 py-3"
         style={{
           backgroundColor: `rgba(255, 255, 255, ${bgOpacity})`,
           backdropFilter: `blur(${blur}px)`,
           WebkitBackdropFilter: `blur(${blur}px)`,
           boxShadow: `0 4px 24px -4px rgba(0, 0, 0, ${shadow}), 0 1px 3px rgba(0, 0, 0, ${shadow * 0.5})`,
           borderColor: `rgba(209, 213, 219, ${borderOpacity})`,
+          willChange: "backdrop-filter, background-color, box-shadow",
         }}
       >
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0">
