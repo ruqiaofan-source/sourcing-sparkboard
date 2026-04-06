@@ -66,7 +66,8 @@ function TimelineStep({ step, index }: { step: (typeof steps)[number]; index: nu
             initial={{ scale: 0 }}
             animate={inView ? { scale: 1 } : {}}
             transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.08 }}
-            className="relative z-10 h-11 w-11 sm:h-13 sm:w-13 rounded-full border-2 border-primary/30 bg-background flex items-center justify-center shrink-0 shadow-[0_0_24px_-4px_hsl(239,100%,60%/0.15)]"
+            whileHover={{ scale: 1.2, boxShadow: "0 0 32px 4px hsl(239 100% 60% / 0.35)" }}
+            className="relative z-10 h-11 w-11 sm:h-13 sm:w-13 rounded-full border-2 border-primary/30 bg-background flex items-center justify-center shrink-0 shadow-[0_0_24px_-4px_hsl(239,100%,60%/0.15)] transition-shadow duration-300 cursor-pointer hover:border-primary/60"
           >
             <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
           </motion.div>
