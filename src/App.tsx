@@ -40,6 +40,10 @@ const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
 const AdminInsights = lazy(() => import("./pages/admin/AdminInsights"));
 const AdminContactSubmissions = lazy(() => import("./pages/admin/AdminContactSubmissions"));
 const AdminAudit = lazy(() => import("./pages/admin/AdminAudit"));
+const AdminAgents = lazy(() => import("./pages/admin/AdminAgents"));
+const AdminAgentApplications = lazy(() => import("./pages/admin/AdminAgentApplications"));
+const AdminQA = lazy(() => import("./pages/admin/AdminQA"));
+const AdminTestimonials = lazy(() => import("./pages/admin/AdminTestimonials"));
 
 const Auth = lazy(() => import("./pages/Auth"));
 const Orders = lazy(() => import("./pages/Orders"));
