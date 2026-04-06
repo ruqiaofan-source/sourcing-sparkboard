@@ -173,7 +173,7 @@ export function PublicNavbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-foreground p-1"
+            className="lg:hidden text-gray-900 p-1"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
