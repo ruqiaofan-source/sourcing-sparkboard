@@ -201,7 +201,7 @@ const CustomerDashboard = () => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="rounded-xl border border-border bg-card shadow-[var(--shadow-card)]"
+            className="rounded-xl border border-border/60 bg-card/80 backdrop-blur-sm shadow-[var(--shadow-card)]"
           >
             <div className="flex items-center justify-between px-5 py-4 border-b border-border">
               <h2 className="font-heading font-semibold text-foreground text-sm">Recent Requests</h2>
