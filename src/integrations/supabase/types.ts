@@ -1040,6 +1040,10 @@ export type Database = {
         }
         Returns: number
       }
+      promote_user_to_admin_by_email: {
+        Args: { _email: string }
+        Returns: undefined
+      }
       read_email_batch: {
         Args: { batch_size: number; queue_name: string; vt: number }
         Returns: {
