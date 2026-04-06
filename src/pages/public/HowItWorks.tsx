@@ -103,14 +103,14 @@ function StepSection({ step, index }: { step: (typeof steps)[number]; index: num
 function ScrollProgress() {
   return (
     <div className="fixed right-4 sm:right-8 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3">
-      {steps.map((s, i) => (
+      {steps.map((s) => (
         <a
           key={s.slug}
           href={`#step-${s.step}`}
           className="group flex items-center gap-3 justify-end"
           title={s.title}
         >
-          <span className="text-[10px] text-muted-foreground/0 group-hover:text-muted-foreground transition-all whitespace-nowrap">
+          <span className="text-[10px] text-muted-foreground whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
             {s.title}
           </span>
           <span className="h-2 w-2 rounded-full bg-border group-hover:bg-primary group-hover:shadow-[0_0_8px_hsl(239,100%,60%/0.5)] transition-all" />
