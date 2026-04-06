@@ -105,7 +105,7 @@ export default function Insights() {
             </motion.div>
 
             <motion.h1
-              className="font-heading text-4xl sm:text-5xl font-bold text-foreground"
+              className="font-heading text-4xl sm:text-5xl font-bold text-foreground mb-5"
               initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
@@ -120,6 +120,15 @@ export default function Insights() {
                 Insights
               </span>
             </motion.h1>
+
+            <motion.p
+              className="text-muted-foreground text-base sm:text-lg max-w-lg mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+            >
+              Sourcing trends, market reports, and actionable guides for European SMEs importing from China.
+            </motion.p>
           </motion.div>
 
           {isLoading ? (
