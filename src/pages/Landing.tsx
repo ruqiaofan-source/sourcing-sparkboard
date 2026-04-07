@@ -446,6 +446,26 @@ export default function Landing() {
     },
   });
 
+  const { data: trustpilotStats } = useQuery({
+    queryKey: ["trustpilot-stats"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("trustpilot_stats")
+        .select("review_count, average_rating")
+        .eq("id", 1)
+        .single();
+      if (error) throw error;
+      return data as { review_count: number; average_rating: number };
+    },
+    staleTime: 1000 * 60 * 60, // 1 hour
+  });
+
+  const tpRating = trustpilotStats?.average_rating ?? 4.0;
+  const tpCount = trustpilotStats?.review_count ?? 5;
+  const tpFullStars = Math.floor(tpRating);
+  const tpHasHalf = tpRating - tpFullStars >= 0.3;
+  const tpEmptyStars = 5 - tpFullStars - (tpHasHalf ? 1 : 0);
+
   const faqs = dbFaqs.length > 0 ? dbFaqs : fallbackFaqs;
 
   return (
