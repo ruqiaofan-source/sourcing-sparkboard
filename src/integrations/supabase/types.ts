@@ -993,6 +993,27 @@ export type Database = {
         }
         Relationships: []
       }
+      trustpilot_stats: {
+        Row: {
+          average_rating: number
+          id: number
+          review_count: number
+          updated_at: string
+        }
+        Insert: {
+          average_rating?: number
+          id?: number
+          review_count?: number
+          updated_at?: string
+        }
+        Update: {
+          average_rating?: number
+          id?: number
+          review_count?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
