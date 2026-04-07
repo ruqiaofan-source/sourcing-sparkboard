@@ -20,6 +20,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
     <style>
+      /* ── Preloader ── */
       #preloader {
         position: fixed;
         inset: 0;
@@ -29,54 +30,166 @@
         align-items: center;
         justify-content: center;
         background: #000;
-        transition: opacity 0.5s ease, visibility 0.5s ease;
+        overflow: hidden;
       }
+
+      /* Exit animation */
       #preloader.hide {
-        opacity: 0;
-        visibility: hidden;
+        animation: pl-exit 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }
+      @keyframes pl-exit {
+        0%   { opacity: 1; transform: scale(1); }
+        100% { opacity: 0; transform: scale(1.05); filter: blur(12px); visibility: hidden; }
+      }
+
+      /* Ambient glow behind everything */
+      #preloader .pl-glow {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(circle, hsl(239 100% 65% / 0.15) 0%, hsl(260 80% 68% / 0.08) 40%, transparent 70%);
+        animation: pl-glow-pulse 3s ease-in-out infinite;
+      }
+      @keyframes pl-glow-pulse {
+        0%, 100% { transform: scale(0.9); opacity: 0.5; }
+        50%      { transform: scale(1.15); opacity: 1; }
+      }
+
+      /* Orbital ring container */
+      #preloader .pl-orbit {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        margin-bottom: 36px;
+      }
+
+      /* Ring */
+      #preloader .pl-ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 1.5px solid hsl(239 100% 65% / 0.12);
+        animation: pl-ring-rotate 3s linear infinite;
+      }
+
+      /* Glowing dot on the ring */
+      #preloader .pl-ring::after {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: hsl(239 100% 65%);
+        box-shadow: 0 0 16px 4px hsl(239 100% 65% / 0.6), 0 0 40px 8px hsl(239 100% 65% / 0.3);
+      }
+
+      @keyframes pl-ring-rotate {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+      }
+
+      /* Inner ring (counter-rotate) */
+      #preloader .pl-ring-inner {
+        position: absolute;
+        inset: 14px;
+        border-radius: 50%;
+        border: 1px solid hsl(260 80% 68% / 0.1);
+        animation: pl-ring-rotate 2s linear infinite reverse;
+      }
+
+      #preloader .pl-ring-inner::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: hsl(260 80% 68%);
+        box-shadow: 0 0 12px 3px hsl(260 80% 68% / 0.5);
+      }
+
+      /* Center pulse */
+      #preloader .pl-center {
+        position: absolute;
+        inset: 28px;
+        border-radius: 50%;
+        background: hsl(239 100% 65% / 0.06);
+        animation: pl-center-pulse 2s ease-in-out infinite;
+      }
+      @keyframes pl-center-pulse {
+        0%, 100% { transform: scale(0.85); opacity: 0.3; }
+        50%      { transform: scale(1.1); opacity: 0.8; }
+      }
+
+      /* Logo text */
       #preloader .pl-logo {
         font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 28px;
+        font-size: 22px;
         font-weight: 700;
         letter-spacing: -0.02em;
-        color: #f2f2f2;
-        margin-bottom: 32px;
+        color: hsl(0 0% 95%);
         opacity: 0;
-        animation: pl-fade-in 0.6s ease forwards;
+        animation: pl-text-in 0.7s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }
-      #preloader .pl-bar-track {
-        width: 160px;
-        height: 3px;
-        border-radius: 4px;
-        background: rgba(255,255,255,0.08);
-        overflow: hidden;
+
+      /* Subtle tagline */
+      #preloader .pl-sub {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: hsl(230 5% 50%);
+        margin-top: 8px;
         opacity: 0;
-        animation: pl-fade-in 0.6s 0.2s ease forwards;
+        animation: pl-text-in 0.7s 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }
-      #preloader .pl-bar {
-        width: 40%;
-        height: 100%;
-        border-radius: 4px;
-        background: linear-gradient(90deg, hsl(239 100% 65%), hsl(260 80% 68%));
-        animation: pl-slide 1.2s ease-in-out infinite;
+
+      @keyframes pl-text-in {
+        from { opacity: 0; transform: translateY(12px) scale(0.96); filter: blur(4px); }
+        to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
       }
-      @keyframes pl-fade-in {
-        from { opacity: 0; transform: translateY(8px); }
-        to   { opacity: 1; transform: translateY(0); }
+
+      /* Floating particles */
+      #preloader .pl-particle {
+        position: absolute;
+        border-radius: 50%;
+        background: hsl(239 100% 65% / 0.3);
+        animation: pl-float linear infinite;
       }
-      @keyframes pl-slide {
-        0%   { transform: translateX(-100%); }
-        50%  { transform: translateX(200%); }
-        100% { transform: translateX(-100%); }
+      #preloader .pl-particle:nth-child(1) { width: 3px; height: 3px; top: 20%; left: 15%; animation-duration: 4s; }
+      #preloader .pl-particle:nth-child(2) { width: 2px; height: 2px; top: 70%; left: 80%; animation-duration: 5s; animation-delay: 0.5s; background: hsl(260 80% 68% / 0.3); }
+      #preloader .pl-particle:nth-child(3) { width: 2px; height: 2px; top: 30%; left: 75%; animation-duration: 3.5s; animation-delay: 1s; }
+      #preloader .pl-particle:nth-child(4) { width: 3px; height: 3px; top: 65%; left: 25%; animation-duration: 4.5s; animation-delay: 0.3s; background: hsl(260 80% 68% / 0.2); }
+      #preloader .pl-particle:nth-child(5) { width: 2px; height: 2px; top: 45%; left: 90%; animation-duration: 3s; animation-delay: 1.5s; }
+
+      @keyframes pl-float {
+        0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
+        50%      { transform: translateY(-20px) scale(1.8); opacity: 0.7; }
       }
     </style>
   </head>
 
   <body>
     <div id="preloader" aria-label="Loading">
+      <div class="pl-particle"></div>
+      <div class="pl-particle"></div>
+      <div class="pl-particle"></div>
+      <div class="pl-particle"></div>
+      <div class="pl-particle"></div>
+      <div class="pl-glow"></div>
+      <div class="pl-orbit">
+        <div class="pl-ring"></div>
+        <div class="pl-ring-inner"></div>
+        <div class="pl-center"></div>
+      </div>
       <div class="pl-logo">equilinq</div>
-      <div class="pl-bar-track"><div class="pl-bar"></div></div>
+      <div class="pl-sub">Sourcing infrastructure</div>
     </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
