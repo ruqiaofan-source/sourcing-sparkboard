@@ -98,7 +98,7 @@ export function PublicNavbar() {
         </div>
 
         <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0 group/logo">
-          <motion.img
+          <img
             src={equilinqLogo}
             alt="Equilinq"
             width={32}
@@ -107,7 +107,6 @@ export function PublicNavbar() {
             loading="eager"
             decoding="sync"
             fetchPriority="high"
-            whileHover={{ rotate: [0, -8, 8, 0], transition: { duration: 0.5 } }}
           />
           <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
             Equilinq
