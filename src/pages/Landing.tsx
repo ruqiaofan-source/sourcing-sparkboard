@@ -20,6 +20,7 @@ import logoIMMO from "@/assets/logos/immo.webp";
 import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
 import logoUnilever from "@/assets/logos/unilever.webp";
 import logoVolkswagen from "@/assets/logos/volkswagen.webp";
+import founderImg from "@/assets/founder.jpg";
 
 /* ──────────────────── DATA ──────────────────── */
 
@@ -1149,7 +1150,7 @@ export default function Landing() {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <img
-                src="https://framerusercontent.com/images/mAjvmxaxBda8vHxrvk40mSOZOo.jpg?lossless=1&w=256&h=378"
+                src={founderImg}
                 alt="Founder"
                 width={126}
                 height={189}

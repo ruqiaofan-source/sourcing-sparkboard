@@ -5,8 +5,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRole } from "@/hooks/useRole";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/hooks/useTheme";
-import equilinqLogo from "@/assets/equilinq-logo.png";
-import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
+import equilinqLogo from "@/assets/equilinq-logo-optimized.webp";
+import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
 import {
   Sidebar,
   SidebarContent,

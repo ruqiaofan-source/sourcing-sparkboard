@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Mail, CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import equilinqLogo from "@/assets/equilinq-logo.webp";
-import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
+import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
 
 type Status = "loading" | "valid" | "already" | "invalid" | "success" | "error";
 
