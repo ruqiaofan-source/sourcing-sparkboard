@@ -1096,7 +1096,7 @@ export default function Landing() {
       </section>
 
       {/* ───── DB TESTIMONIALS ───── */}
-      <TestimonialsFromDB />
+      
 
       <section id="benefits" className="py-28 px-4 relative">
         <AnimatedGlow />
