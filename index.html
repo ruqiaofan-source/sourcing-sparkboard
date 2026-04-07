@@ -18,9 +18,66 @@
     <meta name="twitter:image" content="https://www.equilinq.eu/og-image.jpg">
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <style>
+      #preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+      #preloader.hide {
+        opacity: 0;
+        visibility: hidden;
+      }
+      #preloader .pl-logo {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #f2f2f2;
+        margin-bottom: 32px;
+        opacity: 0;
+        animation: pl-fade-in 0.6s ease forwards;
+      }
+      #preloader .pl-bar-track {
+        width: 160px;
+        height: 3px;
+        border-radius: 4px;
+        background: rgba(255,255,255,0.08);
+        overflow: hidden;
+        opacity: 0;
+        animation: pl-fade-in 0.6s 0.2s ease forwards;
+      }
+      #preloader .pl-bar {
+        width: 40%;
+        height: 100%;
+        border-radius: 4px;
+        background: linear-gradient(90deg, hsl(239 100% 65%), hsl(260 80% 68%));
+        animation: pl-slide 1.2s ease-in-out infinite;
+      }
+      @keyframes pl-fade-in {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes pl-slide {
+        0%   { transform: translateX(-100%); }
+        50%  { transform: translateX(200%); }
+        100% { transform: translateX(-100%); }
+      }
+    </style>
   </head>
 
   <body>
+    <div id="preloader" aria-label="Loading">
+      <div class="pl-logo">equilinq</div>
+      <div class="pl-bar-track"><div class="pl-bar"></div></div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
