@@ -469,7 +469,7 @@ export default function Landing() {
                 "@type": "Organization",
                 name: "Equilinq",
                 url: "https://www.equilinq.eu",
-                logo: "https://www.equilinq.eu/og-image.png",
+                logo: "https://www.equilinq.eu/og-image.jpg",
                 description: "Managed sourcing infrastructure for European SMEs. End-to-end sourcing, QC, customization and logistics from China.",
                 foundingDate: "2024",
                 areaServed: {
@@ -696,6 +696,7 @@ export default function Landing() {
                     loop
                     muted
                     playsInline
+                    preload="metadata"
                     className="w-full h-auto object-cover object-top block"
                   />
                 </motion.div>

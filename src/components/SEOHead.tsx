@@ -2,7 +2,7 @@ import { useEffect, forwardRef } from "react";
 import { useLocation } from "react-router-dom";
 
 const BASE_URL = "https://www.equilinq.eu";
-const OG_IMAGE = "https://www.equilinq.eu/og-image.png";
+const OG_IMAGE = "https://www.equilinq.eu/og-image.jpg";
 
 interface BreadcrumbItem {
   name: string;
