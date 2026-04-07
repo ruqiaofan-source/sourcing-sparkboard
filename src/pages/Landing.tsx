@@ -696,6 +696,7 @@ export default function Landing() {
                     loop
                     muted
                     playsInline
+                    preload="metadata"
                     className="w-full h-auto object-cover object-top block"
                   />
                 </motion.div>
