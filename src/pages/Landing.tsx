@@ -1095,8 +1095,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ───── DB TESTIMONIALS ───── */}
-      
+
+
 
       <section id="benefits" className="py-28 px-4 relative">
         <AnimatedGlow />
