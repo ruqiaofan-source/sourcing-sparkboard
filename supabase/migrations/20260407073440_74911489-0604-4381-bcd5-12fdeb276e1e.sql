@@ -1,0 +1,1 @@
+ALTER FUNCTION protect_invoice_customer_updates() SET search_path = 'public';
