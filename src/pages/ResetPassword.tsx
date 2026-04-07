@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Lock, Loader2, Eye, EyeOff, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import equilinqLogo from "@/assets/equilinq-logo.webp";
-import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
+import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
 import { useTheme } from "@/hooks/useTheme";
 
 const ResetPassword = () => {

@@ -4,8 +4,8 @@ import { ArrowRight, Menu, X, ChevronDown, Tag, Package, Shirt, Camera, Box, Lay
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/hooks/useTheme";
-import equilinqLogo from "@/assets/equilinq-logo.png";
-import equilinqLogoWhite from "@/assets/equilinq-logo-white.png";
+import equilinqLogo from "@/assets/equilinq-logo-optimized.webp";
+import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
 
 const customizationCategories = [
   { label: "Brand Assets", href: "/customization?tab=brand-assets", icon: Tag, desc: "Custom bags, labels, hangtags" },
