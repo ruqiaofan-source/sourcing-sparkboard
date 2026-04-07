@@ -20,6 +20,7 @@ import logoIMMO from "@/assets/logos/immo.webp";
 import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
 import logoUnilever from "@/assets/logos/unilever.webp";
 import logoVolkswagen from "@/assets/logos/volkswagen.webp";
+import founderImg from "@/assets/founder.jpg";
 
 /* ──────────────────── DATA ──────────────────── */
 
