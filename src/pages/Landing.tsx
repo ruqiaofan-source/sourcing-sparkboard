@@ -515,7 +515,7 @@ export default function Landing() {
               <div className="absolute -inset-8 rounded-3xl bg-primary/8 blur-3xl pointer-events-none" />
               <div className="relative overflow-hidden rounded-2xl">
                 <motion.div initial={{ scale: 1.08 }} animate={{ scale: 1 }} transition={{ duration: 1.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                  <video src="/videos/area-demo.mp4" autoPlay loop muted playsInline preload="metadata" className="w-full h-auto object-cover object-top block" />
+                  <video src="/videos/area-demo.mp4" autoPlay loop muted playsInline preload="none" className="w-full h-auto object-cover object-top block" />
                 </motion.div>
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
                 <motion.div className="absolute inset-0 pointer-events-none z-10" style={{ background: "linear-gradient(180deg, transparent 0%, hsl(var(--primary) / 0.03) 50%, transparent 100%)", backgroundSize: "100% 200%" }} animate={{ backgroundPosition: ["0% 0%", "0% 100%", "0% 0%"] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} />
