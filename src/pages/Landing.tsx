@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
-import heroBg from "@/assets/hero-bg.jpg";
+
 import logoSoleRunning from "@/assets/logos/sole-running.webp";
 import logoLKK from "@/assets/logos/lkk.webp";
 import logoIMMO from "@/assets/logos/immo.webp";
@@ -455,7 +455,7 @@ export default function Landing() {
       {/* ───── HERO ───── */}
       <section ref={heroRef} className="relative pt-28 sm:pt-36 pb-16 px-4">
         <div className="absolute inset-0">
-          <img src={heroBg} alt="Equilinq sourcing from China for European SMEs - warehouse and shipping operations" className="w-full h-full object-cover" width={1920} height={1080} fetchPriority="high" />
+          <img src="/hero-bg.jpg" alt="Equilinq sourcing from China for European SMEs - warehouse and shipping operations" className="w-full h-full object-cover" width={1920} height={1080} fetchPriority="high" />
           <div className="absolute inset-0 bg-background/75" />
         </div>
         <AnimatedGlow />
