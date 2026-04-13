@@ -444,6 +444,16 @@ export default function Landing() {
                   { "@type": "SiteNavigationElement", name: "Sign In", url: "https://equilinq.eu/auth" },
                 ],
               },
+              {
+                "@type": "VideoObject",
+                name: "Equilinq Platform Demo",
+                description: "A quick walkthrough of the Equilinq sourcing platform showing how European SMEs can source products from China with transparent pricing and quality control.",
+                thumbnailUrl: "https://equilinq.eu/og-image.jpg",
+                uploadDate: "2024-12-01",
+                contentUrl: "https://equilinq.eu/videos/area-demo.mp4",
+                embedUrl: "https://equilinq.eu/",
+                duration: "PT1M",
+              },
             ],
           }),
         }}
