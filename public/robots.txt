@@ -25,4 +25,4 @@ Disallow: /invoice/
 Disallow: /reset-password
 Disallow: /unsubscribe
 
-Sitemap: https://www.equilinq.eu/sitemap.xml
+Sitemap: https://equilinq.eu/sitemap.xml

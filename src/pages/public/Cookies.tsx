@@ -9,10 +9,10 @@ export default function Cookies() {
         title="Cookie Policy - Equilinq"
         description="Learn about the cookies and similar technologies Equilinq uses on its website."
         keywords="cookie policy, cookies, tracking, website cookies, Equilinq"
-        noindex
+
         breadcrumbs={[
-          { name: "Home", url: "https://www.equilinq.eu/" },
-          { name: "Cookie Policy", url: "https://www.equilinq.eu/cookies" },
+          { name: "Home", url: "https://equilinq.eu/" },
+          { name: "Cookie Policy", url: "https://equilinq.eu/cookies" },
         ]}
       />
       <PublicNavbar />
@@ -23,7 +23,7 @@ export default function Cookies() {
           <p className="text-sm text-muted-foreground mb-8">Last updated: 28 December 2025</p>
 
           <p>
-            This Cookie Policy explains how Equilinq ("we", "us", or "our") uses cookies and similar technologies when you visit our website at <a href="https://www.equilinq.eu" className="text-primary hover:underline">equilinq.eu</a>.
+            This Cookie Policy explains how Equilinq ("we", "us", or "our") uses cookies and similar technologies when you visit our website at <a href="https://equilinq.eu" className="text-primary hover:underline">equilinq.eu</a>.
           </p>
 
           <h2>What Are Cookies?</h2>

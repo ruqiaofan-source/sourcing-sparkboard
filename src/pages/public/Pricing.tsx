@@ -22,8 +22,8 @@ export default function Pricing() {
         description="Transparent, itemized pricing for every order. No hidden fees. Submit a sourcing request and receive your exact cost breakdown."
         keywords="sourcing pricing, China import costs, transparent pricing, sourcing service fees, no hidden fees"
         breadcrumbs={[
-          { name: "Home", url: "https://www.equilinq.eu/" },
-          { name: "Pricing", url: "https://www.equilinq.eu/pricing" },
+          { name: "Home", url: "https://equilinq.eu/" },
+          { name: "Pricing", url: "https://equilinq.eu/pricing" },
         ]}
         jsonLd={{
           "@type": "FAQPage",
@@ -41,9 +41,9 @@ export default function Pricing() {
             "@context": "https://schema.org",
             "@type": "WebPage",
             name: "Pricing - Equilinq Sourcing Service",
-            url: "https://www.equilinq.eu/pricing",
+            url: "https://equilinq.eu/pricing",
             description: "Transparent, itemized pricing for every order. No hidden fees.",
-            isPartOf: { "@type": "WebSite", name: "Equilinq", url: "https://www.equilinq.eu" },
+            isPartOf: { "@type": "WebSite", name: "Equilinq", url: "https://equilinq.eu" },
             mainEntity: {
               "@type": "PriceSpecification",
               description: "Equilinq service fee based on order value",

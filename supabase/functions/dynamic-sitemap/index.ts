@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
-const BASE_URL = "https://www.equilinq.eu";
+const BASE_URL = "https://equilinq.eu";
 
 const STATIC_ROUTES: Array<{ loc: string; priority: string; changefreq: string }> = [
   { loc: "/", priority: "1.0", changefreq: "weekly" },
