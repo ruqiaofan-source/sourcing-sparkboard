@@ -37,8 +37,8 @@ export default function Insights() {
         description="Best-selling products, pricing trends, and supplier signals from China. Actionable sourcing insights for European SMEs."
         keywords="China sourcing trends, market reports, best selling products China, supplier insights, European SME sourcing"
         breadcrumbs={[
-          { name: "Home", url: "https://www.equilinq.eu/" },
-          { name: "Insights", url: "https://www.equilinq.eu/insights" },
+          { name: "Home", url: "https://equilinq.eu/" },
+          { name: "Insights", url: "https://equilinq.eu/insights" },
         ]}
       />
       <script
@@ -48,16 +48,16 @@ export default function Insights() {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             name: "Insights - Equilinq Sourcing Trends & Market Reports",
-            url: "https://www.equilinq.eu/insights",
+            url: "https://equilinq.eu/insights",
             description: "Best-selling products, pricing trends, and supplier signals from China. Actionable sourcing insights for European SMEs.",
-            isPartOf: { "@type": "WebSite", name: "Equilinq", url: "https://www.equilinq.eu" },
+            isPartOf: { "@type": "WebSite", name: "Equilinq", url: "https://equilinq.eu" },
             ...(posts.length > 0 ? {
               mainEntity: {
                 "@type": "ItemList",
                 itemListElement: posts.slice(0, 10).map((post, i) => ({
                   "@type": "ListItem",
                   position: i + 1,
-                  url: `https://www.equilinq.eu/insights/${post.slug}`,
+                  url: `https://equilinq.eu/insights/${post.slug}`,
                   name: post.title,
                 })),
               },
