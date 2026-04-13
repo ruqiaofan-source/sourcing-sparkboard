@@ -12,7 +12,7 @@ import { routeSeoMap } from "./src/seo/routes";
 import fs from "fs";
 import path from "path";
 
-const BASE_URL = "https://www.equilinq.eu";
+const BASE_URL = "https://equilinq.eu";
 
 function injectMeta(html: string, route: string, meta: { title: string; description: string; keywords?: string }): string {
   const canonicalUrl = `${BASE_URL}${route === "/" ? "" : route}`;
