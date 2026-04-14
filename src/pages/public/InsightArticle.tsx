@@ -11,6 +11,7 @@ import { ArticleStructuredData } from "@/components/insight/ArticleStructuredDat
 import { ArticleHero } from "@/components/insight/ArticleHero";
 import { ArticleBody } from "@/components/insight/ArticleBody";
 import { RelatedArticles } from "@/components/insight/RelatedArticles";
+import { RelatedServiceLinks } from "@/components/insight/RelatedServiceLinks";
 
 function estimateReadTime(content: string): number {
   const words = content.trim().split(/\s+/).length;
@@ -100,6 +101,8 @@ export default function InsightArticle() {
       <ArticleHero article={article} readTime={readTime} />
 
       <ArticleBody content={article.content} />
+
+      <RelatedServiceLinks tag={article.tag} />
 
       <RelatedArticles articles={relatedArticles} />
 

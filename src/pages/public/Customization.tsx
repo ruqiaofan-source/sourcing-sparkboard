@@ -252,6 +252,15 @@ export default function Customization() {
           { name: "Home", url: "https://equilinq.eu/" },
           { name: "Customization", url: "https://equilinq.eu/customization" },
         ]}
+        jsonLd={{
+          "@type": "Service",
+          name: "Customization Services - Equilinq",
+          url: "https://equilinq.eu/customization",
+          description: "60+ customization options including private labels, custom packaging, quality inspection, and OEM/ODM manufacturing.",
+          provider: { "@type": "Organization", name: "Equilinq", url: "https://equilinq.eu" },
+          areaServed: "Europe",
+          serviceType: "Product Customization and Branding",
+        }}
       />
       <PublicNavbar />
 
