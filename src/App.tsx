@@ -136,6 +136,9 @@ const App = () => (
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/unsubscribe" element={<Unsubscribe />} />
                 
+                {/* Legacy redirects */}
+                <Route path="/about-us" element={<Navigate to="/" replace />} />
+                
                 {/* Role-aware dashboard */}
                 <Route path="/dashboard" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>} />
                 
