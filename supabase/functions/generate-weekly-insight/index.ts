@@ -169,6 +169,8 @@ serve(async (req) => {
       const body = await req.json();
       if (body?.type === "tiktok") {
         articleType = "tiktok";
+      } else if (body?.type === "linkedin") {
+        articleType = "linkedin";
       }
     } catch {
       // No body or invalid JSON, default to sourcing
