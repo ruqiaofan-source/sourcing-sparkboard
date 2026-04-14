@@ -23,6 +23,7 @@ const HowItWorksStep = lazy(() => import("./pages/public/HowItWorksStep"));
 const Privacy = lazy(() => import("./pages/public/Privacy"));
 const CookiesPage = lazy(() => import("./pages/public/Cookies"));
 const Demo = lazy(() => import("./pages/public/Demo"));
+const SourcingGuide = lazy(() => import("./pages/public/SourcingGuide"));
 
 const CustomerDashboard = lazy(() => import("./pages/customer/CustomerDashboard"));
 const NewRequest = lazy(() => import("./pages/customer/NewRequest"));
@@ -132,6 +133,7 @@ const App = () => (
                 <Route path="/how-it-works" element={<HowItWorks />} />
                 <Route path="/how-it-works/:slug" element={<HowItWorksStep />} />
                 <Route path="/demo" element={<Demo />} />
+                <Route path="/sourcing-guide" element={<SourcingGuide />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/cookies" element={<CookiesPage />} />
                 <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
