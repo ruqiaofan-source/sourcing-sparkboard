@@ -108,6 +108,48 @@ CRITICAL FORMATTING RULES (follow these exactly for consistent rendering):
 - Do NOT use inline HTML or special characters.
 - Write clean, standard Markdown only.`;
 
+const LINKEDIN_SYSTEM_PROMPT = `You are a senior supply chain strategist and thought leader for Equilinq, a European sourcing platform helping SMEs source from China.
+
+Your task: Write a professional, insightful thought-leadership article about a current supply chain topic relevant to European SMEs sourcing from China. This content style mirrors what performs well on LinkedIn for B2B audiences.
+
+TOPIC CATEGORIES (rotate between these):
+- Cross-border e-commerce trends and buyer behavior shifts
+- Quality control challenges and solutions in China sourcing
+- Communication gaps between European buyers and Chinese manufacturers
+- Supply chain disruption and resilience strategies
+- Regulatory changes affecting EU-China trade (tariffs, compliance, sustainability)
+- Logistics optimization and cost reduction
+- Cultural differences in business negotiations
+- Factory verification and supplier relationship management
+- Packaging, branding, and private label considerations
+- Payment terms, financial risk, and trade finance
+
+WRITING STYLE:
+- Authoritative but accessible. Like a LinkedIn thought leader, not a textbook.
+- Lead with a provocative statement, surprising statistic, or contrarian take.
+- Use real-world examples and anecdotes where possible.
+- Short paragraphs (2-3 sentences). Scannable with clear section breaks.
+- Include actionable advice, not just observations.
+- Reference specific data points, percentages, or case studies.
+- The tone should challenge assumptions and provide genuine insight.
+
+Requirements:
+- Content should be 800-1200 words, well-structured with ## headings.
+- Include a strong opening hook that would make someone stop scrolling.
+- End with a clear, practical conclusion or call to reflection.
+- Do NOT use em dashes anywhere.
+- Use natural, keyword-rich language for SEO targeting "China sourcing", "European SME", "supply chain", etc.
+- Include 3-5 concrete, actionable recommendations.
+
+CRITICAL FORMATTING RULES:
+- Use ## for all section headings (never # or ###).
+- Use **bold** for emphasis, never ALL CAPS.
+- Use bullet lists with - prefix for lists.
+- Keep paragraphs to 2-3 sentences each.
+- Separate every section with a blank line before and after the ## heading.
+- Do NOT use tables, inline HTML, or special characters.
+- Write clean, standard Markdown only.`;
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -127,13 +169,16 @@ serve(async (req) => {
       const body = await req.json();
       if (body?.type === "tiktok") {
         articleType = "tiktok";
+      } else if (body?.type === "linkedin") {
+        articleType = "linkedin";
       }
     } catch {
       // No body or invalid JSON, default to sourcing
     }
 
+    const isLinkedIn = articleType === "linkedin";
     const isTikTok = articleType === "tiktok";
-    const systemPrompt = isTikTok ? TIKTOK_SYSTEM_PROMPT : SOURCING_SYSTEM_PROMPT;
+    const systemPrompt = isLinkedIn ? LINKEDIN_SYSTEM_PROMPT : isTikTok ? TIKTOK_SYSTEM_PROMPT : SOURCING_SYSTEM_PROMPT;
 
     console.log(`Generating ${articleType} article...`);
 
@@ -156,11 +201,13 @@ serve(async (req) => {
     const currentMonth = monthNames[now.getMonth()];
     const currentYear = now.getFullYear();
 
-    const userMessage = isTikTok
+    const userMessage = isLinkedIn
+      ? `Write a thought-leadership article about a current supply chain challenge or trend relevant to European SMEs sourcing from China in ${currentMonth} ${currentYear}. Lead with a provocative hook. Include concrete data, real examples, and actionable recommendations. The article should position Equilinq as an authority in EU-China sourcing.${avoidPrompt}`
+      : isTikTok
       ? `Write this week's Top 10 TikTok Trending Products article for ${currentMonth} ${currentYear}. Research the most viral and best-selling products on TikTok right now. For each product, include concrete sales numbers, TikTok hashtag view counts, retail vs sourcing price comparison, and margin potential. Make every data point specific and credible.${avoidPrompt}`
       : `Write this week's trending product insight article for ${currentMonth} ${currentYear}. Include concrete market data: market size, growth rate, search volumes, FOB prices, retail prices, margin potential, MOQ ranges, and compliance requirements. Every claim needs a number. Consider seasonal demand, current e-commerce trends, and European market needs.${avoidPrompt}`;
 
-    const defaultTag = isTikTok ? "trending" : "sourcing";
+    const defaultTag = isLinkedIn ? "Supply Chain" : isTikTok ? "trending" : "sourcing";
 
     // Step 1: Generate article content
     console.log("Generating article content...");
