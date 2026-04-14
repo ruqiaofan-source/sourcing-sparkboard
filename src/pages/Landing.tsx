@@ -449,7 +449,7 @@ export default function Landing() {
                 name: "Equilinq Platform Demo",
                 description: "A quick walkthrough of the Equilinq sourcing platform showing how European SMEs can source products from China with transparent pricing and quality control.",
                 thumbnailUrl: "https://equilinq.eu/og-image.jpg",
-                uploadDate: "2024-12-01",
+                uploadDate: "2026-04-14T00:00:00+02:00",
                 contentUrl: "https://equilinq.eu/videos/area-demo.mp4",
                 embedUrl: "https://equilinq.eu/",
                 duration: "PT1M",
@@ -480,6 +480,7 @@ export default function Landing() {
               <motion.span className="inline-block" initial={{ opacity: 0, y: 40, filter: "blur(10px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
                 Unsexy Sourcing
               </motion.span>
+              {" "}
               <br />
               <motion.span
                 className="bg-clip-text text-transparent inline-block"
@@ -525,7 +526,7 @@ export default function Landing() {
               <div className="absolute -inset-8 rounded-3xl bg-primary/8 blur-3xl pointer-events-none" />
               <div className="relative overflow-hidden rounded-2xl">
                 <motion.div initial={{ scale: 1.08 }} animate={{ scale: 1 }} transition={{ duration: 1.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                  <video src="/videos/area-demo.mp4" autoPlay loop muted playsInline preload="none" className="w-full h-auto object-cover object-top block" />
+                  <video src="/videos/area-demo.mp4" autoPlay loop muted playsInline preload="none" loading="lazy" className="w-full h-auto object-cover object-top block" />
                 </motion.div>
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
                 <motion.div className="absolute inset-0 pointer-events-none z-10" style={{ background: "linear-gradient(180deg, transparent 0%, hsl(var(--primary) / 0.03) 50%, transparent 100%)", backgroundSize: "100% 200%" }} animate={{ backgroundPosition: ["0% 0%", "0% 100%", "0% 0%"] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} />
