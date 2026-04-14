@@ -176,8 +176,9 @@ serve(async (req) => {
       // No body or invalid JSON, default to sourcing
     }
 
+    const isLinkedIn = articleType === "linkedin";
     const isTikTok = articleType === "tiktok";
-    const systemPrompt = isTikTok ? TIKTOK_SYSTEM_PROMPT : SOURCING_SYSTEM_PROMPT;
+    const systemPrompt = isLinkedIn ? LINKEDIN_SYSTEM_PROMPT : isTikTok ? TIKTOK_SYSTEM_PROMPT : SOURCING_SYSTEM_PROMPT;
 
     console.log(`Generating ${articleType} article...`);
 
@@ -200,11 +201,13 @@ serve(async (req) => {
     const currentMonth = monthNames[now.getMonth()];
     const currentYear = now.getFullYear();
 
-    const userMessage = isTikTok
+    const userMessage = isLinkedIn
+      ? `Write a thought-leadership article about a current supply chain challenge or trend relevant to European SMEs sourcing from China in ${currentMonth} ${currentYear}. Lead with a provocative hook. Include concrete data, real examples, and actionable recommendations. The article should position Equilinq as an authority in EU-China sourcing.${avoidPrompt}`
+      : isTikTok
       ? `Write this week's Top 10 TikTok Trending Products article for ${currentMonth} ${currentYear}. Research the most viral and best-selling products on TikTok right now. For each product, include concrete sales numbers, TikTok hashtag view counts, retail vs sourcing price comparison, and margin potential. Make every data point specific and credible.${avoidPrompt}`
       : `Write this week's trending product insight article for ${currentMonth} ${currentYear}. Include concrete market data: market size, growth rate, search volumes, FOB prices, retail prices, margin potential, MOQ ranges, and compliance requirements. Every claim needs a number. Consider seasonal demand, current e-commerce trends, and European market needs.${avoidPrompt}`;
 
-    const defaultTag = isTikTok ? "trending" : "sourcing";
+    const defaultTag = isLinkedIn ? "Supply Chain" : isTikTok ? "trending" : "sourcing";
 
     // Step 1: Generate article content
     console.log("Generating article content...");
