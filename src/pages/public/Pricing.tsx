@@ -39,6 +39,26 @@ export default function Pricing() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
+            "@type": "Service",
+            name: "Sourcing Service - Equilinq",
+            url: "https://equilinq.eu/pricing",
+            description: "End-to-end sourcing service with transparent, itemized pricing. Factory cost, logistics, operations, and service fee clearly separated.",
+            provider: { "@type": "Organization", name: "Equilinq", url: "https://equilinq.eu" },
+            areaServed: "Europe",
+            serviceType: "Product Sourcing and Procurement",
+            offers: {
+              "@type": "AggregateOffer",
+              priceCurrency: "EUR",
+              description: "Service fee from 4-6% based on order value, minimum EUR 99",
+            },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
             "@type": "WebPage",
             name: "Pricing - Equilinq Sourcing Service",
             url: "https://equilinq.eu/pricing",

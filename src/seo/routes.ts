@@ -101,6 +101,11 @@ export const routeSeoMap: Record<string, RouteMeta> = {
     description: "Learn about the cookies and similar technologies Equilinq uses on its website.",
     keywords: "cookie policy, cookies, tracking, website cookies",
   },
+  "/demo": {
+    title: "Platform Demo - See Equilinq in Action",
+    description: "Watch a full walkthrough of the Equilinq sourcing platform. See how European SMEs source from China with transparent pricing and quality control.",
+    keywords: "Equilinq demo, sourcing platform demo, China sourcing walkthrough",
+  },
   "/auth": {
     title: "Sign In - Equilinq",
     description: "Sign in or create your Equilinq account to start sourcing from China.",
