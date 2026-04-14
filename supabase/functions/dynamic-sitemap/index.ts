@@ -13,6 +13,7 @@ const STATIC_ROUTES: Array<{ loc: string; priority: string; changefreq: string }
   { loc: "/insights", priority: "0.8", changefreq: "daily" },
   { loc: "/contact", priority: "0.7", changefreq: "monthly" },
   { loc: "/demo", priority: "0.8", changefreq: "monthly" },
+  { loc: "/sourcing-guide", priority: "0.9", changefreq: "monthly" },
   { loc: "/how-it-works/submit-sourcing-request", priority: "0.7", changefreq: "monthly" },
   { loc: "/how-it-works/source-and-vet-suppliers", priority: "0.7", changefreq: "monthly" },
   { loc: "/how-it-works/receive-your-quote", priority: "0.7", changefreq: "monthly" },
