@@ -1,0 +1,4 @@
+UPDATE insights SET cover_image_url = 'https://chmoabjmtbbqdrgigspm.supabase.co/storage/v1/object/public/insight-covers/why-high-quality-ruins-china-order.jpg' WHERE slug = 'why-high-quality-ruins-china-order';
+UPDATE insights SET cover_image_url = 'https://chmoabjmtbbqdrgigspm.supabase.co/storage/v1/object/public/insight-covers/european-ecommerce-return-rates.jpg' WHERE slug = 'european-ecommerce-return-rates-diverge-by-market';
+UPDATE insights SET cover_image_url = 'https://chmoabjmtbbqdrgigspm.supabase.co/storage/v1/object/public/insight-covers/communication-gap-china-sourcing.jpg' WHERE slug = 'communication-gap-kills-china-sourcing-deals';
+UPDATE insights SET cover_image_url = 'https://chmoabjmtbbqdrgigspm.supabase.co/storage/v1/object/public/insight-covers/cross-border-ecommerce-2026.jpg' WHERE slug = 'cross-border-ecommerce-2026-what-buyers-want';
