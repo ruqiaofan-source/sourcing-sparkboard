@@ -26,7 +26,7 @@ export default function Demo() {
             name: "Equilinq Platform Demo - Sourcing from China for European SMEs",
             description: "A complete walkthrough of the Equilinq sourcing platform showing how European SMEs can source products from China with transparent pricing, multi-stage quality control, and end-to-end logistics.",
             thumbnailUrl: "https://equilinq.eu/og-image.jpg",
-            uploadDate: "2024-12-01",
+            uploadDate: "2026-04-14T00:00:00+02:00",
             contentUrl: "https://equilinq.eu/videos/area-demo.mp4",
             embedUrl: "https://equilinq.eu/demo",
             duration: "PT1M",
