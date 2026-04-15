@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, useCallback, lazy, Suspense, useMemo } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SEOHead } from "@/components/SEOHead";
@@ -362,6 +363,7 @@ function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_co
 export default function Landing() {
   const heroRef = useRef<HTMLElement>(null);
   const { theme } = useTheme();
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
@@ -480,7 +482,6 @@ export default function Landing() {
               <motion.span className="inline-block" initial={{ opacity: 0, y: 40, filter: "blur(10px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
                 Unsexy Sourcing
               </motion.span>
-              {" "}
               <br />
               <motion.span
                 className="bg-clip-text text-transparent inline-block"
@@ -526,7 +527,11 @@ export default function Landing() {
               <div className="absolute -inset-8 rounded-3xl bg-primary/8 blur-3xl pointer-events-none" />
               <div className="relative overflow-hidden rounded-2xl">
                 <motion.div initial={{ scale: 1.08 }} animate={{ scale: 1 }} transition={{ duration: 1.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                  <video src="/videos/area-demo.mp4" autoPlay loop muted playsInline preload="none" className="w-full h-auto object-cover object-top block" />
+                  {isMobile ? (
+                    <img src="/hero-bg.jpg" alt="Equilinq platform preview" className="w-full h-auto object-cover object-top block" width={1920} height={1080} loading="eager" />
+                  ) : (
+                    <video src="/videos/area-demo.mp4" autoPlay loop muted playsInline preload="none" className="w-full h-auto object-cover object-top block" />
+                  )}
                 </motion.div>
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
                 <motion.div className="absolute inset-0 pointer-events-none z-10" style={{ background: "linear-gradient(180deg, transparent 0%, hsl(var(--primary) / 0.03) 50%, transparent 100%)", backgroundSize: "100% 200%" }} animate={{ backgroundPosition: ["0% 0%", "0% 100%", "0% 0%"] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} />
