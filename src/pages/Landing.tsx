@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, useCallback, lazy, Suspense, useMemo } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SEOHead } from "@/components/SEOHead";
@@ -362,6 +363,7 @@ function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_co
 export default function Landing() {
   const heroRef = useRef<HTMLElement>(null);
   const { theme } = useTheme();
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
