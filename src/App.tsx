@@ -123,6 +123,8 @@ const App = () => (
               <Routes>
                 {/* Public pages */}
                 <Route path="/" element={<Landing />} />
+                {/* Redirects from old Framer site */}
+                <Route path="/about-us" element={<Navigate to="/" replace />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/insights" element={<Insights />} />
                 <Route path="/insights/:slug" element={<InsightArticle />} />
