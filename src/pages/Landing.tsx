@@ -479,18 +479,17 @@ export default function Landing() {
             </motion.div>
 
             <motion.h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }}>
-              <motion.span className="inline-block" initial={{ opacity: 0, y: 40, filter: "blur(10px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
+              <motion.span className="inline-block" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
                 Unsexy Sourcing
               </motion.span>
               <br />
               <motion.span
                 className="bg-clip-text text-transparent inline-block"
-                initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1, backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1, backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
                 transition={{
                   opacity: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
                   y: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
-                  filter: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
                   scale: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
                   backgroundPosition: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }
                 }}
