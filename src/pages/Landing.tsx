@@ -369,6 +369,17 @@ export default function Landing() {
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
+  // Defer non-critical query until after page load to keep it out of the critical request chain
+  const [deferredQueriesEnabled, setDeferredQueriesEnabled] = useState(false);
+  useEffect(() => {
+    const idle = (window as any).requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1));
+    const handle = idle(() => setDeferredQueriesEnabled(true));
+    return () => {
+      const cancel = (window as any).cancelIdleCallback || clearTimeout;
+      cancel(handle);
+    };
+  }, []);
+
   const { data: trustpilotStats } = useQuery({
     queryKey: ["trustpilot-stats"],
     queryFn: async () => {
@@ -377,6 +388,7 @@ export default function Landing() {
       return data as { review_count: number; average_rating: number };
     },
     staleTime: 1000 * 60 * 60,
+    enabled: deferredQueriesEnabled,
   });
 
   const faqs = [
