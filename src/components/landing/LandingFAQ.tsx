@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
@@ -52,6 +52,18 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
 }
 
 export default function LandingFAQ() {
+  // Defer the DB query until browser is idle so it stays out of the critical request chain.
+  // Fallback FAQs render immediately, so UX is unaffected.
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    const idle = (window as any).requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1));
+    const handle = idle(() => setEnabled(true));
+    return () => {
+      const cancel = (window as any).cancelIdleCallback || clearTimeout;
+      cancel(handle);
+    };
+  }, []);
+
   const { data: dbFaqs = [] } = useQuery({
     queryKey: ["public-faq-items"],
     queryFn: async () => {
@@ -63,6 +75,7 @@ export default function LandingFAQ() {
       if (error) throw error;
       return data.map((item: any) => ({ q: item.question, a: item.answer }));
     },
+    enabled,
   });
 
   const faqs = dbFaqs.length > 0 ? dbFaqs : fallbackFaqs;
