@@ -5,24 +5,25 @@ const BASE_URL = "https://equilinq.eu";
 
 const STATIC_ROUTES: Array<{ loc: string; priority: string; changefreq: string }> = [
   { loc: "/", priority: "1.0", changefreq: "weekly" },
-  { loc: "/pricing", priority: "0.9", changefreq: "monthly" },
-  { loc: "/how-it-works", priority: "0.9", changefreq: "monthly" },
+  { loc: "/pricing", priority: "0.8", changefreq: "monthly" },
+  { loc: "/how-it-works", priority: "0.8", changefreq: "monthly" },
   { loc: "/customization", priority: "0.8", changefreq: "monthly" },
   { loc: "/quality-control", priority: "0.8", changefreq: "monthly" },
   { loc: "/oem-odm", priority: "0.8", changefreq: "monthly" },
-  { loc: "/insights", priority: "0.8", changefreq: "daily" },
-  { loc: "/contact", priority: "0.7", changefreq: "monthly" },
+  { loc: "/insights", priority: "0.8", changefreq: "weekly" },
+  { loc: "/contact", priority: "0.8", changefreq: "monthly" },
   { loc: "/demo", priority: "0.8", changefreq: "monthly" },
-  { loc: "/sourcing-guide", priority: "0.9", changefreq: "monthly" },
-  { loc: "/how-it-works/submit-sourcing-request", priority: "0.7", changefreq: "monthly" },
-  { loc: "/how-it-works/source-and-vet-suppliers", priority: "0.7", changefreq: "monthly" },
-  { loc: "/how-it-works/receive-your-quote", priority: "0.7", changefreq: "monthly" },
-  { loc: "/how-it-works/accept-and-pay", priority: "0.7", changefreq: "monthly" },
-  { loc: "/how-it-works/production-and-monitoring", priority: "0.7", changefreq: "monthly" },
-  { loc: "/how-it-works/quality-control-inspection", priority: "0.7", changefreq: "monthly" },
-  { loc: "/how-it-works/shipping-and-logistics", priority: "0.7", changefreq: "monthly" },
-  { loc: "/how-it-works/delivery-and-support", priority: "0.7", changefreq: "monthly" },
-  { loc: "/privacy", priority: "0.4", changefreq: "yearly" },
+  { loc: "/sourcing-guide", priority: "0.8", changefreq: "monthly" },
+  { loc: "/how-it-works/submit-sourcing-request", priority: "0.6", changefreq: "monthly" },
+  { loc: "/how-it-works/source-and-vet-suppliers", priority: "0.6", changefreq: "monthly" },
+  { loc: "/how-it-works/receive-your-quote", priority: "0.6", changefreq: "monthly" },
+  { loc: "/how-it-works/accept-and-pay", priority: "0.6", changefreq: "monthly" },
+  { loc: "/how-it-works/production-and-monitoring", priority: "0.6", changefreq: "monthly" },
+  { loc: "/how-it-works/quality-control-inspection", priority: "0.6", changefreq: "monthly" },
+  { loc: "/how-it-works/shipping-and-logistics", priority: "0.6", changefreq: "monthly" },
+  { loc: "/how-it-works/delivery-and-support", priority: "0.6", changefreq: "monthly" },
+  { loc: "/auth", priority: "0.6", changefreq: "monthly" },
+  { loc: "/privacy", priority: "0.3", changefreq: "yearly" },
   { loc: "/cookies", priority: "0.3", changefreq: "yearly" },
 ];
 
@@ -61,7 +62,7 @@ serve(async (_req) => {
         xml += `  <url>\n`;
         xml += `    <loc>${BASE_URL}/insights/${article.slug}</loc>\n`;
         if (lastmod) xml += `    <lastmod>${lastmod}</lastmod>\n`;
-        xml += `    <priority>0.7</priority>\n`;
+        xml += `    <priority>0.6</priority>\n`;
         xml += `    <changefreq>monthly</changefreq>\n`;
         xml += `  </url>\n`;
       }
