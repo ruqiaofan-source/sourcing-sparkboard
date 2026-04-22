@@ -78,7 +78,7 @@ export default function Demo() {
               autoPlay
               muted
               playsInline
-              preload="metadata"
+              preload="auto"
               poster="/og-image.jpg"
               className="w-full h-auto block"
             >
