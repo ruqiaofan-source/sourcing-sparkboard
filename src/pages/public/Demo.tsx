@@ -4,8 +4,20 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 export default function Demo() {
+  // Inject a prefetch link for the video so the browser starts downloading ASAP
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "video";
+    link.href = "/videos/area-demo.mp4";
+    link.type = "video/mp4";
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEOHead
