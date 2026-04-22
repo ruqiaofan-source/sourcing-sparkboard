@@ -47,6 +47,7 @@ const AdminAgents = lazy(() => import("./pages/admin/AdminAgents"));
 const AdminAgentApplications = lazy(() => import("./pages/admin/AdminAgentApplications"));
 const AdminQA = lazy(() => import("./pages/admin/AdminQA"));
 const AdminTestimonials = lazy(() => import("./pages/admin/AdminTestimonials"));
+const AdminAnalytics = lazy(() => import("./pages/admin/AdminAnalytics"));
 
 const Auth = lazy(() => import("./pages/Auth"));
 const Orders = lazy(() => import("./pages/Orders"));
@@ -174,6 +175,7 @@ const App = () => (
                 <Route path="/admin/applications" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminAgentApplications /></RoleGuard></ProtectedRoute>} />
                 <Route path="/admin/qa" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminQA /></RoleGuard></ProtectedRoute>} />
                 <Route path="/admin/testimonials" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminTestimonials /></RoleGuard></ProtectedRoute>} />
+                <Route path="/admin/analytics" element={<ProtectedRoute><RoleGuard allowed={["admin"]}><AdminAnalytics /></RoleGuard></ProtectedRoute>} />
                 
                 {/* Shared routes */}
                 <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
