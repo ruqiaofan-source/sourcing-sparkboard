@@ -49,7 +49,7 @@ export default function LandingFounder() {
           <motion.div className="shrink-0" whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
             <img
               src={founderImg}
-              alt="Founder"
+              alt="Ruqiao Fan, Founder and CEO of Equilinq sourcing platform"
               width={126}
               height={189}
               className="w-32 h-44 rounded-2xl object-cover border border-border/40"

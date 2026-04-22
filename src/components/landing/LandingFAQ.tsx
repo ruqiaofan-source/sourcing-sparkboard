@@ -52,8 +52,6 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
 }
 
 export default function LandingFAQ() {
-  // Defer the DB query until browser is idle so it stays out of the critical request chain.
-  // Fallback FAQs render immediately, so UX is unaffected.
   const [enabled, setEnabled] = useState(false);
   useEffect(() => {
     const idle = (window as any).requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1));
@@ -81,7 +79,25 @@ export default function LandingFAQ() {
   const faqs = dbFaqs.length > 0 ? dbFaqs : fallbackFaqs;
 
   return (
-    <section id="faq" className="py-28 px-4">
+    <section id="faq" className="py-28 px-4" aria-label="Frequently asked questions">
+      {/* FAQPage JSON-LD for Google rich snippets */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.q,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: faq.a,
+              },
+            })),
+          }),
+        }}
+      />
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
