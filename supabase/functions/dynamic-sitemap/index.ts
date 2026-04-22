@@ -22,7 +22,6 @@ const STATIC_ROUTES: Array<{ loc: string; priority: string; changefreq: string }
   { loc: "/how-it-works/quality-control-inspection", priority: "0.6", changefreq: "monthly" },
   { loc: "/how-it-works/shipping-and-logistics", priority: "0.6", changefreq: "monthly" },
   { loc: "/how-it-works/delivery-and-support", priority: "0.6", changefreq: "monthly" },
-  { loc: "/auth", priority: "0.6", changefreq: "monthly" },
   { loc: "/privacy", priority: "0.3", changefreq: "yearly" },
   { loc: "/cookies", priority: "0.3", changefreq: "yearly" },
 ];
