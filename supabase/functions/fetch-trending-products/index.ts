@@ -62,19 +62,31 @@ serve(async (req) => {
 
         if (searchRes.ok) {
           const searchData = await searchRes.json();
-          const results = searchData.data || [];
-          for (const r of results) {
-            if (r.markdown) {
+          // Firecrawl v2 search returns results under "data" (array) or sometimes "web"
+          const results = Array.isArray(searchData.data)
+            ? searchData.data
+            : Array.isArray(searchData.web)
+            ? searchData.web
+            : Array.isArray(searchData)
+            ? searchData
+            : [];
+          for (const r of results as any[]) {
+            if (r && r.markdown) {
               allSearchResults.push(
                 `Source: ${source.name}\nURL: ${r.url}\n${r.markdown.substring(0, 2000)}`
+              );
+            } else if (r && (r.title || r.description)) {
+              allSearchResults.push(
+                `Source: ${source.name}\nURL: ${r.url || ""}\nTitle: ${r.title || ""}\n${r.description || ""}`
               );
             }
           }
         } else {
-          console.warn(`Firecrawl search failed for ${source.name}: ${searchRes.status}`);
+          const errText = await searchRes.text();
+          console.warn(`Firecrawl search failed for ${source.name}: ${searchRes.status} ${errText}`);
         }
       } catch (err) {
-        console.warn(`Error scraping ${source.name}:`, err);
+        console.warn(`Error scraping ${source.name}: ${err}`);
       }
     }
 
