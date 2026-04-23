@@ -141,7 +141,7 @@ export default function Pricing() {
             <h2 className="font-heading text-2xl font-semibold text-foreground mb-6 text-center">How It Works</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { step: "01", title: "Submit Your Request", desc: "Tell us what you need \u2014 product, quantity, specs, and budget." },
+                { step: "01", title: "Submit Your Request", desc: "Tell us what you need — product, quantity, specs, and budget." },
                 { step: "02", title: "Receive Your Breakdown", desc: "Get a fully itemized quote with every cost line visible." },
                 { step: "03", title: "Decide With Clarity", desc: "No obligation. Review, compare, and accept when ready." },
               ].map((item) => (

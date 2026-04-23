@@ -10,7 +10,7 @@ const tabs = [
     label: "Perfect Sourcing",
     icon: Search,
     headline: "Submit a request. We find the best factories.",
-    description: "Tell us what you need, and our agents source verified factories in China. Compare quotes with full cost breakdowns \u2014 no hidden fees.",
+    description: "Tell us what you need, and our agents source verified factories in China. Compare quotes with full cost breakdowns — no hidden fees.",
     features: [
       { icon: Send, text: "Submit sourcing requests with specs, quantity, and budget" },
       { icon: FileText, text: "Receive itemized quotes from verified factories" },
