@@ -441,20 +441,21 @@ export default function Landing() {
           </motion.div>
 
           {/* Dashboard preview */}
-          <motion.div initial={{ opacity: 0, y: 60, scale: 0.92, rotateX: 8 }} animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }} transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }} style={{ perspective: 1200 }}>
-            <motion.div whileHover={{ scale: 1.015, y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 25 }} className="relative rounded-2xl border border-border/30 bg-card/20 backdrop-blur-sm overflow-hidden shadow-2xl shadow-black/50 hover:shadow-[0_20px_80px_-20px_hsl(239,100%,60%/0.3)] transition-shadow duration-700">
+          <motion.div initial={{ opacity: 0, y: 60, scale: 0.92 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}>
+            <motion.div whileHover={{ scale: 1.015, y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 25 }} className="relative rounded-2xl border border-border/30 overflow-hidden shadow-2xl shadow-black/50 hover:shadow-[0_20px_80px_-20px_hsl(var(--primary)/0.3)] transition-shadow duration-700">
               <motion.div className="absolute -inset-[2px] rounded-2xl pointer-events-none z-20" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.3), transparent 40%, transparent 60%, hsl(260 80% 68% / 0.2))" }} animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
-              <div className="absolute -inset-8 rounded-3xl bg-primary/8 blur-3xl pointer-events-none" />
-              <div className="relative overflow-hidden rounded-2xl">
-                <motion.div initial={{ scale: 1.08 }} animate={{ scale: 1 }} transition={{ duration: 1.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                  <video src="/videos/area-demo.mp4" autoPlay loop muted playsInline preload="none" className="w-full h-auto object-cover object-top block" />
-                </motion.div>
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
-                <motion.div className="absolute inset-0 pointer-events-none z-10" style={{ background: "linear-gradient(180deg, transparent 0%, hsl(var(--primary) / 0.03) 50%, transparent 100%)", backgroundSize: "100% 200%" }} animate={{ backgroundPosition: ["0% 0%", "0% 100%", "0% 0%"] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} />
-              </div>
+              <img
+                src={dashboardPreview}
+                alt="Equilinq sourcing platform dashboard showing sourcing requests and order management"
+                width={1920}
+                height={1080}
+                className="w-full h-auto object-cover block"
+                fetchPriority="high"
+              />
+              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background via-background/60 to-transparent" />
               <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-full bg-card/80 backdrop-blur-md border border-border/40 px-3 py-1.5">
-                <motion.span className="h-2 w-2 rounded-full bg-green-500" animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }} transition={{ duration: 2, repeat: Infinity }} />
-                <span className="text-[11px] text-muted-foreground font-medium">Live Platform Preview</span>
+                <motion.span className="h-2 w-2 rounded-full bg-[hsl(142_71%_45%)]" animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }} transition={{ duration: 2, repeat: Infinity }} />
+                <span className="text-[11px] text-muted-foreground font-medium">Platform Preview</span>
               </motion.div>
             </motion.div>
           </motion.div>
