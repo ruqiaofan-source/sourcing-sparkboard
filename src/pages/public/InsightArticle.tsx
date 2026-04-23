@@ -79,6 +79,12 @@ export default function InsightArticle() {
 
   const readTime = estimateReadTime(article.content || "");
 
+  // Strip leading heading that duplicates the hero title
+  const cleanedContent = (article.content || "").replace(
+    /^\s*#{1,3}\s+.+\n+/,
+    ""
+  );
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEOHead
@@ -100,7 +106,7 @@ export default function InsightArticle() {
 
       <ArticleHero article={article} readTime={readTime} />
 
-      <ArticleBody content={article.content} />
+      <ArticleBody content={cleanedContent} />
 
       <RelatedServiceLinks tag={article.tag} />
 
