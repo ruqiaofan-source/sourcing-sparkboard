@@ -24,7 +24,7 @@ const tabs = [
     id: "customization",
     label: "Customization",
     icon: Palette,
-    headline: "35+ service add-ons for your product.",
+    headline: "80+ service add-ons for your product.",
     description: "From private labels to custom packaging, select exactly the services you need. Each add-on is clearly priced in your quote.",
     features: [
       { icon: Tag, text: "Private label, custom logos, and branding" },
