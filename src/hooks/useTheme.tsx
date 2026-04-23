@@ -14,7 +14,12 @@ export const useTheme = () => useContext(ThemeContext);
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("equilinq-theme") as Theme) || "dark";
+      const stored = localStorage.getItem("equilinq-theme") as Theme | null;
+      if (stored && stored !== "dark" && stored !== "light") {
+        localStorage.removeItem("equilinq-theme");
+        return "dark";
+      }
+      return stored || "dark";
     }
     return "dark";
   });
