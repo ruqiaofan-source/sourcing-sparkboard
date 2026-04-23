@@ -26,7 +26,7 @@ function AnimatedGlow() {
 
 export default function LandingInsights() {
   return (
-    <section className="py-28 px-4 relative">
+    <section className="py-16 px-4 relative">
       <AnimatedGlow />
       <div className="max-w-5xl mx-auto relative z-10">
         <motion.div
