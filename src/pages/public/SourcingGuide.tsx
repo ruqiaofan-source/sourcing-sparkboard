@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
+import PageGlow from "@/components/PageGlow";
   ArrowRight, Search, ShieldCheck, Truck, Package,
   CheckCircle2, AlertTriangle, Globe, DollarSign, FileText
 } from "lucide-react";
@@ -55,6 +56,7 @@ export default function SourcingGuide() {
         }}
       />
       <PublicNavbar />
+      <PageGlow />
 
       {/* Hero */}
       <section className="pt-32 pb-12 px-4">

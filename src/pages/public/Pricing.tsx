@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import PageGlow from "@/components/PageGlow";
 
 const stagger = {
   hidden: {},
@@ -55,6 +56,7 @@ export default function Pricing() {
         }}
       />
       <PublicNavbar />
+      <PageGlow />
 
       <section className="pt-32 pb-20 px-4 relative overflow-hidden">
         {/* Animated background glow */}

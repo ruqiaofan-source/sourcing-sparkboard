@@ -18,6 +18,7 @@ import imgPhoneCharms from "@/assets/trending/y2k-phone-charms.jpg";
 import imgFoodStorage from "@/assets/trending/food-storage-containers.jpg";
 import imgSiliconeBags from "@/assets/trending/silicone-food-bags.jpg";
 import imgMassageGun from "@/assets/trending/mini-massage-gun.jpg";
+import PageGlow from "@/components/PageGlow";
 
 const slugImageMap: Record<string, string> = {
   "labubu-style-vinyl-toys": imgLabubu,
@@ -75,6 +76,7 @@ export default function TrendingProducts() {
         description="Discover this month's hottest products across TikTok Shop, Amazon, and major webshops. Free market intelligence for European sellers."
       />
       <PublicNavbar />
+      <PageGlow />
       <main className="min-h-screen bg-background">
         {/* Hero */}
         <section className="relative pt-28 pb-16 px-4 overflow-hidden">

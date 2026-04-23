@@ -35,6 +35,7 @@ import { Link, useParams } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { SEOHead } from "@/components/SEOHead";
+import PageGlow from "@/components/PageGlow";
 
 function CompetitionBadge({ level }: { level: string }) {
   const color =
@@ -123,6 +124,7 @@ export default function TrendingProductDetail() {
     return (
       <>
         <PublicNavbar />
+      <PageGlow />
         <main className="min-h-screen bg-background pt-28 px-4">
           <div className="max-w-4xl mx-auto space-y-6">
             <Skeleton className="h-10 w-64" />

@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import founderImg from "@/assets/founder.jpg";
+import PageGlow from "@/components/PageGlow";
 
 export default function About() {
   return (
@@ -14,6 +15,7 @@ export default function About() {
         description="Learn about Equilinq's mission to give European SMEs the same China sourcing access that big corporations have."
       />
       <PublicNavbar />
+      <PageGlow />
       <main className="pt-28 pb-16 px-4">
         <div className="max-w-4xl mx-auto">
           {/* Hero */}
