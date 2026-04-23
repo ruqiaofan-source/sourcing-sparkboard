@@ -33,6 +33,11 @@ const LandingFeatureTabs = lazy(() => import("@/components/landing/LandingFeatur
 function AnimatedGlow() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Purple wash for hero first-screen */}
+      <div
+        className="absolute inset-0"
+        style={{ background: "radial-gradient(ellipse 80% 60% at 50% 30%, hsl(var(--primary) / 0.18) 0%, transparent 70%)" }}
+      />
       <motion.div
         className="absolute w-[900px] h-[900px] rounded-full"
         style={{
