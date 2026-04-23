@@ -993,6 +993,54 @@ export type Database = {
         }
         Relationships: []
       }
+      trending_products: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          name: string
+          price_range: string | null
+          scraped_at: string
+          source: string
+          source_url: string | null
+          trend_score: number
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name: string
+          price_range?: string | null
+          scraped_at?: string
+          source?: string
+          source_url?: string | null
+          trend_score?: number
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name?: string
+          price_range?: string | null
+          scraped_at?: string
+          source?: string
+          source_url?: string | null
+          trend_score?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       trustpilot_stats: {
         Row: {
           average_rating: number
