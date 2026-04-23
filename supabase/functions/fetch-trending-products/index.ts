@@ -103,12 +103,22 @@ serve(async (req) => {
 
 For each product, provide:
 - name: Clear product name
+- slug: URL-friendly lowercase slug (e.g. "portable-mini-projector")
 - source: Where it's trending (TikTok Shop, Amazon, etc.)
 - source_url: URL if available, otherwise null
 - category: Product category
 - price_range: Estimated retail price range in EUR
 - trend_score: 1-10 popularity score (10 = hottest)
 - description: 2-3 sentence description of why it's trending and sourcing potential
+- detailed_analysis: An object with these fields:
+  - why_trending: 2-3 sentences explaining the trend drivers (social media virality, seasonal demand, etc.)
+  - target_audience: Who buys this product (age, interests, demographics)
+  - profit_potential: Brief assessment of margins and pricing strategy for resellers
+  - sourcing_tip: Practical advice for sourcing this from China (MOQ expectations, factory type, material notes)
+  - competition_level: "Low", "Medium", or "High" with a brief explanation
+  - recommended_platforms: Array of 2-3 best sales channels (e.g. ["TikTok Shop", "Shopify", "Amazon"])
+  - estimated_moq: Estimated minimum order quantity range (e.g. "50-200 units")
+  - seasonality: Whether this is seasonal or evergreen, and peak months if seasonal
 
 Focus on products that:
 1. Can be manufactured/sourced from China
@@ -148,14 +158,28 @@ ${allSearchResults.join("\n\n---\n\n")}`;
                         type: "object",
                         properties: {
                           name: { type: "string" },
+                          slug: { type: "string" },
                           source: { type: "string" },
                           source_url: { type: "string" },
                           category: { type: "string" },
                           price_range: { type: "string" },
                           trend_score: { type: "number" },
                           description: { type: "string" },
+                          detailed_analysis: {
+                            type: "object",
+                            properties: {
+                              why_trending: { type: "string" },
+                              target_audience: { type: "string" },
+                              profit_potential: { type: "string" },
+                              sourcing_tip: { type: "string" },
+                              competition_level: { type: "string" },
+                              recommended_platforms: { type: "array", items: { type: "string" } },
+                              estimated_moq: { type: "string" },
+                              seasonality: { type: "string" },
+                            },
+                          },
                         },
-                        required: ["name", "source", "category", "price_range", "trend_score", "description"],
+                        required: ["name", "slug", "source", "category", "price_range", "trend_score", "description", "detailed_analysis"],
                         additionalProperties: false,
                       },
                     },
@@ -209,12 +233,14 @@ ${allSearchResults.join("\n\n---\n\n")}`;
 
     const rows = products.slice(0, 10).map((p: any) => ({
       name: p.name,
+      slug: p.slug || p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
       source: p.source || "Web",
       source_url: p.source_url || null,
       category: p.category || "General",
       price_range: p.price_range || "N/A",
       trend_score: Math.min(10, Math.max(1, p.trend_score || 5)),
       description: p.description || "",
+      detailed_analysis: p.detailed_analysis || {},
       is_active: true,
       scraped_at: new Date().toISOString(),
     }));
