@@ -35,30 +35,30 @@ function AnimatedGlow() {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Purple wash for hero first-screen */}
       <div
-        className="absolute inset-0"
-        style={{ background: "radial-gradient(circle 400px at 15% 20%, hsl(var(--primary) / 0.22) 0%, transparent 70%), radial-gradient(circle 350px at 85% 35%, hsl(var(--primary) / 0.18) 0%, transparent 65%), radial-gradient(circle 250px at 50% 10%, hsl(var(--primary) / 0.14) 0%, transparent 60%)" }}
+        className="absolute inset-0 sm:block"
+        style={{ background: "radial-gradient(circle 300px at 12% 18%, hsl(var(--primary) / 0.18) 0%, hsl(var(--primary) / 0.04) 50%, transparent 70%), radial-gradient(circle 280px at 88% 30%, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.03) 45%, transparent 65%), radial-gradient(circle 200px at 50% 8%, hsl(var(--primary) / 0.12) 0%, transparent 55%)" }}
       />
       <motion.div
-        className="absolute w-[900px] h-[900px] rounded-full"
+        className="absolute w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] lg:w-[900px] lg:h-[900px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(var(--primary) / 0.16) 0%, hsl(var(--primary) / 0.07) 42%, transparent 72%)",
+          background: "radial-gradient(circle, hsl(var(--primary) / 0.14) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)",
           top: "-25%", right: "-15%",
         }}
         animate={{ x: [0, 50, -30, 0], y: [0, -40, 30, 0], scale: [1, 1.05, 0.95, 1] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute w-[700px] h-[700px] rounded-full"
+        className="absolute w-[400px] h-[400px] sm:w-[550px] sm:h-[550px] lg:w-[700px] lg:h-[700px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(var(--chart-2) / 0.08) 0%, hsl(var(--primary) / 0.05) 45%, transparent 72%)",
+          background: "radial-gradient(circle, hsl(var(--primary) / 0.10) 0%, hsl(var(--primary) / 0.03) 45%, transparent 70%)",
           bottom: "-15%", left: "-10%",
         }}
         animate={{ x: [0, -40, 30, 0], y: [0, 30, -40, 0], scale: [1, 0.95, 1.05, 1] }}
         transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full"
-        style={{ background: "radial-gradient(circle, hsl(30 80% 55% / 0.04) 0%, transparent 60%)", top: "30%", left: "50%" }}
+        className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] lg:w-[500px] lg:h-[500px] rounded-full"
+        style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.08) 0%, transparent 55%)", top: "30%", left: "50%" }}
         animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -257,8 +257,13 @@ function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_co
             { label: "Multi-Stage QC", icon: CheckCircle2 },
             { label: "200+ Countries Shipped", icon: Globe },
           ].map((badge) => (
-            <motion.div key={badge.label} whileHover={{ scale: 1.05 }} className="flex items-center gap-2 rounded-full border border-border/40 bg-card/30 px-4 py-2">
-              <badge.icon className="h-4 w-4 text-primary" />
+            <motion.div key={badge.label} whileHover={{ scale: 1.05 }} className="flex items-center gap-2 rounded-full border border-border/40 bg-card/30 px-4 py-2 overflow-hidden">
+              <motion.div
+                animate={badge.label === "200+ Countries Shipped" ? { rotate: [0, 360] } : undefined}
+                transition={badge.label === "200+ Countries Shipped" ? { duration: 20, repeat: Infinity, ease: "linear" } : undefined}
+              >
+                <badge.icon className="h-4 w-4 text-primary" />
+              </motion.div>
               <span className="text-xs font-medium text-foreground/80">{badge.label}</span>
             </motion.div>
           ))}
