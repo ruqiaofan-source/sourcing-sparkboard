@@ -122,20 +122,20 @@ function CustomizationMockup() {
   ];
 
   return (
-    <div className="rounded-xl border border-border/50 bg-card/80 p-4">
+    <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
       <div className="flex items-center justify-between mb-3">
-        <span className="text-[11px] text-muted-foreground font-medium">Service Add-ons</span>
+        <span className="text-[11px] font-medium" style={{ color: "hsl(240 10% 40%)" }}>Service Add-ons</span>
         <span className="text-[10px] text-primary font-medium">3 selected</span>
       </div>
       <div className="space-y-1.5">
         {addons.map((a) => (
-          <div key={a.label} className={`flex items-center gap-2.5 rounded-lg px-3 py-2 transition-colors ${a.selected ? "bg-primary/[0.06] border border-primary/20" : "bg-muted/20 border border-border/20"}`}>
-            <div className={`h-3.5 w-3.5 rounded border flex items-center justify-center shrink-0 ${a.selected ? "bg-primary border-primary" : "border-border/50"}`}>
+          <div key={a.label} className={`flex items-center gap-2.5 rounded-lg px-3 py-2 transition-colors ${a.selected ? "bg-primary/[0.06] border border-primary/20" : "border"}`} style={!a.selected ? { background: "hsl(0 0% 100%)", borderColor: "hsl(240 10% 90%)" } : undefined}>
+            <div className={`h-3.5 w-3.5 rounded border flex items-center justify-center shrink-0 ${a.selected ? "bg-primary border-primary" : ""}`} style={!a.selected ? { borderColor: "hsl(240 10% 80%)" } : undefined}>
               {a.selected && <CheckCircle2 className="h-2.5 w-2.5 text-primary-foreground" />}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-medium text-card-foreground">{a.label}</p>
-              <p className="text-[9px] text-muted-foreground">{a.category}</p>
+              <p className="text-[10px] font-medium" style={{ color: "hsl(240 10% 15%)" }}>{a.label}</p>
+              <p className="text-[9px]" style={{ color: "hsl(240 10% 45%)" }}>{a.category}</p>
             </div>
           </div>
         ))}
