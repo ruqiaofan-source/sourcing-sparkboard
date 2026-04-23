@@ -532,7 +532,7 @@ export default function Landing() {
                     }}
                   />
                   {logo.isSquare && (
-                    <span className={`text-xs font-medium whitespace-nowrap transition-all duration-500 ${isDark ? "text-muted-foreground/60 group-hover:text-foreground" : "text-muted-foreground/50 group-hover:text-foreground"}`}>
+                    <span className={`text-xs font-medium whitespace-nowrap transition-all duration-500 ${isDark ? "text-muted-foreground group-hover:text-foreground" : "text-muted-foreground group-hover:text-foreground"}`}>
                       {logo.alt === "Stichting iMMO" ? "iMMO" : logo.alt}
                     </span>
                   )}
