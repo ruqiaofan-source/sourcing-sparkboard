@@ -9,6 +9,7 @@ import { ArrowRight, CheckCircle2, ShieldCheck, DollarSign, Globe } from "lucide
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
+import PageGlow from "@/components/PageGlow";
 
 import logoSoleRunning from "@/assets/logos/sole-running.webp";
 import logoLKK from "@/assets/logos/lkk.webp";
@@ -384,6 +385,7 @@ export default function Landing() {
       />
 
       <PublicNavbar />
+      <PageGlow />
       <main>
 
       {/* ───── HERO ───── */}
