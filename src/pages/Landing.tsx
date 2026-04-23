@@ -395,8 +395,8 @@ export default function Landing() {
         <motion.div style={{ opacity: heroOpacity, scale: heroScale, y: heroY }} className="relative z-10 max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="text-center mb-14">
             <motion.div initial={{ opacity: 0, scale: 0.8, y: -10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 250 }} className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6">
-              <motion.span className="h-1.5 w-1.5 rounded-full bg-primary" animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} />
-              <span className="text-[11px] text-muted-foreground tracking-wide">Incorporated with one of Tencent's founders</span>
+              <motion.span className="h-2 w-2 rounded-full bg-primary" animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} />
+              <span className="text-xs sm:text-sm font-semibold text-primary tracking-wide">Incorporated with one of Tencent's founders</span>
             </motion.div>
 
             <motion.h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }}>
@@ -434,7 +434,7 @@ export default function Landing() {
               </Link>
               <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
                 <MagneticButton>
-                  <Button variant="outline" size="sm" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-6 h-10 text-sm uppercase tracking-wider">Book a Demo</Button>
+                  <Button variant="outline" size="sm" className="rounded-full bg-white text-background border-white/80 hover:bg-white/90 px-6 h-10 text-sm font-semibold uppercase tracking-wider">Book a Demo</Button>
                 </MagneticButton>
               </a>
             </div>
