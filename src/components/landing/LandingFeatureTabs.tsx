@@ -164,7 +164,6 @@ function QCMockup() {
                 s.status === "active" ? "bg-primary/20 text-primary border border-primary/30 ring-2 ring-primary/10" :
                 "border"
               }`}>
-                {s.status === "pending" && <style>{``}</style>}
                 {s.status === "done" ? <CheckCircle2 className="h-3 w-3" /> : i + 1}
               </div>
               <span className={`text-[10px] ${s.status === "active" ? "font-medium" : s.status === "done" ? "line-through" : ""}`} style={{ color: s.status === "active" ? "hsl(240 10% 15%)" : "hsl(240 10% 50%)" }}>
