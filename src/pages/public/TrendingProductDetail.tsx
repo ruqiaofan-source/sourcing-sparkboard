@@ -3,6 +3,31 @@ import {
   TrendingUp, Flame, ArrowLeft, ArrowRight, Users, DollarSign,
   Factory, BarChart3, ShoppingBag, Calendar, Target, Layers
 } from "lucide-react";
+
+import imgLabubu from "@/assets/trending/labubu-vinyl-toys.jpg";
+import imgWalkingPad from "@/assets/trending/walking-pad-treadmill.jpg";
+import imgPetToys from "@/assets/trending/smart-pet-toys.jpg";
+import imgLipStains from "@/assets/trending/viral-lip-stains.jpg";
+import imgDadJeans from "@/assets/trending/stretchy-dad-jeans.jpg";
+import imgBlender from "@/assets/trending/portable-mini-blender.jpg";
+import imgPhoneCharms from "@/assets/trending/y2k-phone-charms.jpg";
+import imgFoodStorage from "@/assets/trending/food-storage-containers.jpg";
+import imgSiliconeBags from "@/assets/trending/silicone-food-bags.jpg";
+import imgMassageGun from "@/assets/trending/mini-massage-gun.jpg";
+
+const slugImageMap: Record<string, string> = {
+  "labubu-style-vinyl-toys": imgLabubu,
+  "walking-pad-under-desk-treadmill": imgWalkingPad,
+  "smart-pet-toys": imgPetToys,
+  "viral-lip-stains": imgLipStains,
+  "stretchy-soft-dad-jeans": imgDadJeans,
+  "portable-usb-mini-blender": imgBlender,
+  "y2k-phone-charms": imgPhoneCharms,
+  "stackable-food-storage-containers": imgFoodStorage,
+  "reusable-silicone-food-bags": imgSiliconeBags,
+  "mini-massage-gun": imgMassageGun,
+};
+
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,18 +35,6 @@ import { Link, useParams } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { SEOHead } from "@/components/SEOHead";
-
-const categoryEmoji: Record<string, string> = {
-  Electronics: "🔌", Fashion: "👗", Beauty: "💄", Home: "🏠",
-  Health: "💪", Sports: "⚽", Toys: "🧸", Pet: "🐾", Kitchen: "🍳", General: "📦",
-};
-
-function getEmoji(category: string) {
-  for (const [key, emoji] of Object.entries(categoryEmoji)) {
-    if (category.toLowerCase().includes(key.toLowerCase())) return emoji;
-  }
-  return "📦";
-}
 
 function CompetitionBadge({ level }: { level: string }) {
   const color =
@@ -179,7 +192,13 @@ export default function TrendingProductDetail() {
                     #{currentIndex + 1}
                   </span>
                 )}
-                <span className="text-5xl">{getEmoji(product.category)}</span>
+                <div className="w-20 h-20 rounded-xl overflow-hidden border border-border/30">
+                  <img
+                    src={slugImageMap[slug!] || product.image_url || "/placeholder.svg"}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${
                   product.trend_score >= 8
                     ? "bg-red-500/15 text-red-400 border-red-500/30"
@@ -336,7 +355,14 @@ export default function TrendingProductDetail() {
                       whileHover={{ y: -4 }}
                       className="rounded-xl border border-border/50 bg-card/60 backdrop-blur-sm p-4 cursor-pointer hover:border-primary/30 transition-all"
                     >
-                      <div className="text-2xl mb-2">{getEmoji(p.category)}</div>
+                      <div className="w-full aspect-square rounded-lg overflow-hidden mb-2 bg-muted/30">
+                        <img
+                          src={slugImageMap[p.slug] || p.image_url || "/placeholder.svg"}
+                          alt={p.name}
+                          loading="lazy"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                       <h3 className="font-heading font-semibold text-card-foreground text-xs leading-tight line-clamp-2 mb-1">
                         {p.name}
                       </h3>
