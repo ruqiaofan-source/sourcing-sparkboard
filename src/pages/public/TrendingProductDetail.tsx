@@ -192,7 +192,13 @@ export default function TrendingProductDetail() {
                     #{currentIndex + 1}
                   </span>
                 )}
-                <span className="text-5xl">{getEmoji(product.category)}</span>
+                <div className="w-20 h-20 rounded-xl overflow-hidden border border-border/30">
+                  <img
+                    src={slugImageMap[slug!] || product.image_url || "/placeholder.svg"}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${
                   product.trend_score >= 8
                     ? "bg-red-500/15 text-red-400 border-red-500/30"
@@ -349,7 +355,14 @@ export default function TrendingProductDetail() {
                       whileHover={{ y: -4 }}
                       className="rounded-xl border border-border/50 bg-card/60 backdrop-blur-sm p-4 cursor-pointer hover:border-primary/30 transition-all"
                     >
-                      <div className="text-2xl mb-2">{getEmoji(p.category)}</div>
+                      <div className="w-full aspect-square rounded-lg overflow-hidden mb-2 bg-muted/30">
+                        <img
+                          src={slugImageMap[p.slug] || p.image_url || "/placeholder.svg"}
+                          alt={p.name}
+                          loading="lazy"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                       <h3 className="font-heading font-semibold text-card-foreground text-xs leading-tight line-clamp-2 mb-1">
                         {p.name}
                       </h3>
