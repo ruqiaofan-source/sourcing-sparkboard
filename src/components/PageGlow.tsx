@@ -6,7 +6,7 @@ export default function PageGlow() {
       <motion.div
         className="absolute w-[1000px] h-[1000px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(var(--primary) / 0.22) 0%, hsl(var(--primary) / 0.10) 40%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(var(--primary) / 0.35) 0%, hsl(var(--primary) / 0.18) 40%, transparent 70%)",
           top: "-15%", right: "-10%",
         }}
         animate={{ x: [0, 50, -30, 0], y: [0, -40, 30, 0], scale: [1, 1.05, 0.95, 1] }}
@@ -15,7 +15,7 @@ export default function PageGlow() {
       <motion.div
         className="absolute w-[800px] h-[800px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(var(--chart-2) / 0.12) 0%, hsl(var(--primary) / 0.08) 45%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(var(--chart-2) / 0.20) 0%, hsl(var(--primary) / 0.14) 45%, transparent 70%)",
           bottom: "-5%", left: "-5%",
         }}
         animate={{ x: [0, -40, 30, 0], y: [0, 30, -40, 0], scale: [1, 0.95, 1.05, 1] }}
@@ -24,7 +24,7 @@ export default function PageGlow() {
       <motion.div
         className="absolute w-[500px] h-[500px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(var(--primary) / 0.15) 0%, transparent 60%)",
+          background: "radial-gradient(circle, hsl(var(--primary) / 0.28) 0%, transparent 60%)",
           top: "40%", left: "50%",
         }}
         animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.1, 1] }}
