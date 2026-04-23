@@ -30,12 +30,6 @@ export default function PageGlow() {
         animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.1, 1] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
-        className="absolute inset-0"
-        style={{ background: "linear-gradient(135deg, transparent 15%, hsl(var(--primary) / 0.08) 40%, hsl(var(--chart-2) / 0.06) 55%, transparent 80%)" }}
-        animate={{ opacity: [0.4, 0.8, 0.4] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
     </div>
   );
 }
