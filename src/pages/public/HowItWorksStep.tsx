@@ -441,7 +441,7 @@ export default function HowItWorksStep() {
               </Link>
               <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="lg" className="rounded-full px-6">
-                  Book a Call
+                  Book a Demo
                 </Button>
               </a>
             </div>
