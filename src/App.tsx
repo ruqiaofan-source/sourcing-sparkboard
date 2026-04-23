@@ -148,6 +148,7 @@ const App = () => (
                 
                 {/* Legacy redirects */}
                 <Route path="/about-us" element={<Navigate to="/" replace />} />
+                <Route path="/about" element={<Navigate to="/" replace />} />
                 
                 {/* Role-aware dashboard */}
                 <Route path="/dashboard" element={<ProtectedRoute><DashboardRouter /></ProtectedRoute>} />
