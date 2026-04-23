@@ -499,8 +499,6 @@ export default function Landing() {
               { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true, isSquare: false },
               { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true, isSquare: false },
               { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false, isSquare: true },
-              { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false, isSquare: true },
-              { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false, isSquare: true },
             ].map((logo) => {
               const isTransparent = !logo.hasBackground;
               const isDark = theme === "dark";
