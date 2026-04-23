@@ -25,7 +25,7 @@ export default function About() {
           >
             <span className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4 block">About Us</span>
             <h1 className="font-heading text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              Sourcing, <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(260 80% 68%))" }}>Simplified</span>
+              Sourcing, <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))" }}>Simplified</span>
             </h1>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               We built Equilinq because European SMEs deserve the same China sourcing access that big corporations have.

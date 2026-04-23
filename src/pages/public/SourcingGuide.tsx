@@ -72,7 +72,7 @@ export default function SourcingGuide() {
             How to Source Products from China:{" "}
             <span
               className="bg-clip-text text-transparent"
-              style={{ backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(260 80% 68%))" }}
+              style={{ backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))" }}
             >
               Complete Guide for European SMEs
             </span>
