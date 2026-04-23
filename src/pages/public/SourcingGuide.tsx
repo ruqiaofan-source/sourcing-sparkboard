@@ -3,8 +3,8 @@ import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import {
 import PageGlow from "@/components/PageGlow";
+import {
   ArrowRight, Search, ShieldCheck, Truck, Package,
   CheckCircle2, AlertTriangle, Globe, DollarSign, FileText
 } from "lucide-react";
