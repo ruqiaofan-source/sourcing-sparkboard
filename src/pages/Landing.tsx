@@ -22,6 +22,7 @@ import logoVolkswagen from "@/assets/logos/volkswagen.webp";
 
 /* ── Lazy-loaded below-fold sections ── */
 const LandingBenefits = lazy(() => import("@/components/landing/LandingBenefits"));
+const LandingTrending = lazy(() => import("@/components/landing/LandingTrending"));
 const LandingFounder = lazy(() => import("@/components/landing/LandingFounder"));
 const LandingInsights = lazy(() => import("@/components/landing/LandingInsights"));
 const LandingFAQ = lazy(() => import("@/components/landing/LandingFAQ"));
@@ -661,6 +662,9 @@ export default function Landing() {
       <SocialProofSection trustpilotStats={trustpilotStats} />
 
       {/* ───── LAZY-LOADED BELOW-FOLD SECTIONS ───── */}
+      <Suspense fallback={<div className="py-20" />}>
+        <LandingTrending />
+      </Suspense>
       <Suspense fallback={<div className="py-20" />}>
         <LandingBenefits />
       </Suspense>
