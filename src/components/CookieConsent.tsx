@@ -6,7 +6,7 @@ import { Cookie } from "lucide-react";
 
 const CONSENT_KEY = "cookie_consent";
 
-export const CookieConsent = function CookieConsent() {
+export function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -73,4 +73,4 @@ export const CookieConsent = function CookieConsent() {
       )}
     </AnimatePresence>
   );
-};
+}
