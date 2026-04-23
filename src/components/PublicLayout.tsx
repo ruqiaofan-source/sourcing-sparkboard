@@ -109,9 +109,14 @@ export function PublicNavbar() {
             decoding="sync"
             fetchPriority="high"
           />
-          <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
-            Equilinq
-          </span>
+          <div className="flex flex-col leading-none">
+            <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
+              Equilinq
+            </span>
+            <span className="text-[8px] font-medium tracking-[0.15em] uppercase text-gray-400 hidden sm:block">
+              EU-China Sourcing
+            </span>
+          </div>
         </Link>
 
         {/* Desktop links */}
