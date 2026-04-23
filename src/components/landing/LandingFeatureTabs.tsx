@@ -255,7 +255,7 @@ export default function LandingFeatureTabs() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: 0.05 }}
-            className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block"
+            className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4 block"
           >
             What We Do
           </motion.span>
