@@ -477,8 +477,8 @@ export default function Landing() {
           <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <AnimatedCounter value="200+" label="Countries Shipped" />
             <AnimatedCounter value="500+" label="Vetted Factories" />
-            <AnimatedCounter value="10" label="Minimum MOQ" />
-            <AnimatedCounter value="98%" label="QC Pass Rate" />
+            <AnimatedCounter value="10" label="Units Min. Order" />
+            <AnimatedCounter value="<2%" label="Defect Rate" />
           </motion.div>
         </div>
       </section>

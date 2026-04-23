@@ -79,7 +79,7 @@ export default function LandingFAQ() {
   const faqs = dbFaqs.length > 0 ? dbFaqs : fallbackFaqs;
 
   return (
-    <section id="faq" className="py-28 px-4" aria-label="Frequently asked questions">
+    <section id="faq" className="py-16 px-4" aria-label="Frequently asked questions">
       {/* FAQPage JSON-LD for Google rich snippets */}
       <script
         type="application/ld+json"
