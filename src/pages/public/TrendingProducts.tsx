@@ -140,7 +140,14 @@ export default function TrendingProducts() {
                           <TrendBadge score={product.trend_score} />
                         </div>
 
-                        <div className="text-4xl mb-3">{getEmoji(product.category)}</div>
+                        <div className="w-full aspect-square rounded-xl overflow-hidden mb-3 bg-muted/30">
+                          <img
+                            src={slugImageMap[slug] || product.image_url || "/placeholder.svg"}
+                            alt={product.name}
+                            loading="lazy"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                        </div>
 
                         <h2 className="font-heading font-semibold text-card-foreground text-sm leading-tight mb-1.5 line-clamp-2 flex-grow">
                           {product.name}
