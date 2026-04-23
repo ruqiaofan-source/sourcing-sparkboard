@@ -89,7 +89,7 @@ export default function OemOdm() {
             >
               From Concept to
               <br />
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(260 80% 68%))" }}>
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))" }}>
                 Finished Product
               </span>
             </motion.h1>

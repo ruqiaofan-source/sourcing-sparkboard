@@ -114,7 +114,7 @@ export default function Insights() {
               <span
                 className="bg-clip-text text-transparent"
                 style={{
-                  backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(260 80% 68%))",
+                  backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))",
                 }}
               >
                 Insights
