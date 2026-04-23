@@ -78,7 +78,7 @@ export default function OemOdm() {
               className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6"
             >
               <Wrench className="h-3.5 w-3.5 text-primary" />
-              <span className="text-[11px] text-muted-foreground tracking-wide uppercase">Custom manufacturing</span>
+              <span className="text-xs font-bold text-primary tracking-wide uppercase">Custom Manufacturing</span>
             </motion.div>
 
             <motion.h1
