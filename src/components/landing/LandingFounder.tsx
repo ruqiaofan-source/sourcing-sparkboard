@@ -67,7 +67,7 @@ export default function LandingFounder() {
               transition={{ duration: 1, delay: 0.3 }}
               className="text-lg sm:text-xl text-foreground leading-relaxed font-heading font-medium italic"
             >
-              "Why spend your time chasing factories, managing miscommunication, and fixing avoidable issues, when we can handle it for you?"
+              "We built Equilinq because European SMEs deserve the same China sourcing access that big corporations have -- without the risk, complexity, or hidden fees."
             </motion.p>
           </div>
         </motion.div>
