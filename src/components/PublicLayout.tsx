@@ -112,7 +112,7 @@ export function PublicNavbar() {
             <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
               Equilinq
             </span>
-            <span className="text-[8px] font-medium tracking-[0.15em] uppercase text-gray-400 hidden sm:block">
+            <span className="text-[8px] font-medium tracking-[0.15em] uppercase text-muted-foreground hidden sm:block">
               EU-China Sourcing
             </span>
           </div>
