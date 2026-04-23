@@ -448,17 +448,38 @@ export default function Landing() {
           </motion.div>
 
           {/* Dashboard preview */}
-          <motion.div initial={{ opacity: 0, y: 60, scale: 0.92 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}>
-            <motion.div whileHover={{ scale: 1.015, y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 25 }} className="relative rounded-2xl border border-border/20 overflow-hidden shadow-xl shadow-black/20 hover:shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.2)] transition-shadow duration-700">
-              <img
-                src={dashboardPreview}
-                alt="Equilinq sourcing platform dashboard showing sourcing requests and order management"
-                width={1920}
-                height={1080}
-                className="w-full h-auto object-cover block rounded-2xl"
-                fetchPriority="high"
-              />
-              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background/60 to-transparent" />
+          <motion.div
+            initial={{ opacity: 0, y: 60, scale: 0.92, rotateX: 8 }}
+            animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+            transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            style={{ perspective: 1200 }}
+          >
+            <motion.div
+              whileHover={{ scale: 1.015, y: -6 }}
+              transition={{ type: "spring", stiffness: 200, damping: 25 }}
+              className="relative rounded-2xl overflow-hidden"
+              style={{
+                boxShadow: "0 25px 80px -20px hsl(var(--primary) / 0.25), 0 10px 30px -10px rgba(0,0,0,0.3)",
+              }}
+            >
+              {/* Subtle primary glow behind the image */}
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-b from-primary/20 via-transparent to-primary/10 blur-sm pointer-events-none" />
+              <div className="relative rounded-2xl overflow-hidden border border-primary/10">
+                <img
+                  src={dashboardPreview}
+                  alt="Equilinq sourcing platform dashboard showing sourcing requests and order management"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto object-cover block"
+                  fetchPriority="high"
+                />
+                {/* Bottom fade into page background */}
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/50 to-transparent" />
+                {/* Side vignettes to blend edges */}
+                <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background/30 to-transparent" />
+                <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background/30 to-transparent" />
+              </div>
+              {/* Live badge */}
               <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-full bg-card/80 backdrop-blur-md border border-border/40 px-3 py-1.5">
                 <motion.span className="h-2 w-2 rounded-full bg-[hsl(142_71%_45%)]" animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }} transition={{ duration: 2, repeat: Infinity }} />
                 <span className="text-[11px] text-muted-foreground font-medium">Platform Preview</span>
