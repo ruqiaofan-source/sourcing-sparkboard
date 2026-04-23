@@ -271,7 +271,7 @@ export default function Pricing() {
                 <motion.div
                   key={item}
                   variants={fadeUp}
-                  className="flex items-center gap-2.5 text-sm text-foreground"
+                  className="flex items-center gap-2.5 text-sm text-foreground font-medium"
                 >
                   <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
                   {item}
