@@ -3,6 +3,31 @@ import {
   TrendingUp, Flame, ArrowLeft, ArrowRight, Users, DollarSign,
   Factory, BarChart3, ShoppingBag, Calendar, Target, Layers
 } from "lucide-react";
+
+import imgLabubu from "@/assets/trending/labubu-vinyl-toys.jpg";
+import imgWalkingPad from "@/assets/trending/walking-pad-treadmill.jpg";
+import imgPetToys from "@/assets/trending/smart-pet-toys.jpg";
+import imgLipStains from "@/assets/trending/viral-lip-stains.jpg";
+import imgDadJeans from "@/assets/trending/stretchy-dad-jeans.jpg";
+import imgBlender from "@/assets/trending/portable-mini-blender.jpg";
+import imgPhoneCharms from "@/assets/trending/y2k-phone-charms.jpg";
+import imgFoodStorage from "@/assets/trending/food-storage-containers.jpg";
+import imgSiliconeBags from "@/assets/trending/silicone-food-bags.jpg";
+import imgMassageGun from "@/assets/trending/mini-massage-gun.jpg";
+
+const slugImageMap: Record<string, string> = {
+  "labubu-style-vinyl-toys": imgLabubu,
+  "walking-pad-under-desk-treadmill": imgWalkingPad,
+  "smart-pet-toys": imgPetToys,
+  "viral-lip-stains": imgLipStains,
+  "stretchy-soft-dad-jeans": imgDadJeans,
+  "portable-usb-mini-blender": imgBlender,
+  "y2k-phone-charms": imgPhoneCharms,
+  "stackable-food-storage-containers": imgFoodStorage,
+  "reusable-silicone-food-bags": imgSiliconeBags,
+  "mini-massage-gun": imgMassageGun,
+};
+
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,18 +35,6 @@ import { Link, useParams } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { SEOHead } from "@/components/SEOHead";
-
-const categoryEmoji: Record<string, string> = {
-  Electronics: "🔌", Fashion: "👗", Beauty: "💄", Home: "🏠",
-  Health: "💪", Sports: "⚽", Toys: "🧸", Pet: "🐾", Kitchen: "🍳", General: "📦",
-};
-
-function getEmoji(category: string) {
-  for (const [key, emoji] of Object.entries(categoryEmoji)) {
-    if (category.toLowerCase().includes(key.toLowerCase())) return emoji;
-  }
-  return "📦";
-}
 
 function CompetitionBadge({ level }: { level: string }) {
   const color =
