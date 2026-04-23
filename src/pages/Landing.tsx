@@ -15,7 +15,7 @@ import logoSoleRunning from "@/assets/logos/sole-running.webp";
 import logoLKK from "@/assets/logos/lkk.webp";
 import logoIMMO from "@/assets/logos/immo.webp";
 import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
-import dashboardPreview from "@/assets/dashboard-light.png";
+import dashboardPreview from "@/assets/dashboard-preview-real.png";
 
 /* ── Lazy-loaded below-fold sections ── */
 const LandingBenefits = lazy(() => import("@/components/landing/LandingBenefits"));
@@ -283,8 +283,6 @@ export default function Landing() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const previewY = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const previewRotateX = useTransform(scrollYProgress, [0, 0.4], [2, 0]);
 
   // Defer non-critical query until after page load to keep it out of the critical request chain
   const [deferredQueriesEnabled, setDeferredQueriesEnabled] = useState(false);
@@ -450,43 +448,22 @@ export default function Landing() {
           </motion.div>
 
           {/* Dashboard preview */}
-          <motion.div
-            initial={{ opacity: 0, y: 60, scale: 0.94, rotateX: 6 }}
-            animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-            transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            style={{ perspective: 1200, y: previewY, rotateX: previewRotateX }}
-            className="mt-10 sm:mt-14"
-          >
-            <motion.div
-              whileHover={{ scale: 1.015, y: -6 }}
-              transition={{ type: "spring", stiffness: 200, damping: 25 }}
-              className="relative rounded-2xl sm:rounded-3xl overflow-hidden"
-              style={{
-                boxShadow: "0 0 0 1px hsl(var(--primary) / 0.08), 0 4px 20px -4px hsl(var(--primary) / 0.15), 0 20px 60px -15px rgba(0,0,0,0.35)",
-              }}
-            >
-              {/* Subtle primary glow behind the image */}
-              <div className="absolute -inset-px rounded-2xl sm:rounded-3xl bg-gradient-to-b from-primary/15 via-primary/5 to-primary/10 pointer-events-none" />
-              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-border/20">
-                <img
-                  src={dashboardPreview}
-                  alt="Equilinq sourcing platform dashboard showing sourcing requests and order management"
-                  width={1920}
-                  height={1080}
-                  className="w-full h-auto object-cover block rounded-2xl sm:rounded-3xl"
-                  fetchPriority="high"
-                />
-                {/* Consistent masking edges -- all four sides */}
-                <div className="absolute inset-x-0 bottom-0 h-28 sm:h-36 bg-gradient-to-t from-background via-background/70 to-transparent pointer-events-none" />
-                <div className="absolute inset-y-0 left-0 w-10 sm:w-16 bg-gradient-to-r from-background/40 to-transparent pointer-events-none" />
-                <div className="absolute inset-y-0 right-0 w-10 sm:w-16 bg-gradient-to-l from-background/40 to-transparent pointer-events-none" />
-                <div className="absolute inset-x-0 top-0 h-8 sm:h-10 bg-gradient-to-b from-background/20 to-transparent pointer-events-none" />
-                {/* Corner blends */}
-                <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-background/30 to-transparent pointer-events-none" />
-                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-background/30 to-transparent pointer-events-none" />
-              </div>
-              {/* Live badge */}
-              <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="absolute top-4 left-4 sm:top-5 sm:left-5 z-20 flex items-center gap-2 rounded-full bg-card/80 backdrop-blur-md border border-border/40 px-3 py-1.5">
+          <motion.div initial={{ opacity: 0, y: 60, scale: 0.92 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}>
+            <motion.div whileHover={{ scale: 1.015, y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 25 }} className="relative rounded-2xl border border-border/30 overflow-hidden shadow-2xl shadow-black/50 hover:shadow-[0_20px_80px_-20px_hsl(var(--primary)/0.3)] transition-shadow duration-700">
+              <motion.div className="absolute -inset-[2px] rounded-2xl pointer-events-none z-20" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.3), transparent 40%, transparent 60%, hsl(260 80% 68% / 0.2))" }} animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
+              <img
+                src={dashboardPreview}
+                alt="Equilinq sourcing platform dashboard showing sourcing requests and order management"
+                width={1920}
+                height={1080}
+                className="w-full h-auto object-cover block rounded-2xl"
+                fetchPriority="high"
+              />
+              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background via-background/80 to-transparent" />
+              <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background/40 to-transparent" />
+              <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background/40 to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background/30 to-transparent" />
+              <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-full bg-card/80 backdrop-blur-md border border-border/40 px-3 py-1.5">
                 <motion.span className="h-2 w-2 rounded-full bg-[hsl(142_71%_45%)]" animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }} transition={{ duration: 2, repeat: Infinity }} />
                 <span className="text-[11px] text-muted-foreground font-medium">Platform Preview</span>
               </motion.div>
