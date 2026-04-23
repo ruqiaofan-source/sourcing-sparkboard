@@ -99,7 +99,7 @@ export default function QualityControl() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              Every order goes through structured quality checks -- from pre-production samples to final pre-shipment inspection. No defects, no surprises.
+              Every order goes through structured quality checks — from pre-production samples to final pre-shipment inspection. No defects, no surprises.
             </motion.p>
           </motion.div>
 

@@ -312,7 +312,7 @@ export default function Customization() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
-            Branding, packaging, quality control, and manufacturing services -- all managed for you.
+            Branding, packaging, quality control, and manufacturing services — all managed for you.
           </motion.p>
         </div>
       </section>
