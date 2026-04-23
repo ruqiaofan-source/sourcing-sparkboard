@@ -72,16 +72,16 @@ const tabs = [
 function SourcingMockup() {
   return (
     <div className="space-y-3">
-      <div className="rounded-xl border border-border/50 bg-card/80 p-4">
+      <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
         <div className="flex items-center gap-2 mb-3">
           <div className="h-2 w-2 rounded-full bg-green-500" />
-          <span className="text-[11px] text-muted-foreground font-medium">New Sourcing Request</span>
+          <span className="text-[11px] font-medium" style={{ color: "hsl(240 10% 40%)" }}>New Sourcing Request</span>
         </div>
         <div className="space-y-2.5">
           {["Product Name", "Quantity", "Budget per Unit"].map((label) => (
             <div key={label} className="flex items-center gap-3">
-              <span className="text-[10px] text-muted-foreground w-24 shrink-0">{label}</span>
-              <div className="h-7 flex-1 rounded-md bg-muted/50 border border-border/30" />
+              <span className="text-[10px] w-24 shrink-0" style={{ color: "hsl(240 10% 45%)" }}>{label}</span>
+              <div className="h-7 flex-1 rounded-md" style={{ background: "hsl(0 0% 100%)", border: "1px solid hsl(240 10% 88%)" }} />
             </div>
           ))}
         </div>
@@ -91,17 +91,17 @@ function SourcingMockup() {
           </div>
         </div>
       </div>
-      <div className="rounded-xl border border-border/50 bg-card/80 p-4">
-        <span className="text-[11px] text-muted-foreground font-medium mb-2 block">Quote Comparison</span>
+      <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
+        <span className="text-[11px] font-medium mb-2 block" style={{ color: "hsl(240 10% 40%)" }}>Quote Comparison</span>
         <div className="space-y-2">
           {[
             { factory: "Shenzhen Electronics Co.", cost: "EUR 4.20/unit", score: "9.2" },
             { factory: "Guangzhou Precision MFG", cost: "EUR 3.85/unit", score: "8.7" },
           ].map((q) => (
-            <div key={q.factory} className="flex items-center justify-between rounded-lg bg-muted/30 border border-border/20 px-3 py-2">
+            <div key={q.factory} className="flex items-center justify-between rounded-lg px-3 py-2" style={{ background: "hsl(0 0% 100%)", border: "1px solid hsl(240 10% 90%)" }}>
               <div>
-                <p className="text-[10px] font-medium text-card-foreground">{q.factory}</p>
-                <p className="text-[9px] text-muted-foreground">{q.cost}</p>
+                <p className="text-[10px] font-medium" style={{ color: "hsl(240 10% 15%)" }}>{q.factory}</p>
+                <p className="text-[9px]" style={{ color: "hsl(240 10% 45%)" }}>{q.cost}</p>
               </div>
               <span className="text-[10px] font-bold text-primary">{q.score}</span>
             </div>
@@ -122,20 +122,20 @@ function CustomizationMockup() {
   ];
 
   return (
-    <div className="rounded-xl border border-border/50 bg-card/80 p-4">
+    <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
       <div className="flex items-center justify-between mb-3">
-        <span className="text-[11px] text-muted-foreground font-medium">Service Add-ons</span>
+        <span className="text-[11px] font-medium" style={{ color: "hsl(240 10% 40%)" }}>Service Add-ons</span>
         <span className="text-[10px] text-primary font-medium">3 selected</span>
       </div>
       <div className="space-y-1.5">
         {addons.map((a) => (
-          <div key={a.label} className={`flex items-center gap-2.5 rounded-lg px-3 py-2 transition-colors ${a.selected ? "bg-primary/[0.06] border border-primary/20" : "bg-muted/20 border border-border/20"}`}>
-            <div className={`h-3.5 w-3.5 rounded border flex items-center justify-center shrink-0 ${a.selected ? "bg-primary border-primary" : "border-border/50"}`}>
+          <div key={a.label} className={`flex items-center gap-2.5 rounded-lg px-3 py-2 transition-colors ${a.selected ? "bg-primary/[0.06] border border-primary/20" : "border"}`} style={!a.selected ? { background: "hsl(0 0% 100%)", borderColor: "hsl(240 10% 90%)" } : undefined}>
+            <div className={`h-3.5 w-3.5 rounded border flex items-center justify-center shrink-0 ${a.selected ? "bg-primary border-primary" : ""}`} style={!a.selected ? { borderColor: "hsl(240 10% 80%)" } : undefined}>
               {a.selected && <CheckCircle2 className="h-2.5 w-2.5 text-primary-foreground" />}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-medium text-card-foreground">{a.label}</p>
-              <p className="text-[9px] text-muted-foreground">{a.category}</p>
+              <p className="text-[10px] font-medium" style={{ color: "hsl(240 10% 15%)" }}>{a.label}</p>
+              <p className="text-[9px]" style={{ color: "hsl(240 10% 45%)" }}>{a.category}</p>
             </div>
           </div>
         ))}
@@ -154,35 +154,35 @@ function QCMockup() {
 
   return (
     <div className="space-y-3">
-      <div className="rounded-xl border border-border/50 bg-card/80 p-4">
-        <span className="text-[11px] text-muted-foreground font-medium mb-3 block">Inspection Progress</span>
+      <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
+        <span className="text-[11px] font-medium mb-3 block" style={{ color: "hsl(240 10% 40%)" }}>Inspection Progress</span>
         <div className="space-y-2">
           {stages.map((s, i) => (
             <div key={s.label} className="flex items-center gap-3">
               <div className={`h-6 w-6 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold ${
                 s.status === "done" ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" :
                 s.status === "active" ? "bg-primary/20 text-primary border border-primary/30 ring-2 ring-primary/10" :
-                "bg-muted/30 text-muted-foreground border border-border/30"
+                "border"
               }`}>
                 {s.status === "done" ? <CheckCircle2 className="h-3 w-3" /> : i + 1}
               </div>
-              <span className={`text-[10px] ${s.status === "active" ? "text-card-foreground font-medium" : s.status === "done" ? "text-muted-foreground line-through" : "text-muted-foreground/60"}`}>
+              <span className={`text-[10px] ${s.status === "active" ? "font-medium" : s.status === "done" ? "line-through" : ""}`} style={{ color: s.status === "active" ? "hsl(240 10% 15%)" : "hsl(240 10% 50%)" }}>
                 {s.label}
               </span>
             </div>
           ))}
         </div>
       </div>
-      <div className="rounded-xl border border-border/50 bg-card/80 p-4">
-        <span className="text-[11px] text-muted-foreground font-medium mb-2 block">QC Report Preview</span>
+      <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
+        <span className="text-[11px] font-medium mb-2 block" style={{ color: "hsl(240 10% 40%)" }}>QC Report Preview</span>
         <div className="grid grid-cols-3 gap-1.5">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="aspect-square rounded-lg bg-muted/40 border border-border/20 flex items-center justify-center">
-              <ScanLine className="h-4 w-4 text-muted-foreground/40" />
+            <div key={i} className="aspect-square rounded-lg border flex items-center justify-center" style={{ background: "hsl(0 0% 100%)", borderColor: "hsl(240 10% 90%)" }}>
+              <ScanLine className="h-4 w-4" style={{ color: "hsl(240 10% 75%)" }} />
             </div>
           ))}
         </div>
-        <p className="text-[9px] text-muted-foreground mt-2">3 photos, 1 video report attached</p>
+        <p className="text-[9px] mt-2" style={{ color: "hsl(240 10% 50%)" }}>3 photos, 1 video report attached</p>
       </div>
     </div>
   );
@@ -198,35 +198,35 @@ function ShippingMockup() {
 
   return (
     <div className="space-y-3">
-      <div className="rounded-xl border border-border/50 bg-card/80 p-4">
+      <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
         <div className="flex items-center justify-between mb-3">
-          <span className="text-[11px] text-muted-foreground font-medium">Order #EQ-2026-0142</span>
+          <span className="text-[11px] font-medium" style={{ color: "hsl(240 10% 40%)" }}>Order #EQ-2026-0142</span>
           <span className="text-[9px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-medium">In Transit</span>
         </div>
         <div className="relative pl-4">
-          <div className="absolute left-[7px] top-1 bottom-1 w-px bg-border/40" />
+          <div className="absolute left-[7px] top-1 bottom-1 w-px" style={{ background: "hsl(240 10% 88%)" }} />
           {steps.map((s) => (
             <div key={s.label} className="flex items-start gap-3 mb-3 last:mb-0 relative">
               <div className={`h-3.5 w-3.5 rounded-full shrink-0 -ml-[11px] z-10 ${
                 s.done ? "bg-emerald-500 border-2 border-emerald-500/30" :
                 s.active ? "bg-primary border-2 border-primary/30 ring-2 ring-primary/10" :
-                "bg-muted border-2 border-border/40"
+                "border-2"
               }`} />
               <div>
-                <p className={`text-[10px] ${s.done || s.active ? "text-card-foreground font-medium" : "text-muted-foreground/60"}`}>
+                <p className={`text-[10px] ${s.done || s.active ? "font-medium" : ""}`} style={{ color: s.done || s.active ? "hsl(240 10% 15%)" : "hsl(240 10% 55%)" }}>
                   {s.label}
                 </p>
-                <p className="text-[9px] text-muted-foreground">{s.date}</p>
+                <p className="text-[9px]" style={{ color: "hsl(240 10% 50%)" }}>{s.date}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
-      <div className="rounded-xl border border-border/50 bg-card/80 p-3 flex items-center gap-3">
+      <div className="rounded-xl border p-3 flex items-center gap-3" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
         <Globe className="h-4 w-4 text-cyan-400 shrink-0" />
         <div className="flex-1">
-          <p className="text-[10px] font-medium text-card-foreground">Shenzhen &rarr; Rotterdam</p>
-          <p className="text-[9px] text-muted-foreground">Standard shipping, 15-25 days</p>
+          <p className="text-[10px] font-medium" style={{ color: "hsl(240 10% 15%)" }}>Shenzhen &rarr; Rotterdam</p>
+          <p className="text-[9px]" style={{ color: "hsl(240 10% 50%)" }}>Standard shipping, 15-25 days</p>
         </div>
       </div>
     </div>
@@ -241,7 +241,14 @@ export default function LandingFeatureTabs() {
 
   return (
     <section id="features" className="py-18 px-4 relative">
-      <div className="max-w-6xl mx-auto relative z-10">
+      {/* Light-mode contrast wrapper */}
+      <div
+        className="max-w-6xl mx-auto relative z-10 rounded-3xl px-6 py-12 sm:px-10 sm:py-16"
+        style={{
+          background: "hsl(0 0% 98%)",
+          color: "hsl(240 10% 10%)",
+        }}
+      >
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -259,7 +266,7 @@ export default function LandingFeatureTabs() {
           >
             What We Do
           </motion.span>
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold" style={{ color: "hsl(240 10% 10%)" }}>
             End-to-End Sourcing<br />
             <span className="text-primary">from China</span>
           </h2>
@@ -273,11 +280,12 @@ export default function LandingFeatureTabs() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${  
                   isActive
                     ? "bg-primary/10 text-primary border border-primary/30 shadow-[0_0_20px_-6px_hsl(var(--primary)/0.3)]"
-                    : "text-muted-foreground hover:text-foreground border border-transparent hover:border-border/40 hover:bg-card/40"
+                    : "border border-transparent hover:border-primary/20 hover:bg-primary/5"
                 }`}
+                style={!isActive ? { color: "hsl(240 10% 40%)" } : undefined}
               >
                 <tab.icon className="h-4 w-4" />
                 <span className="hidden sm:inline">{tab.label}</span>
@@ -301,10 +309,10 @@ export default function LandingFeatureTabs() {
               <div className={`h-12 w-12 rounded-xl border flex items-center justify-center mb-5 ${active.iconBg}`}>
                 <active.icon className="h-6 w-6" />
               </div>
-              <h3 className="font-heading text-2xl sm:text-3xl font-bold text-foreground mb-3">
+              <h3 className="font-heading text-2xl sm:text-3xl font-bold mb-3" style={{ color: "hsl(240 10% 10%)" }}>
                 {active.headline}
               </h3>
-              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
+              <p className="text-sm sm:text-base leading-relaxed mb-6" style={{ color: "hsl(240 10% 35%)" }}>
                 {active.description}
               </p>
               <ul className="space-y-3 mb-8">
@@ -314,7 +322,8 @@ export default function LandingFeatureTabs() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.08, duration: 0.3 }}
-                    className="flex items-start gap-3 text-sm text-muted-foreground"
+                    className="flex items-start gap-3 text-sm"
+                    style={{ color: "hsl(240 10% 35%)" }}
                   >
                     <div className="h-6 w-6 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 mt-0.5">
                       <f.icon className="h-3.5 w-3.5 text-primary" />
@@ -337,14 +346,14 @@ export default function LandingFeatureTabs() {
             {/* Right: dashboard mockup */}
             <div className="relative">
               <div className={`absolute -inset-4 rounded-3xl bg-gradient-to-br ${active.accent} blur-2xl opacity-50 pointer-events-none`} />
-              <div className="relative rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-5 sm:p-6">
+              <div className="relative rounded-2xl border p-5 sm:p-6" style={{ borderColor: "hsl(240 10% 88%)", background: "hsl(0 0% 100%)" }}>
                 {/* Fake window chrome */}
                 <div className="flex items-center gap-1.5 mb-4">
-                  <div className="h-2.5 w-2.5 rounded-full bg-red-500/40" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/40" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-green-500/40" />
-                  <div className="flex-1 mx-3 h-5 rounded-md bg-muted/30 border border-border/20 flex items-center px-2">
-                    <span className="text-[9px] text-muted-foreground/50">equilinq.eu/dashboard</span>
+                  <div className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                  <div className="flex-1 mx-3 h-5 rounded-md flex items-center px-2" style={{ background: "hsl(240 10% 95%)", borderColor: "hsl(240 10% 90%)" }}>
+                    <span className="text-[9px]" style={{ color: "hsl(240 10% 55%)" }}>equilinq.eu/dashboard</span>
                   </div>
                 </div>
                 <active.mockup />
