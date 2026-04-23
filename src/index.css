@@ -170,3 +170,25 @@ html {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+@keyframes glowDrift1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(50px, -40px, 0) scale(1.05); }
+  66% { transform: translate3d(-30px, 30px, 0) scale(0.95); }
+}
+
+@keyframes glowDrift2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(-40px, 30px, 0) scale(0.95); }
+  66% { transform: translate3d(30px, -40px, 0) scale(1.05); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+@keyframes particleFloat {
+  0%, 100% { opacity: 0.1; transform: translate3d(0, 0, 0) scale(1); }
+  50% { opacity: 0.6; transform: translate3d(var(--tx, 20px), var(--ty, -40px), 0) scale(1.8); }
+}
