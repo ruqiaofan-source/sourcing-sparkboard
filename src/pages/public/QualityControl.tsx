@@ -78,7 +78,7 @@ export default function QualityControl() {
               className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6"
             >
               <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-              <span className="text-[11px] text-muted-foreground tracking-wide uppercase">Multi-stage QC</span>
+              <span className="text-xs font-bold text-primary tracking-wide uppercase">Multi-Stage QC</span>
             </motion.div>
 
             <motion.h1
@@ -87,10 +87,10 @@ export default function QualityControl() {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
-              Quality You Can
+              Zero Defects,
               <br />
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(260 80% 68%))" }}>
-                See and Verify
+                Zero Surprises
               </span>
             </motion.h1>
             <motion.p

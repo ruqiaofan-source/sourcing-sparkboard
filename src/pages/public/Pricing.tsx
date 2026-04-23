@@ -100,7 +100,7 @@ export default function Pricing() {
                 animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              <span className="text-[11px] text-muted-foreground tracking-wide uppercase">No hidden fees</span>
+              <span className="text-xs font-bold text-primary tracking-wide uppercase">No Hidden Fees</span>
             </motion.div>
 
             <motion.h1
@@ -109,7 +109,7 @@ export default function Pricing() {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
-              Transparent Pricing,
+              Zero Markup,
               <br />
               <span
                 className="bg-clip-text text-transparent"
@@ -117,7 +117,7 @@ export default function Pricing() {
                   backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(260 80% 68%))",
                 }}
               >
-                Tailored to Your Order
+                Zero Guesswork
               </span>
             </motion.h1>
             <motion.p

@@ -251,18 +251,18 @@ export default function HowItWorks() {
               animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            <span className="text-[11px] text-muted-foreground tracking-wide uppercase">8-Step Process</span>
+            <span className="text-xs font-bold text-primary tracking-wide uppercase">8-Step Process</span>
           </span>
 
           <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.08] mb-5">
-            From Request{" "}
+            Your Factory,{" "}
             <span className="bg-gradient-to-r from-primary to-[hsl(239,80%,75%)] bg-clip-text text-transparent">
-              to Doorstep
+              Your Rules
             </span>
           </h1>
 
           <p className="text-muted-foreground text-base sm:text-lg max-w-lg mx-auto leading-relaxed mb-8">
-            Verified factories, transparent pricing, multi-stage quality control, and door-to-door delivery. All managed for you.
+            From factory sourcing to your doorstep. Verified suppliers, transparent quotes, multi-stage QC, and real humans managing every step.
           </p>
 
           <div className="flex items-center justify-center gap-3 flex-wrap">
