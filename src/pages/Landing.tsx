@@ -15,7 +15,7 @@ import logoSoleRunning from "@/assets/logos/sole-running.webp";
 import logoLKK from "@/assets/logos/lkk.webp";
 import logoIMMO from "@/assets/logos/immo.webp";
 import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
-import dashboardPreview from "@/assets/dashboard-preview-real.png";
+const dashboardPreview = "/dashboard-preview-real.png";
 
 /* ── Lazy-loaded below-fold sections ── */
 const LandingBenefits = lazy(() => import("@/components/landing/LandingBenefits"));
