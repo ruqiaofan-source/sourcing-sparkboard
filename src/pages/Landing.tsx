@@ -5,10 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
-import {
-  Search, ShieldCheck, Truck, Palette, ChevronRight,
-  ArrowRight, Package, DollarSign, CheckCircle2, Globe
-} from "lucide-react";
+import { ArrowRight, CheckCircle2, ShieldCheck, DollarSign, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
@@ -27,43 +24,9 @@ const LandingFounder = lazy(() => import("@/components/landing/LandingFounder"))
 const LandingInsights = lazy(() => import("@/components/landing/LandingInsights"));
 const LandingFAQ = lazy(() => import("@/components/landing/LandingFAQ"));
 const LandingCTA = lazy(() => import("@/components/landing/LandingCTA"));
+const LandingFeatureTabs = lazy(() => import("@/components/landing/LandingFeatureTabs"));
 
 /* ──────────────────── DATA ──────────────────── */
-
-const features = [
-  {
-    icon: Search,
-    title: "Perfect Sourcing",
-    subtitle: "China's best suppliers, vetted for you",
-    desc: "Direct access to verified factories. No middlemen.",
-    vimeoId: "1150855107",
-    bullets: ["Verified factory network", "Quality and compliance screening", "MOQs from 10 units"],
-  },
-  {
-    icon: Palette,
-    title: "Brand Customization",
-    subtitle: "35+ options to make it yours",
-    desc: "Private labels, custom packaging, logo integration.",
-    vimeoId: "1150855094",
-    bullets: ["Private label and OEM", "Custom packaging and labels", "Product modifications"],
-  },
-  {
-    icon: ShieldCheck,
-    title: "Quality Control",
-    subtitle: "Multi-stage inspection, every order",
-    desc: "On-the-ground QC with photo and video proof.",
-    vimeoId: "1150855119",
-    bullets: ["Pre-production validation", "In-process monitoring", "Final inspection before shipment"],
-  },
-  {
-    icon: Truck,
-    title: "Global Shipping",
-    subtitle: "200+ countries, eco-friendly options",
-    desc: "Consolidated shipping, customs handling, real-time tracking.",
-    vimeoId: "1150855074",
-    bullets: ["Standard, express, and premium", "Customs and export docs", "Real-time tracking"],
-  },
-];
 
 /* ──────────────────── SHARED COMPONENTS ──────────────────── */
 
@@ -208,61 +171,7 @@ function MagneticButton({ children, className = "" }: { children: React.ReactNod
   );
 }
 
-/* ──────────────────── FEATURE VIDEO CARD ──────────────────── */
-
-function FeatureVideoCard({ feature: f }: { feature: typeof features[number] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const videoY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setIsVisible(true); observer.disconnect(); } },
-      { rootMargin: "200px" }
-    );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }} className="relative rounded-2xl overflow-hidden min-h-[340px] sm:min-h-[380px] flex items-end group">
-      <motion.div className="absolute inset-[-30%]" style={{ y: videoY }}>
-        {isVisible && (
-          <iframe
-            src={`https://player.vimeo.com/video/${f.vimeoId}?muted=1&autoplay=1&autopause=0&loop=1&background=1`}
-            className="absolute inset-0 w-full h-full scale-[1.4]"
-            style={{ objectFit: "cover" }}
-            frameBorder="0"
-            allow="autoplay; fullscreen"
-            allowFullScreen
-            title={f.title}
-            loading="lazy"
-          />
-        )}
-      </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10 group-hover:from-black/95 group-hover:via-black/60 transition-all duration-500" />
-      <div className="relative z-10 p-6 sm:p-8 w-full">
-        <motion.div initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 200, delay: 0.2 }} className="h-10 w-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center mb-3">
-          <f.icon className="h-5 w-5 text-white" />
-        </motion.div>
-        <h3 className="font-heading text-xl sm:text-2xl font-bold text-white mb-1">{f.title}</h3>
-        <p className="text-white/60 text-sm leading-relaxed mb-4">{f.subtitle}</p>
-        <ul className="space-y-1.5">
-          {f.bullets.map((bullet, bi) => (
-            <motion.li key={bullet} className="flex items-center gap-2 text-xs sm:text-sm text-white/75" initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.3 + bi * 0.08 }}>
-              <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
-              <span>{bullet}</span>
-            </motion.li>
-          ))}
-        </ul>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ──────────────────── SOCIAL PROOF (kept inline - above fold for SEO) ──────────────────── */
+/* ──────────────────── SOCIAL PROOF (kept inline -- above fold for SEO) ──────────────────── */
 
 function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_count: number; average_rating: number } | null }) {
   const tpRating = trustpilotStats?.average_rating ?? 4.0;
@@ -627,19 +536,9 @@ export default function Landing() {
       </section>
 
       {/* ───── FEATURES ───── */}
-      <section id="features" className="py-28 px-4 relative">
-        <div className="max-w-6xl mx-auto relative z-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-16">
-            <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.05 }} className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">What We Do</motion.span>
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
-              End-to-End Sourcing<br /><span className="text-primary">from China</span>
-            </h2>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {features.map((f) => (<FeatureVideoCard key={f.title} feature={f} />))}
-          </div>
-        </div>
-      </section>
+      <Suspense fallback={<div className="py-20" />}>
+        <LandingFeatureTabs />
+      </Suspense>
 
       {/* ───── PRICING CTA ───── */}
       <section className="py-20 px-4 relative">
