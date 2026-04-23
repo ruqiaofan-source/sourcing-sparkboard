@@ -154,35 +154,36 @@ function QCMockup() {
 
   return (
     <div className="space-y-3">
-      <div className="rounded-xl border border-border/50 bg-card/80 p-4">
-        <span className="text-[11px] text-muted-foreground font-medium mb-3 block">Inspection Progress</span>
+      <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
+        <span className="text-[11px] font-medium mb-3 block" style={{ color: "hsl(240 10% 40%)" }}>Inspection Progress</span>
         <div className="space-y-2">
           {stages.map((s, i) => (
             <div key={s.label} className="flex items-center gap-3">
               <div className={`h-6 w-6 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold ${
                 s.status === "done" ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" :
                 s.status === "active" ? "bg-primary/20 text-primary border border-primary/30 ring-2 ring-primary/10" :
-                "bg-muted/30 text-muted-foreground border border-border/30"
+                "border"
               }`}>
+                {s.status === "pending" && <style>{``}</style>}
                 {s.status === "done" ? <CheckCircle2 className="h-3 w-3" /> : i + 1}
               </div>
-              <span className={`text-[10px] ${s.status === "active" ? "text-card-foreground font-medium" : s.status === "done" ? "text-muted-foreground line-through" : "text-muted-foreground/60"}`}>
+              <span className={`text-[10px] ${s.status === "active" ? "font-medium" : s.status === "done" ? "line-through" : ""}`} style={{ color: s.status === "active" ? "hsl(240 10% 15%)" : "hsl(240 10% 50%)" }}>
                 {s.label}
               </span>
             </div>
           ))}
         </div>
       </div>
-      <div className="rounded-xl border border-border/50 bg-card/80 p-4">
-        <span className="text-[11px] text-muted-foreground font-medium mb-2 block">QC Report Preview</span>
+      <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
+        <span className="text-[11px] font-medium mb-2 block" style={{ color: "hsl(240 10% 40%)" }}>QC Report Preview</span>
         <div className="grid grid-cols-3 gap-1.5">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="aspect-square rounded-lg bg-muted/40 border border-border/20 flex items-center justify-center">
-              <ScanLine className="h-4 w-4 text-muted-foreground/40" />
+            <div key={i} className="aspect-square rounded-lg border flex items-center justify-center" style={{ background: "hsl(0 0% 100%)", borderColor: "hsl(240 10% 90%)" }}>
+              <ScanLine className="h-4 w-4" style={{ color: "hsl(240 10% 75%)" }} />
             </div>
           ))}
         </div>
-        <p className="text-[9px] text-muted-foreground mt-2">3 photos, 1 video report attached</p>
+        <p className="text-[9px] mt-2" style={{ color: "hsl(240 10% 50%)" }}>3 photos, 1 video report attached</p>
       </div>
     </div>
   );
@@ -198,35 +199,35 @@ function ShippingMockup() {
 
   return (
     <div className="space-y-3">
-      <div className="rounded-xl border border-border/50 bg-card/80 p-4">
+      <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
         <div className="flex items-center justify-between mb-3">
-          <span className="text-[11px] text-muted-foreground font-medium">Order #EQ-2026-0142</span>
+          <span className="text-[11px] font-medium" style={{ color: "hsl(240 10% 40%)" }}>Order #EQ-2026-0142</span>
           <span className="text-[9px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-medium">In Transit</span>
         </div>
         <div className="relative pl-4">
-          <div className="absolute left-[7px] top-1 bottom-1 w-px bg-border/40" />
+          <div className="absolute left-[7px] top-1 bottom-1 w-px" style={{ background: "hsl(240 10% 88%)" }} />
           {steps.map((s) => (
             <div key={s.label} className="flex items-start gap-3 mb-3 last:mb-0 relative">
               <div className={`h-3.5 w-3.5 rounded-full shrink-0 -ml-[11px] z-10 ${
                 s.done ? "bg-emerald-500 border-2 border-emerald-500/30" :
                 s.active ? "bg-primary border-2 border-primary/30 ring-2 ring-primary/10" :
-                "bg-muted border-2 border-border/40"
+                "border-2"
               }`} />
               <div>
-                <p className={`text-[10px] ${s.done || s.active ? "text-card-foreground font-medium" : "text-muted-foreground/60"}`}>
+                <p className={`text-[10px] ${s.done || s.active ? "font-medium" : ""}`} style={{ color: s.done || s.active ? "hsl(240 10% 15%)" : "hsl(240 10% 55%)" }}>
                   {s.label}
                 </p>
-                <p className="text-[9px] text-muted-foreground">{s.date}</p>
+                <p className="text-[9px]" style={{ color: "hsl(240 10% 50%)" }}>{s.date}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
-      <div className="rounded-xl border border-border/50 bg-card/80 p-3 flex items-center gap-3">
+      <div className="rounded-xl border p-3 flex items-center gap-3" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
         <Globe className="h-4 w-4 text-cyan-400 shrink-0" />
         <div className="flex-1">
-          <p className="text-[10px] font-medium text-card-foreground">Shenzhen &rarr; Rotterdam</p>
-          <p className="text-[9px] text-muted-foreground">Standard shipping, 15-25 days</p>
+          <p className="text-[10px] font-medium" style={{ color: "hsl(240 10% 15%)" }}>Shenzhen &rarr; Rotterdam</p>
+          <p className="text-[9px]" style={{ color: "hsl(240 10% 50%)" }}>Standard shipping, 15-25 days</p>
         </div>
       </div>
     </div>
