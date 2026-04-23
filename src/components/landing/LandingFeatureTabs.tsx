@@ -240,7 +240,7 @@ export default function LandingFeatureTabs() {
   const active = tabs.find((t) => t.id === activeTab)!;
 
   return (
-    <section id="features" className="py-18 px-4 md:px-10 lg:px-4 relative">
+    <section id="features" className="py-18 px-4 relative">
       {/* Light-mode contrast wrapper */}
       <div
         className="max-w-6xl mx-auto relative z-10 rounded-3xl px-6 py-12 sm:px-10 sm:py-16"
