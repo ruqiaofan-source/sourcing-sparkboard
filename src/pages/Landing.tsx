@@ -188,7 +188,8 @@ function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_co
       <section className="py-16 px-4 relative">
       <div className="max-w-5xl mx-auto relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-10">
-          <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">Trusted by SMEs</motion.span>
+          <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4 block">Trusted by SMEs</motion.span>
+
           <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground">What Our Clients Say</RevealHeading>
         </motion.div>
 
@@ -470,7 +471,7 @@ export default function Landing() {
         <FloatingParticles />
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-12">
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] mb-3 block" style={{ color: 'hsl(239 100% 75%)' }}>By the Numbers</span>
+            <span className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-3 block">By the Numbers</span>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">Why SMEs Trust Equilinq</h2>
           </motion.div>
           <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -545,7 +546,7 @@ export default function Landing() {
       <section className="py-14 px-4 relative">
         <FloatingParticles />
         <motion.div initial={{ opacity: 0, y: 20, scale: 0.97 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="max-w-3xl mx-auto text-center relative z-10">
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">Pricing</span>
+          <span className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4 block">Pricing</span>
           <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">Transparent Pricing, Tailored to Your Order</RevealHeading>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">Every quote is fully itemized. Submit a request and see exactly where every euro goes.</p>
           <Link to="/pricing">

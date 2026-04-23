@@ -78,7 +78,7 @@ export default function SourcingGuide() {
             </span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
-            Everything you need to know about sourcing from China as a European small business -- from finding verified suppliers to managing quality control and shipping.
+            Everything you need to know about sourcing from China as a European small business — from finding verified suppliers to managing quality control and shipping.
           </p>
           <div className="flex items-center justify-center gap-3 text-sm text-muted-foreground mb-8">
             <span>By Equilinq Team</span>
@@ -321,7 +321,7 @@ export default function SourcingGuide() {
               <li><strong>Local presence and language:</strong> Native Mandarin speakers who understand factory culture and can negotiate effectively on your behalf.</li>
               <li><strong>Verified supplier network:</strong> Pre-screened factories with proven track records, eliminating the trial-and-error of finding reliable suppliers.</li>
               <li><strong>Quality assurance:</strong> On-site quality inspections with photo and video documentation at every production stage.</li>
-              <li><strong>Cost transparency:</strong> Full cost breakdowns showing factory cost, operational costs, logistics, and service fees -- no hidden margins.</li>
+              <li><strong>Cost transparency:</strong> Full cost breakdowns showing factory cost, operational costs, logistics, and service fees — no hidden margins.</li>
               <li><strong>Risk mitigation:</strong> Experienced agents identify red flags before they become problems: factories overextending capacity, material substitution, and shipping delays.</li>
               <li><strong>Logistics coordination:</strong> Consolidated shipping, customs documentation, and delivery tracking managed end-to-end.</li>
             </ul>

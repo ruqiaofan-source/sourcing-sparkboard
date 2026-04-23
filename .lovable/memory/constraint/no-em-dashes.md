@@ -1,7 +1,7 @@
 ---
-name: No em-dashes
-description: Never use em-dashes (—) in UI text or code comments. Use regular dashes, commas, colons, or rephrase instead.
+name: Use em-dashes properly
+description: Use proper em-dashes (—) in copy, never double hyphens (--). User explicitly requested this fix.
 type: constraint
 ---
-Do not use em-dashes (—) anywhere in user-facing text or code comments.
-**Why:** User explicitly requested removal of all em-dashes from the website.
+Use proper em-dashes (—) in user-facing copy. Never use double hyphens (--) as they look unprofessional.
+**Why:** User explicitly flagged -- as unprofessional and requested em-dashes instead.

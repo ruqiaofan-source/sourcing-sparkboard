@@ -100,7 +100,7 @@ export default function Pricing() {
                 animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              <span className="text-[11px] text-muted-foreground tracking-wide uppercase">No hidden fees</span>
+              <span className="text-xs font-bold text-primary tracking-wide uppercase">No Hidden Fees</span>
             </motion.div>
 
             <motion.h1
@@ -109,7 +109,7 @@ export default function Pricing() {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
-              Transparent Pricing,
+              Zero Markup,
               <br />
               <span
                 className="bg-clip-text text-transparent"
@@ -117,7 +117,7 @@ export default function Pricing() {
                   backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(260 80% 68%))",
                 }}
               >
-                Tailored to Your Order
+                Zero Guesswork
               </span>
             </motion.h1>
             <motion.p
@@ -141,7 +141,7 @@ export default function Pricing() {
             <h2 className="font-heading text-2xl font-semibold text-foreground mb-6 text-center">How It Works</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { step: "01", title: "Submit Your Request", desc: "Tell us what you need -- product, quantity, specs, and budget." },
+                { step: "01", title: "Submit Your Request", desc: "Tell us what you need — product, quantity, specs, and budget." },
                 { step: "02", title: "Receive Your Breakdown", desc: "Get a fully itemized quote with every cost line visible." },
                 { step: "03", title: "Decide With Clarity", desc: "No obligation. Review, compare, and accept when ready." },
               ].map((item) => (
@@ -301,7 +301,7 @@ export default function Pricing() {
               <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
                 <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
                   <Button variant="outline" size="lg" className="rounded-full border-border/60 px-8 h-12 text-base">
-                    Book a Call
+                    Book a Demo
                   </Button>
                 </motion.div>
               </a>

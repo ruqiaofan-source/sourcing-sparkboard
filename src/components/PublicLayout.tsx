@@ -109,9 +109,14 @@ export function PublicNavbar() {
             decoding="sync"
             fetchPriority="high"
           />
-          <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
-            Equilinq
-          </span>
+          <div className="flex flex-col leading-none">
+            <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
+              Equilinq
+            </span>
+            <span className="text-[8px] font-medium tracking-[0.15em] uppercase text-gray-400 hidden sm:block">
+              EU-China Sourcing
+            </span>
+          </div>
         </Link>
 
         {/* Desktop links */}
@@ -370,7 +375,7 @@ export function PublicFooter() {
             <nav className="flex flex-col gap-2" aria-label="Resources">
               <Link to="/insights" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Insights & Blog</Link>
               <Link to="/contact" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link>
-              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Book a Call</a>
+              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Book a Demo</a>
               <Link to="/auth?signup=true" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Get Started</Link>
             </nav>
           </div>

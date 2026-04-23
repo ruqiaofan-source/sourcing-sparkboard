@@ -10,7 +10,7 @@ const tabs = [
     label: "Perfect Sourcing",
     icon: Search,
     headline: "Submit a request. We find the best factories.",
-    description: "Tell us what you need, and our agents source verified factories in China. Compare quotes with full cost breakdowns -- no hidden fees.",
+    description: "Tell us what you need, and our agents source verified factories in China. Compare quotes with full cost breakdowns — no hidden fees.",
     features: [
       { icon: Send, text: "Submit sourcing requests with specs, quantity, and budget" },
       { icon: FileText, text: "Receive itemized quotes from verified factories" },
@@ -255,7 +255,7 @@ export default function LandingFeatureTabs() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: 0.05 }}
-            className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block"
+            className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4 block"
           >
             What We Do
           </motion.span>

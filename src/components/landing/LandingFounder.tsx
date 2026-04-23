@@ -35,7 +35,7 @@ export default function LandingFounder() {
           transition={{ duration: 0.6 }}
           className="text-center mb-6"
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-3 block">Founder's Note</span>
+          <span className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-3 block">Founder's Note</span>
         </motion.div>
 
         <motion.div
