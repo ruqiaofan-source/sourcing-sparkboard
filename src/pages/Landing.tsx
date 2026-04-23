@@ -15,7 +15,8 @@ import logoSoleRunning from "@/assets/logos/sole-running.webp";
 import logoLKK from "@/assets/logos/lkk.webp";
 import logoIMMO from "@/assets/logos/immo.webp";
 import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
-const dashboardPreview = "/dashboard-preview-real.png";
+const dashboardPreviewWebp = "/dashboard-preview-real.webp";
+const dashboardPreview1024 = "/dashboard-preview-real-1024.webp";
 
 /* ── Lazy-loaded below-fold sections ── */
 const LandingBenefits = lazy(() => import("@/components/landing/LandingBenefits"));
@@ -452,7 +453,9 @@ export default function Landing() {
             <motion.div whileHover={{ scale: 1.015, y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 25 }} className="relative rounded-2xl border border-border/30 overflow-hidden shadow-2xl shadow-black/50 hover:shadow-[0_20px_80px_-20px_hsl(var(--primary)/0.3)] transition-shadow duration-700">
               <motion.div className="absolute -inset-[2px] rounded-2xl pointer-events-none z-20" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.3), transparent 40%, transparent 60%, hsl(260 80% 68% / 0.2))" }} animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
               <img
-                src={dashboardPreview}
+                src={dashboardPreviewWebp}
+                srcSet={`${dashboardPreview1024} 1024w, ${dashboardPreviewWebp} 1920w`}
+                sizes="(max-width: 1024px) 100vw, 1024px"
                 alt="Equilinq sourcing platform dashboard showing sourcing requests and order management"
                 width={1920}
                 height={1080}
