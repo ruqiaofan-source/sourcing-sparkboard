@@ -25,7 +25,7 @@ function FloatingParticles() {
 
 export default function LandingFounder() {
   return (
-    <section className="py-28 px-4 relative">
+    <section className="py-18 px-4 relative">
       <FloatingParticles />
       <div className="max-w-5xl mx-auto relative z-10">
         <motion.div
@@ -67,7 +67,7 @@ export default function LandingFounder() {
               transition={{ duration: 1, delay: 0.3 }}
               className="text-lg sm:text-xl text-foreground leading-relaxed font-heading font-medium italic"
             >
-              "Why spend your time chasing factories, managing miscommunication, and fixing avoidable issues, when we can handle it for you?"
+              "We built Equilinq because European SMEs deserve the same China sourcing access that big corporations have -- without the risk, complexity, or hidden fees."
             </motion.p>
           </div>
         </motion.div>

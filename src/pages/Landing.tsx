@@ -14,8 +14,7 @@ import logoSoleRunning from "@/assets/logos/sole-running.webp";
 import logoLKK from "@/assets/logos/lkk.webp";
 import logoIMMO from "@/assets/logos/immo.webp";
 import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
-import logoUnilever from "@/assets/logos/unilever.webp";
-import logoVolkswagen from "@/assets/logos/volkswagen.webp";
+import dashboardPreview from "@/assets/dashboard-preview.jpg";
 
 /* ── Lazy-loaded below-fold sections ── */
 const LandingBenefits = lazy(() => import("@/components/landing/LandingBenefits"));
@@ -186,9 +185,9 @@ function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_co
   };
 
   return (
-    <section className="py-24 px-4 relative">
+      <section className="py-16 px-4 relative">
       <div className="max-w-5xl mx-auto relative z-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-10">
           <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">Trusted by SMEs</motion.span>
           <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground">What Our Clients Say</RevealHeading>
         </motion.div>
@@ -396,8 +395,8 @@ export default function Landing() {
         <motion.div style={{ opacity: heroOpacity, scale: heroScale, y: heroY }} className="relative z-10 max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="text-center mb-14">
             <motion.div initial={{ opacity: 0, scale: 0.8, y: -10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 250 }} className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6">
-              <motion.span className="h-1.5 w-1.5 rounded-full bg-primary" animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} />
-              <span className="text-[11px] text-muted-foreground tracking-wide">Incorporated with one of Tencent's founders</span>
+              <motion.span className="h-2 w-2 rounded-full bg-primary" animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} />
+              <span className="text-xs sm:text-sm font-semibold text-primary tracking-wide">Incorporated with one of Tencent's founders</span>
             </motion.div>
 
             <motion.h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }}>
@@ -435,27 +434,28 @@ export default function Landing() {
               </Link>
               <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
                 <MagneticButton>
-                  <Button variant="outline" size="sm" className="rounded-full border-border/60 text-foreground hover:bg-card/60 px-6 h-10 text-sm uppercase tracking-wider">Book a Demo</Button>
+                  <Button variant="outline" size="sm" className="rounded-full bg-white text-background border-white/80 hover:bg-white/90 px-6 h-10 text-sm font-semibold uppercase tracking-wider">Book a Demo</Button>
                 </MagneticButton>
               </a>
             </div>
           </motion.div>
 
           {/* Dashboard preview */}
-          <motion.div initial={{ opacity: 0, y: 60, scale: 0.92, rotateX: 8 }} animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }} transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }} style={{ perspective: 1200 }}>
-            <motion.div whileHover={{ scale: 1.015, y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 25 }} className="relative rounded-2xl border border-border/30 bg-card/20 backdrop-blur-sm overflow-hidden shadow-2xl shadow-black/50 hover:shadow-[0_20px_80px_-20px_hsl(239,100%,60%/0.3)] transition-shadow duration-700">
+          <motion.div initial={{ opacity: 0, y: 60, scale: 0.92 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}>
+            <motion.div whileHover={{ scale: 1.015, y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 25 }} className="relative rounded-2xl border border-border/30 overflow-hidden shadow-2xl shadow-black/50 hover:shadow-[0_20px_80px_-20px_hsl(var(--primary)/0.3)] transition-shadow duration-700">
               <motion.div className="absolute -inset-[2px] rounded-2xl pointer-events-none z-20" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.3), transparent 40%, transparent 60%, hsl(260 80% 68% / 0.2))" }} animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
-              <div className="absolute -inset-8 rounded-3xl bg-primary/8 blur-3xl pointer-events-none" />
-              <div className="relative overflow-hidden rounded-2xl">
-                <motion.div initial={{ scale: 1.08 }} animate={{ scale: 1 }} transition={{ duration: 1.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                  <video src="/videos/area-demo.mp4" autoPlay loop muted playsInline preload="none" className="w-full h-auto object-cover object-top block" />
-                </motion.div>
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
-                <motion.div className="absolute inset-0 pointer-events-none z-10" style={{ background: "linear-gradient(180deg, transparent 0%, hsl(var(--primary) / 0.03) 50%, transparent 100%)", backgroundSize: "100% 200%" }} animate={{ backgroundPosition: ["0% 0%", "0% 100%", "0% 0%"] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} />
-              </div>
+              <img
+                src={dashboardPreview}
+                alt="Equilinq sourcing platform dashboard showing sourcing requests and order management"
+                width={1920}
+                height={1080}
+                className="w-full h-auto object-cover block"
+                fetchPriority="high"
+              />
+              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background via-background/60 to-transparent" />
               <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-full bg-card/80 backdrop-blur-md border border-border/40 px-3 py-1.5">
-                <motion.span className="h-2 w-2 rounded-full bg-green-500" animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }} transition={{ duration: 2, repeat: Infinity }} />
-                <span className="text-[11px] text-muted-foreground font-medium">Live Platform Preview</span>
+                <motion.span className="h-2 w-2 rounded-full bg-[hsl(142_71%_45%)]" animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }} transition={{ duration: 2, repeat: Infinity }} />
+                <span className="text-[11px] text-muted-foreground font-medium">Platform Preview</span>
               </motion.div>
             </motion.div>
           </motion.div>
@@ -463,7 +463,7 @@ export default function Landing() {
       </section>
 
       {/* ───── STATS ───── */}
-      <section className="py-20 px-4 relative border-y border-border/10">
+      <section className="py-14 px-4 relative border-y border-border/10">
         <FloatingParticles />
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-12">
@@ -499,8 +499,6 @@ export default function Landing() {
               { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true, isSquare: false },
               { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true, isSquare: false },
               { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false, isSquare: true },
-              { src: logoUnilever, alt: "Unilever", url: "https://www.unilever.com/", hasBackground: false, isSquare: true },
-              { src: logoVolkswagen, alt: "Volkswagen", url: "https://www.volkswagen.com/", hasBackground: false, isSquare: true },
             ].map((logo) => {
               const isTransparent = !logo.hasBackground;
               const isDark = theme === "dark";
@@ -541,7 +539,7 @@ export default function Landing() {
       </Suspense>
 
       {/* ───── PRICING CTA ───── */}
-      <section className="py-20 px-4 relative">
+      <section className="py-14 px-4 relative">
         <FloatingParticles />
         <motion.div initial={{ opacity: 0, y: 20, scale: 0.97 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="max-w-3xl mx-auto text-center relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">Pricing</span>

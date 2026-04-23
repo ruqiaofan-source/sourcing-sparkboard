@@ -26,6 +26,7 @@ const Demo = lazy(() => import("./pages/public/Demo"));
 const SourcingGuide = lazy(() => import("./pages/public/SourcingGuide"));
 const TrendingProducts = lazy(() => import("./pages/public/TrendingProducts"));
 const TrendingProductDetail = lazy(() => import("./pages/public/TrendingProductDetail"));
+const About = lazy(() => import("./pages/public/About"));
 
 const CustomerDashboard = lazy(() => import("./pages/customer/CustomerDashboard"));
 const NewRequest = lazy(() => import("./pages/customer/NewRequest"));
@@ -127,7 +128,8 @@ const App = () => (
                 {/* Public pages */}
                 <Route path="/" element={<Landing />} />
                 {/* Redirects from old Framer site */}
-                <Route path="/about-us" element={<Navigate to="/" replace />} />
+                <Route path="/about-us" element={<Navigate to="/about" replace />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/insights" element={<Insights />} />
                 <Route path="/insights/:slug" element={<InsightArticle />} />

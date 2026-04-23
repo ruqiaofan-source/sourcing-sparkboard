@@ -55,7 +55,7 @@ function AnimatedGlow() {
 
 export default function LandingBenefits() {
   return (
-    <section id="benefits" className="py-28 px-4 relative">
+    <section id="benefits" className="py-18 px-4 relative bg-[hsl(0_0%_97%)] dark:bg-[hsl(230_8%_6%)]">
       <AnimatedGlow />
       <div className="max-w-5xl mx-auto relative z-10">
         <motion.div
