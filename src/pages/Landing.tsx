@@ -36,7 +36,7 @@ function AnimatedGlow() {
       {/* Purple wash for hero first-screen */}
       <div
         className="absolute inset-0"
-        style={{ background: "radial-gradient(ellipse 90% 55% at 50% 25%, hsl(var(--primary) / 0.32) 0%, hsl(var(--primary) / 0.12) 50%, transparent 75%)" }}
+        style={{ background: "radial-gradient(circle 400px at 15% 20%, hsl(var(--primary) / 0.22) 0%, transparent 70%), radial-gradient(circle 350px at 85% 35%, hsl(var(--primary) / 0.18) 0%, transparent 65%), radial-gradient(circle 250px at 50% 10%, hsl(var(--primary) / 0.14) 0%, transparent 60%)" }}
       />
       <motion.div
         className="absolute w-[900px] h-[900px] rounded-full"
