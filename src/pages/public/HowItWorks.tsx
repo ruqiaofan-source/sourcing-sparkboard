@@ -257,7 +257,7 @@ export default function HowItWorks() {
           <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.08] mb-5">
             From Request{" "}
             <span className="bg-gradient-to-r from-primary to-[hsl(239,80%,75%)] bg-clip-text text-transparent">
-              to Delivery
+              to Doorstep
             </span>
           </h1>
 
@@ -273,7 +273,7 @@ export default function HowItWorks() {
             </Link>
             <Link to="/contact">
               <Button variant="outline" size="lg" className="rounded-full border-border/40 px-8 h-11 text-sm">
-                Talk to Us
+                Book a Demo
               </Button>
             </Link>
           </div>

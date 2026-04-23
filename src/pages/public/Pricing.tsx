@@ -301,7 +301,7 @@ export default function Pricing() {
               <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
                 <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
                   <Button variant="outline" size="lg" className="rounded-full border-border/60 px-8 h-12 text-base">
-                    Book a Call
+                    Book a Demo
                   </Button>
                 </motion.div>
               </a>
