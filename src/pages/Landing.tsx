@@ -57,12 +57,6 @@ function AnimatedGlow() {
         animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
-        className="absolute inset-0"
-        style={{ background: "linear-gradient(135deg, transparent 20%, hsl(var(--primary) / 0.07) 45%, hsl(var(--chart-2) / 0.05) 55%, transparent 80%)" }}
-        animate={{ opacity: [0.3, 0.7, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
     </div>
   );
 }
