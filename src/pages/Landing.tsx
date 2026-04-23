@@ -188,7 +188,7 @@ function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_co
       <section className="py-16 px-4 relative">
       <div className="max-w-5xl mx-auto relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-10">
-          <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">Trusted by SMEs</motion.span>
+          <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4 block">Trusted by SMEs</motion.span>
 
           <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground">What Our Clients Say</RevealHeading>
         </motion.div>
