@@ -25,7 +25,7 @@ function FloatingParticles() {
 
 export default function LandingFounder() {
   return (
-    <section className="py-18 px-4 relative">
+    <section className="py-12 px-4 relative">
       <FloatingParticles />
       <div className="max-w-5xl mx-auto relative z-10">
         <motion.div
@@ -43,7 +43,7 @@ export default function LandingFounder() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-8 sm:p-12 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden"
+          className="rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 relative overflow-hidden max-w-3xl mx-auto"
         >
           <div className="absolute -top-20 -left-20 w-60 h-60 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
           <motion.div className="shrink-0" whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
@@ -52,7 +52,7 @@ export default function LandingFounder() {
               alt="Ruqiao Fan, Founder and CEO of Equilinq sourcing platform"
               width={126}
               height={189}
-              className="w-32 h-44 rounded-2xl object-cover border border-border/40"
+              className="w-24 h-32 sm:w-28 sm:h-40 rounded-2xl object-cover border border-border/40"
               loading="lazy"
             />
             <a href="https://www.linkedin.com/in/ruqiao-fan-05379137a/" target="_blank" rel="noopener noreferrer" className="block text-center mt-3 text-xs text-muted-foreground font-medium hover:text-primary transition-colors">
@@ -65,9 +65,9 @@ export default function LandingFounder() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.3 }}
-              className="text-lg sm:text-xl text-foreground leading-relaxed font-heading font-medium italic"
+              className="text-base sm:text-lg text-foreground leading-relaxed font-heading font-medium italic"
             >
-              "We built Equilinq because European SMEs deserve the same China sourcing access that big corporations have -- without the risk, complexity, or hidden fees."
+              "We built Equilinq because European SMEs deserve the same China sourcing access that big corporations have — without the risk, complexity, or hidden fees."
             </motion.p>
           </div>
         </motion.div>
