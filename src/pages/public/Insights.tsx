@@ -6,6 +6,7 @@ import { SEOHead } from "@/components/SEOHead";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { ArrowRight } from "lucide-react";
 import { format } from "date-fns";
+import PageGlow from "@/components/PageGlow";
 
 const stagger = {
   hidden: {},
@@ -66,6 +67,7 @@ export default function Insights() {
         }}
       />
       <PublicNavbar />
+      <PageGlow />
 
       <section className="pt-32 pb-24 px-4 relative overflow-hidden">
         {/* Animated background glow */}

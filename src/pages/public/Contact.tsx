@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import {
+import PageGlow from "@/components/PageGlow";
   Mail,
   Calendar,
   Send,
@@ -137,6 +138,7 @@ export default function Contact() {
         }}
       />
       <PublicNavbar />
+      <PageGlow />
 
       {/* Hero section with animated background */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden">

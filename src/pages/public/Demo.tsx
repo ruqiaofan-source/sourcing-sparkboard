@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
+import PageGlow from "@/components/PageGlow";
 
 export default function Demo() {
   // Inject a prefetch link for the video so the browser starts downloading ASAP
@@ -52,6 +53,7 @@ export default function Demo() {
         }}
       />
       <PublicNavbar />
+      <PageGlow />
 
       <section className="pt-32 pb-12 px-4 text-center">
         <motion.div
