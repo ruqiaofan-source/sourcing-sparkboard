@@ -241,7 +241,14 @@ export default function LandingFeatureTabs() {
 
   return (
     <section id="features" className="py-18 px-4 relative">
-      <div className="max-w-6xl mx-auto relative z-10">
+      {/* Light-mode contrast wrapper */}
+      <div
+        className="max-w-6xl mx-auto relative z-10 rounded-3xl px-6 py-12 sm:px-10 sm:py-16"
+        style={{
+          background: "hsl(0 0% 98%)",
+          color: "hsl(240 10% 10%)",
+        }}
+      >
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -259,7 +266,7 @@ export default function LandingFeatureTabs() {
           >
             What We Do
           </motion.span>
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold" style={{ color: "hsl(240 10% 10%)" }}>
             End-to-End Sourcing<br />
             <span className="text-primary">from China</span>
           </h2>
@@ -273,11 +280,12 @@ export default function LandingFeatureTabs() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${  
                   isActive
                     ? "bg-primary/10 text-primary border border-primary/30 shadow-[0_0_20px_-6px_hsl(var(--primary)/0.3)]"
-                    : "text-muted-foreground hover:text-foreground border border-transparent hover:border-border/40 hover:bg-card/40"
+                    : "border border-transparent hover:border-primary/20 hover:bg-primary/5"
                 }`}
+                style={!isActive ? { color: "hsl(240 10% 40%)" } : undefined}
               >
                 <tab.icon className="h-4 w-4" />
                 <span className="hidden sm:inline">{tab.label}</span>
@@ -301,10 +309,10 @@ export default function LandingFeatureTabs() {
               <div className={`h-12 w-12 rounded-xl border flex items-center justify-center mb-5 ${active.iconBg}`}>
                 <active.icon className="h-6 w-6" />
               </div>
-              <h3 className="font-heading text-2xl sm:text-3xl font-bold text-foreground mb-3">
+              <h3 className="font-heading text-2xl sm:text-3xl font-bold mb-3" style={{ color: "hsl(240 10% 10%)" }}>
                 {active.headline}
               </h3>
-              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6">
+              <p className="text-sm sm:text-base leading-relaxed mb-6" style={{ color: "hsl(240 10% 35%)" }}>
                 {active.description}
               </p>
               <ul className="space-y-3 mb-8">
@@ -314,7 +322,8 @@ export default function LandingFeatureTabs() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.08, duration: 0.3 }}
-                    className="flex items-start gap-3 text-sm text-muted-foreground"
+                    className="flex items-start gap-3 text-sm"
+                    style={{ color: "hsl(240 10% 35%)" }}
                   >
                     <div className="h-6 w-6 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 mt-0.5">
                       <f.icon className="h-3.5 w-3.5 text-primary" />
@@ -337,14 +346,14 @@ export default function LandingFeatureTabs() {
             {/* Right: dashboard mockup */}
             <div className="relative">
               <div className={`absolute -inset-4 rounded-3xl bg-gradient-to-br ${active.accent} blur-2xl opacity-50 pointer-events-none`} />
-              <div className="relative rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-5 sm:p-6">
+              <div className="relative rounded-2xl border p-5 sm:p-6" style={{ borderColor: "hsl(240 10% 88%)", background: "hsl(0 0% 100%)" }}>
                 {/* Fake window chrome */}
                 <div className="flex items-center gap-1.5 mb-4">
-                  <div className="h-2.5 w-2.5 rounded-full bg-red-500/40" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/40" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-green-500/40" />
-                  <div className="flex-1 mx-3 h-5 rounded-md bg-muted/30 border border-border/20 flex items-center px-2">
-                    <span className="text-[9px] text-muted-foreground/50">equilinq.eu/dashboard</span>
+                  <div className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                  <div className="flex-1 mx-3 h-5 rounded-md flex items-center px-2" style={{ background: "hsl(240 10% 95%)", borderColor: "hsl(240 10% 90%)" }}>
+                    <span className="text-[9px]" style={{ color: "hsl(240 10% 55%)" }}>equilinq.eu/dashboard</span>
                   </div>
                 </div>
                 <active.mockup />
