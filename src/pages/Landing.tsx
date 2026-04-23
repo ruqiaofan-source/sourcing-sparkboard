@@ -302,13 +302,7 @@ export default function Landing() {
   ];
 
   return (
-    <div
-      className="min-h-screen text-foreground overflow-x-hidden"
-      style={{
-        background:
-          "radial-gradient(circle at 50% 18%, hsl(var(--primary) / 0.22) 0%, hsl(var(--primary) / 0.12) 22%, transparent 44%), radial-gradient(circle at 78% 42%, hsl(var(--primary) / 0.18) 0%, transparent 34%), linear-gradient(180deg, hsl(239 42% 10%) 0%, hsl(236 42% 9%) 45%, hsl(232 36% 7%) 100%)",
-      }}
-    >
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <SEOHead
         title="Equilinq - Sourcing from China for European SMEs"
         description="End-to-end sourcing, QC, customization and logistics from China. Transparent pricing, low MOQs, and dedicated support for European SMEs."
