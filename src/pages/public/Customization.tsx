@@ -297,7 +297,7 @@ export default function Customization() {
               Build It
             </motion.span>{" "}
             <motion.span
-              className="bg-gradient-to-r from-primary via-[hsl(260,80%,68%)] to-primary bg-clip-text text-transparent inline-block"
+              className="bg-gradient-to-r from-[hsl(239,100%,65%)] via-[hsl(280,80%,72%)] to-[hsl(239,100%,65%)] bg-clip-text text-transparent inline-block"
               initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
