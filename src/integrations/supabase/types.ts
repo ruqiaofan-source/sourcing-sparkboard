@@ -998,12 +998,14 @@ export type Database = {
           category: string
           created_at: string
           description: string | null
+          detailed_analysis: Json | null
           id: string
           image_url: string | null
           is_active: boolean
           name: string
           price_range: string | null
           scraped_at: string
+          slug: string | null
           source: string
           source_url: string | null
           trend_score: number
@@ -1013,12 +1015,14 @@ export type Database = {
           category?: string
           created_at?: string
           description?: string | null
+          detailed_analysis?: Json | null
           id?: string
           image_url?: string | null
           is_active?: boolean
           name: string
           price_range?: string | null
           scraped_at?: string
+          slug?: string | null
           source?: string
           source_url?: string | null
           trend_score?: number
@@ -1028,12 +1032,14 @@ export type Database = {
           category?: string
           created_at?: string
           description?: string | null
+          detailed_analysis?: Json | null
           id?: string
           image_url?: string | null
           is_active?: boolean
           name?: string
           price_range?: string | null
           scraped_at?: string
+          slug?: string | null
           source?: string
           source_url?: string | null
           trend_score?: number
