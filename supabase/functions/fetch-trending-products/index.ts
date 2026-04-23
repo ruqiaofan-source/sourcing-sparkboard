@@ -63,6 +63,7 @@ serve(async (req) => {
         if (searchRes.ok) {
           const searchData = await searchRes.json();
           console.log(`Firecrawl response keys for ${source.name}:`, Object.keys(searchData));
+          console.log(`Firecrawl data type: ${typeof searchData.data}, isArray: ${Array.isArray(searchData.data)}, length: ${searchData.data?.length}, sample: ${JSON.stringify(searchData.data?.[0])?.substring(0, 300)}`);
           // Firecrawl v2 search returns results under "data" (array) or sometimes "web"
           const results = Array.isArray(searchData.data)
             ? searchData.data
