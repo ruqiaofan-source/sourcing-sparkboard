@@ -72,16 +72,16 @@ const tabs = [
 function SourcingMockup() {
   return (
     <div className="space-y-3">
-      <div className="rounded-xl border border-border/50 bg-card/80 p-4">
+      <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
         <div className="flex items-center gap-2 mb-3">
           <div className="h-2 w-2 rounded-full bg-green-500" />
-          <span className="text-[11px] text-muted-foreground font-medium">New Sourcing Request</span>
+          <span className="text-[11px] font-medium" style={{ color: "hsl(240 10% 40%)" }}>New Sourcing Request</span>
         </div>
         <div className="space-y-2.5">
           {["Product Name", "Quantity", "Budget per Unit"].map((label) => (
             <div key={label} className="flex items-center gap-3">
-              <span className="text-[10px] text-muted-foreground w-24 shrink-0">{label}</span>
-              <div className="h-7 flex-1 rounded-md bg-muted/50 border border-border/30" />
+              <span className="text-[10px] w-24 shrink-0" style={{ color: "hsl(240 10% 45%)" }}>{label}</span>
+              <div className="h-7 flex-1 rounded-md" style={{ background: "hsl(0 0% 100%)", border: "1px solid hsl(240 10% 88%)" }} />
             </div>
           ))}
         </div>
@@ -91,17 +91,17 @@ function SourcingMockup() {
           </div>
         </div>
       </div>
-      <div className="rounded-xl border border-border/50 bg-card/80 p-4">
-        <span className="text-[11px] text-muted-foreground font-medium mb-2 block">Quote Comparison</span>
+      <div className="rounded-xl border p-4" style={{ borderColor: "hsl(240 10% 90%)", background: "hsl(240 10% 97%)" }}>
+        <span className="text-[11px] font-medium mb-2 block" style={{ color: "hsl(240 10% 40%)" }}>Quote Comparison</span>
         <div className="space-y-2">
           {[
             { factory: "Shenzhen Electronics Co.", cost: "EUR 4.20/unit", score: "9.2" },
             { factory: "Guangzhou Precision MFG", cost: "EUR 3.85/unit", score: "8.7" },
           ].map((q) => (
-            <div key={q.factory} className="flex items-center justify-between rounded-lg bg-muted/30 border border-border/20 px-3 py-2">
+            <div key={q.factory} className="flex items-center justify-between rounded-lg px-3 py-2" style={{ background: "hsl(0 0% 100%)", border: "1px solid hsl(240 10% 90%)" }}>
               <div>
-                <p className="text-[10px] font-medium text-card-foreground">{q.factory}</p>
-                <p className="text-[9px] text-muted-foreground">{q.cost}</p>
+                <p className="text-[10px] font-medium" style={{ color: "hsl(240 10% 15%)" }}>{q.factory}</p>
+                <p className="text-[9px]" style={{ color: "hsl(240 10% 45%)" }}>{q.cost}</p>
               </div>
               <span className="text-[10px] font-bold text-primary">{q.score}</span>
             </div>
