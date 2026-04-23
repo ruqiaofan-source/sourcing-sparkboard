@@ -18,7 +18,7 @@ export default function Privacy() {
 
       <main className="pt-32 pb-24 px-4">
         <article className="max-w-3xl mx-auto prose prose-sm prose-neutral dark:prose-invert">
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-2">Privacy Policy</h1>
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-2"><span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(260 80% 68%))" }}>Privacy</span> Policy</h1>
           <p className="text-sm text-muted-foreground mb-8">Last updated: 28 December 2025</p>
 
           <p>

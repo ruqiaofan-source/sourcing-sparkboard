@@ -90,12 +90,12 @@ export default function TrendingProducts() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4">
+              <span className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4">
                 <TrendingUp className="h-4 w-4" />
                 Updated Weekly
               </span>
               <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-5">
-                Top 10 Trending Products
+                Top 10 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(var(--primary)), hsl(260 80% 68%))" }}>Trending Products</span>
               </h1>
               <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto mb-6">
                 We scan TikTok Shop, Amazon, and major webshops every week to find the hottest
