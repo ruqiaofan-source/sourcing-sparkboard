@@ -46,7 +46,7 @@ export default function LandingBenefits() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
           <motion.span
             initial={{ opacity: 0, scale: 0.8 }}
@@ -57,7 +57,7 @@ export default function LandingBenefits() {
           >
             Benefits
           </motion.span>
-          <RevealHeading className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-[hsl(230_15%_12%)] dark:text-foreground">Why Choose Us?</RevealHeading>
+          <RevealHeading className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-[hsl(230_15%_12%)] dark:text-foreground">Why Choose Us?</RevealHeading>
           <p className="text-[hsl(230_10%_45%)] dark:text-muted-foreground mt-4 max-w-xl mx-auto">Source. Brand. QC and Logistics. Everything You Need.</p>
         </motion.div>
 
@@ -66,24 +66,24 @@ export default function LandingBenefits() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
         >
           {benefits.map((b) => (
             <motion.div
               key={b.title}
               variants={fadeUp}
               whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.2 } }}
-              className="group rounded-2xl border border-[hsl(230_20%_90%)] dark:border-border/40 bg-[hsl(230_25%_97%)] dark:bg-card/30 p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
+              className="group rounded-xl sm:rounded-2xl border border-[hsl(230_20%_90%)] dark:border-border/40 bg-[hsl(230_25%_97%)] dark:bg-card/30 p-4 sm:p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
             >
               <motion.div
                 whileHover={{ scale: 1.15, rotate: -8 }}
                 transition={{ type: "spring", stiffness: 400 }}
-                className="h-12 w-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors"
+                className="h-9 w-9 sm:h-12 sm:w-12 rounded-lg sm:rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-3 sm:mb-4 group-hover:bg-primary/20 transition-colors"
               >
-                <b.icon className="h-6 w-6 text-primary" strokeWidth={1.5} />
+                <b.icon className="h-4 w-4 sm:h-6 sm:w-6 text-primary" strokeWidth={1.5} />
               </motion.div>
-              <h3 className="font-heading text-base font-semibold text-[hsl(230_15%_12%)] dark:text-foreground mb-1.5">{b.title}</h3>
-              <p className="text-[hsl(230_10%_45%)] dark:text-muted-foreground text-sm leading-relaxed">{b.desc}</p>
+              <h3 className="font-heading text-sm sm:text-base font-semibold text-[hsl(230_15%_12%)] dark:text-foreground mb-1">{b.title}</h3>
+              <p className="text-[hsl(230_10%_45%)] dark:text-muted-foreground text-xs sm:text-sm leading-relaxed">{b.desc}</p>
             </motion.div>
           ))}
         </motion.div>
