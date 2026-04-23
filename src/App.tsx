@@ -115,11 +115,11 @@ function DashboardRouter() {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+    <BrowserRouter>
+      <ThemeProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
           <AuthProvider>
             <ScrollToTop />
             <Suspense fallback={<LazyFallback />}>
@@ -193,9 +193,9 @@ const App = () => (
               <CookieConsent />
             </Suspense>
           </AuthProvider>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
