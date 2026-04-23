@@ -39,29 +39,23 @@ function AnimatedGlow() {
         className="absolute inset-0 sm:block"
         style={{ background: "radial-gradient(circle 300px at 12% 18%, hsl(var(--primary) / 0.18) 0%, hsl(var(--primary) / 0.04) 50%, transparent 70%), radial-gradient(circle 280px at 88% 30%, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.03) 45%, transparent 65%), radial-gradient(circle 200px at 50% 8%, hsl(var(--primary) / 0.12) 0%, transparent 55%)" }}
       />
-      <motion.div
-        className="absolute w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] lg:w-[900px] lg:h-[900px] rounded-full"
+      <div
+        className="absolute w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] lg:w-[900px] lg:h-[900px] rounded-full animate-[glowDrift1_20s_ease-in-out_infinite]"
         style={{
           background: "radial-gradient(circle, hsl(var(--primary) / 0.14) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)",
-          top: "-25%", right: "-15%",
+          top: "-25%", right: "-15%", willChange: "transform",
         }}
-        animate={{ x: [0, 50, -30, 0], y: [0, -40, 30, 0], scale: [1, 1.05, 0.95, 1] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
-        className="absolute w-[400px] h-[400px] sm:w-[550px] sm:h-[550px] lg:w-[700px] lg:h-[700px] rounded-full"
+      <div
+        className="absolute w-[400px] h-[400px] sm:w-[550px] sm:h-[550px] lg:w-[700px] lg:h-[700px] rounded-full animate-[glowDrift2_25s_ease-in-out_infinite]"
         style={{
           background: "radial-gradient(circle, hsl(var(--primary) / 0.10) 0%, hsl(var(--primary) / 0.03) 45%, transparent 70%)",
-          bottom: "-15%", left: "-10%",
+          bottom: "-15%", left: "-10%", willChange: "transform",
         }}
-        animate={{ x: [0, -40, 30, 0], y: [0, 30, -40, 0], scale: [1, 0.95, 1.05, 1] }}
-        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
-        className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] lg:w-[500px] lg:h-[500px] rounded-full"
-        style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.08) 0%, transparent 55%)", top: "30%", left: "50%" }}
-        animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      <div
+        className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] lg:w-[500px] lg:h-[500px] rounded-full animate-[glowPulse_12s_ease-in-out_infinite]"
+        style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.08) 0%, transparent 55%)", top: "30%", left: "50%", willChange: "transform, opacity" }}
       />
     </div>
   );
