@@ -66,7 +66,7 @@ function MagneticButton({ children, className = "" }: { children: React.ReactNod
 
 export default function LandingCTA() {
   return (
-    <section className="py-28 px-4 relative">
+    <section className="py-18 px-4 relative">
       <AnimatedGlow />
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.96, filter: "blur(6px)" }}

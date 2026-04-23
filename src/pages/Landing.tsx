@@ -185,9 +185,9 @@ function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_co
   };
 
   return (
-    <section className="py-24 px-4 relative">
+      <section className="py-16 px-4 relative">
       <div className="max-w-5xl mx-auto relative z-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-10">
           <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">Trusted by SMEs</motion.span>
           <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground">What Our Clients Say</RevealHeading>
         </motion.div>
@@ -463,7 +463,7 @@ export default function Landing() {
       </section>
 
       {/* ───── STATS ───── */}
-      <section className="py-20 px-4 relative border-y border-border/10">
+      <section className="py-14 px-4 relative border-y border-border/10">
         <FloatingParticles />
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-12">
@@ -539,7 +539,7 @@ export default function Landing() {
       </Suspense>
 
       {/* ───── PRICING CTA ───── */}
-      <section className="py-20 px-4 relative">
+      <section className="py-14 px-4 relative">
         <FloatingParticles />
         <motion.div initial={{ opacity: 0, y: 20, scale: 0.97 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="max-w-3xl mx-auto text-center relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-4 block">Pricing</span>

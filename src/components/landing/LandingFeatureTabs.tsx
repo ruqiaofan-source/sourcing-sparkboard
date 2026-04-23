@@ -240,7 +240,7 @@ export default function LandingFeatureTabs() {
   const active = tabs.find((t) => t.id === activeTab)!;
 
   return (
-    <section id="features" className="py-28 px-4 relative">
+    <section id="features" className="py-18 px-4 relative">
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}
         <motion.div

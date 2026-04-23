@@ -25,7 +25,7 @@ function FloatingParticles() {
 
 export default function LandingFounder() {
   return (
-    <section className="py-28 px-4 relative">
+    <section className="py-18 px-4 relative">
       <FloatingParticles />
       <div className="max-w-5xl mx-auto relative z-10">
         <motion.div
