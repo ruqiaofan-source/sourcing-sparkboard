@@ -37,26 +37,9 @@ function RevealHeading({ children, className = "" }: { children: string; classNa
   );
 }
 
-function AnimatedGlow() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <motion.div
-        className="absolute w-[900px] h-[900px] rounded-full"
-        style={{
-          background: "radial-gradient(circle, hsl(var(--primary) / 0.16) 0%, hsl(var(--primary) / 0.07) 42%, transparent 72%)",
-          top: "-25%", right: "-15%",
-        }}
-        animate={{ x: [0, 50, -30, 0], y: [0, -40, 30, 0], scale: [1, 1.05, 0.95, 1] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      />
-    </div>
-  );
-}
-
 export default function LandingBenefits() {
   return (
-    <section id="benefits" className="py-18 px-4 relative bg-white dark:bg-[hsl(230_8%_6%)]">
-      <AnimatedGlow />
+    <section id="benefits" className="py-18 px-4 relative bg-white dark:bg-[hsl(230_8%_4%)]">
       <div className="max-w-5xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -74,8 +57,8 @@ export default function LandingBenefits() {
           >
             Benefits
           </motion.span>
-          <RevealHeading className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">Why Choose Us?</RevealHeading>
-          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">Source. Brand. QC and Logistics. Everything You Need.</p>
+          <RevealHeading className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-[hsl(230_15%_12%)] dark:text-foreground">Why Choose Us?</RevealHeading>
+          <p className="text-[hsl(230_10%_45%)] dark:text-muted-foreground mt-4 max-w-xl mx-auto">Source. Brand. QC and Logistics. Everything You Need.</p>
         </motion.div>
 
         <motion.div
@@ -90,7 +73,7 @@ export default function LandingBenefits() {
               key={b.title}
               variants={fadeUp}
               whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.2 } }}
-              className="group rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-6 hover:border-primary/20 hover:bg-card/60 transition-all duration-300"
+              className="group rounded-2xl border border-[hsl(230_20%_90%)] dark:border-border/40 bg-[hsl(230_25%_97%)] dark:bg-card/30 p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
             >
               <motion.div
                 whileHover={{ scale: 1.15, rotate: -8 }}
@@ -99,8 +82,8 @@ export default function LandingBenefits() {
               >
                 <b.icon className="h-6 w-6 text-primary" strokeWidth={1.5} />
               </motion.div>
-              <h3 className="font-heading text-base font-semibold text-foreground mb-1.5">{b.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{b.desc}</p>
+              <h3 className="font-heading text-base font-semibold text-[hsl(230_15%_12%)] dark:text-foreground mb-1.5">{b.title}</h3>
+              <p className="text-[hsl(230_10%_45%)] dark:text-muted-foreground text-sm leading-relaxed">{b.desc}</p>
             </motion.div>
           ))}
         </motion.div>
