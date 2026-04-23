@@ -11,10 +11,14 @@ const ThemeContext = createContext<ThemeContextType>({ theme: "dark", toggleThem
 
 export const useTheme = () => useContext(ThemeContext);
 
+const THEME_KEY = "equilinq-theme-v2";
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("equilinq-theme") as Theme) || "dark";
+      localStorage.removeItem("equilinq-theme");
+      const stored = localStorage.getItem(THEME_KEY) as Theme | null;
+      return (stored === "dark" || stored === "light") ? stored : "dark";
     }
     return "dark";
   });
@@ -26,7 +30,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } else {
       root.classList.remove("light");
     }
-    localStorage.setItem("equilinq-theme", theme);
+    localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
   const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
