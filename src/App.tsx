@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -62,6 +62,27 @@ const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Unsubscribe = lazy(() => import("./pages/Unsubscribe"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const CookieConsent = lazy(() => import("./components/CookieConsent").then(m => ({ default: m.CookieConsent })));
+
+// Defer CookieConsent until the browser is idle so it doesn't compete with LCP/critical JS.
+function DeferredCookieConsent() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const w = window as unknown as { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number };
+    const trigger = () => setShow(true);
+    if (typeof w.requestIdleCallback === "function") {
+      w.requestIdleCallback(trigger, { timeout: 4000 });
+    } else {
+      const t = setTimeout(trigger, 2500);
+      return () => clearTimeout(t);
+    }
+  }, []);
+  if (!show) return null;
+  return (
+    <Suspense fallback={null}>
+      <CookieConsent />
+    </Suspense>
+  );
+}
 const AddressManagement = lazy(() => import("./pages/customer/AddressManagement"));
 const HelpSupport = lazy(() => import("./pages/customer/HelpSupport"));
 const CustomerOrderTracking = lazy(() => import("./pages/customer/CustomerOrderTracking"));
@@ -191,7 +212,7 @@ const App = () => (
                 
                 <Route path="*" element={<NotFound />} />
               </Routes>
-              <CookieConsent />
+              <DeferredCookieConsent />
             </Suspense>
           </AuthProvider>
         </BrowserRouter>
