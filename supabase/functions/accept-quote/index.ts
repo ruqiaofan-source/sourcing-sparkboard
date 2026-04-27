@@ -184,6 +184,32 @@ Deno.serve(async (req) => {
       }
     }
 
+    // Notify admin that a quote was accepted (and invoice issued)
+    try {
+      await admin.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "admin-notification",
+          recipientEmail: "admin@equilinq.eu",
+          idempotencyKey: `admin-quote-accepted-${invoiceNumber}`,
+          templateData: {
+            eventType: "quote_accepted",
+            title: "Quote accepted — invoice issued",
+            summary: `${user.email || "A customer"} accepted a quote for "${request.title}".`,
+            details: {
+              "Invoice #": invoiceNumber,
+              "Order #": orderNumber,
+              Amount: `${invoiceTotal.toFixed(2)} ${quote.currency}`,
+              Product: request.title,
+              Customer: user.email,
+            },
+            link: `${req.headers.get("origin") || "https://equilinq.eu"}/admin/requests`,
+          },
+        },
+      });
+    } catch (notifyErr) {
+      console.error("Failed to send admin acceptance notification:", notifyErr);
+    }
+
     return new Response(JSON.stringify({
       success: true,
       order_id: orderData?.id,
