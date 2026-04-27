@@ -208,6 +208,32 @@ const AgentRequestDetail = () => {
         type: "quote_ready",
         link: `/sourcing-requests/${id}`,
       } as any);
+
+      // Notify admin of new quote
+      try {
+        await supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "admin-notification",
+            recipientEmail: "admin@equilinq.eu",
+            idempotencyKey: `admin-new-quote-${id}-${user!.id}-${Date.now()}`,
+            templateData: {
+              eventType: "new_quote",
+              title: "New quote submitted by agent",
+              summary: `An agent submitted a quote for "${request.title}".`,
+              details: {
+                Request: request.title,
+                Factory: quote.factory_name,
+                "Total cost": `${totalCost} ${request?.currency || "USD"}`,
+                MOQ: quote.moq,
+                "Delivery (days)": quote.delivery_time_days,
+              },
+              link: `${window.location.origin}/admin/requests`,
+            },
+          },
+        });
+      } catch (notifyErr) {
+        console.error("Failed to send admin quote notification:", notifyErr);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["request-quotes", id] });

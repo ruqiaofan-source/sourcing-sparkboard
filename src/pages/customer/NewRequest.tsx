@@ -200,6 +200,32 @@ const NewRequest = () => {
         service_addons: selectedAddons,
       } as any);
       if (error) throw error;
+
+      // Notify admin of new sourcing request
+      try {
+        await supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "admin-notification",
+            recipientEmail: "admin@equilinq.eu",
+            idempotencyKey: `admin-new-request-${user.id}-${Date.now()}`,
+            templateData: {
+              eventType: "new_sourcing_request",
+              title: "New sourcing request submitted",
+              summary: `${user.email || "A customer"} submitted a new sourcing request.`,
+              details: {
+                Title: form.title,
+                Quantity: form.quantity,
+                "Budget per unit": `${form.budget_per_unit} ${form.currency}`,
+                "Customer email": user.email,
+              },
+              link: `${window.location.origin}/admin/requests`,
+            },
+          },
+        });
+      } catch (notifyErr) {
+        console.error("Failed to send admin request notification:", notifyErr);
+      }
+
       setSubmitted(true);
     } catch (err: any) {
       toast({ title: "Error", description: err.message, variant: "destructive" });

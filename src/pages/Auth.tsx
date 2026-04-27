@@ -89,6 +89,33 @@ const AuthPage = () => {
         });
         if (error) throw error;
 
+        // Notify admin of new signup (fire-and-forget)
+        try {
+          const newUserId = data.user?.id || email;
+          await supabase.functions.invoke("send-transactional-email", {
+            body: {
+              templateName: "admin-notification",
+              recipientEmail: "admin@equilinq.eu",
+              idempotencyKey: `admin-new-signup-${newUserId}`,
+              templateData: {
+                eventType: "new_signup",
+                title: "New customer registered",
+                summary: `${fullName || email} just signed up on Equilinq.`,
+                details: {
+                  Name: fullName,
+                  Email: email,
+                  Phone: phone,
+                  Area: areaOfResidence,
+                  Address: deliveryAddress,
+                },
+                link: `${window.location.origin}/admin/users`,
+              },
+            },
+          });
+        } catch (notifyErr) {
+          console.error("Failed to send admin signup notification:", notifyErr);
+        }
+
         setEmailSentType("signup");
         setEmailSent(true);
       } else {
