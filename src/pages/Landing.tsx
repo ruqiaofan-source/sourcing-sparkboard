@@ -333,6 +333,17 @@ export default function Landing() {
                 serviceType: "Product Sourcing and Procurement",
                 sameAs: ["https://www.linkedin.com/company/equilinq"],
                 contactPoint: { "@type": "ContactPoint", contactType: "customer service", url: "https://equilinq.eu/contact", availableLanguage: ["English", "Dutch", "Chinese"] },
+                ...(trustpilotStats && trustpilotStats.review_count > 0
+                  ? {
+                      aggregateRating: {
+                        "@type": "AggregateRating",
+                        ratingValue: trustpilotStats.average_rating,
+                        reviewCount: trustpilotStats.review_count,
+                        bestRating: 5,
+                        worstRating: 1,
+                      },
+                    }
+                  : {}),
               },
               {
                 "@type": "Service", name: "China Sourcing for European SMEs",
