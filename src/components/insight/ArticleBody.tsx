@@ -9,7 +9,7 @@ export function ArticleBody({ content }: ArticleBodyProps) {
   if (!content) return null;
 
   return (
-    <article className="px-6 sm:px-8 pb-20">
+    <div className="px-6 sm:px-8 pb-20">
       <motion.div
         className="max-w-2xl mx-auto"
         initial={{ opacity: 0, y: 16 }}
@@ -123,6 +123,6 @@ export function ArticleBody({ content }: ArticleBodyProps) {
           </ReactMarkdown>
         </div>
       </motion.div>
-    </article>
+    </div>
   );
 }

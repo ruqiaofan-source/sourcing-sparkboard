@@ -263,6 +263,21 @@ export default function Customization() {
           serviceType: "Product Customization and Branding",
         }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              { "@type": "Question", name: "What customization options does Equilinq offer?", acceptedAnswer: { "@type": "Answer", text: "Over 60 options across brand assets, branding and labeling, apparel finishing, product packaging, parcel reinforcement, photography and media, quality inspection, and full OEM/ODM manufacturing." } },
+              { "@type": "Question", name: "Can I get custom packaging with low MOQs?", acceptedAnswer: { "@type": "Answer", text: "Yes. Custom branded boxes, inserts, hangtags, and polybags are available from MOQs as low as 100-500 units depending on print method and material." } },
+              { "@type": "Question", name: "Do you handle private label and white label?", acceptedAnswer: { "@type": "Answer", text: "Yes. We manage logo placement, label sewing, custom prints, and branded packaging. Your products ship ready for retail or e-commerce under your own brand." } },
+              { "@type": "Question", name: "How is customization pricing structured?", acceptedAnswer: { "@type": "Answer", text: "Each customization line item is quoted transparently with factory cost, materials, and a small handling fee. There are no hidden markups - you see the same breakdown we negotiate with the factory." } },
+            ],
+          }),
+        }}
+      />
       <PublicNavbar />
       <PageGlow />
 
