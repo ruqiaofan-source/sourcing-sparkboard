@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import equilinqLogo from "@/assets/equilinq-logo.webp";
 import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
 import { useTheme } from "@/hooks/useTheme";
+import { SEOHead } from "@/components/SEOHead";
 
 const ResetPassword = () => {
   const { theme } = useTheme();
@@ -96,6 +97,7 @@ const ResetPassword = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background relative overflow-hidden p-4">
+      <SEOHead title="Reset Password - Equilinq" description="Set a new password for your Equilinq account." noindex />
       <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--glow-blue)" }} />
       <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
