@@ -106,9 +106,10 @@ export default function InsightArticle() {
 
       <PublicNavbar />
 
-      <ArticleHero article={article} readTime={readTime} />
-
-      <ArticleBody content={cleanedContent} />
+      <article>
+        <ArticleHero article={article} readTime={readTime} />
+        <ArticleBody content={cleanedContent} />
+      </article>
 
       <RelatedServiceLinks tag={article.tag} />
 
