@@ -373,6 +373,7 @@ export function PublicFooter() {
             <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Resources</h3>
             <nav className="flex flex-col gap-2" aria-label="Resources">
               <Link to="/insights" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Insights & Blog</Link>
+              <Link to="/sourcing-guide" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Sourcing Guide</Link>
               <Link to="/contact" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link>
               <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Book a Demo</a>
               <Link to="/auth?signup=true" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Get Started</Link>
