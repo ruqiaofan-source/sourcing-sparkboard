@@ -147,7 +147,7 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-screen flex bg-background relative overflow-hidden">
-      <SEOHead title="Sign In - Equilinq Sourcing Platform" description="Sign in or create your Equilinq account. Access verified Chinese manufacturers, transparent pricing, and end-to-end sourcing." />
+      <SEOHead title="Sign In - Equilinq Sourcing Platform" description="Sign in or create your Equilinq account. Access verified Chinese manufacturers, transparent pricing, and end-to-end sourcing." noindex />
       {/* Background effects */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--glow-blue)" }} />
       <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--glow-streak)" }} />
