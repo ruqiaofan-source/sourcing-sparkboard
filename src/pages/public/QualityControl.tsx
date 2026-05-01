@@ -49,6 +49,21 @@ export default function QualityControl() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              { "@type": "Question", name: "What does Equilinq's quality control process include?", acceptedAnswer: { "@type": "Answer", text: "Three stages: pre-production sample validation, in-process monitoring during manufacturing, and final pre-shipment inspection. Every stage is documented with photos and a written report." } },
+              { "@type": "Question", name: "Do I receive photo and video documentation?", acceptedAnswer: { "@type": "Answer", text: "Yes. Every inspection includes high-resolution photos, video walkthroughs of the production line where applicable, and a structured QC report delivered before goods are shipped." } },
+              { "@type": "Question", name: "What happens if defects are found?", acceptedAnswer: { "@type": "Answer", text: "Goods are not shipped until issues are resolved. We coordinate rework with the factory, re-inspect at no extra cost, and only release the order once quality criteria are met." } },
+              { "@type": "Question", name: "Is QC included in the price or extra?", acceptedAnswer: { "@type": "Answer", text: "Standard pre-shipment QC is included on every Equilinq order. Detailed inspections, electrical testing, and on-site audits are available as optional add-ons with transparent pricing." } },
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
             "@type": "Service",
             name: "Quality Control - Equilinq",
             url: "https://equilinq.eu/quality-control",

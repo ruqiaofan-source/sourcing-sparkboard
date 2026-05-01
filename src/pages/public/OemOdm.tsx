@@ -49,6 +49,21 @@ export default function OemOdm() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              { "@type": "Question", name: "What is the difference between OEM and ODM?", acceptedAnswer: { "@type": "Answer", text: "OEM (Original Equipment Manufacturing) means we produce your existing product design under your brand. ODM (Original Design Manufacturing) means the factory's existing design is customized and rebranded for you, which is faster and lower cost." } },
+              { "@type": "Question", name: "What is the minimum order quantity for OEM/ODM?", acceptedAnswer: { "@type": "Answer", text: "MOQs depend on the product and tooling but typically start from 100-500 units for ODM and 300-1,000 units for OEM. We negotiate flexible MOQs with our network of partner factories." } },
+              { "@type": "Question", name: "How long does OEM/ODM development take?", acceptedAnswer: { "@type": "Answer", text: "ODM projects typically take 3-6 weeks from sample to bulk delivery. Full OEM with custom tooling typically takes 8-14 weeks depending on complexity." } },
+              { "@type": "Question", name: "Do you protect my IP and design files?", acceptedAnswer: { "@type": "Answer", text: "Yes. We sign NNN agreements (Non-Disclosure, Non-Use, Non-Circumvention) with every factory before sharing designs, and we recommend registering your trademark in China." } },
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
             "@type": "Service",
             name: "OEM / ODM Manufacturing - Equilinq",
             url: "https://equilinq.eu/oem-odm",
