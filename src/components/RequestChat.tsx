@@ -53,12 +53,24 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
         { event: "*", schema: "public", table: "messages", filter: `sourcing_request_id=eq.${requestId}` },
         () => {
           queryClient.invalidateQueries({ queryKey: ["request-messages", requestId] });
+          // New message arrived while viewing — mark as read
+          supabase.rpc("mark_request_read" as any, { _request_id: requestId }).then(() => {
+            queryClient.invalidateQueries({ queryKey: ["unread-message-counts"] });
+          });
         }
       )
       .subscribe();
 
     return () => { supabase.removeChannel(channel); };
   }, [requestId, queryClient]);
+
+  // Mark request as read when chat is opened / messages first load
+  useEffect(() => {
+    if (!user || !requestId) return;
+    supabase.rpc("mark_request_read" as any, { _request_id: requestId }).then(() => {
+      queryClient.invalidateQueries({ queryKey: ["unread-message-counts"] });
+    });
+  }, [user, requestId, messages.length, queryClient]);
 
   // Auto scroll
   useEffect(() => {
