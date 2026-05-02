@@ -104,7 +104,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
             .maybeSingle();
 
           if (req?.user_id && req.user_id !== user!.id) {
-            const [{ data: recipient }, { data: sender }] = await Promise.all([
+            const [{ data: recipient }, { data: sender }, { data: prefs }] = await Promise.all([
               supabase
                 .from("profiles")
                 .select("email, display_name, full_name")
@@ -115,9 +115,17 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                 .select("display_name, full_name")
                 .eq("user_id", user!.id)
                 .maybeSingle(),
+              supabase
+                .from("notification_preferences" as any)
+                .select("message_email")
+                .eq("user_id", req.user_id)
+                .maybeSingle(),
             ]);
 
-            if (recipient?.email) {
+            // Default to email-on if no preferences row exists yet
+            const emailAllowed = (prefs as any)?.message_email ?? true;
+
+            if (recipient?.email && emailAllowed) {
               const preview = content.length > 240 ? content.slice(0, 240) + "..." : content;
               const senderName =
                 (sender as any)?.display_name ||
