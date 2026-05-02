@@ -266,6 +266,7 @@ const SourcingRequests = () => {
               const StatusIcon = sc.icon;
               const dateStr = new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
               const currentStep = sc.step;
+              const unread = unreadByRequest.get(item.requestId) || 0;
 
               return (
                 <motion.div
@@ -276,7 +277,7 @@ const SourcingRequests = () => {
                 >
                   <Link
                     to={`/sourcing-requests/${item.requestId}`}
-                    className={`group block rounded-xl border border-border bg-card shadow-[var(--shadow-card)] overflow-hidden transition-all hover:shadow-lg hover:border-primary/30 border-l-[3px] ${sc.accent}`}
+                    className={`group relative block rounded-xl border border-border bg-card shadow-[var(--shadow-card)] overflow-hidden transition-all hover:shadow-lg hover:border-primary/30 border-l-[3px] ${sc.accent} ${unread > 0 ? "ring-1 ring-primary/40" : ""}`}
                   >
                     <div className="p-5">
                       {/* Top: status + date */}
@@ -285,7 +286,15 @@ const SourcingRequests = () => {
                           <StatusIcon className="h-3 w-3" />
                           {sc.label}
                         </span>
-                        <span className="text-[11px] text-muted-foreground">{dateStr}</span>
+                        <div className="flex items-center gap-2">
+                          {unread > 0 && (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow-sm">
+                              <MessageCircle className="h-3 w-3" />
+                              {unread} new
+                            </span>
+                          )}
+                          <span className="text-[11px] text-muted-foreground">{dateStr}</span>
+                        </div>
                       </div>
 
                       {/* Title */}
