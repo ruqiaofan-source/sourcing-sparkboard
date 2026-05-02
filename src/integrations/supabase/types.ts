@@ -499,6 +499,7 @@ export type Database = {
         Row: {
           content: string
           created_at: string
+          edited_at: string | null
           id: string
           sender_id: string
           sourcing_request_id: string
@@ -506,6 +507,7 @@ export type Database = {
         Insert: {
           content: string
           created_at?: string
+          edited_at?: string | null
           id?: string
           sender_id: string
           sourcing_request_id: string
@@ -513,6 +515,7 @@ export type Database = {
         Update: {
           content?: string
           created_at?: string
+          edited_at?: string | null
           id?: string
           sender_id?: string
           sourcing_request_id?: string
