@@ -50,7 +50,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
       .channel(`chat-${requestId}`)
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages", filter: `sourcing_request_id=eq.${requestId}` },
+        { event: "*", schema: "public", table: "messages", filter: `sourcing_request_id=eq.${requestId}` },
         () => {
           queryClient.invalidateQueries({ queryKey: ["request-messages", requestId] });
         }
