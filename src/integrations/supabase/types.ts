@@ -495,6 +495,30 @@ export type Database = {
           },
         ]
       }
+      message_reads: {
+        Row: {
+          id: string
+          last_read_at: string
+          sourcing_request_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          last_read_at?: string
+          sourcing_request_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          last_read_at?: string
+          sourcing_request_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           content: string
@@ -1102,6 +1126,13 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
+      get_unread_message_counts: {
+        Args: never
+        Returns: {
+          sourcing_request_id: string
+          unread_count: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1109,6 +1140,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      mark_request_read: { Args: { _request_id: string }; Returns: undefined }
       move_to_dlq: {
         Args: {
           dlq_name: string
