@@ -8,8 +8,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { User, Lock, Mail, Loader2, Save, MapPin, Phone } from "lucide-react";
+import { User, Lock, Mail, Loader2, Save, MapPin, Phone, Bell, MessageSquare, Smartphone, BellRing } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 
 const Settings = () => {
   const { user, signOut } = useAuth();
@@ -23,6 +24,12 @@ const Settings = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Notification preferences state
+  const [prefEmail, setPrefEmail] = useState(true);
+  const [prefInApp, setPrefInApp] = useState(true);
+  const [prefSms, setPrefSms] = useState(false);
+  const [prefPush, setPrefPush] = useState(false);
 
   const { data: profile, isLoading } = useQuery({
     queryKey: ["profile"],
@@ -43,6 +50,54 @@ const Settings = () => {
       return data;
     },
     enabled: !!user,
+  });
+
+  // Load notification preferences (auto-create defaults on first visit)
+  useQuery({
+    queryKey: ["notification-preferences", user?.id],
+    queryFn: async () => {
+      if (!user) return null;
+      const { data, error } = await supabase
+        .from("notification_preferences" as any)
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (error) throw error;
+      if (data) {
+        setPrefEmail((data as any).message_email);
+        setPrefInApp((data as any).message_in_app);
+        setPrefSms((data as any).message_sms);
+        setPrefPush((data as any).message_push);
+      }
+      return data;
+    },
+    enabled: !!user,
+  });
+
+  const saveNotifications = useMutation({
+    mutationFn: async () => {
+      if (!user) return;
+      const { error } = await supabase
+        .from("notification_preferences" as any)
+        .upsert(
+          {
+            user_id: user.id,
+            message_email: prefEmail,
+            message_in_app: prefInApp,
+            message_sms: prefSms,
+            message_push: prefPush,
+          } as any,
+          { onConflict: "user_id" }
+        );
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notification-preferences", user?.id] });
+      toast({ title: "Preferences saved", description: "Your notification settings have been updated." });
+    },
+    onError: (err: any) => {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    },
   });
 
   const updateProfile = useMutation({
