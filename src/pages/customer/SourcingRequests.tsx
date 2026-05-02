@@ -4,6 +4,7 @@ import { DashboardLayout } from "@/components/DashboardLayout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Plus, CheckCircle, Package, Truck, Clock, ArrowRight, DollarSign, MapPin, FileText, Factory, Eye } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -94,6 +95,21 @@ const SourcingRequests = () => {
     },
     enabled: !!user,
   });
+
+  // Unread message counts per sourcing request
+  const { data: unreadRows = [] } = useQuery({
+    queryKey: ["unread-message-counts", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("get_unread_message_counts" as any);
+      if (error) throw error;
+      return (data || []) as Array<{ sourcing_request_id: string; unread_count: number }>;
+    },
+    enabled: !!user,
+  });
+  const unreadByRequest = new Map<string, number>();
+  for (const row of unreadRows) {
+    unreadByRequest.set(row.sourcing_request_id, Number(row.unread_count) || 0);
+  }
 
   const isLoading = loadingRequests || loadingOrders;
 
