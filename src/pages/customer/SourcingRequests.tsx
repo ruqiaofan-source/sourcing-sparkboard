@@ -4,6 +4,7 @@ import { DashboardLayout } from "@/components/DashboardLayout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Plus, CheckCircle, Package, Truck, Clock, ArrowRight, DollarSign, MapPin, FileText, Factory, Eye } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -94,6 +95,21 @@ const SourcingRequests = () => {
     },
     enabled: !!user,
   });
+
+  // Unread message counts per sourcing request
+  const { data: unreadRows = [] } = useQuery({
+    queryKey: ["unread-message-counts", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("get_unread_message_counts" as any);
+      if (error) throw error;
+      return (data || []) as Array<{ sourcing_request_id: string; unread_count: number }>;
+    },
+    enabled: !!user,
+  });
+  const unreadByRequest = new Map<string, number>();
+  for (const row of unreadRows) {
+    unreadByRequest.set(row.sourcing_request_id, Number(row.unread_count) || 0);
+  }
 
   const isLoading = loadingRequests || loadingOrders;
 
@@ -250,6 +266,7 @@ const SourcingRequests = () => {
               const StatusIcon = sc.icon;
               const dateStr = new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
               const currentStep = sc.step;
+              const unread = unreadByRequest.get(item.requestId) || 0;
 
               return (
                 <motion.div
@@ -260,7 +277,7 @@ const SourcingRequests = () => {
                 >
                   <Link
                     to={`/sourcing-requests/${item.requestId}`}
-                    className={`group block rounded-xl border border-border bg-card shadow-[var(--shadow-card)] overflow-hidden transition-all hover:shadow-lg hover:border-primary/30 border-l-[3px] ${sc.accent}`}
+                    className={`group relative block rounded-xl border border-border bg-card shadow-[var(--shadow-card)] overflow-hidden transition-all hover:shadow-lg hover:border-primary/30 border-l-[3px] ${sc.accent} ${unread > 0 ? "ring-1 ring-primary/40" : ""}`}
                   >
                     <div className="p-5">
                       {/* Top: status + date */}
@@ -269,7 +286,15 @@ const SourcingRequests = () => {
                           <StatusIcon className="h-3 w-3" />
                           {sc.label}
                         </span>
-                        <span className="text-[11px] text-muted-foreground">{dateStr}</span>
+                        <div className="flex items-center gap-2">
+                          {unread > 0 && (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow-sm">
+                              <MessageCircle className="h-3 w-3" />
+                              {unread} new
+                            </span>
+                          )}
+                          <span className="text-[11px] text-muted-foreground">{dateStr}</span>
+                        </div>
                       </div>
 
                       {/* Title */}
