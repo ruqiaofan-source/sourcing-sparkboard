@@ -229,6 +229,89 @@ const Settings = () => {
           </div>
         </motion.div>
 
+        {/* Notifications Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="rounded-xl border border-border bg-card p-6 shadow-[var(--shadow-card)]"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Bell className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h3 className="font-heading font-semibold text-card-foreground">Notifications</h3>
+              <p className="text-xs text-muted-foreground">Choose how you want to be notified about new messages on your active sourcing requests</p>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            {/* Email */}
+            <div className="flex items-center justify-between p-4 rounded-lg bg-muted/30 border border-border/50">
+              <div className="flex items-start gap-3">
+                <Mail className="h-4 w-4 text-primary mt-0.5" />
+                <div>
+                  <p className="text-sm text-card-foreground font-medium">Email</p>
+                  <p className="text-xs text-muted-foreground">Receive an email at {user?.email || "your account email"}</p>
+                </div>
+              </div>
+              <Switch checked={prefEmail} onCheckedChange={setPrefEmail} />
+            </div>
+
+            {/* In-app */}
+            <div className="flex items-center justify-between p-4 rounded-lg bg-muted/30 border border-border/50">
+              <div className="flex items-start gap-3">
+                <MessageSquare className="h-4 w-4 text-primary mt-0.5" />
+                <div>
+                  <p className="text-sm text-card-foreground font-medium">In-app</p>
+                  <p className="text-xs text-muted-foreground">Show unread badges and toasts inside the dashboard</p>
+                </div>
+              </div>
+              <Switch checked={prefInApp} onCheckedChange={setPrefInApp} />
+            </div>
+
+            {/* SMS — coming soon */}
+            <div className="flex items-center justify-between p-4 rounded-lg bg-muted/30 border border-border/50 opacity-70">
+              <div className="flex items-start gap-3">
+                <Smartphone className="h-4 w-4 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm text-card-foreground font-medium flex items-center gap-2">
+                    SMS
+                    <span className="text-[10px] uppercase tracking-wide rounded-full bg-muted px-2 py-0.5 text-muted-foreground border border-border">Coming soon</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground">Text messages to your verified phone number</p>
+                </div>
+              </div>
+              <Switch checked={prefSms} onCheckedChange={setPrefSms} disabled />
+            </div>
+
+            {/* Push — coming soon */}
+            <div className="flex items-center justify-between p-4 rounded-lg bg-muted/30 border border-border/50 opacity-70">
+              <div className="flex items-start gap-3">
+                <BellRing className="h-4 w-4 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm text-card-foreground font-medium flex items-center gap-2">
+                    Push
+                    <span className="text-[10px] uppercase tracking-wide rounded-full bg-muted px-2 py-0.5 text-muted-foreground border border-border">Coming soon</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground">Browser and mobile push notifications</p>
+                </div>
+              </div>
+              <Switch checked={prefPush} onCheckedChange={setPrefPush} disabled />
+            </div>
+
+            <Button
+              onClick={() => saveNotifications.mutate()}
+              disabled={saveNotifications.isPending}
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              {saveNotifications.isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />}
+              Save Preferences
+            </Button>
+          </div>
+        </motion.div>
+
         {/* Password Section */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
