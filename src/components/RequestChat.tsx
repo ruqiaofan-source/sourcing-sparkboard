@@ -69,12 +69,72 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
 
   const sendMessage = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase.from("messages" as any).insert({
-        sourcing_request_id: requestId,
-        sender_id: user!.id,
-        content: msg.trim(),
-      } as any);
+      const content = msg.trim();
+      const { data: inserted, error } = await supabase
+        .from("messages" as any)
+        .insert({
+          sourcing_request_id: requestId,
+          sender_id: user!.id,
+          content,
+        } as any)
+        .select("id")
+        .single();
       if (error) throw error;
+
+      // If the sender is the agent/admin (not the customer who owns the request),
+      // notify the customer by email. Fire-and-forget; failures shouldn't block the chat.
+      if (!isCustomer) {
+        try {
+          const { data: req } = await supabase
+            .from("sourcing_requests")
+            .select("title, user_id")
+            .eq("id", requestId)
+            .maybeSingle();
+
+          if (req?.user_id && req.user_id !== user!.id) {
+            const [{ data: recipient }, { data: sender }] = await Promise.all([
+              supabase
+                .from("profiles")
+                .select("email, display_name, full_name")
+                .eq("user_id", req.user_id)
+                .maybeSingle(),
+              supabase
+                .from("profiles")
+                .select("display_name, full_name")
+                .eq("user_id", user!.id)
+                .maybeSingle(),
+            ]);
+
+            if (recipient?.email) {
+              const preview = content.length > 240 ? content.slice(0, 240) + "..." : content;
+              const senderName =
+                (sender as any)?.display_name ||
+                (sender as any)?.full_name ||
+                "Your sourcing agent";
+              const recipientName =
+                (recipient as any)?.display_name || (recipient as any)?.full_name || undefined;
+
+              await supabase.functions.invoke("send-transactional-email", {
+                body: {
+                  templateName: "new-message",
+                  recipientEmail: (recipient as any).email,
+                  idempotencyKey: `new-message-${(inserted as any).id}`,
+                  templateData: {
+                    recipientName,
+                    senderName,
+                    requestTitle: (req as any).title,
+                    messagePreview: preview,
+                    conversationUrl: `https://equilinq.eu/messages`,
+                  },
+                },
+              });
+            }
+          }
+        } catch (e) {
+          // Don't fail the message send if the email notification fails.
+          console.warn("New-message email notification failed", e);
+        }
+      }
     },
     onSuccess: () => {
       setMsg("");
