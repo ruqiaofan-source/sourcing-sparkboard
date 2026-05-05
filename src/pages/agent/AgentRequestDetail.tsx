@@ -97,12 +97,21 @@ const AgentRequestDetail = () => {
   const { data: agents = [] } = useQuery({
     queryKey: ["all-agents"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: roles, error } = await supabase
         .from("user_roles")
-        .select("user_id, profiles!inner(display_name, full_name)")
+        .select("user_id, role")
         .in("role", ["agent", "admin"]);
       if (error) throw error;
-      return data;
+      const userIds = Array.from(new Set((roles || []).map((r: any) => r.user_id)));
+      if (userIds.length === 0) return [];
+      const { data: profs, error: pErr } = await supabase
+        .from("profiles")
+        .select("user_id, display_name, full_name")
+        .in("user_id", userIds);
+      if (pErr) throw pErr;
+      const byId: Record<string, any> = {};
+      (profs || []).forEach((p: any) => { byId[p.user_id] = p; });
+      return userIds.map((uid) => ({ user_id: uid, profiles: byId[uid] || null }));
     },
     enabled: !!user && primaryRole === "admin",
   });
