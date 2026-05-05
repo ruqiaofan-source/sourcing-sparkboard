@@ -4,11 +4,20 @@ import { FileDown, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface Props {
   requestId: string;
   requestTitle: string;
 }
+
+const escapeHtml = (s: any) =>
+  String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+const isImagePath = (p: string) => /\.(png|jpe?g|gif|webp|bmp)$/i.test(p);
 
 const SourcingBriefExport = ({ requestId, requestTitle }: Props) => {
   const { toast } = useToast();
@@ -25,121 +34,169 @@ const SourcingBriefExport = ({ requestId, requestTitle }: Props) => {
 
       const brief = data.brief || {};
       const req = data.request || {};
+      const attachmentPaths: string[] = req.attachment_paths || [];
 
-      const doc = new jsPDF({ unit: "pt", format: "a4" });
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const margin = 48;
-      const maxWidth = pageWidth - margin * 2;
-      let y = margin;
-
-      const ensureSpace = (h: number) => {
-        if (y + h > doc.internal.pageSize.getHeight() - margin) {
-          doc.addPage();
-          y = margin;
+      // Get signed URLs for attachments
+      const signedAttachments: { path: string; name: string; url: string; isImage: boolean }[] = [];
+      for (const p of attachmentPaths) {
+        const { data: s } = await supabase.storage
+          .from("sourcing-attachments")
+          .createSignedUrl(p, 60 * 60 * 24 * 7);
+        if (s?.signedUrl) {
+          signedAttachments.push({
+            path: p,
+            name: p.split("/").pop() || p,
+            url: s.signedUrl,
+            isImage: isImagePath(p),
+          });
         }
-      };
+      }
 
-      const writeHeading = (text: string, size = 14) => {
-        ensureSpace(size + 12);
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(size);
-        doc.setTextColor(30, 30, 60);
-        doc.text(text, margin, y);
-        y += size + 8;
-      };
+      // Build HTML brief for html2canvas (so Chinese renders correctly)
+      const container = document.createElement("div");
+      container.style.position = "fixed";
+      container.style.left = "-10000px";
+      container.style.top = "0";
+      container.style.width = "794px"; // ~ A4 width @ 96dpi
+      container.style.padding = "48px";
+      container.style.background = "#ffffff";
+      container.style.color = "#1f2937";
+      container.style.fontFamily =
+        '"PingFang SC","Microsoft YaHei","Noto Sans SC","Hiragino Sans GB","Source Han Sans SC",sans-serif';
+      container.style.fontSize = "14px";
+      container.style.lineHeight = "1.6";
 
-      const writeText = (text: string, size = 10) => {
-        if (!text) return;
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(size);
-        doc.setTextColor(40, 40, 40);
-        const lines = doc.splitTextToSize(String(text), maxWidth);
-        for (const line of lines) {
-          ensureSpace(size + 4);
-          doc.text(line, margin, y);
-          y += size + 4;
+      const bullets = (arr?: string[]) =>
+        arr?.length
+          ? `<ul style="margin:6px 0 12px 20px;padding:0;">${arr
+              .map((x) => `<li style="margin:4px 0;">${escapeHtml(x)}</li>`)
+              .join("")}</ul>`
+          : "";
+
+      const section = (title: string, body: string) =>
+        body
+          ? `<h3 style="margin:18px 0 6px;font-size:15px;color:#1e3a8a;border-bottom:1px solid #e5e7eb;padding-bottom:4px;">${title}</h3>${body}`
+          : "";
+
+      container.innerHTML = `
+        <div style="border-bottom:2px solid #6366F1;padding-bottom:12px;margin-bottom:18px;">
+          <h1 style="margin:0;font-size:22px;color:#6366F1;">Equilinq 采购简报 / Sourcing Brief</h1>
+          <p style="margin:4px 0 0;color:#6b7280;font-size:11px;">
+            生成时间 / Generated: ${new Date().toLocaleString("zh-CN")} &nbsp;|&nbsp; 请求编号 / Request ID: ${escapeHtml(req.id?.slice(0, 8))}
+          </p>
+        </div>
+
+        <h2 style="margin:0 0 10px;font-size:18px;">${escapeHtml(req.title || requestTitle)}</h2>
+
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:14px;">
+          <tr><td style="padding:4px 8px;background:#f3f4f6;width:35%;">数量 / Quantity</td><td style="padding:4px 8px;border:1px solid #e5e7eb;">${escapeHtml(req.quantity ?? "-")}</td></tr>
+          <tr><td style="padding:4px 8px;background:#f3f4f6;">目标单价 / Target Unit Budget</td><td style="padding:4px 8px;border:1px solid #e5e7eb;">${escapeHtml(req.budget_per_unit ?? "-")} ${escapeHtml(req.currency ?? "")}</td></tr>
+          <tr><td style="padding:4px 8px;background:#f3f4f6;">交货国家 / Delivery Country</td><td style="padding:4px 8px;border:1px solid #e5e7eb;">${escapeHtml(req.delivery_country ?? "-")}</td></tr>
+          <tr><td style="padding:4px 8px;background:#f3f4f6;">环保要求 / Eco-friendly</td><td style="padding:4px 8px;border:1px solid #e5e7eb;">${req.eco_friendly ? "是 / Yes" : "否 / No"}</td></tr>
+        </table>
+
+        ${section("客户原始描述 / Customer Description", `<p style="margin:0;white-space:pre-wrap;">${escapeHtml(req.description || "-")}</p>`)}
+        ${section("概述 / Summary", `<p style="margin:0;">${escapeHtml(brief.summary || "")}</p>`)}
+        ${section("产品规格 / Product Specifications", bullets(brief.product_specs))}
+        ${section("数量与起订量 / Quantity & MOQ", `<p style="margin:0;">${escapeHtml(brief.quantity_moq || "")}</p>`)}
+        ${section("目标价格 / Target Pricing", `<p style="margin:0;">${escapeHtml(brief.target_pricing || "")}</p>`)}
+        ${section("包装与品牌 / Packaging & Branding", `<p style="margin:0;">${escapeHtml(brief.packaging_branding || "")}</p>`)}
+        ${section("质量与合规 / Quality & Compliance", bullets(brief.quality_compliance))}
+        ${section("物流 / Logistics", `<p style="margin:0;">${escapeHtml(brief.logistics || "")}</p>`)}
+        ${section("询问工厂的问题 / Questions for Factory", bullets(brief.questions_for_factory))}
+        ${brief.internal_notes ? section("内部备注 / Internal Notes", `<p style="margin:0;">${escapeHtml(brief.internal_notes)}</p>`) : ""}
+
+        ${
+          signedAttachments.length
+            ? `<h3 style="margin:18px 0 6px;font-size:15px;color:#1e3a8a;border-bottom:1px solid #e5e7eb;padding-bottom:4px;">客户附件 / Customer Attachments (${signedAttachments.length})</h3>
+               <ul style="margin:6px 0 0 20px;padding:0;font-size:12px;">
+                 ${signedAttachments
+                   .map(
+                     (a) =>
+                       `<li style="margin:4px 0;word-break:break-all;">${escapeHtml(a.name)}${a.isImage ? " (见后页 / see following page)" : ""}<br/><span style="color:#6366F1;font-size:10px;">${escapeHtml(a.url)}</span></li>`,
+                   )
+                   .join("")}
+               </ul>`
+            : ""
         }
-      };
+      `;
 
-      const writeBullets = (items: string[] | undefined) => {
-        if (!items?.length) return;
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(10);
-        doc.setTextColor(40, 40, 40);
-        for (const it of items) {
-          const lines = doc.splitTextToSize(`- ${it}`, maxWidth - 12);
-          for (let i = 0; i < lines.length; i++) {
-            ensureSpace(14);
-            doc.text(lines[i], margin + (i === 0 ? 0 : 12), y);
-            y += 14;
-          }
+      document.body.appendChild(container);
+
+      // Render brief content via canvas to preserve Chinese characters
+      const canvas = await html2canvas(container, { scale: 2, backgroundColor: "#ffffff" });
+      document.body.removeChild(container);
+
+      const pdf = new jsPDF({ unit: "pt", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const imgW = pageW;
+      const imgH = (canvas.height * imgW) / canvas.width;
+
+      // Slice the tall canvas into multiple pages if needed
+      let position = 0;
+      const pageCanvasH = (canvas.width * pageH) / pageW;
+      let remaining = canvas.height;
+      let firstPage = true;
+      while (remaining > 0) {
+        const sliceH = Math.min(pageCanvasH, remaining);
+        const slice = document.createElement("canvas");
+        slice.width = canvas.width;
+        slice.height = sliceH;
+        const ctx = slice.getContext("2d")!;
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, slice.width, slice.height);
+        ctx.drawImage(canvas, 0, position, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+        const dataUrl = slice.toDataURL("image/jpeg", 0.92);
+        if (!firstPage) pdf.addPage();
+        const sliceImgH = (sliceH * imgW) / canvas.width;
+        pdf.addImage(dataUrl, "JPEG", 0, 0, imgW, sliceImgH);
+        firstPage = false;
+        position += sliceH;
+        remaining -= sliceH;
+      }
+
+      // Embed image attachments as full pages
+      for (const a of signedAttachments.filter((x) => x.isImage)) {
+        try {
+          const blob = await fetch(a.url).then((r) => r.blob());
+          const dataUrl: string = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          });
+          const img = new Image();
+          await new Promise<void>((resolve, reject) => {
+            img.onload = () => resolve();
+            img.onerror = () => reject();
+            img.src = dataUrl;
+          });
+          pdf.addPage();
+          // Title
+          pdf.setFontSize(11);
+          pdf.setTextColor(99, 102, 241);
+          pdf.text(`Attachment: ${a.name}`, 24, 28);
+          // Fit image
+          const maxW = pageW - 48;
+          const maxH = pageH - 60;
+          const ratio = Math.min(maxW / img.width, maxH / img.height);
+          const w = img.width * ratio;
+          const h = img.height * ratio;
+          const fmt = /\.png$/i.test(a.name) ? "PNG" : "JPEG";
+          pdf.addImage(dataUrl, fmt, (pageW - w) / 2, 44, w, h);
+        } catch (e) {
+          console.error("Failed to embed image attachment", a.name, e);
         }
-      };
-
-      // Header
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(20);
-      doc.setTextColor(99, 102, 241);
-      doc.text("Equilinq Sourcing Brief", margin, y);
-      y += 26;
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(10);
-      doc.setTextColor(120, 120, 120);
-      doc.text(`Generated ${new Date().toLocaleString()}  |  Request ID: ${req.id?.slice(0, 8)}`, margin, y);
-      y += 20;
-
-      writeHeading(req.title || requestTitle, 16);
-
-      writeHeading("Request Details", 12);
-      writeText(
-        `Quantity: ${req.quantity ?? "n/a"}  |  Target unit budget: ${req.budget_per_unit ?? "n/a"} ${req.currency ?? ""}  |  Delivery: ${req.delivery_country ?? "n/a"}  |  Eco-friendly: ${req.eco_friendly ? "Yes" : "No"}`,
-      );
-      y += 6;
-
-      writeHeading("Summary", 12);
-      writeText(brief.summary);
-      y += 4;
-
-      writeHeading("Product Specifications", 12);
-      writeBullets(brief.product_specs);
-      y += 4;
-
-      writeHeading("Quantity & MOQ", 12);
-      writeText(brief.quantity_moq);
-      y += 4;
-
-      writeHeading("Target Pricing", 12);
-      writeText(brief.target_pricing);
-      y += 4;
-
-      writeHeading("Packaging & Branding", 12);
-      writeText(brief.packaging_branding);
-      y += 4;
-
-      writeHeading("Quality & Compliance", 12);
-      writeBullets(brief.quality_compliance);
-      y += 4;
-
-      writeHeading("Logistics", 12);
-      writeText(brief.logistics);
-      y += 4;
-
-      writeHeading("Questions for Factory", 12);
-      writeBullets(brief.questions_for_factory);
-      y += 4;
-
-      if (brief.internal_notes) {
-        writeHeading("Internal Notes", 12);
-        writeText(brief.internal_notes);
       }
 
       const safeName = (req.title || requestTitle || "sourcing-brief")
-        .replace(/[^a-z0-9]+/gi, "-")
+        .replace(/[^a-z0-9\u4e00-\u9fa5]+/gi, "-")
         .toLowerCase()
         .slice(0, 50);
-      doc.save(`equilinq-brief-${safeName}.pdf`);
+      pdf.save(`equilinq-brief-${safeName}.pdf`);
 
-      toast({ title: "Brief generated", description: "PDF downloaded successfully." });
+      toast({ title: "简报已生成", description: "PDF 已下载 / PDF downloaded successfully." });
     } catch (err: any) {
       toast({ title: "Failed to generate brief", description: err.message, variant: "destructive" });
     } finally {
@@ -150,7 +207,7 @@ const SourcingBriefExport = ({ requestId, requestTitle }: Props) => {
   return (
     <Button onClick={handleExport} disabled={loading} variant="outline" size="sm">
       {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <FileDown className="h-4 w-4 mr-2" />}
-      {loading ? "Generating..." : "Export China Brief (PDF)"}
+      {loading ? "生成中... / Generating..." : "导出中文采购简报 / Export China Brief (PDF)"}
     </Button>
   );
 };

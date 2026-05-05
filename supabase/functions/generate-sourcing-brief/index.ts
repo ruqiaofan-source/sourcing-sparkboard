@@ -41,9 +41,9 @@ Deno.serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY missing");
 
-    const systemPrompt = `You are a senior sourcing specialist at Equilinq, a European sourcing platform. Generate a clear, professional sourcing brief in English to send to our China sourcing team. The brief must be factual, structured, and actionable for factory outreach. Use clear headings and bullets. Do not invent specifications not present in the input. Suggest sensible questions to ask factories.`;
+    const systemPrompt = `你是 Equilinq(欧洲采购平台)的资深采购专家。请用简体中文生成一份清晰、专业、可直接发送给中国采购/工厂团队的采购简报。内容必须真实、结构化、可执行,适合工厂对接使用。请使用清晰的小标题和要点。不要编造输入中没有的规格信息。请给出合理的、向工厂询问的问题清单。所有字段必须使用简体中文回复。`;
 
-    const userPrompt = `Generate a sourcing brief PDF content for our China team based on this customer request.
+    const userPrompt = `请根据以下客户需求生成一份发给中国团队的采购简报内容。
 
 Title: ${request.title}
 Description: ${request.description || "n/a"}
@@ -54,17 +54,17 @@ Delivery country: ${request.delivery_country || "n/a"}
 Service add-ons: ${(request.service_addons || []).join(", ") || "none"}
 Customer area: ${(request as any).profiles?.area_of_residence || "n/a"}
 
-Return JSON with these fields:
+请返回 JSON,字段如下(所有值使用简体中文):
 {
-  "summary": "2-3 sentence overview",
-  "product_specs": ["bullet", "..."],
-  "quantity_moq": "string",
-  "target_pricing": "string",
-  "packaging_branding": "string",
-  "quality_compliance": ["bullet", "..."],
-  "logistics": "string",
-  "questions_for_factory": ["question", "..."],
-  "internal_notes": "string"
+  "summary": "2-3 句简介",
+  "product_specs": ["要点", "..."],
+  "quantity_moq": "字符串",
+  "target_pricing": "字符串",
+  "packaging_branding": "字符串",
+  "quality_compliance": ["要点", "..."],
+  "logistics": "字符串",
+  "questions_for_factory": ["问题", "..."],
+  "internal_notes": "字符串"
 }`;
 
     const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -105,6 +105,8 @@ Return JSON with these fields:
           delivery_country: request.delivery_country,
           eco_friendly: request.eco_friendly,
           created_at: request.created_at,
+          description: request.description,
+          attachment_paths: request.attachment_paths || [],
         },
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
