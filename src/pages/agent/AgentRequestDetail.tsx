@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/sheet";
 import FileUpload from "@/components/FileUpload";
 import RequestChat from "@/components/RequestChat";
+import SourcingBriefExport from "@/components/SourcingBriefExport";
 
 const AgentRequestDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -353,6 +354,11 @@ const AgentRequestDetail = () => {
           <span className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium shrink-0 ${statusStyle[statusLabel] || "bg-muted text-muted-foreground border-border"}`}>
             {statusLabel}
           </span>
+        </div>
+
+        {/* AI-generated China sourcing brief */}
+        <div className="flex justify-end">
+          <SourcingBriefExport requestId={request.id} requestTitle={request.title} />
         </div>
 
         {/* Progress stepper */}
