@@ -303,7 +303,7 @@ const NewRequest = () => {
             className="text-muted-foreground mt-3 max-w-md text-base"
           >
             We'll start sourcing <span className="text-foreground font-medium">{form.title}</span> right away.
-            Expect your first quotes within 3–5 business days.
+            Expect your first quotes within around 5 business days.
           </motion.p>
 
           <motion.div
