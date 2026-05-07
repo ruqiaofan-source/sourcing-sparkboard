@@ -104,6 +104,17 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
             .maybeSingle();
 
           if (req?.user_id && req.user_id !== user!.id) {
+            // In-app notification for the customer
+            const previewText =
+              content.length > 120 ? content.slice(0, 120) + "..." : content;
+            await supabase.from("notifications" as any).insert({
+              user_id: req.user_id,
+              title: "New message",
+              message: `New message about "${(req as any).title}": ${previewText}`,
+              type: "new_message",
+              link: `/sourcing-requests/${requestId}`,
+            } as any);
+
             const [{ data: recipient }, { data: sender }, { data: prefs }] = await Promise.all([
               supabase
                 .from("profiles")
