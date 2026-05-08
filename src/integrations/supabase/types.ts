@@ -521,6 +521,7 @@ export type Database = {
       }
       messages: {
         Row: {
+          attachment_paths: Json
           content: string
           created_at: string
           edited_at: string | null
@@ -529,6 +530,7 @@ export type Database = {
           sourcing_request_id: string
         }
         Insert: {
+          attachment_paths?: Json
           content: string
           created_at?: string
           edited_at?: string | null
@@ -537,6 +539,7 @@ export type Database = {
           sourcing_request_id: string
         }
         Update: {
+          attachment_paths?: Json
           content?: string
           created_at?: string
           edited_at?: string | null
