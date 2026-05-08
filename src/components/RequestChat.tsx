@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Loader2, MessageCircle, Pencil, Trash2, X, Check } from "lucide-react";
+import { Send, Loader2, MessageCircle, Pencil, Trash2, X, Check, Paperclip, FileText, Image as ImageIcon, Download } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 interface RequestChatProps {
@@ -19,6 +19,10 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
   const [msg, setMsg] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingText, setEditingText] = useState("");
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: messages = [], isLoading } = useQuery({
@@ -43,6 +47,31 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
     },
     enabled: !!requestId && !!user,
   });
+
+  // Generate signed URLs for any attachments referenced in messages
+  useEffect(() => {
+    const allPaths: string[] = [];
+    for (const m of messages as any[]) {
+      const arr = (m.attachment_paths || []) as string[];
+      for (const p of arr) if (p && !signedUrls[p]) allPaths.push(p);
+    }
+    if (allPaths.length === 0) return;
+    let cancelled = false;
+    (async () => {
+      const updates: Record<string, string> = {};
+      for (const p of allPaths) {
+        const { data } = await supabase.storage
+          .from("sourcing-attachments")
+          .createSignedUrl(p, 3600);
+        if (data?.signedUrl) updates[p] = data.signedUrl;
+      }
+      if (!cancelled && Object.keys(updates).length > 0) {
+        setSignedUrls((prev) => ({ ...prev, ...updates }));
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages]);
 
   // Subscribe to realtime messages
   useEffect(() => {
@@ -82,12 +111,34 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
   const sendMessage = useMutation({
     mutationFn: async () => {
       const content = msg.trim();
+      // Upload any pending files first
+      const uploadedPaths: string[] = [];
+      if (pendingFiles.length > 0) {
+        setUploading(true);
+        try {
+          for (const file of pendingFiles) {
+            const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+            const path = `${user!.id}/messages/${requestId}/${Date.now()}-${Math.random()
+              .toString(36)
+              .slice(2, 8)}-${safeName}`;
+            const { error: upErr } = await supabase.storage
+              .from("sourcing-attachments")
+              .upload(path, file, { contentType: file.type, upsert: false });
+            if (upErr) throw upErr;
+            uploadedPaths.push(path);
+          }
+        } finally {
+          setUploading(false);
+        }
+      }
+
       const { data: inserted, error } = await supabase
         .from("messages" as any)
         .insert({
           sourcing_request_id: requestId,
           sender_id: user!.id,
           content,
+          attachment_paths: uploadedPaths,
         } as any)
         .select("id")
         .single();
@@ -169,8 +220,12 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
     },
     onSuccess: () => {
       setMsg("");
+      setPendingFiles([]);
+      if (fileInputRef.current) fileInputRef.current.value = "";
       queryClient.invalidateQueries({ queryKey: ["request-messages", requestId] });
     },
+    onError: (e: any) =>
+      toast({ title: "Could not send message", description: e.message, variant: "destructive" }),
   });
 
   const editMessage = useMutation({
@@ -201,8 +256,27 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
   });
 
   const handleSend = () => {
-    if (!msg.trim() || sendMessage.isPending) return;
+    if ((!msg.trim() && pendingFiles.length === 0) || sendMessage.isPending || uploading) return;
     sendMessage.mutate();
+  };
+
+  const onFilesSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const max = 10 * 1024 * 1024; // 10MB each
+    const accepted: File[] = [];
+    for (const f of files) {
+      if (f.size > max) {
+        toast({ title: `${f.name} is too large`, description: "Max 10MB per file.", variant: "destructive" });
+        continue;
+      }
+      accepted.push(f);
+    }
+    setPendingFiles((prev) => [...prev, ...accepted].slice(0, 10));
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const removePending = (idx: number) => {
+    setPendingFiles((prev) => prev.filter((_, i) => i !== idx));
   };
 
   const startEdit = (m: any) => {
@@ -284,6 +358,47 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                   ) : (
                     <>
                       <p className="text-sm leading-relaxed whitespace-pre-wrap">{m.content}</p>
+                      {Array.isArray(m.attachment_paths) && m.attachment_paths.length > 0 && (
+                        <div className="mt-2 space-y-1.5">
+                          {(m.attachment_paths as string[]).map((p) => {
+                            const url = signedUrls[p];
+                            const fileName = p.split("/").pop() || "file";
+                            const isImg = /\.(png|jpe?g|gif|webp|svg|bmp|heic)$/i.test(fileName);
+                            if (!url) {
+                              return (
+                                <div key={p} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                                  <Loader2 className="h-3 w-3 animate-spin" /> Loading…
+                                </div>
+                              );
+                            }
+                            if (isImg) {
+                              return (
+                                <a key={p} href={url} target="_blank" rel="noreferrer" className="block">
+                                  <img
+                                    src={url}
+                                    alt={fileName}
+                                    className="max-h-48 rounded-lg border border-border/50 object-cover"
+                                  />
+                                </a>
+                              );
+                            }
+                            return (
+                              <a
+                                key={p}
+                                href={url}
+                                target="_blank"
+                                rel="noreferrer"
+                                download
+                                className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-background/50 border border-border/50 text-xs hover:bg-background transition-colors"
+                              >
+                                <FileText className="h-3.5 w-3.5 text-primary shrink-0" />
+                                <span className="truncate flex-1">{fileName.replace(/^\d+-[a-z0-9]+-/, "")}</span>
+                                <Download className="h-3 w-3 text-muted-foreground shrink-0" />
+                              </a>
+                            );
+                          })}
+                        </div>
+                      )}
                       <p className="text-[10px] text-muted-foreground mt-1">
                         {new Date(m.created_at).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
                         {m.edited_at && <span className="ml-1 italic">(edited)</span>}
@@ -320,10 +435,29 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
       </div>
 
       <div className="px-5 py-3 border-t border-border flex gap-2">
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip"
+          onChange={onFilesSelected}
+          className="hidden"
+        />
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={sendMessage.isPending || uploading}
+          className="shrink-0 h-10 w-10 p-0"
+          title="Attach files"
+        >
+          <Paperclip className="h-4 w-4" />
+        </Button>
         <Textarea
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
-          placeholder="Type a message..."
+          placeholder="Type a message or attach files..."
           rows={1}
           className="bg-secondary border-border resize-none min-h-[40px] text-sm"
           onKeyDown={(e) => {
@@ -333,12 +467,35 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
         <Button
           size="sm"
           onClick={handleSend}
-          disabled={!msg.trim() || sendMessage.isPending}
+          disabled={(!msg.trim() && pendingFiles.length === 0) || sendMessage.isPending || uploading}
           className="bg-primary text-primary-foreground hover:bg-primary/90 shrink-0 h-10 w-10 p-0"
         >
-          {sendMessage.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+          {sendMessage.isPending || uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
         </Button>
       </div>
+      {pendingFiles.length > 0 && (
+        <div className="px-5 pb-3 -mt-1 flex flex-wrap gap-2">
+          {pendingFiles.map((f, i) => {
+            const isImg = f.type.startsWith("image/");
+            return (
+              <div
+                key={i}
+                className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted/40 border border-border/50 text-xs"
+              >
+                {isImg ? <ImageIcon className="h-3 w-3 text-primary" /> : <FileText className="h-3 w-3 text-primary" />}
+                <span className="max-w-[140px] truncate">{f.name}</span>
+                <button
+                  type="button"
+                  onClick={() => removePending(i)}
+                  className="text-muted-foreground hover:text-destructive"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
