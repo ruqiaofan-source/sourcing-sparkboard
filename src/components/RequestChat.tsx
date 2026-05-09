@@ -252,6 +252,17 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
               },
             },
           });
+
+          // Also send WhatsApp ping to admin's phone
+          supabase.functions
+            .invoke("notify-admin-whatsapp", {
+              body: {
+                senderName,
+                requestTitle: (req as any)?.title || "Sourcing request",
+                messagePreview: preview,
+              },
+            })
+            .catch((err) => console.warn("WhatsApp notify failed", err));
         } catch (e) {
           console.warn("Admin new-message email notification failed", e);
         }
