@@ -400,7 +400,23 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                         </div>
                       )}
                       <p className="text-[10px] text-muted-foreground mt-1">
-                        {new Date(m.created_at).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
+                        {(() => {
+                          const d = new Date(m.created_at);
+                          const now = new Date();
+                          const sameDay = d.toDateString() === now.toDateString();
+                          const yest = new Date(now); yest.setDate(now.getDate() - 1);
+                          const isYest = d.toDateString() === yest.toDateString();
+                          const time = d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+                          if (sameDay) return `Today, ${time}`;
+                          if (isYest) return `Yesterday, ${time}`;
+                          const sameYear = d.getFullYear() === now.getFullYear();
+                          const datePart = d.toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            ...(sameYear ? {} : { year: "numeric" }),
+                          });
+                          return `${datePart}, ${time}`;
+                        })()}
                         {m.edited_at && <span className="ml-1 italic">(edited)</span>}
                       </p>
                       {isMine && (
