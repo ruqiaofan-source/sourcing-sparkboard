@@ -216,6 +216,45 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
           // Don't fail the message send if the email notification fails.
           console.warn("New-message email notification failed", e);
         }
+      } else {
+        // Customer sent a message — notify admin@equilinq.eu by email.
+        try {
+          const { data: req } = await supabase
+            .from("sourcing_requests")
+            .select("title")
+            .eq("id", requestId)
+            .maybeSingle();
+
+          const { data: sender } = await supabase
+            .from("profiles")
+            .select("display_name, full_name, email")
+            .eq("user_id", user!.id)
+            .maybeSingle();
+
+          const senderName =
+            (sender as any)?.display_name ||
+            (sender as any)?.full_name ||
+            (sender as any)?.email ||
+            "A customer";
+          const preview = content.length > 240 ? content.slice(0, 240) + "..." : content;
+
+          await supabase.functions.invoke("send-transactional-email", {
+            body: {
+              templateName: "new-message",
+              recipientEmail: "admin@equilinq.eu",
+              idempotencyKey: `new-message-admin-${(inserted as any).id}`,
+              templateData: {
+                recipientName: "Admin",
+                senderName,
+                requestTitle: (req as any)?.title || "Sourcing request",
+                messagePreview: preview,
+                conversationUrl: `https://equilinq.eu/messages`,
+              },
+            },
+          });
+        } catch (e) {
+          console.warn("Admin new-message email notification failed", e);
+        }
       }
     },
     onSuccess: () => {
