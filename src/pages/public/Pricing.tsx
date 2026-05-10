@@ -290,7 +290,7 @@ export default function Pricing() {
             className="text-center py-16"
           >
             <h2 className="font-heading text-3xl font-bold text-foreground mb-4">Ready to See Your Exact Pricing?</h2>
-            <p className="text-muted-foreground mb-8 max-w-md mx-auto">Submit a sourcing request and receive a detailed, no-obligation quote within 48 hours.</p>
+            <p className="text-muted-foreground mb-8 max-w-md mx-auto">Submit a sourcing request and receive a detailed, no-obligation quote in around 5 days.</p>
             <div className="flex items-center justify-center gap-4 flex-wrap">
               <Link to="/auth?signup=true">
                 <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
