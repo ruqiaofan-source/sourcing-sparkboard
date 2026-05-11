@@ -1,11 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Loader2, MessageCircle, Pencil, Trash2, X, Check, Paperclip, FileText, Image as ImageIcon, Download } from "lucide-react";
+import { Send, Loader2, MessageCircle, Pencil, Trash2, X, Check, Paperclip, FileText, Image as ImageIcon, Download, Receipt } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import QuoteComposerSheet from "@/components/QuoteComposerSheet";
+import QuoteMessageCard from "@/components/QuoteMessageCard";
 
 interface RequestChatProps {
   requestId: string;
@@ -22,6 +24,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
+  const [quoteSheetOpen, setQuoteSheetOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -47,6 +50,25 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
     },
     enabled: !!requestId && !!user,
   });
+
+  // Fetch quotes for this request so quote-type messages can render rich cards.
+  const { data: requestQuotes = [] } = useQuery({
+    queryKey: ["request-quotes-chat", requestId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("quotes")
+        .select("*")
+        .eq("sourcing_request_id", requestId);
+      if (error) throw error;
+      return data as any[];
+    },
+    enabled: !!requestId && !!user,
+  });
+  const quoteMap = useMemo(() => {
+    const m = new Map<string, any>();
+    for (const q of requestQuotes as any[]) m.set(q.id, q);
+    return m;
+  }, [requestQuotes]);
 
   // Generate signed URLs for any attachments referenced in messages
   useEffect(() => {
@@ -86,6 +108,14 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
           supabase.rpc("mark_request_read" as any, { _request_id: requestId }).then(() => {
             queryClient.invalidateQueries({ queryKey: ["unread-message-counts"] });
           });
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "quotes", filter: `sourcing_request_id=eq.${requestId}` },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["request-quotes-chat", requestId] });
+          queryClient.invalidateQueries({ queryKey: ["customer-request-quotes", requestId] });
         }
       )
       .subscribe();
