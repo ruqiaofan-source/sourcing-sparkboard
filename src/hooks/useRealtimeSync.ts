@@ -3,6 +3,25 @@ import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
+function fireBrowserNotification(title: string, body: string, link?: string) {
+  if (typeof window === "undefined") return;
+  if (!("Notification" in window)) return;
+  if (Notification.permission !== "granted") return;
+  // Only fire when the tab is hidden — otherwise the in-app toast is enough.
+  if (typeof document !== "undefined" && document.visibilityState === "visible") return;
+  try {
+    const n = new Notification(title, { body, icon: "/favicon.ico", tag: "equilinq-msg" });
+    if (link) {
+      n.onclick = () => {
+        window.focus();
+        window.location.href = link;
+      };
+    }
+  } catch {
+    /* ignore */
+  }
+}
+
 /**
  * Subscribes to realtime changes on sourcing_requests and quotes,
  * invalidating relevant queries and showing toast notifications.
@@ -91,18 +110,31 @@ export function useRealtimeSync(role: "customer" | "agent" | "admin", userId?: s
         (payload) => {
           queryClient.invalidateQueries({ queryKey: ["request-messages"] });
           queryClient.invalidateQueries({ queryKey: ["unread-messages-count"] });
+          queryClient.invalidateQueries({ queryKey: ["unread-messages-total"] });
 
           if (role === "customer" && payload.eventType === "INSERT") {
             const senderId = (payload.new as any).sender_id;
             if (senderId !== userId) {
+              const link = `/sourcing-requests/${(payload.new as any).sourcing_request_id}`;
               toast({ title: "💬 New message", description: "Your agent sent you a message." });
+              fireBrowserNotification(
+                "New message from your sourcing agent",
+                ((payload.new as any).content || "Open Equilinq to view the message.").slice(0, 140),
+                link
+              );
             }
           }
 
           if ((role === "agent" || role === "admin") && payload.eventType === "INSERT") {
             const senderId = (payload.new as any).sender_id;
             if (senderId !== userId) {
+              const link = `/agent/requests/${(payload.new as any).sourcing_request_id}`;
               toast({ title: "💬 New message", description: "A customer sent a new message." });
+              fireBrowserNotification(
+                "New customer message",
+                ((payload.new as any).content || "Open Equilinq to view the message.").slice(0, 140),
+                link
+              );
             }
           }
         }
