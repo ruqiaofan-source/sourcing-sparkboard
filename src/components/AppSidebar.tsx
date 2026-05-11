@@ -5,6 +5,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRole } from "@/hooks/useRole";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/hooks/useTheme";
+import { useUnreadMessagesTotal } from "@/hooks/useUnreadMessagesTotal";
+import { motion } from "framer-motion";
 import equilinqLogo from "@/assets/equilinq-logo-optimized.webp";
 import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
 import {
@@ -53,6 +55,7 @@ export function AppSidebar() {
   const { signOut } = useAuth();
   const { primaryRole } = useRole();
   const { theme } = useTheme();
+  const unreadMessages = useUnreadMessagesTotal();
 
   const mainItems = primaryRole === "admin" ? adminItems : primaryRole === "agent" ? agentItems : customerItems;
 
@@ -76,7 +79,18 @@ export function AppSidebar() {
                 className="group flex flex-col items-center justify-center gap-1.5 w-full rounded-xl py-2.5 px-1 transition-all text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/40"
                 activeClassName="!text-primary-foreground bg-primary/90 hover:bg-primary shadow-md"
               >
-                <item.icon className="h-6 w-6" strokeWidth={1.7} />
+                <div className="relative">
+                  <item.icon className="h-6 w-6" strokeWidth={1.7} />
+                  {item.icon === MessageCircle && unreadMessages > 0 && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute -top-1.5 -right-1.5 h-4.5 min-w-[18px] flex items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold px-1 ring-2 ring-sidebar-background"
+                    >
+                      {unreadMessages > 9 ? "9+" : unreadMessages}
+                    </motion.span>
+                  )}
+                </div>
                 {!collapsed && (
                   <span className="text-[13px] font-semibold leading-none text-center">{item.title}</span>
                 )}
