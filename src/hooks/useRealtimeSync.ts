@@ -34,7 +34,7 @@ export function useRealtimeSync(role: "customer" | "agent" | "admin", userId?: s
     if (!userId) return;
 
     const channel = supabase
-      .channel("realtime-sync")
+      .channel(`realtime-sync-${role}-${userId}-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "sourcing_requests" },
