@@ -134,7 +134,7 @@ const AdminRequests = () => {
                         <td className="p-4 text-sm text-muted-foreground hidden sm:table-cell">{(r as any).profiles?.display_name || "-"}</td>
                         <td className="p-4 text-sm text-muted-foreground hidden lg:table-cell">{agentName || "-"}</td>
                         <td className="p-4 text-sm text-muted-foreground hidden md:table-cell">{r.quantity?.toLocaleString()}</td>
-                        <td className="p-4 text-sm text-card-foreground hidden md:table-cell">{r.currency} {Number(r.budget_per_unit).toFixed(2)}</td>
+                        <td className="p-4 text-sm text-card-foreground hidden md:table-cell">€{Number(r.budget_per_unit).toFixed(2)}</td>
                         <td className="p-4"><span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${sc.style}`}>{sc.label}</span></td>
                         <td className="p-4 text-sm text-muted-foreground hidden lg:table-cell">{qCount} quote{qCount !== 1 ? "s" : ""}</td>
                         <td className="p-4 text-sm text-muted-foreground hidden sm:table-cell">{new Date(r.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</td>

@@ -267,7 +267,7 @@ const CustomerDashboard = () => {
                     <Link to={`/sourcing-requests/${r.id}`} className="flex items-center justify-between px-5 py-3.5 hover:bg-muted/20 transition-colors group">
                       <div className="min-w-0 flex-1">
                         <p className="text-sm font-medium text-card-foreground truncate group-hover:text-primary transition-colors">{r.title}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">{r.quantity} units · {r.currency} {Number(r.budget_per_unit).toFixed(2)}/unit</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">{r.quantity} units · €{Number(r.budget_per_unit).toFixed(2)}/unit</p>
                       </div>
                       <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-medium ml-3 shrink-0 ${s.style}`}>{s.label}</span>
                     </Link>

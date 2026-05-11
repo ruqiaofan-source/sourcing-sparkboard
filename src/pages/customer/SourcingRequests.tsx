@@ -342,7 +342,7 @@ const SourcingRequests = () => {
                         ) : (
                           <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <DollarSign className="h-3 w-3" />
-                            <span>{item.currency} {Number(item.budgetPerUnit).toFixed(2)}/unit</span>
+                            <span>€{Number(item.budgetPerUnit).toFixed(2)}/unit</span>
                           </div>
                         )}
                         {item.orderNumber && (
