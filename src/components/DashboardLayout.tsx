@@ -5,6 +5,8 @@ import { useRole } from "@/hooks/useRole";
 import { useTheme } from "@/hooks/useTheme";
 import { useLocation, Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import { useUnreadMessagesTotal } from "@/hooks/useUnreadMessagesTotal";
+import { useEffect } from "react";
 
 const routeNames: Record<string, string> = {
   "/dashboard": "Home",
@@ -29,6 +31,22 @@ export function DashboardLayout({ children, title }: { children: React.ReactNode
   const { primaryRole } = useRole();
   const { theme } = useTheme();
   const location = useLocation();
+  const unreadMessages = useUnreadMessagesTotal();
+
+  // Reflect unread count in the browser tab title so it's visible when the
+  // user is on a different tab.
+  useEffect(() => {
+    const baseTitle = "Equilinq";
+    if (unreadMessages > 0) {
+      document.title = `(${unreadMessages > 9 ? "9+" : unreadMessages}) ${baseTitle} — new message${unreadMessages > 1 ? "s" : ""}`;
+    } else {
+      document.title = baseTitle;
+    }
+    return () => {
+      document.title = "Equilinq";
+    };
+  }, [unreadMessages]);
+
   const initials = user?.email?.slice(0, 2).toUpperCase() || "EQ";
   const roleBadge = primaryRole === "admin" ? "Admin" : primaryRole === "agent" ? "Agent" : "Customer";
 

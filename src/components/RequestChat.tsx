@@ -221,7 +221,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
         try {
           const { data: req } = await supabase
             .from("sourcing_requests")
-            .select("title")
+            .select("title, agent_id")
             .eq("id", requestId)
             .maybeSingle();
 
@@ -252,6 +252,55 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
               },
             },
           });
+
+          // Also notify the assigned agent (if any) — in-app + email, respecting prefs.
+          const agentId = (req as any)?.agent_id as string | undefined;
+          if (agentId && agentId !== user!.id) {
+            try {
+              await supabase.from("notifications" as any).insert({
+                user_id: agentId,
+                title: "New customer message",
+                message: `${senderName} sent a message about "${(req as any)?.title || "a request"}": ${preview.slice(0, 120)}`,
+                type: "new_message",
+                link: `/agent/requests/${requestId}`,
+              } as any);
+            } catch (e) {
+              console.warn("Agent in-app notification failed", e);
+            }
+
+            const [{ data: agentProfile }, { data: agentPrefs }] = await Promise.all([
+              supabase
+                .from("profiles")
+                .select("email, display_name, full_name")
+                .eq("user_id", agentId)
+                .maybeSingle(),
+              supabase
+                .from("notification_preferences" as any)
+                .select("message_email")
+                .eq("user_id", agentId)
+                .maybeSingle(),
+            ]);
+            const agentEmailAllowed = (agentPrefs as any)?.message_email ?? true;
+            if ((agentProfile as any)?.email && agentEmailAllowed) {
+              await supabase.functions.invoke("send-transactional-email", {
+                body: {
+                  templateName: "new-message",
+                  recipientEmail: (agentProfile as any).email,
+                  idempotencyKey: `new-message-agent-${(inserted as any).id}`,
+                  templateData: {
+                    recipientName:
+                      (agentProfile as any)?.display_name ||
+                      (agentProfile as any)?.full_name ||
+                      undefined,
+                    senderName,
+                    requestTitle: (req as any)?.title || "Sourcing request",
+                    messagePreview: preview,
+                    conversationUrl: `https://equilinq.eu/agent/requests/${requestId}`,
+                  },
+                },
+              });
+            }
+          }
 
           // Also send WhatsApp ping to admin's phone
           supabase.functions

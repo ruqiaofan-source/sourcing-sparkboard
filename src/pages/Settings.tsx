@@ -286,19 +286,44 @@ const Settings = () => {
               <Switch checked={prefSms} onCheckedChange={setPrefSms} disabled />
             </div>
 
-            {/* Push — coming soon */}
-            <div className="flex items-center justify-between p-4 rounded-lg bg-muted/30 border border-border/50 opacity-70">
+            {/* Browser notifications */}
+            <div className="flex items-center justify-between p-4 rounded-lg bg-muted/30 border border-border/50">
               <div className="flex items-start gap-3">
-                <BellRing className="h-4 w-4 text-muted-foreground mt-0.5" />
+                <BellRing className="h-4 w-4 text-primary mt-0.5" />
                 <div>
-                  <p className="text-sm text-card-foreground font-medium flex items-center gap-2">
-                    Push
-                    <span className="text-[10px] uppercase tracking-wide rounded-full bg-muted px-2 py-0.5 text-muted-foreground border border-border">Coming soon</span>
+                  <p className="text-sm text-card-foreground font-medium">Browser notifications</p>
+                  <p className="text-xs text-muted-foreground">
+                    Get a desktop notification when you have Equilinq open in another tab.
+                    {typeof Notification !== "undefined" && Notification.permission === "denied" && (
+                      <span className="block mt-1 text-destructive">Blocked in your browser — enable it in your site settings.</span>
+                    )}
                   </p>
-                  <p className="text-xs text-muted-foreground">Browser and mobile push notifications</p>
                 </div>
               </div>
-              <Switch checked={prefPush} onCheckedChange={setPrefPush} disabled />
+              <Switch
+                checked={prefPush && typeof Notification !== "undefined" && Notification.permission === "granted"}
+                onCheckedChange={async (checked) => {
+                  if (checked) {
+                    if (typeof Notification === "undefined") {
+                      toast({ title: "Not supported", description: "Your browser does not support notifications.", variant: "destructive" });
+                      return;
+                    }
+                    if (Notification.permission === "denied") {
+                      toast({ title: "Blocked", description: "Browser notifications are blocked. Enable them in your site settings.", variant: "destructive" });
+                      return;
+                    }
+                    const result = await Notification.requestPermission();
+                    if (result === "granted") {
+                      setPrefPush(true);
+                      toast({ title: "Notifications enabled", description: "You'll be notified about new messages." });
+                    } else {
+                      setPrefPush(false);
+                    }
+                  } else {
+                    setPrefPush(false);
+                  }
+                }}
+              />
             </div>
 
             <Button
