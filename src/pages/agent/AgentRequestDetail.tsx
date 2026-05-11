@@ -443,7 +443,7 @@ const AgentRequestDetail = () => {
                       <p className="text-xs text-muted-foreground">{issuedInvoice.invoice_number} - €{Number(issuedInvoice.total_amount).toFixed(2)}</p>
                     </div>
                   </div>
-                  <Link to={`/invoice/${issuedInvoice.id}`} target="_blank">
+                  <Link to={`/invoice/${issuedInvoice.id}`}>
                     <Button variant="outline" size="sm">
                       <Download className="h-3.5 w-3.5 mr-1.5" /> Invoice
                     </Button>
@@ -465,7 +465,7 @@ const AgentRequestDetail = () => {
                       <p className="text-xs text-muted-foreground">{issuedInvoice.invoice_number} - €{Number(issuedInvoice.total_amount).toFixed(2)}</p>
                     </div>
                   </div>
-                  <Link to={`/invoice/${issuedInvoice.id}`} target="_blank">
+                  <Link to={`/invoice/${issuedInvoice.id}`}>
                     <Button variant="outline" size="sm">
                       <Download className="h-3.5 w-3.5 mr-1.5" /> Invoice
                     </Button>
