@@ -508,6 +508,14 @@ const CustomerRequestDetail = () => {
           </>
         ) : (
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="mb-2 flex justify-end">
+              <Link
+                to={`/messages?request=${id}`}
+                className="text-xs text-primary hover:underline inline-flex items-center gap-1"
+              >
+                Open in Messages →
+              </Link>
+            </div>
             <RequestChat requestId={id!} isCustomer={true} />
           </motion.div>
         )}
