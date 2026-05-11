@@ -291,7 +291,7 @@ const CustomerRequestDetail = () => {
                   <div className="p-4 rounded-lg bg-card border border-border mb-4">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-sm font-medium text-card-foreground">{issuedInvoice.invoice_number}</span>
-                      <Link to={`/invoice/${issuedInvoice.id}`} target="_blank">
+                      <Link to={`/invoice/${issuedInvoice.id}`}>
                         <Button variant="ghost" size="sm" className="h-7 text-xs text-primary">
                           <Download className="h-3 w-3 mr-1" /> View Invoice
                         </Button>
@@ -343,7 +343,7 @@ const CustomerRequestDetail = () => {
                   <h3 className="font-heading font-semibold text-foreground mb-1">Payment Sent</h3>
                   <p className="text-sm text-muted-foreground">Our team is verifying your payment. You'll be notified once confirmed.</p>
                   <div className="mt-4 flex justify-center gap-2">
-                    <Link to={`/invoice/${issuedInvoice.id}`} target="_blank">
+                    <Link to={`/invoice/${issuedInvoice.id}`}>
                       <Button variant="outline" size="sm">
                         <Download className="h-3.5 w-3.5 mr-1.5" /> View Invoice
                       </Button>
@@ -366,7 +366,7 @@ const CustomerRequestDetail = () => {
                     <p className="text-xs text-muted-foreground mt-2">Order #{order.order_number}</p>
                   )}
                   <div className="mt-4 flex justify-center gap-2">
-                    <Link to={`/invoice/${issuedInvoice.id}`} target="_blank">
+                    <Link to={`/invoice/${issuedInvoice.id}`}>
                       <Button variant="outline" size="sm">
                         <Download className="h-3.5 w-3.5 mr-1.5" /> View Invoice
                       </Button>
