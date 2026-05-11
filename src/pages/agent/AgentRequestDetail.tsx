@@ -232,7 +232,6 @@ const AgentRequestDetail = () => {
               summary: `An agent submitted a quote for "${request.title}".`,
               details: {
                 Request: request.title,
-                Request: request.title,
                 "Total cost": `${totalCost} ${request?.currency || "USD"}`,
                 MOQ: quote.moq,
                 "Delivery (days)": quote.delivery_time_days,
