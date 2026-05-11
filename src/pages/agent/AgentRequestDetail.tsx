@@ -250,7 +250,7 @@ const AgentRequestDetail = () => {
       queryClient.invalidateQueries({ queryKey: ["agent-requests"] });
       toast({ title: "Quote submitted!", description: "The customer will be notified." });
       setSheetOpen(false);
-      setQuote({ factory_name: "", factory_cost: "", logistics_cost: "", service_fee: "", delivery_time_days: "14", moq: "", notes: "" });
+      setQuote({ factory_cost: "", logistics_cost: "", service_fee: "", delivery_time_days: "14", moq: "", notes: "" });
       setAddonPrices({});
       setQuoteAttachments([]);
     },
