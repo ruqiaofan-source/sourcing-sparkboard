@@ -226,6 +226,32 @@ const NewRequest = () => {
         console.error("Failed to send admin request notification:", notifyErr);
       }
 
+      // Confirmation email to the customer
+      if (user.email) {
+        try {
+          await supabase.functions.invoke("send-transactional-email", {
+            body: {
+              templateName: "request-received",
+              recipientEmail: user.email,
+              idempotencyKey: `request-received-${user.id}-${Date.now()}`,
+              templateData: {
+                recipientName:
+                  (userProfile as any)?.display_name ||
+                  (userProfile as any)?.full_name ||
+                  undefined,
+                requestTitle: form.title,
+                quantity: form.quantity,
+                budgetPerUnit: form.budget_per_unit,
+                currency: form.currency,
+                requestUrl: `${window.location.origin}/sourcing-requests`,
+              },
+            },
+          });
+        } catch (notifyErr) {
+          console.error("Failed to send customer confirmation email:", notifyErr);
+        }
+      }
+
       setSubmitted(true);
     } catch (err: any) {
       toast({ title: "Error", description: err.message, variant: "destructive" });
