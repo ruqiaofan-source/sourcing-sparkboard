@@ -429,7 +429,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
         <span className="text-xs text-muted-foreground">({messages.length})</span>
       </div>
 
-      <div ref={scrollRef} className="h-[60vh] md:h-[70vh] lg:h-[75vh] overflow-y-auto px-5 py-3 space-y-3">
+      <div ref={scrollRef} className="h-[38vh] md:h-[42vh] lg:h-[46vh] overflow-y-auto px-5 py-3 space-y-3">
         {isLoading ? (
           <div className="flex items-center justify-center h-full">
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
