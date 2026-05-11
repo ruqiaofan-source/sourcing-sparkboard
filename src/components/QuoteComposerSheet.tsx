@@ -21,7 +21,6 @@ export default function QuoteComposerSheet({ open, onOpenChange, requestId }: Qu
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [form, setForm] = useState({
-    factory_name: "Equilinq Verified Factory",
     factory_cost: "",
     logistics_cost: "",
     service_fee: "",
@@ -42,7 +41,6 @@ export default function QuoteComposerSheet({ open, onOpenChange, requestId }: Qu
 
   const reset = () => {
     setForm({
-      factory_name: "Equilinq Verified Factory",
       factory_cost: "",
       logistics_cost: "",
       service_fee: "",
@@ -70,7 +68,7 @@ export default function QuoteComposerSheet({ open, onOpenChange, requestId }: Qu
         .insert({
           sourcing_request_id: requestId,
           agent_id: user!.id,
-          factory_name: form.factory_name || "Equilinq Verified Factory",
+          factory_name: "Equilinq Verified Factory",
           factory_cost: parseFloat(form.factory_cost) || 0,
           china_ops_cost: 0,
           logistics_cost: parseFloat(form.logistics_cost) || 0,
@@ -179,16 +177,6 @@ export default function QuoteComposerSheet({ open, onOpenChange, requestId }: Qu
         </SheetHeader>
 
         <div className="mt-6 space-y-4">
-          <div className="space-y-1.5">
-            <Label htmlFor="factory_name">Factory name</Label>
-            <Input
-              id="factory_name"
-              value={form.factory_name}
-              onChange={(e) => setField("factory_name", e.target.value)}
-              placeholder="e.g. Equilinq Verified Factory"
-            />
-          </div>
-
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label htmlFor="factory_cost">Factory cost (€/unit)</Label>
