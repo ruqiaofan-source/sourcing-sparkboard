@@ -125,26 +125,26 @@ const InvoiceView = () => {
       </div>
 
       {/* Invoice content */}
-      <div className="print:mt-0 mt-20 flex justify-center bg-muted/30 print:bg-white min-h-screen p-8 print:p-0">
+      <div className="print:mt-0 mt-20 flex justify-center bg-muted/30 print:bg-white min-h-screen p-2 sm:p-4 md:p-8 print:p-0">
         <div
           ref={printRef}
           className="bg-white text-black w-full max-w-[210mm] print:max-w-none shadow-lg print:shadow-none"
           style={{ fontFamily: "'Inter', 'Helvetica Neue', Arial, sans-serif" }}
         >
-          <div className="p-12 print:p-16">
+          <div className="p-5 sm:p-8 md:p-12 print:p-16">
             {/* Header */}
-            <div className="flex justify-between items-start mb-12">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-8 sm:mb-12">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-1">INVOICE</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 mb-1">INVOICE</h1>
                 <p className="text-sm text-gray-500">Invoice Date: {invoiceDate}</p>
               </div>
-              <div className="text-right">
+              <div className="sm:text-right">
                 <p className="text-sm font-medium text-gray-500">{invoice.invoice_number}</p>
               </div>
             </div>
 
             {/* Company & Bill To */}
-            <div className="grid grid-cols-2 gap-12 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-12 mb-8 sm:mb-10">
               <div>
                 <p className="font-bold text-gray-900 mb-2">EQUILINQ LTD</p>
                 <p className="text-sm text-gray-700 leading-relaxed">
@@ -174,32 +174,34 @@ const InvoiceView = () => {
             </div>
 
             {/* Line items table (full grid, matches reference) */}
-            <table className="w-full mb-8 border-collapse">
+            <div className="overflow-x-auto -mx-1 mb-8 print:mx-0 print:overflow-visible">
+            <table className="w-full border-collapse text-xs sm:text-sm min-w-[480px] print:min-w-0">
               <thead>
                 <tr>
-                  <th className="text-left text-sm font-bold text-gray-900 p-3 border border-gray-300 w-1/2">Item &amp; Description</th>
-                  <th className="text-right text-sm font-bold text-gray-900 p-3 border border-gray-300">Unit Price</th>
-                  <th className="text-right text-sm font-bold text-gray-900 p-3 border border-gray-300">Qty</th>
-                  <th className="text-right text-sm font-bold text-gray-900 p-3 border border-gray-300">Amount</th>
+                  <th className="text-left font-bold text-gray-900 p-2 sm:p-3 border border-gray-300 w-1/2">Item &amp; Description</th>
+                  <th className="text-right font-bold text-gray-900 p-2 sm:p-3 border border-gray-300">Unit Price</th>
+                  <th className="text-right font-bold text-gray-900 p-2 sm:p-3 border border-gray-300">Qty</th>
+                  <th className="text-right font-bold text-gray-900 p-2 sm:p-3 border border-gray-300">Amount</th>
                 </tr>
               </thead>
               <tbody>
                 {lineItems.map((item, i) => (
                   <tr key={i}>
-                    <td className="p-3 text-sm text-gray-800 border border-gray-300">{item.description}</td>
-                    <td className="p-3 text-sm text-gray-800 text-right border border-gray-300">{currencySymbol}{item.unitPrice.toFixed(2)}</td>
-                    <td className="p-3 text-sm text-gray-800 text-right border border-gray-300">{item.qty}</td>
-                    <td className="p-3 text-sm text-gray-800 text-right border border-gray-300">{currencySymbol}{item.amount.toFixed(2)}</td>
+                    <td className="p-2 sm:p-3 text-gray-800 border border-gray-300">{item.description}</td>
+                    <td className="p-2 sm:p-3 text-gray-800 text-right border border-gray-300 whitespace-nowrap">{currencySymbol}{item.unitPrice.toFixed(2)}</td>
+                    <td className="p-2 sm:p-3 text-gray-800 text-right border border-gray-300">{item.qty}</td>
+                    <td className="p-2 sm:p-3 text-gray-800 text-right border border-gray-300 whitespace-nowrap">{currencySymbol}{item.amount.toFixed(2)}</td>
                   </tr>
                 ))}
                 <tr>
-                  <td className="p-3 text-sm font-bold text-gray-900 border border-gray-300">Total</td>
-                  <td className="p-3 text-sm font-bold text-gray-900 text-right border border-gray-300">{currencySymbol}{total.toFixed(2)}</td>
-                  <td className="p-3 text-sm font-bold text-gray-900 text-right border border-gray-300">1</td>
-                  <td className="p-3 text-sm font-bold text-gray-900 text-right border border-gray-300">{currencySymbol}{total.toFixed(2)}</td>
+                  <td className="p-2 sm:p-3 font-bold text-gray-900 border border-gray-300">Total</td>
+                  <td className="p-2 sm:p-3 font-bold text-gray-900 text-right border border-gray-300 whitespace-nowrap">{currencySymbol}{total.toFixed(2)}</td>
+                  <td className="p-2 sm:p-3 font-bold text-gray-900 text-right border border-gray-300">1</td>
+                  <td className="p-2 sm:p-3 font-bold text-gray-900 text-right border border-gray-300 whitespace-nowrap">{currencySymbol}{total.toFixed(2)}</td>
                 </tr>
               </tbody>
             </table>
+            </div>
 
             {/* Notes */}
             <div className="mb-10">
@@ -217,12 +219,12 @@ const InvoiceView = () => {
             {/* Payment method */}
             <div className="border-t border-gray-200 pt-6">
               <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Payment Method</h3>
-              <div className="text-sm text-gray-700 space-y-1">
-                <p><span className="text-gray-500 w-40 inline-block">Account Name:</span> Equilinq Limited</p>
-                <p><span className="text-gray-500 w-40 inline-block">Bank Name:</span> Community Federal Savings Bank</p>
-                <p><span className="text-gray-500 w-40 inline-block">Account Number:</span> 8484328871</p>
-                <p><span className="text-gray-500 w-40 inline-block">ACH Routing (ABA):</span> 026073150</p>
-                <p><span className="text-gray-500 w-40 inline-block">Currency:</span> {invoice.currency}</p>
+              <div className="text-sm text-gray-700 space-y-1 break-words">
+                <p><span className="text-gray-500 sm:w-40 sm:inline-block block">Account Name:</span> Equilinq Limited</p>
+                <p><span className="text-gray-500 sm:w-40 sm:inline-block block">Bank Name:</span> Community Federal Savings Bank</p>
+                <p><span className="text-gray-500 sm:w-40 sm:inline-block block">Account Number:</span> 8484328871</p>
+                <p><span className="text-gray-500 sm:w-40 sm:inline-block block">ACH Routing (ABA):</span> 026073150</p>
+                <p><span className="text-gray-500 sm:w-40 sm:inline-block block">Currency:</span> {invoice.currency}</p>
               </div>
             </div>
           </div>
