@@ -447,6 +447,31 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
             const isMine = m.sender_id === user?.id;
             const senderName = m.profiles?.display_name || (isMine ? "You" : isCustomer ? "Agent" : "Customer");
             const isEditing = editingId === m.id;
+            const isQuoteMsg = m.message_type === "quote" && m.quote_id;
+            if (isQuoteMsg) {
+              const linkedQuote = quoteMap.get(m.quote_id) || {
+                id: m.quote_id,
+                status: "pending",
+              };
+              return (
+                <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+                  <div className="max-w-[85%]">
+                    <p
+                      className={`text-[11px] font-medium mb-1 ${
+                        isMine ? "text-right text-primary" : "text-muted-foreground"
+                      }`}
+                    >
+                      {isMine ? "You sent a quote" : `${senderName} sent a quote`}
+                    </p>
+                    <QuoteMessageCard
+                      quote={linkedQuote}
+                      requestId={requestId}
+                      isCustomer={!!isCustomer}
+                    />
+                  </div>
+                </div>
+              );
+            }
             return (
               <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
                 <div className={`group relative max-w-[80%] rounded-xl px-3.5 py-2.5 ${
