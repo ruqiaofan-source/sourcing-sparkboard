@@ -523,8 +523,8 @@ export default function Landing() {
               { src: logoPorsche, alt: "Porsche", url: "https://www.porsche.com/" },
               { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/" },
               { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/" },
-            ].map((logo) => (
-              <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="group flex shrink-0 items-center justify-center px-6 sm:px-10">
+            ].map((logo, i) => (
+              <a key={`${logo.alt}-${i}`} href={logo.url} target="_blank" rel="noopener noreferrer" className="group flex shrink-0 items-center justify-center px-6 sm:px-10">
                 <img
                   src={logo.src} alt={logo.alt} loading="lazy"
                   className="h-10 sm:h-12 w-auto max-w-[160px] object-contain opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110"
