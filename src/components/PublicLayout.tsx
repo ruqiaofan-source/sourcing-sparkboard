@@ -97,19 +97,23 @@ export function PublicNavbar() {
           />
         </div>
 
-        <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0 group/logo">
+        <Link
+          to="/"
+          className="flex items-center gap-2 mr-3 shrink-0 group/logo transition-transform duration-300 hover:scale-[1.03]"
+          aria-label="Equilinq home"
+        >
           <img
-            src={equilinqLogo}
+            src={theme === "dark" ? equilinqLogoWhite : equilinqLogo}
             alt="Equilinq"
-            width={32}
-            height={32}
-            className="h-8 w-8 object-contain"
+            width={36}
+            height={36}
+            className="h-9 w-9 rounded-lg object-contain transition-all duration-300 group-hover/logo:drop-shadow-[0_0_12px_hsl(var(--primary)/0.55)] group-hover/logo:rotate-[-2deg]"
             loading="eager"
             decoding="sync"
             fetchPriority="high"
           />
           <div className="flex flex-col leading-none">
-            <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
+            <span className="font-heading text-lg font-bold tracking-wider uppercase text-foreground transition-colors duration-300 group-hover/logo:text-primary">
               Equilinq
             </span>
             <span className="text-[8px] font-medium tracking-[0.15em] uppercase text-muted-foreground hidden sm:block">
@@ -334,10 +338,16 @@ export function PublicFooter() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2.5 mb-3">
-              <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-7 w-7 rounded-md object-cover" />
-              <span className="font-heading text-sm font-bold tracking-wider uppercase text-foreground">Equilinq</span>
-            </div>
+            <Link to="/" className="group/flogo flex items-center gap-2.5 mb-3 w-fit transition-transform duration-300 hover:scale-[1.03]" aria-label="Equilinq home">
+              <img
+                src={theme === "dark" ? equilinqLogoWhite : equilinqLogo}
+                alt="Equilinq"
+                width={36}
+                height={36}
+                className="h-9 w-9 rounded-lg object-contain transition-all duration-300 group-hover/flogo:drop-shadow-[0_0_12px_hsl(var(--primary)/0.55)] group-hover/flogo:rotate-[-2deg]"
+              />
+              <span className="font-heading text-sm font-bold tracking-wider uppercase text-foreground transition-colors duration-300 group-hover/flogo:text-primary">Equilinq</span>
+            </Link>
             <p className="text-xs text-muted-foreground leading-relaxed mb-3">
               EU-China Sourcing & Procurement Services.
               <br />

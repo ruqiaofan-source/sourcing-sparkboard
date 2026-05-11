@@ -66,7 +66,15 @@ export function AppSidebar() {
         <div className="w-full">
           {/* Logo */}
           <div className="pt-6 pb-4 flex flex-col items-center border-b border-border/30 w-full px-2">
-            <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
+            <NavLink to="/dashboard" className="group/slogo block transition-transform duration-300 hover:scale-[1.06]" aria-label="Equilinq dashboard">
+              <img
+                src={theme === "dark" ? equilinqLogoWhite : equilinqLogo}
+                alt="Equilinq"
+                width={40}
+                height={40}
+                className="h-10 w-10 rounded-lg object-contain transition-all duration-300 group-hover/slogo:drop-shadow-[0_0_14px_hsl(var(--primary)/0.6)] group-hover/slogo:rotate-[-3deg]"
+              />
+            </NavLink>
           </div>
 
           {/* Main nav */}
