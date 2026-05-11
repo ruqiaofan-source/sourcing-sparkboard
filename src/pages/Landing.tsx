@@ -14,6 +14,7 @@ import PageGlow from "@/components/PageGlow";
 import logoSoleRunning from "@/assets/logos/sole-running-cutout.png";
 import logoLKK from "@/assets/logos/lkk-cutout.png";
 import logoIMMO from "@/assets/logos/immo-cutout.png";
+import logoPorsche from "@/assets/logos/porsche-cutout.png";
 import logoBuckyDrop from "@/assets/logos/buckydrop-cutout.png";
 const dashboardPreviewWebp = "/dashboard-preview-real.webp";
 const dashboardPreview1024 = "/dashboard-preview-real-1024.webp";
@@ -520,6 +521,7 @@ export default function Landing() {
               { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/" },
               { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/" },
               { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/" },
+              { src: logoPorsche, alt: "Porsche", url: "https://www.porsche.com/" },
             ].map((logo) => (
               <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="group flex shrink-0 items-center justify-center px-6 sm:px-10">
                 <img
