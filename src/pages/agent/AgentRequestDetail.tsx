@@ -201,7 +201,7 @@ const AgentRequestDetail = () => {
         sourcing_request_id: id!, agent_id: user!.id, factory_name: "Equilinq Verified Factory",
         factory_cost: parseFloat(quote.factory_cost) || 0, china_ops_cost: 0,
         logistics_cost: parseFloat(quote.logistics_cost) || 0, service_fee: parseFloat(quote.service_fee) || 0,
-        total_cost: totalCost, currency: request?.currency || "USD",
+        total_cost: totalCost, currency: "EUR",
         delivery_time_days: parseInt(quote.delivery_time_days) || 14, moq: parseInt(quote.moq) || 1,
         notes: quote.notes || null, status: "pending", attachment_paths: quoteAttachments,
         addon_fees: addonFeesArr,
@@ -490,7 +490,7 @@ const AgentRequestDetail = () => {
                     </SheetHeader>
                     <div className="space-y-4 mt-6">
                       <div className="p-4 rounded-lg border border-border bg-muted/20">
-                        <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">Cost Breakdown ({request.currency})</p>
+                        <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">Cost Breakdown (EUR)</p>
                         <div className="space-y-3">
                           {[
                             { icon: Factory, label: "Factory Cost", field: "factory_cost", hint: "Raw manufacturing cost per unit" },
