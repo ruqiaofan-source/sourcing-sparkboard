@@ -226,32 +226,6 @@ const NewRequest = () => {
         console.error("Failed to send admin request notification:", notifyErr);
       }
 
-      // Confirmation email to the customer
-      if (user.email) {
-        try {
-          await supabase.functions.invoke("send-transactional-email", {
-            body: {
-              templateName: "request-received",
-              recipientEmail: user.email,
-              idempotencyKey: `request-received-${user.id}-${Date.now()}`,
-              templateData: {
-                recipientName:
-                  (userProfile as any)?.display_name ||
-                  (userProfile as any)?.full_name ||
-                  undefined,
-                requestTitle: form.title,
-                quantity: form.quantity,
-                budgetPerUnit: form.budget_per_unit,
-                currency: form.currency,
-                requestUrl: `${window.location.origin}/sourcing-requests`,
-              },
-            },
-          });
-        } catch (notifyErr) {
-          console.error("Failed to send customer confirmation email:", notifyErr);
-        }
-      }
-
       setSubmitted(true);
     } catch (err: any) {
       toast({ title: "Error", description: err.message, variant: "destructive" });
@@ -570,13 +544,15 @@ const NewRequest = () => {
                             </div>
                             <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
                           </button>
-                          {isExpanded && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              transition={{ duration: 0.2 }}
-                              className="overflow-hidden"
-                            >
+                          <AnimatePresence>
+                            {isExpanded && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="overflow-hidden"
+                              >
                                 <div className="flex justify-end px-3 pt-1">
                                   <button
                                     type="button"
@@ -594,13 +570,16 @@ const NewRequest = () => {
                                     {items.every((a) => selectedAddons.includes(a.id)) ? "Deselect all" : "Select all"}
                                   </button>
                                 </div>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 px-3 pb-3 pt-1">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 px-3 pb-3 pt-1">
                                   {items.map((addon, i) => {
                                     const isSelected = selectedAddons.includes(addon.id);
                                     return (
-                                      <button
+                                      <motion.button
                                         key={addon.id}
                                         type="button"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: i * 0.03 }}
                                         onClick={() => toggleAddon(addon.id)}
                                         className={`text-left rounded-lg border p-2.5 transition-all ${
                                           isSelected
@@ -612,18 +591,19 @@ const NewRequest = () => {
                                           <addon.icon className={`h-3.5 w-3.5 shrink-0 ${isSelected ? colors.icon : "text-muted-foreground"}`} />
                                           <span className={`text-sm font-medium ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>{addon.label}</span>
                                           {isSelected && (
-                                            <span className="ml-auto">
+                                            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="ml-auto">
                                               <Check className={`h-3.5 w-3.5 ${colors.icon}`} />
-                                            </span>
+                                            </motion.div>
                                           )}
                                         </div>
-                                        <p className="text-[11px] text-muted-foreground/70 mt-1 ml-5">{addon.desc}</p>
-                                      </button>
+                                        <p className="text-[11px] text-muted-foreground/70 mt-1 ml-5.5">{addon.desc}</p>
+                                      </motion.button>
                                     );
                                   })}
-                              </div>
-                            </motion.div>
-                          )}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </div>
                       );
                     })}

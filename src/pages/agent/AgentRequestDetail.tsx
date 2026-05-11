@@ -243,46 +243,6 @@ const AgentRequestDetail = () => {
       } catch (notifyErr) {
         console.error("Failed to send admin quote notification:", notifyErr);
       }
-
-      // Notify the customer by email that a new quote is ready
-      try {
-        const [{ data: customerProfile }, { data: customerPrefs }] = await Promise.all([
-          supabase
-            .from("profiles")
-            .select("email, display_name, full_name")
-            .eq("user_id", request.user_id)
-            .maybeSingle(),
-          supabase
-            .from("notification_preferences" as any)
-            .select("message_email")
-            .eq("user_id", request.user_id)
-            .maybeSingle(),
-        ]);
-        const emailAllowed = (customerPrefs as any)?.message_email ?? true;
-        if ((customerProfile as any)?.email && emailAllowed) {
-          await supabase.functions.invoke("send-transactional-email", {
-            body: {
-              templateName: "new-quote",
-              recipientEmail: (customerProfile as any).email,
-              idempotencyKey: `new-quote-${id}-${user!.id}-${Date.now()}`,
-              templateData: {
-                recipientName:
-                  (customerProfile as any)?.display_name ||
-                  (customerProfile as any)?.full_name ||
-                  undefined,
-                requestTitle: request.title,
-                totalCost: totalCost.toFixed(2),
-                currency: "EUR",
-                moq: quote.moq,
-                deliveryDays: quote.delivery_time_days,
-                quoteUrl: `${window.location.origin}/sourcing-requests/${id}`,
-              },
-            },
-          });
-        }
-      } catch (notifyErr) {
-        console.error("Failed to send customer quote email:", notifyErr);
-      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["request-quotes", id] });

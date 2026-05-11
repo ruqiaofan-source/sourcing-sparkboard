@@ -15,8 +15,6 @@ import { template as contactNotification } from './contact-notification.tsx'
 import { template as auditAlert } from './audit-alert.tsx'
 import { template as adminNotification } from './admin-notification.tsx'
 import { template as newMessage } from './new-message.tsx'
-import { template as requestReceived } from './request-received.tsx'
-import { template as newQuote } from './new-quote.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'invoice-issued': invoiceIssued,
@@ -25,6 +23,4 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'audit-alert': auditAlert,
   'admin-notification': adminNotification,
   'new-message': newMessage,
-  'request-received': requestReceived,
-  'new-quote': newQuote,
 }
