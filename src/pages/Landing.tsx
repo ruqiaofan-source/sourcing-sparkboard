@@ -520,29 +520,14 @@ export default function Landing() {
               { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/" },
               { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/" },
               { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/" },
-            ].map((logo) => {
-              const isDark = theme === "dark";
-              return (
-                <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="group flex shrink-0 items-center justify-center px-6 sm:px-10 transition-all duration-500">
-                  <img
-                    src={logo.src} alt={logo.alt} loading="lazy"
-                    className="h-10 sm:h-12 w-auto max-w-[160px] object-contain transition-all duration-500 group-hover:scale-110"
-                    style={{
-                      filter: isDark
-                        ? "brightness(0) invert(1) opacity(0.7)"
-                        : "brightness(0) opacity(0.55)",
-                      transition: "filter 0.5s, transform 0.3s",
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.filter = "none"; }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.filter = isDark
-                        ? "brightness(0) invert(1) opacity(0.7)"
-                        : "brightness(0) opacity(0.55)";
-                    }}
-                  />
-                </a>
-              );
-            })}
+            ].map((logo) => (
+              <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="group flex shrink-0 items-center justify-center px-6 sm:px-10">
+                <img
+                  src={logo.src} alt={logo.alt} loading="lazy"
+                  className="h-10 sm:h-12 w-auto max-w-[160px] object-contain opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110"
+                />
+              </a>
+            ))}
           </Marquee>
         </div>
       </section>
