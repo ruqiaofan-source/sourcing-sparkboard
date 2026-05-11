@@ -517,11 +517,11 @@ export default function Landing() {
           <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-32 z-20 bg-gradient-to-l from-background to-transparent" />
           <Marquee speed={45}>
             {[
+              { src: logoPorsche, alt: "Porsche", url: "https://www.porsche.com/" },
               { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/" },
               { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/" },
               { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/" },
               { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/" },
-              { src: logoPorsche, alt: "Porsche", url: "https://www.porsche.com/" },
             ].map((logo) => (
               <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="group flex shrink-0 items-center justify-center px-6 sm:px-10">
                 <img
