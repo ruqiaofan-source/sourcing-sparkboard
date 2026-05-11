@@ -95,15 +95,6 @@ const InvoiceView = () => {
     });
   }
 
-  if (Number(invoice.financial_costs || 0) > 0) {
-    lineItems.push({
-      description: "Financial Costs (payment & transfer fees)",
-      unitPrice: Number(invoice.financial_costs),
-      qty: 1,
-      amount: Number(invoice.financial_costs),
-    });
-  }
-
   if (Number(invoice.logistics_cost) > 0) {
     lineItems.push({
       description: "Logistics & Customs",
@@ -113,7 +104,8 @@ const InvoiceView = () => {
     });
   }
 
-  const total = Number(invoice.total_amount);
+  // Total excludes financial costs (not shown to customer)
+  const total = lineItems.reduce((sum, item) => sum + item.amount, 0);
 
   return (
     <>
@@ -152,60 +144,61 @@ const InvoiceView = () => {
             </div>
 
             {/* Company & Bill To */}
-            <div className="grid grid-cols-2 gap-12 mb-12">
+            <div className="grid grid-cols-2 gap-12 mb-10">
               <div>
-                <h2 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">From</h2>
-                <p className="font-semibold text-gray-900 text-lg">EQUILINQ LTD</p>
-                <p className="text-sm text-gray-600 mt-1 leading-relaxed">
-                  Unit D 11/F, Two Chinachem Plaza,<br />
-                  68 Connaught Rd Central,<br />
-                  Hong Kong
+                <p className="font-bold text-gray-900 mb-2">EQUILINQ LTD</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  <span className="text-gray-900">Address:</span> Unit D 11/F, Two Chinachem Plaza, 68 Connaught Rd Central, Hong Kong
                 </p>
-                <p className="text-sm text-gray-600 mt-2">contact@equilinq.eu</p>
+                <p className="text-sm text-gray-700 mt-1">
+                  <span className="text-gray-900">Email:</span> contact@equilinq.eu
+                </p>
               </div>
               <div>
-                <h2 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Bill To</h2>
-                <p className="font-semibold text-gray-900 text-lg">
+                <p className="font-bold text-gray-900 mb-2">BILL TO</p>
+                <p className="text-sm text-gray-700">
+                  <span className="text-gray-900">Name:</span>{" "}
                   {customerProfile?.full_name || customerProfile?.display_name || "Customer"}
                 </p>
-                {invoice.delivery_address && (
-                  <p className="text-sm text-gray-600 mt-1 leading-relaxed whitespace-pre-line">
-                    {invoice.delivery_address}
+                {(customerProfile as any)?.company_name && (
+                  <p className="text-sm text-gray-700 mt-1">
+                    <span className="text-gray-900">Company:</span> {(customerProfile as any).company_name}
                   </p>
                 )}
-                {customerProfile?.phone_number && (
-                  <p className="text-sm text-gray-600 mt-1">{customerProfile.phone_number}</p>
+                {invoice.delivery_address && (
+                  <p className="text-sm text-gray-700 mt-1 leading-relaxed whitespace-pre-line">
+                    <span className="text-gray-900">Address:</span> {invoice.delivery_address}
+                  </p>
                 )}
               </div>
             </div>
 
-            {/* Line items table */}
-            <table className="w-full mb-8">
+            {/* Line items table (full grid, matches reference) */}
+            <table className="w-full mb-8 border-collapse">
               <thead>
-                <tr className="border-b-2 border-gray-900">
-                  <th className="text-left text-xs font-bold uppercase tracking-wider text-gray-500 pb-3 w-1/2">Item & Description</th>
-                  <th className="text-right text-xs font-bold uppercase tracking-wider text-gray-500 pb-3">Unit Price</th>
-                  <th className="text-right text-xs font-bold uppercase tracking-wider text-gray-500 pb-3">Qty</th>
-                  <th className="text-right text-xs font-bold uppercase tracking-wider text-gray-500 pb-3">Amount</th>
+                <tr>
+                  <th className="text-left text-sm font-bold text-gray-900 p-3 border border-gray-300 w-1/2">Item &amp; Description</th>
+                  <th className="text-right text-sm font-bold text-gray-900 p-3 border border-gray-300">Unit Price</th>
+                  <th className="text-right text-sm font-bold text-gray-900 p-3 border border-gray-300">Qty</th>
+                  <th className="text-right text-sm font-bold text-gray-900 p-3 border border-gray-300">Amount</th>
                 </tr>
               </thead>
               <tbody>
                 {lineItems.map((item, i) => (
-                  <tr key={i} className="border-b border-gray-200">
-                    <td className="py-4 text-sm text-gray-800">{item.description}</td>
-                    <td className="py-4 text-sm text-gray-800 text-right">{currencySymbol}{item.unitPrice.toFixed(2)}</td>
-                    <td className="py-4 text-sm text-gray-800 text-right">{item.qty}</td>
-                    <td className="py-4 text-sm text-gray-800 text-right font-medium">{currencySymbol}{item.amount.toFixed(2)}</td>
+                  <tr key={i}>
+                    <td className="p-3 text-sm text-gray-800 border border-gray-300">{item.description}</td>
+                    <td className="p-3 text-sm text-gray-800 text-right border border-gray-300">{currencySymbol}{item.unitPrice.toFixed(2)}</td>
+                    <td className="p-3 text-sm text-gray-800 text-right border border-gray-300">{item.qty}</td>
+                    <td className="p-3 text-sm text-gray-800 text-right border border-gray-300">{currencySymbol}{item.amount.toFixed(2)}</td>
                   </tr>
                 ))}
-              </tbody>
-              <tfoot>
-                <tr className="border-t-2 border-gray-900">
-                  <td colSpan={2} className="pt-4 text-sm font-bold text-gray-900">Total</td>
-                  <td className="pt-4 text-sm font-bold text-gray-900 text-right">{invoice.quantity}</td>
-                  <td className="pt-4 text-sm font-bold text-gray-900 text-right">{currencySymbol}{total.toFixed(2)}</td>
+                <tr>
+                  <td className="p-3 text-sm font-bold text-gray-900 border border-gray-300">Total</td>
+                  <td className="p-3 text-sm font-bold text-gray-900 text-right border border-gray-300">{currencySymbol}{total.toFixed(2)}</td>
+                  <td className="p-3 text-sm font-bold text-gray-900 text-right border border-gray-300">1</td>
+                  <td className="p-3 text-sm font-bold text-gray-900 text-right border border-gray-300">{currencySymbol}{total.toFixed(2)}</td>
                 </tr>
-              </tfoot>
+              </tbody>
             </table>
 
             {/* Notes */}
@@ -216,7 +209,7 @@ const InvoiceView = () => {
                 <p>The customer is the importer of record and is fully responsible for all customs clearance, duties, taxes, and regulatory compliance.</p>
                 <p>Production will commence only after full payment has been received.</p>
                 <p>Equilinq facilitates supplier payments on behalf of the customer; all goods are purchased in the name and for the account of the customer.</p>
-                <p>Factory, logistics, and financial costs are pass-through costs incurred on behalf of the customer.</p>
+                <p>Factory and logistics costs are pass-through costs incurred on behalf of the customer.</p>
                 <p>Payment of this invoice constitutes acceptance of these terms.</p>
               </div>
             </div>
