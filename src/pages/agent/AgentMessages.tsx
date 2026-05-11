@@ -90,13 +90,13 @@ const AgentMessages = () => {
         <p className="text-sm text-muted-foreground">Chat with customers about their sourcing requests</p>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 min-h-[600px] lg:min-h-[calc(100vh-140px)]">
+      <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 lg:h-[calc(100vh-180px)]">
         {/* Conversation list */}
         <div className="rounded-xl border border-border bg-card overflow-hidden">
           <div className="px-4 py-3 border-b border-border">
             <p className="text-sm font-medium text-card-foreground">All Conversations</p>
           </div>
-          <div className="divide-y divide-border/50 max-h-[600px] lg:max-h-[calc(100vh-200px)] overflow-y-auto">
+          <div className="divide-y divide-border/50 max-h-[400px] lg:max-h-[calc(100vh-240px)] overflow-y-auto">
             {isLoading ? (
               <div className="p-8 text-center text-sm text-muted-foreground">Loading...</div>
             ) : conversations.length === 0 ? (
