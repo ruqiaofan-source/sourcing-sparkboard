@@ -338,10 +338,16 @@ export function PublicFooter() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2.5 mb-3">
-              <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-7 w-7 rounded-md object-cover" />
-              <span className="font-heading text-sm font-bold tracking-wider uppercase text-foreground">Equilinq</span>
-            </div>
+            <Link to="/" className="group/flogo flex items-center gap-2.5 mb-3 w-fit transition-transform duration-300 hover:scale-[1.03]" aria-label="Equilinq home">
+              <img
+                src={theme === "dark" ? equilinqLogoWhite : equilinqLogo}
+                alt="Equilinq"
+                width={36}
+                height={36}
+                className="h-9 w-9 rounded-lg object-contain transition-all duration-300 group-hover/flogo:drop-shadow-[0_0_12px_hsl(var(--primary)/0.55)] group-hover/flogo:rotate-[-2deg]"
+              />
+              <span className="font-heading text-sm font-bold tracking-wider uppercase text-foreground transition-colors duration-300 group-hover/flogo:text-primary">Equilinq</span>
+            </Link>
             <p className="text-xs text-muted-foreground leading-relaxed mb-3">
               EU-China Sourcing & Procurement Services.
               <br />
