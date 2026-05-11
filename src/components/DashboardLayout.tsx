@@ -2,6 +2,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth } from "@/hooks/useAuth";
 import { useRole } from "@/hooks/useRole";
+import { useTheme } from "@/hooks/useTheme";
 import { useLocation, Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 
@@ -26,6 +27,7 @@ const routeNames: Record<string, string> = {
 export function DashboardLayout({ children, title }: { children: React.ReactNode; title?: string }) {
   const { user } = useAuth();
   const { primaryRole } = useRole();
+  const { theme } = useTheme();
   const location = useLocation();
   const initials = user?.email?.slice(0, 2).toUpperCase() || "EQ";
   const roleBadge = primaryRole === "admin" ? "Admin" : primaryRole === "agent" ? "Agent" : "Customer";
@@ -35,7 +37,7 @@ export function DashboardLayout({ children, title }: { children: React.ReactNode
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className={`${theme === "light" ? "light " : ""}min-h-screen flex w-full bg-background`}>
         <AppSidebar />
         <div className="flex-1 flex flex-col relative min-w-0">
           {/* Dramatic blue light streaks matching equilinq.eu */}
