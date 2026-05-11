@@ -146,6 +146,31 @@ const CustomerRequestDetail = () => {
         }));
         await supabase.from("notifications" as any).insert(notifs as any);
       }
+
+      // Email admin@equilinq.eu about the payment
+      try {
+        await supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "admin-notification",
+            recipientEmail: "admin@equilinq.eu",
+            idempotencyKey: `admin-payment-sent-${invoiceId}`,
+            templateData: {
+              eventType: "payment_sent",
+              title: "Customer marked payment as sent",
+              summary: `Customer has indicated they completed the bank transfer for "${request?.title}". Please verify receipt and confirm in the agent dashboard.`,
+              details: {
+                Request: request?.title,
+                Invoice: issuedInvoice?.invoice_number,
+                Amount: issuedInvoice ? `${issuedInvoice.currency} ${Number(issuedInvoice.total_amount).toFixed(2)}` : undefined,
+                "Customer email": user?.email,
+              },
+              link: `${window.location.origin}/agent/requests/${id}`,
+            },
+          },
+        });
+      } catch (notifyErr) {
+        console.error("Failed to send admin payment notification:", notifyErr);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customer-request-invoices", id] });
