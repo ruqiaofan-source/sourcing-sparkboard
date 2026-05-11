@@ -97,19 +97,23 @@ export function PublicNavbar() {
           />
         </div>
 
-        <Link to="/" className="flex items-center gap-1.5 mr-3 shrink-0 group/logo">
+        <Link
+          to="/"
+          className="flex items-center gap-2 mr-3 shrink-0 group/logo transition-transform duration-300 hover:scale-[1.03]"
+          aria-label="Equilinq home"
+        >
           <img
-            src={equilinqLogo}
+            src={theme === "dark" ? equilinqLogoWhite : equilinqLogo}
             alt="Equilinq"
-            width={32}
-            height={32}
-            className="h-8 w-8 object-contain"
+            width={36}
+            height={36}
+            className="h-9 w-9 rounded-lg object-contain transition-all duration-300 group-hover/logo:drop-shadow-[0_0_12px_hsl(var(--primary)/0.55)] group-hover/logo:rotate-[-2deg]"
             loading="eager"
             decoding="sync"
             fetchPriority="high"
           />
           <div className="flex flex-col leading-none">
-            <span className="font-heading text-lg font-bold tracking-wider uppercase text-gray-900">
+            <span className="font-heading text-lg font-bold tracking-wider uppercase text-foreground transition-colors duration-300 group-hover/logo:text-primary">
               Equilinq
             </span>
             <span className="text-[8px] font-medium tracking-[0.15em] uppercase text-muted-foreground hidden sm:block">
