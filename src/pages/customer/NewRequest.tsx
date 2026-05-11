@@ -473,12 +473,12 @@ const NewRequest = () => {
 
               {step === 4 && (
                 <StepWrapper number="04" title="Target price per unit" subtitle="Your ideal budget. We'll find the best match from our factory network.">
-                  <div className="flex gap-3">
-                    <select value={form.currency} onChange={(e) => update("currency", e.target.value)} className="w-24 shrink-0 rounded-xl border border-border bg-secondary/50 px-3 py-3 text-base text-foreground h-14 focus:ring-2 focus:ring-primary/30 transition-all">
-                      {currencies.map((c) => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                    <Input autoFocus type="number" step="0.01" min="0" value={form.budget_per_unit} onChange={(e) => update("budget_per_unit", e.target.value)} placeholder="0.00" className="bg-secondary/50 border-border flex-1 h-14 text-lg placeholder:text-muted-foreground/40 focus:ring-2 focus:ring-primary/30 transition-all" />
-                  </div>
+                   <div className="flex gap-3">
+                     <div className="w-24 shrink-0 rounded-xl border border-border bg-secondary/50 px-3 text-base text-foreground h-14 flex items-center justify-center font-medium">
+                       € EUR
+                     </div>
+                     <Input autoFocus type="number" step="0.01" min="0" value={form.budget_per_unit} onChange={(e) => update("budget_per_unit", e.target.value)} placeholder="0.00" className="bg-secondary/50 border-border flex-1 h-14 text-lg placeholder:text-muted-foreground/40 focus:ring-2 focus:ring-primary/30 transition-all" />
+                   </div>
                 </StepWrapper>
               )}
 
