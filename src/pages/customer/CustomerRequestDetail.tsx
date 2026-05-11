@@ -411,10 +411,10 @@ const CustomerRequestDetail = () => {
                       <div className="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
                         <Check className="h-4 w-4 text-emerald-500" />
                       </div>
-                      <div>
-                        <p className="text-sm font-medium text-card-foreground">Accepted: {acceptedQuote.factory_name}</p>
-                        <p className="text-xs text-muted-foreground">{acceptedQuote.currency} {Number(acceptedQuote.total_cost).toFixed(2)}/unit - {acceptedQuote.delivery_time_days} days delivery</p>
-                      </div>
+                    <div>
+                      <p className="text-sm font-medium text-card-foreground">Quote Accepted</p>
+                      <p className="text-xs text-muted-foreground">{acceptedQuote.currency} {Number(acceptedQuote.total_cost).toFixed(2)}/unit - {acceptedQuote.delivery_time_days} days delivery</p>
+                    </div>
                     </div>
                     <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium bg-emerald-500/15 text-emerald-500 border-emerald-500/30">
                       Accepted
@@ -522,10 +522,7 @@ function QuoteCard({ q, request, onRespond, openFile }: { q: any; request: any; 
     <div className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
       <div className="flex items-start justify-between mb-4">
         <div>
-          <div className="flex items-center gap-2">
-            <Factory className="h-4 w-4 text-primary" />
-            <p className="font-medium text-card-foreground">{q.factory_name}</p>
-          </div>
+          <p className="font-medium text-card-foreground">Quote Details</p>
           <p className="text-xs text-muted-foreground mt-0.5">
             MOQ: {q.moq} units - Delivery: {q.delivery_time_days} days
           </p>
