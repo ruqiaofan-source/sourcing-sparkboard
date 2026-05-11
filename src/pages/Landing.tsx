@@ -520,6 +520,7 @@ export default function Landing() {
               { src: logoPorsche, alt: "Porsche", url: "https://www.porsche.com/" },
               { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/" },
               { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/" },
+              { src: logoPorsche, alt: "Porsche", url: "https://www.porsche.com/" },
               { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/" },
               { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/" },
             ].map((logo) => (
