@@ -680,6 +680,13 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
           })}
         </div>
       )}
+      {!isCustomer && (
+        <QuoteComposerSheet
+          open={quoteSheetOpen}
+          onOpenChange={setQuoteSheetOpen}
+          requestId={requestId}
+        />
+      )}
     </div>
   );
 }
