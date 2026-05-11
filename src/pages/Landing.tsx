@@ -15,6 +15,7 @@ import logoSoleRunning from "@/assets/logos/sole-running.webp";
 import logoLKK from "@/assets/logos/lkk.webp";
 import logoIMMO from "@/assets/logos/immo.webp";
 import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
+import logoPorsche from "@/assets/logos/porsche.png";
 const dashboardPreviewWebp = "/dashboard-preview-real.webp";
 const dashboardPreview1024 = "/dashboard-preview-real-1024.webp";
 
