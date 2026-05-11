@@ -624,6 +624,20 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
         >
           <Paperclip className="h-4 w-4" />
         </Button>
+        {!isCustomer && (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => setQuoteSheetOpen(true)}
+            disabled={sendMessage.isPending || uploading}
+            className="shrink-0 h-10 px-2.5 border-primary/40 text-primary hover:bg-primary/10"
+            title="Create a quote for this request"
+          >
+            <Receipt className="h-4 w-4 mr-1" />
+            <span className="text-xs font-semibold">Quote</span>
+          </Button>
+        )}
         <Textarea
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
