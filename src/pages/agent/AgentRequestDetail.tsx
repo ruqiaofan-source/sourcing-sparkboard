@@ -198,7 +198,7 @@ const AgentRequestDetail = () => {
         }));
 
       const { error: quoteError } = await supabase.from("quotes").insert({
-        sourcing_request_id: id!, agent_id: user!.id, factory_name: quote.factory_name,
+        sourcing_request_id: id!, agent_id: user!.id, factory_name: "Equilinq Verified Factory",
         factory_cost: parseFloat(quote.factory_cost) || 0, china_ops_cost: 0,
         logistics_cost: parseFloat(quote.logistics_cost) || 0, service_fee: parseFloat(quote.service_fee) || 0,
         total_cost: totalCost, currency: request?.currency || "USD",
@@ -214,7 +214,7 @@ const AgentRequestDetail = () => {
       await supabase.from("notifications" as any).insert({
         user_id: request.user_id,
         title: "Quote Ready",
-        message: `Your sourcing request "${request.title}" has a new quote from ${quote.factory_name}. Review and accept to proceed.`,
+        message: `Your sourcing request "${request.title}" has a new quote. Review and accept to proceed.`,
         type: "quote_ready",
         link: `/sourcing-requests/${id}`,
       } as any);
@@ -232,7 +232,7 @@ const AgentRequestDetail = () => {
               summary: `An agent submitted a quote for "${request.title}".`,
               details: {
                 Request: request.title,
-                Factory: quote.factory_name,
+                Request: request.title,
                 "Total cost": `${totalCost} ${request?.currency || "USD"}`,
                 MOQ: quote.moq,
                 "Delivery (days)": quote.delivery_time_days,
