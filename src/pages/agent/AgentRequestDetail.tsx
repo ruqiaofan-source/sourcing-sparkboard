@@ -42,7 +42,7 @@ const AgentRequestDetail = () => {
   const activeTab = searchParams.get("tab") || "details";
 
   const [quote, setQuote] = useState({
-    factory_name: "", factory_cost: "", logistics_cost: "",
+   factory_cost: "", logistics_cost: "",
     service_fee: "", delivery_time_days: "14", moq: "", notes: "",
   });
   const [addonPrices, setAddonPrices] = useState<Record<string, string>>({});
@@ -489,10 +489,6 @@ const AgentRequestDetail = () => {
                       <SheetDescription>Provide transparent pricing breakdown for "{request.title}"</SheetDescription>
                     </SheetHeader>
                     <div className="space-y-4 mt-6">
-                      <div className="space-y-1.5">
-                        <Label className="text-sm">Factory Name *</Label>
-                        <Input value={quote.factory_name} onChange={(e) => updateQuote("factory_name", e.target.value)} placeholder="e.g., Shenzhen Electronics Co." className="bg-secondary border-border" required />
-                      </div>
                       <div className="p-4 rounded-lg border border-border bg-muted/20">
                         <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">Cost Breakdown ({request.currency})</p>
                         <div className="space-y-3">
@@ -564,7 +560,7 @@ const AgentRequestDetail = () => {
                         <Label className="text-xs">Attachments</Label>
                         <FileUpload folder="quotes" files={quoteAttachments} onChange={setQuoteAttachments} maxFiles={5} />
                       </div>
-                      <Button onClick={() => submitQuote.mutate()} disabled={submitQuote.isPending || !quote.factory_name || !quote.factory_cost} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-11">
+                      <Button onClick={() => submitQuote.mutate()} disabled={submitQuote.isPending || !quote.factory_cost} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-11">
                         {submitQuote.isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Send className="h-4 w-4 mr-2" />}
                         Submit Quote to Customer
                       </Button>
