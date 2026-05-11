@@ -215,7 +215,7 @@ const NewRequest = () => {
               details: {
                 Title: form.title,
                 Quantity: form.quantity,
-                "Budget per unit": `${form.budget_per_unit} ${form.currency}`,
+                "Budget per unit": `€${form.budget_per_unit}`,
                 "Customer email": user.email,
               },
               link: `${window.location.origin}/admin/requests`,
@@ -314,7 +314,7 @@ const NewRequest = () => {
           >
             {[
               `${parseInt(form.quantity).toLocaleString()} units`,
-              `${form.currency} ${parseFloat(form.budget_per_unit).toFixed(2)}/unit`,
+              `€${parseFloat(form.budget_per_unit).toFixed(2)}/unit`,
               profileAddress ? profileAddress.split("\n")[0] : "Using account address",
               ...(selectedAddons.length > 0 ? [`${selectedAddons.length} add-on(s)`] : []),
             ].map((pill, i) => (
@@ -473,12 +473,12 @@ const NewRequest = () => {
 
               {step === 4 && (
                 <StepWrapper number="04" title="Target price per unit" subtitle="Your ideal budget. We'll find the best match from our factory network.">
-                  <div className="flex gap-3">
-                    <select value={form.currency} onChange={(e) => update("currency", e.target.value)} className="w-24 shrink-0 rounded-xl border border-border bg-secondary/50 px-3 py-3 text-base text-foreground h-14 focus:ring-2 focus:ring-primary/30 transition-all">
-                      {currencies.map((c) => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                    <Input autoFocus type="number" step="0.01" min="0" value={form.budget_per_unit} onChange={(e) => update("budget_per_unit", e.target.value)} placeholder="0.00" className="bg-secondary/50 border-border flex-1 h-14 text-lg placeholder:text-muted-foreground/40 focus:ring-2 focus:ring-primary/30 transition-all" />
-                  </div>
+                   <div className="flex gap-3">
+                     <div className="w-24 shrink-0 rounded-xl border border-border bg-secondary/50 px-3 text-base text-foreground h-14 flex items-center justify-center font-medium">
+                       € EUR
+                     </div>
+                     <Input autoFocus type="number" step="0.01" min="0" value={form.budget_per_unit} onChange={(e) => update("budget_per_unit", e.target.value)} placeholder="0.00" className="bg-secondary/50 border-border flex-1 h-14 text-lg placeholder:text-muted-foreground/40 focus:ring-2 focus:ring-primary/30 transition-all" />
+                   </div>
                 </StepWrapper>
               )}
 
@@ -630,7 +630,7 @@ const NewRequest = () => {
                       { label: "Product", value: form.title, step: 1 },
                       { label: "Description", value: form.description, step: 2 },
                       { label: "Quantity", value: `${parseInt(form.quantity).toLocaleString()} units`, step: 3 },
-                      { label: "Target Price", value: `${form.currency} ${parseFloat(form.budget_per_unit).toFixed(2)} / unit`, step: 4 },
+                      { label: "Target Price", value: `€${parseFloat(form.budget_per_unit).toFixed(2)} / unit`, step: 4 },
                       { label: "Eco-friendly", value: ecoOptions.find(o => o.value === form.eco_friendly)?.label || form.eco_friendly, step: 5 },
                       { label: "Delivery Address", value: profileAddress || "Not set - update in Settings", step: 0 },
                       { label: "Add-ons", value: selectedAddons.length > 0 ? selectedAddons.map(id => serviceAddons.find(a => a.id === id)?.label).join(", ") : "None", step: 6 },

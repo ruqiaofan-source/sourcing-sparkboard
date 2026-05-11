@@ -150,7 +150,7 @@ const AgentRequests = () => {
                         </div>
                         <div className="flex items-center gap-1 text-xs text-muted-foreground">
                           <DollarSign className="h-3 w-3" />
-                          <span>{r.currency} {Number(r.budget_per_unit).toFixed(2)}</span>
+                          <span>€{Number(r.budget_per_unit).toFixed(2)}</span>
                         </div>
                         {r.delivery_country && (
                           <div className="flex items-center gap-1 text-xs text-muted-foreground">

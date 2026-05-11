@@ -300,21 +300,21 @@ const CustomerRequestDetail = () => {
                     <div className="space-y-1.5 text-sm">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Factory Cost ({issuedInvoice.quantity} units)</span>
-                        <span className="text-card-foreground">{issuedInvoice.currency} {Number(issuedInvoice.factory_cost).toFixed(2)}</span>
+                        <span className="text-card-foreground">€{Number(issuedInvoice.factory_cost).toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Service Fee</span>
-                        <span className="text-card-foreground">{issuedInvoice.currency} {Number(issuedInvoice.service_fee).toFixed(2)}</span>
+                        <span className="text-card-foreground">€{Number(issuedInvoice.service_fee).toFixed(2)}</span>
                       </div>
                       {Number(issuedInvoice.logistics_cost) > 0 && (
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">Logistics & Shipping</span>
-                          <span className="text-card-foreground">{issuedInvoice.currency} {Number(issuedInvoice.logistics_cost).toFixed(2)}</span>
+                          <span className="text-card-foreground">€{Number(issuedInvoice.logistics_cost).toFixed(2)}</span>
                         </div>
                       )}
                       <div className="pt-2 mt-2 border-t border-border flex justify-between">
                         <span className="font-semibold text-card-foreground">Total Due</span>
-                        <span className="text-lg font-heading font-bold text-primary">{issuedInvoice.currency} {Number(issuedInvoice.total_amount).toFixed(2)}</span>
+                        <span className="text-lg font-heading font-bold text-primary">€{Number(issuedInvoice.total_amount).toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -413,7 +413,7 @@ const CustomerRequestDetail = () => {
                       </div>
                     <div>
                       <p className="text-sm font-medium text-card-foreground">Quote Accepted</p>
-                      <p className="text-xs text-muted-foreground">{acceptedQuote.currency} {Number(acceptedQuote.total_cost).toFixed(2)}/unit - {acceptedQuote.delivery_time_days} days delivery</p>
+                      <p className="text-xs text-muted-foreground">€{Number(acceptedQuote.total_cost).toFixed(2)}/unit - {acceptedQuote.delivery_time_days} days delivery</p>
                     </div>
                     </div>
                     <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium bg-emerald-500/15 text-emerald-500 border-emerald-500/30">
@@ -452,7 +452,7 @@ const CustomerRequestDetail = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {[
                     { icon: Package, label: "Quantity", value: `${request.quantity?.toLocaleString()} units` },
-                    { icon: DollarSign, label: "Budget/Unit", value: `${request.currency} ${Number(request.budget_per_unit).toFixed(2)}` },
+                    { icon: DollarSign, label: "Budget/Unit", value: `€${Number(request.budget_per_unit).toFixed(2)}` },
                     { icon: Leaf, label: "Eco-friendly", value: request.eco_friendly || "None" },
                   ].map((item) => (
                     <div key={item.label} className="p-3 rounded-lg bg-muted/30 border border-border/50">
@@ -533,11 +533,11 @@ function QuoteCard({ q, request, onRespond, openFile }: { q: any; request: any; 
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground flex items-center gap-1.5"><Factory className="h-3 w-3" /> Factory Cost</span>
-            <span className="text-card-foreground font-medium">{q.currency} {Number(q.factory_cost).toFixed(2)}</span>
+            <span className="text-card-foreground font-medium">€{Number(q.factory_cost).toFixed(2)}</span>
           </div>
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground flex items-center gap-1.5"><DollarSign className="h-3 w-3" /> Service Fee</span>
-            <span className="text-card-foreground font-medium">{q.currency} {Number(q.service_fee).toFixed(2)}</span>
+            <span className="text-card-foreground font-medium">€{Number(q.service_fee).toFixed(2)}</span>
           </div>
           {(() => {
             const aFees = (q as any).addon_fees as Array<{id: string; label: string; cost: number}> | null;
@@ -545,13 +545,13 @@ function QuoteCard({ q, request, onRespond, openFile }: { q: any; request: any; 
             return aFees.map((a) => (
               <div key={a.id} className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground flex items-center gap-1.5"><Wrench className="h-3 w-3" /> {a.label}</span>
-                <span className="text-card-foreground font-medium">{q.currency} {a.cost.toFixed(2)}</span>
+                <span className="text-card-foreground font-medium">€{a.cost.toFixed(2)}</span>
               </div>
             ));
           })()}
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground flex items-center gap-1.5"><Truck className="h-3 w-3" /> Logistics & Customs</span>
-            <span className="text-card-foreground font-medium">{q.currency} {Number(q.logistics_cost).toFixed(2)}</span>
+            <span className="text-card-foreground font-medium">€{Number(q.logistics_cost).toFixed(2)}</span>
           </div>
         </div>
       </div>
@@ -559,11 +559,11 @@ function QuoteCard({ q, request, onRespond, openFile }: { q: any; request: any; 
       <div className="flex items-center justify-between mb-4">
         <div>
           <span className="text-xs text-muted-foreground">Total per Unit</span>
-          <p className="text-lg font-heading font-bold text-primary">{q.currency} {Number(q.total_cost).toFixed(2)}</p>
+          <p className="text-lg font-heading font-bold text-primary">€{Number(q.total_cost).toFixed(2)}</p>
         </div>
         <div>
           <span className="text-xs text-muted-foreground">Total ({request.quantity} units)</span>
-          <p className="text-sm font-semibold text-card-foreground">{q.currency} {(Number(q.total_cost) * request.quantity).toFixed(2)}</p>
+          <p className="text-sm font-semibold text-card-foreground">€{(Number(q.total_cost) * request.quantity).toFixed(2)}</p>
         </div>
       </div>
 

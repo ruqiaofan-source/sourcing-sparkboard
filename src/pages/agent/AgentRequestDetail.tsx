@@ -201,7 +201,7 @@ const AgentRequestDetail = () => {
         sourcing_request_id: id!, agent_id: user!.id, factory_name: "Equilinq Verified Factory",
         factory_cost: parseFloat(quote.factory_cost) || 0, china_ops_cost: 0,
         logistics_cost: parseFloat(quote.logistics_cost) || 0, service_fee: parseFloat(quote.service_fee) || 0,
-        total_cost: totalCost, currency: request?.currency || "USD",
+        total_cost: totalCost, currency: "EUR",
         delivery_time_days: parseInt(quote.delivery_time_days) || 14, moq: parseInt(quote.moq) || 1,
         notes: quote.notes || null, status: "pending", attachment_paths: quoteAttachments,
         addon_fees: addonFeesArr,
@@ -232,7 +232,7 @@ const AgentRequestDetail = () => {
               summary: `An agent submitted a quote for "${request.title}".`,
               details: {
                 Request: request.title,
-                "Total cost": `${totalCost} ${request?.currency || "USD"}`,
+                "Total cost": `${totalCost} €`,
                 MOQ: quote.moq,
                 "Delivery (days)": quote.delivery_time_days,
               },
@@ -416,7 +416,7 @@ const AgentRequestDetail = () => {
                       <p className="text-sm font-medium text-card-foreground">{issuedInvoice.invoice_number}</p>
                       <p className="text-xs text-muted-foreground">{issuedInvoice.product_name} - {issuedInvoice.quantity} units</p>
                     </div>
-                    <span className="text-lg font-heading font-bold text-primary">{issuedInvoice.currency} {Number(issuedInvoice.total_amount).toFixed(2)}</span>
+                    <span className="text-lg font-heading font-bold text-primary">€{Number(issuedInvoice.total_amount).toFixed(2)}</span>
                   </div>
                   <Button
                     onClick={() => confirmPayment.mutate(issuedInvoice.id)}
@@ -440,7 +440,7 @@ const AgentRequestDetail = () => {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-card-foreground">Payment Confirmed - Order In Production</p>
-                      <p className="text-xs text-muted-foreground">{issuedInvoice.invoice_number} - {issuedInvoice.currency} {Number(issuedInvoice.total_amount).toFixed(2)}</p>
+                      <p className="text-xs text-muted-foreground">{issuedInvoice.invoice_number} - €{Number(issuedInvoice.total_amount).toFixed(2)}</p>
                     </div>
                   </div>
                   <Link to={`/invoice/${issuedInvoice.id}`} target="_blank">
@@ -462,7 +462,7 @@ const AgentRequestDetail = () => {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-card-foreground">Waiting for Customer Payment</p>
-                      <p className="text-xs text-muted-foreground">{issuedInvoice.invoice_number} - {issuedInvoice.currency} {Number(issuedInvoice.total_amount).toFixed(2)}</p>
+                      <p className="text-xs text-muted-foreground">{issuedInvoice.invoice_number} - €{Number(issuedInvoice.total_amount).toFixed(2)}</p>
                     </div>
                   </div>
                   <Link to={`/invoice/${issuedInvoice.id}`} target="_blank">
@@ -490,7 +490,7 @@ const AgentRequestDetail = () => {
                     </SheetHeader>
                     <div className="space-y-4 mt-6">
                       <div className="p-4 rounded-lg border border-border bg-muted/20">
-                        <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">Cost Breakdown ({request.currency})</p>
+                        <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">Cost Breakdown (EUR)</p>
                         <div className="space-y-3">
                           {[
                             { icon: Factory, label: "Factory Cost", field: "factory_cost", hint: "Raw manufacturing cost per unit" },
@@ -539,7 +539,7 @@ const AgentRequestDetail = () => {
 
                         <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
                           <span className="text-sm font-medium text-card-foreground">Total per Unit</span>
-                          <span className="text-lg font-heading font-bold text-primary">{request.currency} {totalCost.toFixed(2)}</span>
+                          <span className="text-lg font-heading font-bold text-primary">€{totalCost.toFixed(2)}</span>
                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-3">
@@ -597,9 +597,9 @@ const AgentRequestDetail = () => {
                       }`}>{q.status === "pending" ? "Waiting" : q.status.charAt(0).toUpperCase() + q.status.slice(1)}</span>
                     </div>
                     <div className="grid grid-cols-3 gap-3 text-sm mb-2">
-                      <div><span className="text-[11px] text-muted-foreground">Factory</span><p className="text-card-foreground font-medium">{q.currency} {Number(q.factory_cost).toFixed(2)}</p></div>
-                      <div><span className="text-[11px] text-muted-foreground">Service</span><p className="text-card-foreground font-medium">{q.currency} {Number(q.service_fee).toFixed(2)}</p></div>
-                      <div><span className="text-[11px] text-muted-foreground">Logistics</span><p className="text-card-foreground font-medium">{q.currency} {Number(q.logistics_cost).toFixed(2)}</p></div>
+                      <div><span className="text-[11px] text-muted-foreground">Factory</span><p className="text-card-foreground font-medium">€{Number(q.factory_cost).toFixed(2)}</p></div>
+                      <div><span className="text-[11px] text-muted-foreground">Service</span><p className="text-card-foreground font-medium">€{Number(q.service_fee).toFixed(2)}</p></div>
+                      <div><span className="text-[11px] text-muted-foreground">Logistics</span><p className="text-card-foreground font-medium">€{Number(q.logistics_cost).toFixed(2)}</p></div>
                     </div>
                     {(() => {
                       const aFees = (q as any).addon_fees as Array<{id: string; label: string; cost: number}> | null;
@@ -607,14 +607,14 @@ const AgentRequestDetail = () => {
                       return (
                         <div className="flex flex-wrap gap-1.5 mb-2">
                           {aFees.map((a) => (
-                            <span key={a.id} className="px-2 py-0.5 rounded bg-primary/10 text-xs text-primary">{a.label}: {q.currency} {a.cost.toFixed(2)}</span>
+                            <span key={a.id} className="px-2 py-0.5 rounded bg-primary/10 text-xs text-primary">{a.label}: €{a.cost.toFixed(2)}</span>
                           ))}
                         </div>
                       );
                     })()}
                     <div className="pt-2 border-t border-border/50 flex items-center justify-between">
                       <span className="text-xs text-muted-foreground">Total/unit</span>
-                      <span className="font-heading font-bold text-primary">{q.currency} {Number(q.total_cost).toFixed(2)}</span>
+                      <span className="font-heading font-bold text-primary">€{Number(q.total_cost).toFixed(2)}</span>
                     </div>
                     {q.notes && <p className="mt-2 text-xs text-muted-foreground italic">{q.notes}</p>}
                   </div>
@@ -630,7 +630,7 @@ const AgentRequestDetail = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[
                     { icon: Package, label: "Quantity", value: `${request.quantity?.toLocaleString()} units` },
-                    { icon: DollarSign, label: "Budget/Unit", value: `${request.currency} ${Number(request.budget_per_unit).toFixed(2)}` },
+                    { icon: DollarSign, label: "Budget/Unit", value: `€${Number(request.budget_per_unit).toFixed(2)}` },
                     { icon: Leaf, label: "Eco-friendly", value: request.eco_friendly || "None" },
                     { icon: User, label: "Customer", value: profile?.display_name || "Unknown" },
                   ].map((item) => (

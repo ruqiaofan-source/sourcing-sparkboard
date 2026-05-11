@@ -95,7 +95,7 @@ const AgentDashboard = () => {
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium text-card-foreground group-hover:text-primary truncate">{r.title}</p>
                     <p className="text-xs text-muted-foreground">
-                      <span className="font-medium text-card-foreground">{r.profiles?.display_name || "Unknown"}</span> · {r.quantity} units · {r.currency} {Number(r.budget_per_unit).toFixed(2)}/unit · {r.delivery_country}
+                      <span className="font-medium text-card-foreground">{r.profiles?.display_name || "Unknown"}</span> · {r.quantity} units · €{Number(r.budget_per_unit).toFixed(2)}/unit · {r.delivery_country}
                     </p>
                   </div>
                   <span className="ml-3 inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium shrink-0 bg-amber-500/15 text-amber-500 border-amber-500/30">

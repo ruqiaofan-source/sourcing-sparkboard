@@ -57,11 +57,11 @@ const AdminQuotes = () => {
                         <p className="text-xs text-muted-foreground">MOQ: {q.moq}</p>
                       </td>
                       <td className="p-4 text-sm text-muted-foreground hidden sm:table-cell truncate max-w-[150px]">{(q as any).sourcing_requests?.title || "-"}</td>
-                      <td className="p-4 text-sm text-card-foreground hidden md:table-cell">{q.currency} {Number(q.factory_cost).toFixed(2)}</td>
-                      <td className="p-4 text-sm text-card-foreground hidden lg:table-cell">{q.currency} {Number(q.china_ops_cost).toFixed(2)}</td>
-                      <td className="p-4 text-sm text-card-foreground hidden md:table-cell">{q.currency} {Number(q.logistics_cost).toFixed(2)}</td>
-                      <td className="p-4 text-sm text-card-foreground hidden lg:table-cell">{q.currency} {Number(q.service_fee).toFixed(2)}</td>
-                      <td className="p-4 text-sm font-medium text-primary">{q.currency} {Number(q.total_cost).toFixed(2)}</td>
+                      <td className="p-4 text-sm text-card-foreground hidden md:table-cell">€{Number(q.factory_cost).toFixed(2)}</td>
+                      <td className="p-4 text-sm text-card-foreground hidden lg:table-cell">€{Number(q.china_ops_cost).toFixed(2)}</td>
+                      <td className="p-4 text-sm text-card-foreground hidden md:table-cell">€{Number(q.logistics_cost).toFixed(2)}</td>
+                      <td className="p-4 text-sm text-card-foreground hidden lg:table-cell">€{Number(q.service_fee).toFixed(2)}</td>
+                      <td className="p-4 text-sm font-medium text-primary">€{Number(q.total_cost).toFixed(2)}</td>
                       <td className="p-4 text-sm text-muted-foreground hidden xl:table-cell">{q.delivery_time_days} days</td>
                       <td className="p-4">
                         <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
