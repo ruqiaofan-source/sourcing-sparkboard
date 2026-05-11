@@ -4,8 +4,9 @@ import { DashboardLayout } from "@/components/DashboardLayout";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { MessageCircle, ArrowRight, Clock } from "lucide-react";
+import { MessageCircle, FileText, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import RequestChat from "@/components/RequestChat";
 
 const Messages = () => {
@@ -13,10 +14,9 @@ const Messages = () => {
   const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
 
   // Get all requests with their latest message
-  const { data: conversations = [], isLoading } = useQuery({
+  const { data: conversations = [], isLoading, refetch } = useQuery({
     queryKey: ["customer-conversations", user?.id],
     queryFn: async () => {
-      // Get all customer requests
       const { data: requests, error } = await supabase
         .from("sourcing_requests")
         .select("id, title, status, created_at")
@@ -24,7 +24,24 @@ const Messages = () => {
         .order("updated_at", { ascending: false });
       if (error) throw error;
 
-      // For each, get message count and latest message
+      // Get unread counts (RPC) + pending quotes in parallel
+      const [{ data: unreadRows }, { data: quoteRows }] = await Promise.all([
+        supabase.rpc("get_unread_message_counts") as any,
+        supabase
+          .from("quotes")
+          .select("id, sourcing_request_id, status")
+          .in("sourcing_request_id", (requests || []).map((r) => r.id)),
+      ]);
+      const unreadMap = new Map<string, number>(
+        ((unreadRows as any[]) || []).map((u) => [u.sourcing_request_id, Number(u.unread_count)])
+      );
+      const quoteMap = new Map<string, { id: string; status: string }>();
+      ((quoteRows as any[]) || []).forEach((q) => {
+        // Prefer pending quote, otherwise keep latest
+        const existing = quoteMap.get(q.sourcing_request_id);
+        if (!existing || q.status === "pending") quoteMap.set(q.sourcing_request_id, q);
+      });
+
       const withMessages = await Promise.all(
         (requests || []).map(async (r) => {
           const { data: msgs } = await supabase
@@ -33,22 +50,18 @@ const Messages = () => {
             .eq("sourcing_request_id", r.id)
             .order("created_at", { ascending: false })
             .limit(1) as any;
-          const { count } = await supabase
-            .from("messages" as any)
-            .select("*", { count: "exact", head: true })
-            .eq("sourcing_request_id", r.id) as any;
           return {
             ...r,
-            messageCount: count || 0,
+            unreadCount: unreadMap.get(r.id) || 0,
+            quote: quoteMap.get(r.id) || null,
             lastMessage: msgs?.[0] || null,
           };
         })
       );
 
-      // Sort: requests with messages first, then by latest message time
       return withMessages.sort((a, b) => {
-        if (a.messageCount > 0 && b.messageCount === 0) return -1;
-        if (a.messageCount === 0 && b.messageCount > 0) return 1;
+        if (a.unreadCount > 0 && b.unreadCount === 0) return -1;
+        if (a.unreadCount === 0 && b.unreadCount > 0) return 1;
         const aTime = a.lastMessage?.created_at || a.created_at;
         const bTime = b.lastMessage?.created_at || b.created_at;
         return new Date(bTime).getTime() - new Date(aTime).getTime();
@@ -58,6 +71,12 @@ const Messages = () => {
   });
 
   const selectedConv = conversations.find((c) => c.id === selectedRequestId);
+
+  // Mark request as read when opened
+  useEffect(() => {
+    if (!selectedRequestId) return;
+    supabase.rpc("mark_request_read", { _request_id: selectedRequestId }).then(() => refetch());
+  }, [selectedRequestId, refetch]);
 
   return (
     <DashboardLayout title="Messages">
@@ -99,12 +118,17 @@ const Messages = () => {
                     }`}>
                       {conv.title}
                     </p>
-                    {conv.messageCount > 0 && (
-                      <span className="shrink-0 inline-flex items-center justify-center h-5 min-w-5 px-1.5 rounded-full text-[11px] font-bold bg-primary/15 text-primary">
-                        {conv.messageCount}
+                    {conv.unreadCount > 0 && (
+                      <span className="shrink-0 inline-flex items-center justify-center h-5 min-w-5 px-1.5 rounded-full text-[11px] font-bold bg-primary text-primary-foreground">
+                        {conv.unreadCount}
                       </span>
                     )}
                   </div>
+                  {conv.quote?.status === "pending" && (
+                    <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-emerald-500/15 text-emerald-500 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-semibold">
+                      <FileText className="h-2.5 w-2.5" /> New quote
+                    </span>
+                  )}
                   {conv.lastMessage ? (
                     <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
                       {conv.lastMessage.sender_id === user?.id ? "You: " : "Agent: "}
@@ -128,13 +152,23 @@ const Messages = () => {
         <div className="lg:col-span-2">
           {selectedRequestId && selectedConv ? (
             <motion.div key={selectedRequestId} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <div className="mb-3 flex items-center justify-between">
-                <div>
+              <div className="mb-3 flex items-start justify-between gap-3 flex-wrap">
+                <div className="min-w-0">
                   <p className="text-sm font-medium text-foreground">{selectedConv.title}</p>
                   <p className="text-xs text-muted-foreground">
                     Status: {selectedConv.status} · <Link to={`/sourcing-requests/${selectedConv.id}`} className="text-primary hover:underline">View request details →</Link>
                   </p>
                 </div>
+                {selectedConv.quote && (
+                  <Link
+                    to={`/sourcing-requests/${selectedConv.id}`}
+                    className="inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-3 py-2 text-xs font-semibold shadow-sm hover:opacity-90 transition-all"
+                  >
+                    <FileText className="h-3.5 w-3.5" />
+                    {selectedConv.quote.status === "pending" ? "Review quote" : "View quote"}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                )}
               </div>
               <RequestChat requestId={selectedRequestId} isCustomer={true} />
             </motion.div>
