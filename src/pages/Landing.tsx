@@ -517,6 +517,7 @@ export default function Landing() {
           <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-32 z-20 bg-gradient-to-l from-background to-transparent" />
           <Marquee speed={45}>
             {[
+              { src: logoPorsche, alt: "Porsche", url: "https://www.porsche.com/", hasBackground: true, isSquare: false, isTall: true },
               { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/", hasBackground: true, isSquare: false },
               { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true, isSquare: false },
               { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true, isSquare: false },
@@ -528,8 +529,15 @@ export default function Landing() {
                 <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="group flex shrink-0 items-center justify-center gap-2.5 px-5 sm:px-8 transition-all duration-500">
                   <img
                     src={logo.src} alt={logo.alt} loading="lazy"
-                    width={logo.isSquare ? 44 : 140} height={logo.isSquare ? 44 : 48}
-                    className={`object-contain transition-all duration-500 group-hover:scale-105 ${logo.isSquare ? "h-8 w-8 sm:h-10 sm:w-10" : "h-8 sm:h-10 w-auto max-w-[100px] sm:max-w-[130px]"}`}
+                    width={logo.isSquare ? 44 : (logo as any).isTall ? 56 : 140}
+                    height={logo.isSquare ? 44 : (logo as any).isTall ? 56 : 48}
+                    className={`object-contain transition-all duration-500 group-hover:scale-105 ${
+                      logo.isSquare
+                        ? "h-8 w-8 sm:h-10 sm:w-10"
+                        : (logo as any).isTall
+                        ? "h-12 sm:h-14 w-auto max-w-[60px] sm:max-w-[72px]"
+                        : "h-8 sm:h-10 w-auto max-w-[100px] sm:max-w-[130px]"
+                    }`}
                     style={{
                       filter: isTransparent
                         ? isDark ? "grayscale(100%) brightness(0.6) invert(1)" : "grayscale(100%) opacity(0.4)"
