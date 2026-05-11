@@ -11,10 +11,10 @@ import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
 import PageGlow from "@/components/PageGlow";
 
-import logoSoleRunning from "@/assets/logos/sole-running.webp";
-import logoLKK from "@/assets/logos/lkk.webp";
-import logoIMMO from "@/assets/logos/immo.webp";
-import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
+import logoSoleRunning from "@/assets/logos/sole-running-cutout.png";
+import logoLKK from "@/assets/logos/lkk-cutout.png";
+import logoIMMO from "@/assets/logos/immo-cutout.png";
+import logoBuckyDrop from "@/assets/logos/buckydrop-cutout.png";
 const dashboardPreviewWebp = "/dashboard-preview-real.webp";
 const dashboardPreview1024 = "/dashboard-preview-real-1024.webp";
 
