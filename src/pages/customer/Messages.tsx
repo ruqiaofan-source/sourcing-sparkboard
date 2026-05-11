@@ -5,13 +5,24 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { MessageCircle, FileText, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import RequestChat from "@/components/RequestChat";
 
 const Messages = () => {
   const { user } = useAuth();
-  const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedRequestId, setSelectedRequestId] = useState<string | null>(
+    searchParams.get("request"),
+  );
+
+  // Keep URL in sync when the user picks a conversation
+  useEffect(() => {
+    if (!selectedRequestId) return;
+    if (searchParams.get("request") !== selectedRequestId) {
+      setSearchParams({ request: selectedRequestId }, { replace: true });
+    }
+  }, [selectedRequestId, searchParams, setSearchParams]);
 
   // Get all requests with their latest message
   const { data: conversations = [], isLoading, refetch } = useQuery({
