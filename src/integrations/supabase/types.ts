@@ -526,6 +526,8 @@ export type Database = {
           created_at: string
           edited_at: string | null
           id: string
+          message_type: string
+          quote_id: string | null
           sender_id: string
           sourcing_request_id: string
         }
@@ -535,6 +537,8 @@ export type Database = {
           created_at?: string
           edited_at?: string | null
           id?: string
+          message_type?: string
+          quote_id?: string | null
           sender_id: string
           sourcing_request_id: string
         }
@@ -544,10 +548,19 @@ export type Database = {
           created_at?: string
           edited_at?: string | null
           id?: string
+          message_type?: string
+          quote_id?: string | null
           sender_id?: string
           sourcing_request_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "messages_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "messages_sourcing_request_id_fkey"
             columns: ["sourcing_request_id"]
