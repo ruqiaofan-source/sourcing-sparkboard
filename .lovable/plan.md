@@ -1,50 +1,94 @@
+## Goal
 
+Let agents build and send a sourcing quote without leaving the request chat. The quote arrives in the customer's chat as a rich card (Accept / Reject inline + "View details") and stays linked to the request from both sides of the dashboard.
 
-## Diagnosis: Why Google Can't Fetch the Sitemap
+---
 
-### What I found
+## 1. Data model
 
-1. **The static `public/sitemap.xml` IS being served** at `https://equilinq.eu/sitemap.xml` with the correct XML content. No routing conflict -- Lovable hosting serves static files from `public/` before the SPA fallback kicks in, so `/sitemap.xml` is not being intercepted by React Router.
+Add a lightweight link between a chat message and a quote so a single chat row can render as a quote card.
 
-2. **No proxy/rewrite conflicts.** Protected routes like `/dashboard` are handled client-side by React Router (with `<Navigate to="/auth">` for unauthenticated users). There are no server-side rewrites blocking `/sitemap.xml`.
+`messages` table (additive, no breaking change):
+- `message_type` text, default `'text'` — values: `'text' | 'quote'`
+- `quote_id` uuid nullable — points to `quotes.id`
 
-3. **The likely problem is the Content-Type header.** Lovable hosting may serve `.xml` files with `text/html` instead of `application/xml`. When I fetched the live URL, the response was parsed as HTML (the XML declaration was mangled into an HTML comment: `<!--?xml version="1.0"...-->`). Google requires a proper `application/xml` or `text/xml` Content-Type to parse sitemaps.
+RLS stays the same (existing message policies already cover read/insert by participants). The quote itself still lives in `quotes` with its existing rules, so the customer's "accept/reject" path is unchanged.
 
-4. **The static sitemap is also incomplete.** It only has 20 hardcoded URLs. Your `dynamic-sitemap` edge function already exists and pulls published insight articles from the database, but `robots.txt` still points to the static file -- meaning Google never sees your article URLs.
+---
 
-### The Fix (two parts)
+## 2. Agent flow — "+ Quote" in chat composer
 
-**Part 1: Point robots.txt to the dynamic-sitemap edge function**
+In `RequestChat` (used on `/agent/requests/:id`, `/agent/messages`, `/customer/...`):
+- When `isCustomer === false`, render a "+ Quote" button beside the attach/send icons.
+- Clicking opens a slide-in panel (Sheet) with the same fields used today in `AgentRequestDetail`: factory name, factory cost, logistics cost, service fee, currency, delivery days, MOQ, notes, optional attachments.
+- Live total calculation and validation mirror the existing form.
+- On "Send quote":
+  1. Insert into `quotes` (status `pending`, agent_id = current user).
+  2. Update `sourcing_requests.status` → `quoted`, set `agent_id`.
+  3. Insert one row into `messages` with `message_type='quote'`, `quote_id=<new id>`, `content` = short summary (used as a fallback when the card can't load).
+  4. Trigger the same customer + admin notifications already fired by the page form.
+- All four steps wrapped so a failure rolls the message back (delete the inserted quote if the message fails, and vice-versa) to avoid orphan rows.
 
-The edge function already sets `Content-Type: application/xml` explicitly, which solves the header issue. Update `robots.txt`:
+---
 
-```
-Sitemap: https://chmoabjmtbbqdrgigspm.supabase.co/functions/v1/dynamic-sitemap
-```
+## 3. Customer view of the quote message
 
-Google supports cross-origin sitemap URLs declared in robots.txt, so this is valid.
+In `RequestChat`, when a message has `message_type='quote'`:
+- Render a `QuoteMessageCard` instead of the regular text bubble.
+- Card shows: factory name, total, currency, MOQ, delivery days, attachments (signed URLs from existing storage helper).
+- Customer-only actions on the card:
+  - **Accept** — calls existing `accept-quote` edge function (same path as today).
+  - **Reject** — updates `quotes.status = 'rejected'` (same path as today).
+  - **View details** — `<Link>` to `/sourcing-requests/:id` so the full request page opens.
+- Agent/admin viewing the same card see a read-only version with status badge (Pending / Accepted / Rejected) and the same "View details" link to `/agent/requests/:id`.
+- After accept/reject, the card live-updates via the existing realtime channel (we already subscribe to messages, and we'll subscribe to `quotes` updates scoped to this request).
 
-**Part 2: Deploy and verify the dynamic-sitemap edge function**
+---
 
-- Deploy `dynamic-sitemap` (it may not be deployed yet since the logs showed no activity)
-- Test it with a curl to confirm it returns valid XML with `Content-Type: application/xml`
-- Verify it includes both static routes and dynamic insight article URLs
+## 4. Request ↔ Chat linking
 
-**Part 3: Keep the static file as a fallback**
+Customer dashboard:
+- `/sourcing-requests/:id` (CustomerRequestDetail) already embeds `RequestChat`. Add a sticky "Open in Messages" button in the chat header that links to `/messages?request=:id` — `Messages.tsx` already selects by `selectedRequestId`, we'll read the query param on mount.
+- `/messages` chat header gets an "Open request" link → `/sourcing-requests/:id`.
+- Request rows in `/sourcing-requests` get a message icon (with unread badge from existing `get_unread_message_counts`) that deep-links straight to the chat view.
 
-Keep `public/sitemap.xml` in place (updated to match current routes) so direct visitors to `/sitemap.xml` still get something useful, but Google will use the edge function URL from `robots.txt`.
+Agent dashboard (mirror):
+- `/agent/requests/:id` chat panel gets "Open in Messages" → `/agent/messages?request=:id`.
+- `/agent/messages` chat header gets "Open request" → `/agent/requests/:id`.
+- `/agent/requests` table rows get the same message icon + unread badge.
 
-### Files changed
+All deep-links use existing routes; no router changes needed beyond reading a `?request=` query param in the two Messages pages.
 
-| File | Change |
-|---|---|
-| `public/robots.txt` | Update `Sitemap:` URL to point to the edge function |
-| `supabase/functions/dynamic-sitemap/index.ts` | No changes needed (already correct) |
-| Deploy | Deploy the `dynamic-sitemap` edge function |
+---
 
-### What this does NOT affect
+## 5. Notifications
 
-- No changes to React routing, the SPA, or any protected routes
-- No changes to the Vite build or SEO prerender plugin
-- The `/about-us` redirect remains intact
+Reuse the existing notification rows:
+- Customer notification on new quote already links to the request — update its `link` so it goes to `/sourcing-requests/:id#quote-<id>` and the card scrolls into view in the chat.
+- Admin notification stays as-is.
 
+---
+
+## 6. Out of scope (not in this plan)
+
+- Editing/withdrawing a quote after it's sent (keep current behavior — agent submits a new quote).
+- Quote → Order/Invoice cross-links (you didn't pick those).
+- Notification deep-linking polish beyond the one link tweak above.
+
+---
+
+## Technical notes (for the implementer)
+
+- Migration: `ALTER TABLE messages ADD COLUMN message_type text NOT NULL DEFAULT 'text'`, `ADD COLUMN quote_id uuid REFERENCES quotes(id) ON DELETE SET NULL`, plus a partial index `(quote_id) WHERE quote_id IS NOT NULL`.
+- Extend the `messages` select in `RequestChat` to also fetch the related quote when `quote_id IS NOT NULL` (single Supabase `select("*, quotes(*)")` join — quotes RLS already allows the request owner + agent/admin).
+- New components: `QuoteComposerSheet.tsx`, `QuoteMessageCard.tsx`. Existing `AgentRequestDetail` keeps its standalone quote form (no regression); it can later call the same `QuoteComposerSheet` if you want one source of truth — flagged but not done in this pass.
+- Realtime: extend the existing `chat-${requestId}` channel to also listen for `quotes` row updates filtered by `sourcing_request_id`.
+
+---
+
+## Acceptance checklist
+
+- Agent can send a quote without leaving the chat.
+- Customer sees the quote as a card inline with the conversation, can Accept/Reject, or click "View details".
+- Status changes reflect live on both sides.
+- From any request page or row, one click reaches its chat; from any chat, one click reaches the request — on customer and agent dashboards.
