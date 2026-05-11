@@ -11,10 +11,10 @@ import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
 import PageGlow from "@/components/PageGlow";
 
-import logoSoleRunning from "@/assets/logos/sole-running.webp";
-import logoLKK from "@/assets/logos/lkk.webp";
-import logoIMMO from "@/assets/logos/immo.webp";
-import logoBuckyDrop from "@/assets/logos/buckydrop.webp";
+import logoSoleRunning from "@/assets/logos/sole-running-cutout.png";
+import logoLKK from "@/assets/logos/lkk-cutout.png";
+import logoIMMO from "@/assets/logos/immo-cutout.png";
+import logoBuckyDrop from "@/assets/logos/buckydrop-cutout.png";
 const dashboardPreviewWebp = "/dashboard-preview-real.webp";
 const dashboardPreview1024 = "/dashboard-preview-real-1024.webp";
 
@@ -516,37 +516,30 @@ export default function Landing() {
           <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-32 z-20 bg-gradient-to-l from-background to-transparent" />
           <Marquee speed={45}>
             {[
-              { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/", hasBackground: true, isSquare: false },
-              { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/", hasBackground: true, isSquare: false },
-              { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/", hasBackground: true, isSquare: false },
-              { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/", hasBackground: false, isSquare: true },
+              { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/" },
+              { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/" },
+              { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/" },
+              { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/" },
             ].map((logo) => {
-              const isTransparent = !logo.hasBackground;
               const isDark = theme === "dark";
               return (
-                <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="group flex shrink-0 items-center justify-center gap-2.5 px-5 sm:px-8 transition-all duration-500">
+                <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" className="group flex shrink-0 items-center justify-center px-6 sm:px-10 transition-all duration-500">
                   <img
                     src={logo.src} alt={logo.alt} loading="lazy"
-                    width={logo.isSquare ? 44 : 140} height={logo.isSquare ? 44 : 48}
-                    className={`object-contain transition-all duration-500 group-hover:scale-105 ${logo.isSquare ? "h-8 w-8 sm:h-10 sm:w-10" : "h-8 sm:h-10 w-auto max-w-[100px] sm:max-w-[130px]"}`}
+                    className="h-10 sm:h-12 w-auto max-w-[160px] object-contain transition-all duration-500 group-hover:scale-110"
                     style={{
-                      filter: isTransparent
-                        ? isDark ? "grayscale(100%) brightness(0.6) invert(1)" : "grayscale(100%) opacity(0.4)"
-                        : isDark ? "grayscale(100%) brightness(0.8) invert(0.15)" : "grayscale(100%) opacity(0.45)",
+                      filter: isDark
+                        ? "brightness(0) invert(1) opacity(0.7)"
+                        : "brightness(0) opacity(0.55)",
                       transition: "filter 0.5s, transform 0.3s",
                     }}
                     onMouseEnter={(e) => { e.currentTarget.style.filter = "none"; }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.filter = isTransparent
-                        ? isDark ? "grayscale(100%) brightness(0.6) invert(1)" : "grayscale(100%) opacity(0.4)"
-                        : isDark ? "grayscale(100%) brightness(0.8) invert(0.15)" : "grayscale(100%) opacity(0.45)";
+                      e.currentTarget.style.filter = isDark
+                        ? "brightness(0) invert(1) opacity(0.7)"
+                        : "brightness(0) opacity(0.55)";
                     }}
                   />
-                  {logo.isSquare && (
-                    <span className={`text-xs font-medium whitespace-nowrap transition-all duration-500 ${isDark ? "text-muted-foreground group-hover:text-foreground" : "text-muted-foreground group-hover:text-foreground"}`}>
-                      {logo.alt === "Stichting iMMO" ? "iMMO" : logo.alt}
-                    </span>
-                  )}
                 </a>
               );
             })}
