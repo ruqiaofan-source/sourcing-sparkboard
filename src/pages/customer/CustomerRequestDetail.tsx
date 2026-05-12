@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { useParams, Link, useSearchParams } from "react-router-dom";
+import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Package, DollarSign, MapPin, Leaf, Clock, Check, X, Factory, Truck, FileText, Paperclip, MessageCircle, Wrench, Receipt, Download, CreditCard, BanknoteIcon } from "lucide-react";
@@ -21,6 +21,7 @@ const CustomerRequestDetail = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const activeTab = searchParams.get("tab") || "details";
 
   const { data: request, isLoading } = useQuery({
@@ -109,7 +110,7 @@ const CustomerRequestDetail = () => {
         if (error) throw error;
       }
     },
-    onSuccess: (_, { action }) => {
+    onSuccess: (data: any, { action }) => {
       queryClient.invalidateQueries({ queryKey: ["customer-request-quotes", id] });
       queryClient.invalidateQueries({ queryKey: ["customer-request-detail", id] });
       queryClient.invalidateQueries({ queryKey: ["customer-request-invoices", id] });
@@ -118,6 +119,9 @@ const CustomerRequestDetail = () => {
         title: action === "accepted" ? "Quote accepted!" : "Quote rejected",
         description: action === "accepted" ? "Your invoice has been issued and payment instructions sent to your email." : "The agent will be notified.",
       });
+      if (action === "accepted" && data?.invoice_id) {
+        navigate(`/invoice/${data.invoice_id}`);
+      }
     },
     onError: (err: any) => {
       toast({ title: "Error", description: err.message, variant: "destructive" });
