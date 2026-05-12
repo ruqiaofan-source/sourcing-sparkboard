@@ -1069,6 +1069,36 @@ export type Database = {
         }
         Relationships: []
       }
+      transfer_events: {
+        Row: {
+          created_at: string
+          id: string
+          invoice_id: string
+          message_id: string | null
+          note: string | null
+          sourcing_request_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          invoice_id: string
+          message_id?: string | null
+          note?: string | null
+          sourcing_request_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          invoice_id?: string
+          message_id?: string | null
+          note?: string | null
+          sourcing_request_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       trending_products: {
         Row: {
           category: string
