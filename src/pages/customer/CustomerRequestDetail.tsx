@@ -420,6 +420,15 @@ const CustomerRequestDetail = () => {
                     >
                       <Copy className="h-3.5 w-3.5 mr-1.5" /> Copy
                     </Button>
+                    <Button
+                      asChild
+                      size="sm"
+                      className="shrink-0 h-9 bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
+                      <Link to={`/invoice/${issuedInvoice.id}`}>
+                        <FileText className="h-3.5 w-3.5 mr-1.5" /> View invoice
+                      </Link>
+                    </Button>
                   </div>
 
                   <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-500/10 border border-amber-500/30 rounded-md px-3 py-2">
