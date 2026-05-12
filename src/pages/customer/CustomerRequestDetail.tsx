@@ -131,22 +131,6 @@ const CustomerRequestDetail = () => {
         .eq("id", invoiceId);
       if (error) throw error;
 
-      // Notify all agents about the payment
-      const { data: agents } = await supabase
-        .from("user_roles")
-        .select("user_id")
-        .in("role", ["agent", "admin"]);
-      if (agents && request) {
-        const notifs = agents.map((a: any) => ({
-          user_id: a.user_id,
-          title: "Payment Sent",
-          message: `Customer has sent payment for "${request.title}". Please verify and confirm.`,
-          type: "payment_sent",
-          link: `/agent/requests/${id}`,
-        }));
-        await supabase.from("notifications" as any).insert(notifs as any);
-      }
-
       // Email admin@equilinq.eu about the payment
       try {
         await supabase.functions.invoke("send-transactional-email", {
