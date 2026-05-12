@@ -130,7 +130,14 @@ const CustomerRequestDetail = () => {
 
   const markAsPaid = useMutation({
     mutationFn: async (invoiceId: string) => {
-      // 1. Post a chat message to the agent
+      // 1. Flip invoice payment_status so the agent sees the "Confirm payment" UI
+      const { error: invErr } = await supabase
+        .from("invoices" as any)
+        .update({ payment_status: "paid" } as any)
+        .eq("id", invoiceId);
+      if (invErr) throw invErr;
+
+      // 2. Post a chat message to the agent
       const noteText = `I have completed the bank transfer for invoice ${issuedInvoice?.invoice_number ?? ""}.`;
       const { data: msg, error: msgErr } = await supabase.from("messages").insert({
         sourcing_request_id: id!,
@@ -140,7 +147,7 @@ const CustomerRequestDetail = () => {
       }).select("id").single();
       if (msgErr) throw msgErr;
 
-      // 2. Record an immutable audit event
+      // 3. Record an immutable audit event
       const { error: evtErr } = await supabase.from("transfer_events" as any).insert({
         invoice_id: invoiceId,
         sourcing_request_id: id!,

@@ -8,6 +8,7 @@ import { Send, Loader2, MessageCircle, Pencil, Trash2, X, Check, Paperclip, File
 import { toast } from "@/hooks/use-toast";
 import QuoteComposerSheet from "@/components/QuoteComposerSheet";
 import QuoteMessageCard from "@/components/QuoteMessageCard";
+import InvoiceMessageCard from "@/components/InvoiceMessageCard";
 
 interface RequestChatProps {
   requestId: string;
@@ -69,6 +70,25 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
     for (const q of requestQuotes as any[]) m.set(q.id, q);
     return m;
   }, [requestQuotes]);
+
+  // Fetch invoices for this request so invoice-type messages can render rich cards.
+  const { data: requestInvoices = [] } = useQuery({
+    queryKey: ["request-invoices-chat", requestId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("invoices" as any)
+        .select("*")
+        .eq("sourcing_request_id", requestId);
+      if (error) throw error;
+      return data as any[];
+    },
+    enabled: !!requestId && !!user,
+  });
+  const invoiceMap = useMemo(() => {
+    const m = new Map<string, any>();
+    for (const inv of requestInvoices as any[]) m.set(inv.id, inv);
+    return m;
+  }, [requestInvoices]);
 
   // Generate signed URLs for any attachments referenced in messages
   useEffect(() => {
@@ -448,6 +468,20 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
             const senderName = m.profiles?.display_name || (isMine ? "You" : isCustomer ? "Agent" : "Customer");
             const isEditing = editingId === m.id;
             const isQuoteMsg = m.message_type === "quote" && m.quote_id;
+            const isInvoiceMsg = m.message_type === "invoice" && m.invoice_id;
+            if (isInvoiceMsg) {
+              const linkedInvoice = invoiceMap.get(m.invoice_id);
+              return (
+                <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+                  <div className="max-w-[85%]">
+                    <p className={`text-[11px] font-medium mb-1 ${isMine ? "text-right text-primary" : "text-muted-foreground"}`}>
+                      {isMine ? "Invoice issued" : `${senderName} issued an invoice`}
+                    </p>
+                    <InvoiceMessageCard invoice={linkedInvoice} />
+                  </div>
+                </div>
+              );
+            }
             if (isQuoteMsg) {
               const linkedQuote = quoteMap.get(m.quote_id) || {
                 id: m.quote_id,

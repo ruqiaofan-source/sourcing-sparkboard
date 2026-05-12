@@ -526,6 +526,7 @@ export type Database = {
           created_at: string
           edited_at: string | null
           id: string
+          invoice_id: string | null
           message_type: string
           quote_id: string | null
           sender_id: string
@@ -537,6 +538,7 @@ export type Database = {
           created_at?: string
           edited_at?: string | null
           id?: string
+          invoice_id?: string | null
           message_type?: string
           quote_id?: string | null
           sender_id: string
@@ -548,6 +550,7 @@ export type Database = {
           created_at?: string
           edited_at?: string | null
           id?: string
+          invoice_id?: string | null
           message_type?: string
           quote_id?: string | null
           sender_id?: string

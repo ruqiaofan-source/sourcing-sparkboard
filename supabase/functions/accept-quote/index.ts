@@ -141,6 +141,21 @@ Deno.serve(async (req) => {
       status: "issued",
     }).select("id").single();
 
+    // Post an invoice card into the chat thread so customer + agent see it inline.
+    if (invoiceData?.id) {
+      try {
+        await admin.from("messages").insert({
+          sourcing_request_id: request.id,
+          sender_id: user.id,
+          content: `Invoice ${invoiceNumber} issued — ${quote.currency} ${invoiceTotal.toFixed(2)} due.`,
+          message_type: "invoice",
+          invoice_id: invoiceData.id,
+        });
+      } catch (e) {
+        console.error("Failed to post invoice chat message:", e);
+      }
+    }
+
     // 10. Notify the agent
     if (quote.agent_id) {
       await admin.from("notifications").insert({
