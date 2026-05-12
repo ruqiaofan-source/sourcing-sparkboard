@@ -1,8 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Check, X, Factory, Truck, DollarSign, ArrowRight, Banknote, Loader2 } from "lucide-react";
+import { Check, X, Factory, Truck, DollarSign, ArrowRight, Banknote, Loader2, Copy } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 interface QuoteMessageCardProps {
@@ -70,6 +70,27 @@ export default function QuoteMessageCard({ quote, requestId, isCustomer }: Quote
     ? `/sourcing-requests/${requestId}`
     : `/agent/requests/${requestId}`;
 
+  // After acceptance, fetch the invoice tied to this quote so the customer
+  // can use its number as the transfer reference.
+  const { data: invoice } = useQuery({
+    queryKey: ["quote-invoice", quote?.id],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("invoices")
+        .select("id, invoice_number")
+        .eq("quote_id", quote.id)
+        .maybeSingle();
+      return data;
+    },
+    enabled: !!quote?.id && status === "accepted",
+  });
+
+  const copyInvoiceNumber = () => {
+    if (!invoice?.invoice_number) return;
+    navigator.clipboard.writeText(invoice.invoice_number);
+    toast({ title: "Copied", description: invoice.invoice_number });
+  };
+
   return (
     <div className="w-full rounded-xl border border-primary/30 bg-card/95 p-4 shadow-[var(--shadow-card)] min-w-[260px] max-w-[360px]">
       <div className="flex items-start justify-between mb-3">
@@ -136,6 +157,26 @@ export default function QuoteMessageCard({ quote, requestId, isCustomer }: Quote
         <p className="text-[11px] text-muted-foreground italic mb-3 border-t border-border/40 pt-2">
           {quote.notes}
         </p>
+      )}
+
+      {status === "accepted" && invoice?.invoice_number && (
+        <div className="rounded-lg border border-primary/30 bg-primary/[0.07] px-3 py-2.5 mb-3">
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">
+            Use as transfer reference
+          </p>
+          <div className="flex items-center justify-between gap-2">
+            <span className="font-mono text-sm font-semibold text-primary truncate">
+              {invoice.invoice_number}
+            </span>
+            <button
+              onClick={copyInvoiceNumber}
+              className="shrink-0 inline-flex items-center gap-1 rounded-md border border-primary/30 bg-background/60 px-2 h-7 text-[10px] font-medium text-primary hover:bg-primary/10 transition-colors"
+              title="Copy invoice number"
+            >
+              <Copy className="h-3 w-3" /> Copy
+            </button>
+          </div>
+        </div>
       )}
 
       <div className="flex gap-1.5">
