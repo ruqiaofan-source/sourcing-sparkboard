@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Package, DollarSign, MapPin, Leaf, Clock, Check, X, Factory, Truck, FileText, Paperclip, MessageCircle, Wrench, Receipt, Download, CreditCard, BanknoteIcon } from "lucide-react";
+import { ArrowLeft, Package, DollarSign, MapPin, Leaf, Clock, Check, X, Factory, Truck, FileText, Paperclip, MessageCircle, Wrench, Receipt, Download, CreditCard, BanknoteIcon, Copy, ArrowDown } from "lucide-react";
 import { PaymentDetails } from "@/components/PaymentDetails";
 import { OrderProgressStepper } from "@/components/OrderProgressStepper";
 import { useRealtimeSync } from "@/hooks/useRealtimeSync";
@@ -368,6 +368,63 @@ const CustomerRequestDetail = () => {
                       <Check className="h-4 w-4 mr-2" />
                       {markAsPaid.isPending ? "Notifying agent..." : "Notify agent: transfer completed"}
                     </Button>
+                  </div>
+                </div>
+
+                {/* How to pay — clear step-by-step + reference */}
+                <div className="rounded-xl border-2 border-amber-500/40 bg-amber-500/[0.05] p-5">
+                  <div className="flex items-center gap-2 mb-4">
+                    <BanknoteIcon className="h-5 w-5 text-amber-600" />
+                    <h3 className="font-heading font-semibold text-foreground">How to pay</h3>
+                  </div>
+
+                  <ol className="space-y-3 mb-4">
+                    <li className="flex gap-3">
+                      <span className="shrink-0 h-6 w-6 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-[11px] font-bold text-amber-700">1</span>
+                      <p className="text-sm text-foreground pt-0.5">
+                        Pick the bank account matching your currency below ({issuedInvoice.currency}).
+                      </p>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="shrink-0 h-6 w-6 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-[11px] font-bold text-amber-700">2</span>
+                      <p className="text-sm text-foreground pt-0.5">
+                        Transfer exactly{" "}
+                        <strong className="text-primary">
+                          {issuedInvoice.currency} {Number(issuedInvoice.total_amount).toFixed(2)}
+                        </strong>
+                        .
+                      </p>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="shrink-0 h-6 w-6 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-[11px] font-bold text-amber-700">3</span>
+                      <p className="text-sm text-foreground pt-0.5">
+                        Use this <strong>invoice number as the transfer reference</strong>:
+                      </p>
+                    </li>
+                  </ol>
+
+                  <div className="rounded-lg border-2 border-primary/40 bg-card p-3 flex items-center justify-between gap-3 mb-3">
+                    <div className="min-w-0">
+                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-0.5">Transfer reference</p>
+                      <p className="font-mono text-base font-bold text-primary truncate">{issuedInvoice.invoice_number}</p>
+                    </div>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="shrink-0 h-9 border-primary/40 text-primary hover:bg-primary/10"
+                      onClick={() => {
+                        navigator.clipboard.writeText(issuedInvoice.invoice_number);
+                        toast({ title: "Copied", description: issuedInvoice.invoice_number });
+                      }}
+                    >
+                      <Copy className="h-3.5 w-3.5 mr-1.5" /> Copy
+                    </Button>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-500/10 border border-amber-500/30 rounded-md px-3 py-2">
+                    <ArrowDown className="h-3.5 w-3.5 animate-bounce" />
+                    <span>Bank account details below — pick your currency and copy the IBAN/SWIFT.</span>
                   </div>
                 </div>
 
