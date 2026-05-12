@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { toast as sonnerToast } from "sonner";
 
 function fireBrowserNotification(title: string, body: string, link?: string) {
   if (typeof window === "undefined") return;
@@ -153,10 +154,14 @@ export function useRealtimeSync(role: "customer" | "agent" | "admin", userId?: s
 
           if (role === "customer" && (payload.new as any).user_id === userId) {
             if (newStatus === "confirmed") {
-              toast({
-                title: "✅ Payment confirmed",
-                description: "Your payment has been verified. Production is starting.",
+              sonnerToast.success("Payment confirmed by your agent", {
+                description: "Your transfer has been received and verified. Production is starting.",
+                duration: 8000,
               });
+              fireBrowserNotification(
+                "Payment confirmed",
+                "Your agent has confirmed receipt of your transfer."
+              );
             }
           }
 

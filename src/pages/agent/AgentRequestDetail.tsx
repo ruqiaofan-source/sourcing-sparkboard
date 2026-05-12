@@ -175,6 +175,18 @@ const AgentRequestDetail = () => {
           type: "payment_confirmed",
           link: `/sourcing-requests/${id}`,
         } as any);
+
+        // Drop a confirmation message into the chat thread
+        try {
+          await supabase.from("messages").insert({
+            sourcing_request_id: id!,
+            sender_id: user!.id,
+            content: `✅ Payment received and confirmed. Production for "${request.title}" will begin shortly.`,
+            message_type: "payment_confirmed",
+          });
+        } catch (e) {
+          console.error("Failed to post confirmation chat message:", e);
+        }
       }
     },
     onSuccess: () => {
