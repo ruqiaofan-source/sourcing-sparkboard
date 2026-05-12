@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Check, X, Factory, Truck, DollarSign, ArrowRight, FileText, Loader2 } from "lucide-react";
+import { Check, X, Factory, Truck, DollarSign, ArrowRight, Banknote, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 interface QuoteMessageCardProps {
@@ -172,14 +172,27 @@ export default function QuoteMessageCard({ quote, requestId, isCustomer }: Quote
             </Button>
           </>
         )}
-        <Link
-          to={detailPath}
-          className={`inline-flex items-center justify-center gap-1 rounded-md border border-border/60 bg-background/60 px-2.5 h-8 text-[11px] font-medium text-card-foreground hover:bg-muted/50 transition-colors ${
-            isCustomer && status === "pending" ? "" : "flex-1"
-          }`}
-        >
-          <FileText className="h-3 w-3" /> Details <ArrowRight className="h-3 w-3" />
-        </Link>
+        {(!isCustomer || status !== "pending") && (
+          <Link
+            to={detailPath}
+            className={`inline-flex items-center justify-center gap-1.5 rounded-md px-3 h-9 text-xs font-semibold transition-colors flex-1 ${
+              isCustomer && status === "accepted"
+                ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/20"
+                : "border border-border/60 bg-background/60 text-card-foreground hover:bg-muted/50"
+            }`}
+          >
+            {isCustomer && status === "accepted" ? (
+              <>
+                <Banknote className="h-3.5 w-3.5" /> Complete Your Transfer{" "}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </>
+            ) : (
+              <>
+                Open request <ArrowRight className="h-3 w-3" />
+              </>
+            )}
+          </Link>
+        )}
       </div>
     </div>
   );
