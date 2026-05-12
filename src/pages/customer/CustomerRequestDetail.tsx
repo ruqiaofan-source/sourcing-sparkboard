@@ -332,13 +332,9 @@ const CustomerRequestDetail = () => {
                     </div>
                   </div>
 
-                  <Button
-                    onClick={() => markAsPaid.mutate(issuedInvoice.id)}
-                    disabled={markAsPaid.isPending}
-                    className="w-full bg-emerald-600 text-white hover:bg-emerald-700 h-11"
-                  >
-                    <CreditCard className="h-4 w-4 mr-2" /> I've Completed the Bank Transfer
-                  </Button>
+                  <div className="rounded-lg border border-border bg-muted/30 p-3 text-xs text-muted-foreground">
+                    Once you've completed the bank transfer, please notify your agent in the chat so they can confirm receipt.
+                  </div>
                 </div>
 
                 {/* Bank account details */}
