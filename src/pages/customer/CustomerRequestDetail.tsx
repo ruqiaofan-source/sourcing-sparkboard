@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { useParams, Link, useSearchParams } from "react-router-dom";
+import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Package, DollarSign, MapPin, Leaf, Clock, Check, X, Factory, Truck, FileText, Paperclip, MessageCircle, Wrench, Receipt, Download, CreditCard, BanknoteIcon } from "lucide-react";
@@ -21,6 +21,7 @@ const CustomerRequestDetail = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const activeTab = searchParams.get("tab") || "details";
 
   const { data: request, isLoading } = useQuery({
