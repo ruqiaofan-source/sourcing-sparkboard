@@ -130,10 +130,25 @@ const CustomerRequestDetail = () => {
 
   const markAsPaid = useMutation({
     mutationFn: async (invoiceId: string) => {
-      const { error } = await supabase.from("invoices" as any)
-        .update({ payment_status: "paid" } as any)
-        .eq("id", invoiceId);
-      if (error) throw error;
+      // 1. Post a chat message to the agent
+      const noteText = `I have completed the bank transfer for invoice ${issuedInvoice?.invoice_number ?? ""}.`;
+      const { data: msg, error: msgErr } = await supabase.from("messages").insert({
+        sourcing_request_id: id!,
+        sender_id: user!.id,
+        content: noteText,
+        message_type: "transfer_completed",
+      }).select("id").single();
+      if (msgErr) throw msgErr;
+
+      // 2. Record an immutable audit event
+      const { error: evtErr } = await supabase.from("transfer_events" as any).insert({
+        invoice_id: invoiceId,
+        sourcing_request_id: id!,
+        user_id: user!.id,
+        message_id: msg?.id ?? null,
+        note: noteText,
+      } as any);
+      if (evtErr) throw evtErr;
 
       // Email admin@equilinq.eu about the payment
       try {
@@ -162,7 +177,8 @@ const CustomerRequestDetail = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customer-request-invoices", id] });
-      toast({ title: "Payment marked", description: "Our team will confirm receipt shortly." });
+      queryClient.invalidateQueries({ queryKey: ["request-messages", id] });
+      toast({ title: "Agent notified", description: "Your agent will confirm once the transfer is received." });
     },
     onError: (err: any) => {
       toast({ title: "Error", description: err.message, variant: "destructive" });
@@ -332,8 +348,19 @@ const CustomerRequestDetail = () => {
                     </div>
                   </div>
 
-                  <div className="rounded-lg border border-border bg-muted/30 p-3 text-xs text-muted-foreground">
-                    Once you've completed the bank transfer, please notify your agent in the chat so they can confirm receipt.
+                  <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground">
+                      Once you've completed the bank transfer, let your agent know — we'll log it for the record.
+                    </p>
+                    <Button
+                      onClick={() => markAsPaid.mutate(issuedInvoice.id)}
+                      disabled={markAsPaid.isPending}
+                      variant="outline"
+                      className="w-full h-10"
+                    >
+                      <Check className="h-4 w-4 mr-2" />
+                      {markAsPaid.isPending ? "Notifying agent..." : "Notify agent: transfer completed"}
+                    </Button>
                   </div>
                 </div>
 
