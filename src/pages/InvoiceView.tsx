@@ -228,12 +228,50 @@ const InvoiceView = () => {
             {/* Payment method */}
             <div className="border-t border-gray-200 pt-6">
               <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Payment Method</h3>
-              <div className="text-sm text-gray-700 space-y-1 break-words">
-                <p><span className="text-gray-500 sm:w-40 sm:inline-block block">Account Name:</span> Equilinq Limited</p>
-                <p><span className="text-gray-500 sm:w-40 sm:inline-block block">Bank Name:</span> Community Federal Savings Bank</p>
-                <p><span className="text-gray-500 sm:w-40 sm:inline-block block">Account Number:</span> 8484328871</p>
-                <p><span className="text-gray-500 sm:w-40 sm:inline-block block">ACH Routing (ABA):</span> 026073150</p>
-                <p><span className="text-gray-500 sm:w-40 sm:inline-block block">Currency:</span> {invoice.currency}</p>
+              <p className="text-xs text-gray-500 mb-4">Please use your invoice number <span className="font-semibold text-gray-700">{invoice.invoice_number}</span> as the payment reference.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 print:grid-cols-3">
+                {[
+                  {
+                    title: "EUR — Europe (Germany)",
+                    fields: [
+                      ["Account Name", "Equilinq Limited"],
+                      ["IBAN", "DE49202208000047365649"],
+                      ["SWIFT", "SXPYDEHH"],
+                    ],
+                  },
+                  {
+                    title: "USD — United States",
+                    fields: [
+                      ["Account Name", "Equilinq Limited"],
+                      ["Account Number", "8484328871"],
+                      ["ACH Routing", "026073150"],
+                      ["Fedwire Routing", "026073008"],
+                      ["SWIFT", "CMFGUS33"],
+                    ],
+                  },
+                  {
+                    title: "HKD — Hong Kong",
+                    fields: [
+                      ["Account Name", "Equilinq Limited"],
+                      ["Account Number", "7949875204"],
+                      ["Bank Code", "016"],
+                      ["Branch Code", "478"],
+                      ["SWIFT", "DHBKHKHH"],
+                    ],
+                  },
+                ].map((acc) => (
+                  <div key={acc.title} className="rounded-md border border-gray-200 p-3">
+                    <p className="text-xs font-bold text-gray-900 mb-2">{acc.title}</p>
+                    <div className="space-y-1">
+                      {acc.fields.map(([label, value]) => (
+                        <div key={label} className="text-xs">
+                          <span className="text-gray-500">{label}: </span>
+                          <span className="text-gray-800 font-medium break-all">{value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
