@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, Printer } from "lucide-react";
+import { ArrowLeft, Download, Printer, MessageCircle } from "lucide-react";
 
 const InvoiceView = () => {
   const { id } = useParams<{ id: string }>();
@@ -115,6 +115,15 @@ const InvoiceView = () => {
           <ArrowLeft className="h-4 w-4 mr-2" /> Back
         </Button>
         <div className="ml-auto flex gap-2">
+          {invoice.sourcing_request_id && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate(`/sourcing-requests/${invoice.sourcing_request_id}?tab=chat`)}
+            >
+              <MessageCircle className="h-4 w-4 mr-2" /> Message your agent
+            </Button>
+          )}
           <Button variant="outline" size="sm" onClick={handlePrint}>
             <Printer className="h-4 w-4 mr-2" /> Print
           </Button>
