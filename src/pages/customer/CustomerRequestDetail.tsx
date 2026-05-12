@@ -109,7 +109,7 @@ const CustomerRequestDetail = () => {
         if (error) throw error;
       }
     },
-    onSuccess: (_, { action }) => {
+    onSuccess: (data: any, { action }) => {
       queryClient.invalidateQueries({ queryKey: ["customer-request-quotes", id] });
       queryClient.invalidateQueries({ queryKey: ["customer-request-detail", id] });
       queryClient.invalidateQueries({ queryKey: ["customer-request-invoices", id] });
@@ -118,6 +118,9 @@ const CustomerRequestDetail = () => {
         title: action === "accepted" ? "Quote accepted!" : "Quote rejected",
         description: action === "accepted" ? "Your invoice has been issued and payment instructions sent to your email." : "The agent will be notified.",
       });
+      if (action === "accepted" && data?.invoice_id) {
+        navigate(`/invoice/${data.invoice_id}`);
+      }
     },
     onError: (err: any) => {
       toast({ title: "Error", description: err.message, variant: "destructive" });
