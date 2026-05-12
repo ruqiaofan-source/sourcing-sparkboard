@@ -139,6 +139,43 @@ export function useRealtimeSync(role: "customer" | "agent" | "admin", userId?: s
           }
         }
       )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "invoices" },
+        (payload) => {
+          queryClient.invalidateQueries({ queryKey: ["customer-request-invoices"] });
+          queryClient.invalidateQueries({ queryKey: ["agent-request-invoices"] });
+          queryClient.invalidateQueries({ queryKey: ["invoice-view"] });
+
+          const newStatus = (payload.new as any).payment_status;
+          const oldStatus = (payload.old as any).payment_status;
+          if (newStatus === oldStatus) return;
+
+          if (role === "customer" && (payload.new as any).user_id === userId) {
+            if (newStatus === "confirmed") {
+              toast({
+                title: "✅ Payment confirmed",
+                description: "Your payment has been verified. Production is starting.",
+              });
+            }
+          }
+
+          if ((role === "agent" || role === "admin") && newStatus === "paid") {
+            toast({
+              title: "💸 Payment marked as sent",
+              description: "A customer reported completing their bank transfer.",
+            });
+          }
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "invoices" },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["customer-request-invoices"] });
+          queryClient.invalidateQueries({ queryKey: ["agent-request-invoices"] });
+        }
+      )
       .subscribe();
 
     return () => {
