@@ -49,8 +49,10 @@ export default function QuoteMessageCard({ quote, requestId, isCustomer }: Quote
     onSuccess: (_, action) => {
       queryClient.invalidateQueries({ queryKey: ["request-messages", requestId] });
       queryClient.invalidateQueries({ queryKey: ["request-quotes", requestId] });
+      queryClient.invalidateQueries({ queryKey: ["request-quotes-chat", requestId] });
       queryClient.invalidateQueries({ queryKey: ["customer-request-quotes", requestId] });
       queryClient.invalidateQueries({ queryKey: ["customer-request-invoices", requestId] });
+      queryClient.invalidateQueries({ queryKey: ["quote-invoice", quote?.id] });
       toast({
         title: action === "accepted" ? "Quote accepted!" : "Quote rejected",
         description:
