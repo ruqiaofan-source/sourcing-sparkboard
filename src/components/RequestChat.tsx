@@ -656,7 +656,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
           className="shrink-0 h-10 w-10 p-0"
           title="Attach files"
         >
-          <Paperclip className="h-4 w-4" />
+          <Paperclip className="h-4 w-4 text-foreground" />
         </Button>
         {!isCustomer && (
           <Button
