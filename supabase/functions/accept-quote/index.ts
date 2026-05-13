@@ -144,9 +144,15 @@ Deno.serve(async (req) => {
     // Post an invoice card into the chat thread so customer + agent see it inline.
     if (invoiceData?.id) {
       try {
+        // Attribute the invoice message to the AGENT who created the quote
+        // (they're the one issuing it), not the customer who accepted. This
+        // keeps the chat label correct: "Agent · issued an invoice" instead
+        // of "Customer issued an invoice". Fall back to the customer only
+        // if for some reason the quote has no agent_id (legacy data).
+        const invoiceSenderId = (quote as any).agent_id || user.id;
         await admin.from("messages").insert({
           sourcing_request_id: request.id,
-          sender_id: user.id,
+          sender_id: invoiceSenderId,
           content: `Invoice ${invoiceNumber} issued — ${quote.currency} ${invoiceTotal.toFixed(2)} due.`,
           message_type: "invoice",
           invoice_id: invoiceData.id,
