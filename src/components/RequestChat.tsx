@@ -71,6 +71,47 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
     return m;
   }, [requestQuotes]);
 
+  // Resolve the actual role (customer/agent/admin) of every distinct sender in
+  // the conversation. We can't infer the sender's role from the viewer's role
+  // because some accounts (e.g. test accounts) carry multiple roles, and the
+  // sender of a quote is always whoever wrote the message — not "the other party".
+  const senderIds = useMemo(() => {
+    const set = new Set<string>();
+    for (const m of messages as any[]) if (m.sender_id) set.add(m.sender_id);
+    return Array.from(set);
+  }, [messages]);
+
+  const { data: senderRoles = [] } = useQuery({
+    queryKey: ["request-sender-roles", requestId, senderIds.join(",")],
+    queryFn: async () => {
+      if (senderIds.length === 0) return [] as any[];
+      const { data, error } = await supabase
+        .from("user_roles" as any)
+        .select("user_id, role")
+        .in("user_id", senderIds);
+      if (error) return [];
+      return data as any[];
+    },
+    enabled: senderIds.length > 0 && !!user,
+  });
+
+  // Map sender_id → highest-priority role label.
+  // Priority: admin > agent > customer (so an agent who is also a customer
+  // is labelled "Sourcing Agent", which matches their function on this request).
+  const senderRoleMap = useMemo(() => {
+    const map = new Map<string, "admin" | "agent" | "customer">();
+    for (const row of senderRoles as any[]) {
+      const current = map.get(row.user_id);
+      const next = row.role as "admin" | "agent" | "customer";
+      const rank = (r?: string) => (r === "admin" ? 3 : r === "agent" ? 2 : r === "customer" ? 1 : 0);
+      if (rank(next) > rank(current)) map.set(row.user_id, next);
+    }
+    return map;
+  }, [senderRoles]);
+
+  const labelForRole = (r?: "admin" | "agent" | "customer") =>
+    r === "admin" ? "Admin" : r === "agent" ? "Sourcing Agent" : "Customer";
+
   // Fetch invoices for this request so invoice-type messages can render rich cards.
   const { data: requestInvoices = [] } = useQuery({
     queryKey: ["request-invoices-chat", requestId],
@@ -467,17 +508,19 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
             const isMine = m.sender_id === user?.id;
             const profileName =
               m.profiles?.display_name || m.profiles?.full_name || null;
-            // Role of the OTHER party from the current viewer's perspective.
-            // Customer is viewing → other party is the Sourcing Agent.
-            // Agent/admin is viewing → other party is the Customer.
-            const otherRoleLabel = isCustomer ? "Sourcing Agent" : "Customer";
+            // Look up the sender's REAL role for this message, with a sensible
+            // fallback when the role row hasn't loaded yet.
+            const resolvedRole = senderRoleMap.get(m.sender_id);
+            const fallbackRole: "agent" | "customer" =
+              isCustomer ? "agent" : "customer";
+            const senderRoleLabel = labelForRole(resolvedRole || fallbackRole);
             const senderName = isMine
               ? "You"
               : profileName
-              ? `${profileName} · ${otherRoleLabel}`
-              : otherRoleLabel;
+              ? `${profileName} · ${senderRoleLabel}`
+              : senderRoleLabel;
             // Short label used inside the quote/invoice "X sent a quote" line.
-            const senderShort = isMine ? "You" : profileName || otherRoleLabel;
+            const senderShort = isMine ? "You" : profileName || senderRoleLabel;
             const isEditing = editingId === m.id;
             const isQuoteMsg = m.message_type === "quote" && m.quote_id;
             const isInvoiceMsg = m.message_type === "invoice" && m.invoice_id;
@@ -489,7 +532,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                     <p className={`text-[11px] font-medium mb-1 ${isMine ? "text-right text-primary" : "text-muted-foreground"}`}>
                       {isMine
                         ? "You issued an invoice"
-                        : `${senderShort} (${otherRoleLabel}) issued an invoice`}
+                        : `${senderShort} (${senderRoleLabel}) issued an invoice`}
                     </p>
                     <InvoiceMessageCard invoice={linkedInvoice} />
                   </div>
@@ -511,7 +554,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                     >
                       {isMine
                         ? "You sent a quote"
-                        : `${senderShort} (${otherRoleLabel}) sent a quote`}
+                        : `${senderShort} (${senderRoleLabel}) sent a quote`}
                     </p>
                     <QuoteMessageCard
                       quote={linkedQuote}
