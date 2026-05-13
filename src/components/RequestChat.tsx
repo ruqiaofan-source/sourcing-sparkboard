@@ -465,7 +465,19 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
         ) : (
           messages.map((m: any) => {
             const isMine = m.sender_id === user?.id;
-            const senderName = m.profiles?.display_name || (isMine ? "You" : isCustomer ? "Agent" : "Customer");
+            const profileName =
+              m.profiles?.display_name || m.profiles?.full_name || null;
+            // Role of the OTHER party from the current viewer's perspective.
+            // Customer is viewing → other party is the Sourcing Agent.
+            // Agent/admin is viewing → other party is the Customer.
+            const otherRoleLabel = isCustomer ? "Sourcing Agent" : "Customer";
+            const senderName = isMine
+              ? "You"
+              : profileName
+              ? `${profileName} · ${otherRoleLabel}`
+              : otherRoleLabel;
+            // Short label used inside the quote/invoice "X sent a quote" line.
+            const senderShort = isMine ? "You" : profileName || otherRoleLabel;
             const isEditing = editingId === m.id;
             const isQuoteMsg = m.message_type === "quote" && m.quote_id;
             const isInvoiceMsg = m.message_type === "invoice" && m.invoice_id;
@@ -475,7 +487,9 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                 <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
                   <div className="max-w-[85%]">
                     <p className={`text-[11px] font-medium mb-1 ${isMine ? "text-right text-primary" : "text-muted-foreground"}`}>
-                      {isMine ? "Invoice issued" : `${senderName} issued an invoice`}
+                      {isMine
+                        ? "You issued an invoice"
+                        : `${senderShort} (${otherRoleLabel}) issued an invoice`}
                     </p>
                     <InvoiceMessageCard invoice={linkedInvoice} />
                   </div>
@@ -495,7 +509,9 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                         isMine ? "text-right text-primary" : "text-muted-foreground"
                       }`}
                     >
-                      {isMine ? "You sent a quote" : `${senderName} sent a quote`}
+                      {isMine
+                        ? "You sent a quote"
+                        : `${senderShort} (${otherRoleLabel}) sent a quote`}
                     </p>
                     <QuoteMessageCard
                       quote={linkedQuote}
@@ -514,7 +530,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                     : "bg-muted/40 border border-border/50 text-card-foreground"
                 }`}>
                   <p className={`text-[11px] font-medium mb-0.5 ${isMine ? "text-primary" : "text-muted-foreground"}`}>
-                    {isMine ? "You" : senderName}
+                    {senderName}
                   </p>
                   {isEditing ? (
                     <div className="space-y-2">
