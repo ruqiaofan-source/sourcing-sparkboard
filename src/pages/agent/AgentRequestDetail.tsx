@@ -209,7 +209,7 @@ const AgentRequestDetail = () => {
           cost: parseFloat(addonPrices[a] || "0"),
         }));
 
-      const { error: quoteError } = await supabase.from("quotes").insert({
+      const { data: quoteRow, error: quoteError } = await supabase.from("quotes").insert({
         sourcing_request_id: id!, agent_id: user!.id, factory_name: "Equilinq Verified Factory",
         factory_cost: parseFloat(quote.factory_cost) || 0, china_ops_cost: 0,
         logistics_cost: parseFloat(quote.logistics_cost) || 0, service_fee: parseFloat(quote.service_fee) || 0,
@@ -217,10 +217,28 @@ const AgentRequestDetail = () => {
         delivery_time_days: parseInt(quote.delivery_time_days) || 14, moq: parseInt(quote.moq) || 1,
         notes: quote.notes || null, status: "pending", attachment_paths: quoteAttachments,
         addon_fees: addonFeesArr,
-      } as any);
+      } as any).select("id").single();
       if (quoteError) throw quoteError;
       const { error: updateError } = await supabase.from("sourcing_requests").update({ status: "quoted", agent_id: user!.id }).eq("id", id!);
       if (updateError) throw updateError;
+
+      // Post the quote as a chat message so the customer sees the rich card
+      // inline with the conversation (matches the chat-composer flow).
+      try {
+        const summary = `New quote: €${totalCost.toFixed(2)}/unit · MOQ ${quote.moq || 1} · ${
+          quote.delivery_time_days || 14
+        } days delivery`;
+        await supabase.from("messages" as any).insert({
+          sourcing_request_id: id!,
+          sender_id: user!.id,
+          content: summary,
+          message_type: "quote",
+          quote_id: (quoteRow as any)?.id,
+          attachment_paths: [],
+        } as any);
+      } catch (msgErr) {
+        console.error("Failed to post quote chat message:", msgErr);
+      }
 
       // Notify the customer
       await supabase.from("notifications" as any).insert({
