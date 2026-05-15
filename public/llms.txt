@@ -1,0 +1,35 @@
+# Equilinq
+
+> Managed sourcing infrastructure for European SMEs — end-to-end sourcing, QC, customization, and logistics from China with transparent pricing and low MOQs.
+
+Equilinq is a Europe-based sourcing service that bridges European brands with vetted Chinese manufacturers. We handle factory verification, multi-stage quality control, customization and private label, transparent quotes, and logistics — operating as a managed service, not a marketplace.
+
+## Pages
+
+- [Home](/): Overview of Equilinq's sourcing platform for European SMEs.
+- [How It Works](/how-it-works): End-to-end sourcing workflow from request to delivery.
+- [Pricing](/pricing): Transparent service fees and commission structure.
+- [Customization](/customization): Private label, custom packaging, and branding.
+- [Quality Control](/quality-control): Multi-stage inspection process and reporting.
+- [OEM / ODM](/oem-odm): Custom manufacturing and product development.
+- [Sourcing Guide](/sourcing-guide): Practical guide to sourcing from China.
+- [Insights](/insights): Articles on sourcing, logistics, and EU-China trade.
+- [Trending Products](/trending): Trending product opportunities for European sellers.
+- [Demo](/demo): Request a product demo.
+- [Contact](/contact): Get in touch with the Equilinq team.
+
+## How It Works (steps)
+
+- [Submit a sourcing request](/how-it-works/submit-sourcing-request): Tell us what you need.
+- [Source and vet suppliers](/how-it-works/source-and-vet-suppliers): We find verified factories.
+- [Receive your quote](/how-it-works/receive-your-quote): Transparent, itemized pricing.
+- [Accept and pay](/how-it-works/accept-and-pay): Secure payment to start production.
+- [Production and monitoring](/how-it-works/production-and-monitoring): Live updates during manufacturing.
+- [Quality control inspection](/how-it-works/quality-control-inspection): Pre-shipment QC reports.
+- [Shipping and logistics](/how-it-works/shipping-and-logistics): Consolidated freight and customs.
+- [Delivery and support](/how-it-works/delivery-and-support): Final delivery and after-sales.
+
+## Optional
+
+- [Privacy Policy](/privacy): How we handle data.
+- [Cookie Policy](/cookies): Cookie usage details.
