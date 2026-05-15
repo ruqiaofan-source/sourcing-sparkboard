@@ -48,20 +48,6 @@ export function ArticleStructuredData({ article }: ArticleStructuredDataProps) {
           }),
         }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://equilinq.eu/" },
-              { "@type": "ListItem", position: 2, name: "Insights", item: "https://equilinq.eu/insights" },
-              { "@type": "ListItem", position: 3, name: article.title, item: `https://equilinq.eu/insights/${article.slug}` },
-            ],
-          }),
-        }}
-      />
     </>
   );
 }

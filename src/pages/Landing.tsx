@@ -325,27 +325,6 @@ export default function Landing() {
             "@context": "https://schema.org",
             "@graph": [
               {
-                "@type": "Organization", name: "Equilinq", url: "https://equilinq.eu",
-                logo: "https://equilinq.eu/og-image.jpg",
-                description: "Managed sourcing infrastructure for European SMEs.",
-                foundingDate: "2024",
-                areaServed: { "@type": "Place", name: "Europe" },
-                serviceType: "Product Sourcing and Procurement",
-                sameAs: ["https://www.linkedin.com/company/equilinq"],
-                contactPoint: { "@type": "ContactPoint", contactType: "customer service", url: "https://equilinq.eu/contact", availableLanguage: ["English", "Dutch", "Chinese"] },
-                ...(trustpilotStats && trustpilotStats.review_count > 0
-                  ? {
-                      aggregateRating: {
-                        "@type": "AggregateRating",
-                        ratingValue: trustpilotStats.average_rating,
-                        reviewCount: trustpilotStats.review_count,
-                        bestRating: 5,
-                        worstRating: 1,
-                      },
-                    }
-                  : {}),
-              },
-              {
                 "@type": "Service", name: "China Sourcing for European SMEs",
                 provider: { "@type": "Organization", name: "Equilinq" },
                 description: "End-to-end sourcing, quality control, customization and logistics from China with transparent pricing and low MOQs starting from 10 units.",
@@ -364,10 +343,6 @@ export default function Landing() {
               {
                 "@type": "FAQPage",
                 mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.q, acceptedAnswer: { "@type": "Answer", text: faq.a } })),
-              },
-              {
-                "@type": "WebSite", name: "Equilinq", url: "https://equilinq.eu",
-                potentialAction: { "@type": "SearchAction", target: { "@type": "EntryPoint", urlTemplate: "https://equilinq.eu/insights?q={search_term_string}" }, "query-input": "required name=search_term_string" },
               },
               {
                 "@type": "SiteNavigationElement", name: "Main Navigation",
