@@ -489,12 +489,15 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
             const isMine = m.sender_id === user?.id;
             const profileName =
               m.profiles?.display_name || m.profiles?.full_name || null;
-            // Look up the sender's REAL role for this message, with a sensible
-            // fallback when the role row hasn't loaded yet.
-            const resolvedRole = senderRoleMap.get(m.sender_id);
-            const fallbackRole: "agent" | "customer" =
-              isCustomer ? "agent" : "customer";
-            const senderRoleLabel = labelForRole(resolvedRole || fallbackRole);
+            // Determine which "side" the sender is on: the request's customer
+            // (sourcing_requests.user_id) is the customer; everyone else is staff.
+            const senderSide: "staff" | "customer" =
+              customerId && m.sender_id === customerId ? "customer" : "staff";
+            // Align by side, not by sender identity, so a second agent's
+            // message appears on the same (right) side as the viewing agent.
+            const viewerSide: "staff" | "customer" = isCustomer ? "customer" : "staff";
+            const onMySide = senderSide === viewerSide;
+            const senderRoleLabel = labelForSide(senderSide);
             const senderName = isMine
               ? "You"
               : profileName
