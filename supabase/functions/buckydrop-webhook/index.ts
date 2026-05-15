@@ -127,7 +127,16 @@ Deno.serve(async (req) => {
       ?? req.headers.get("authorization")?.replace("Bearer ", "")
       ?? new URL(req.url).searchParams.get("secret");
 
-    if (WEBHOOK_SECRET && authToken !== WEBHOOK_SECRET) {
+    // Fail CLOSED: if the shared secret isn't configured, reject every request
+    // rather than silently allowing anonymous webhook posts.
+    if (!WEBHOOK_SECRET) {
+      console.error("BUCKYDROP_WEBHOOK_SECRET is not configured; refusing all webhook requests");
+      return new Response(
+        JSON.stringify({ error: "Webhook secret not configured" }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    if (authToken !== WEBHOOK_SECRET) {
       console.error("Webhook auth failed");
       return new Response(JSON.stringify({ error: "Forbidden" }), {
         status: 403,
