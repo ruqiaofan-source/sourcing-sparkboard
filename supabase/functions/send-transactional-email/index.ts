@@ -42,8 +42,11 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders })
   }
 
-  // Require service_role JWT. The gateway has already validated the JWT
-  // (verify_jwt = true), so we just need to look at its `role` claim.
+  // Block anonymous callers. The gateway has already validated the JWT
+  // (verify_jwt = true) so we trust its `role` claim — but the anon key is
+  // public, which means anon-role callers could spam platform-branded emails
+  // to arbitrary addresses (phishing risk). Require either an authenticated
+  // user or the service role.
   const authHeader = req.headers.get('Authorization') ?? ''
   const jwt = authHeader.replace(/^Bearer\s+/i, '')
   let role: string | undefined
@@ -57,9 +60,9 @@ Deno.serve(async (req) => {
   } catch {
     role = undefined
   }
-  if (role !== 'service_role') {
+  if (role !== 'service_role' && role !== 'authenticated') {
     return new Response(
-      JSON.stringify({ error: 'Forbidden: service role required' }),
+      JSON.stringify({ error: 'Forbidden: authentication required' }),
       { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   }
