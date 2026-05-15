@@ -28,6 +28,33 @@ serve(async (req) => {
   }
 
   try {
+    const SUPABASE_URL_AUTH = Deno.env.get("SUPABASE_URL")!;
+    const SUPABASE_SERVICE_ROLE_KEY_AUTH = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    // Auth: only the service role (pg_cron) or an admin user may trigger this.
+    const authHeader = req.headers.get("Authorization") ?? "";
+    const token = authHeader.replace(/^Bearer\s+/i, "");
+    const isServiceRole = !!token && token === SUPABASE_SERVICE_ROLE_KEY_AUTH;
+    if (!isServiceRole) {
+      const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
+      const userClient = createClient(SUPABASE_URL_AUTH, SUPABASE_ANON_KEY, {
+        global: { headers: { Authorization: authHeader } },
+      });
+      const { data: userRes } = await userClient.auth.getUser();
+      if (!userRes?.user) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const adminProbe = createClient(SUPABASE_URL_AUTH, SUPABASE_SERVICE_ROLE_KEY_AUTH);
+      const { data: roles } = await adminProbe
+        .from("user_roles").select("role").eq("user_id", userRes.user.id);
+      if (!(roles ?? []).some((r: { role: string }) => r.role === "admin")) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), {
+          status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
+
     const FIRECRAWL_API_KEY = Deno.env.get("FIRECRAWL_API_KEY");
     if (!FIRECRAWL_API_KEY) {
       throw new Error("FIRECRAWL_API_KEY is not configured");

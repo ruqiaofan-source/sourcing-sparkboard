@@ -30,14 +30,45 @@ function generateToken(): string {
     .join('')
 }
 
-// Auth note: this function uses verify_jwt = true in config.toml, so Supabase's
-// gateway validates the caller's JWT (anon or service_role) before the request
-// reaches this code. No in-function auth check is needed.
+// Auth note: this function uses verify_jwt = true in supabase/config.toml so
+// the Supabase gateway validates the caller's JWT before the request reaches
+// us. We additionally enforce that the JWT belongs to the service_role here,
+// because anon-key callers (which are public) must not be allowed to send
+// platform-branded emails to arbitrary recipients (phishing risk).
 
 Deno.serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
+  }
+
+  // Block anonymous callers. The gateway has already validated the JWT
+  // (verify_jwt = true) so we trust its `role` claim — but the anon key is
+  // public, which means anon-role callers could spam platform-branded emails
+  // to arbitrary addresses (phishing risk). Require either an authenticated
+  // user or the service role.
+  const authHeader = req.headers.get('Authorization') ?? ''
+  const jwt = authHeader.replace(/^Bearer\s+/i, '')
+  let role: string | undefined
+  try {
+    const payload = jwt.split('.')[1]
+    const padded = payload + '='.repeat((4 - (payload.length % 4)) % 4)
+    const decoded = JSON.parse(
+      atob(padded.replace(/-/g, '+').replace(/_/g, '/'))
+    )
+    role = decoded?.role
+  } catch {
+    role = undefined
+  }
+  // Templates safe for anonymous callers (used by the public Contact form).
+  // contact-confirmation goes to the user-supplied address; contact-notification
+  // is hard-restricted below to the platform admin address only.
+  const ANON_ALLOWED_TEMPLATES = new Set(['contact-confirmation', 'contact-notification'])
+  if (role !== 'service_role' && role !== 'authenticated' && role !== 'anon') {
+    return new Response(
+      JSON.stringify({ error: 'Forbidden: authentication required' }),
+      { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    )
   }
 
   const supabaseUrl = Deno.env.get('SUPABASE_URL')
@@ -87,6 +118,20 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     )
+  }
+
+  // Anonymous callers may only trigger the public Contact-form templates,
+  // and contact-notification is hard-locked to the platform admin address.
+  if (role === 'anon') {
+    if (!ANON_ALLOWED_TEMPLATES.has(templateName)) {
+      return new Response(
+        JSON.stringify({ error: 'Forbidden: template not allowed for anonymous callers' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+    if (templateName === 'contact-notification') {
+      recipientEmail = 'contact@equilinq.eu'
+    }
   }
 
   // 1. Look up template from registry (early — needed to resolve recipient)

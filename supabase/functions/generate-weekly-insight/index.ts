@@ -163,6 +163,31 @@ serve(async (req) => {
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
     if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) throw new Error("Supabase env not configured");
 
+    // Auth: only the service role (pg_cron) or an admin user may trigger this.
+    const authHeader = req.headers.get("Authorization") ?? "";
+    const token = authHeader.replace(/^Bearer\s+/i, "");
+    const isServiceRole = !!token && token === SUPABASE_SERVICE_ROLE_KEY;
+    if (!isServiceRole) {
+      const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
+      const userClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        global: { headers: { Authorization: authHeader } },
+      });
+      const { data: userRes } = await userClient.auth.getUser();
+      if (!userRes?.user) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const adminProbe = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+      const { data: roles } = await adminProbe
+        .from("user_roles").select("role").eq("user_id", userRes.user.id);
+      if (!(roles ?? []).some((r: { role: string }) => r.role === "admin")) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), {
+          status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
+
     // Determine article type from request body
     let articleType = "sourcing"; // default Monday post
     try {
