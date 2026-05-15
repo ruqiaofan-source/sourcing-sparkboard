@@ -511,7 +511,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
             if (isInvoiceMsg) {
               const linkedInvoice = invoiceMap.get(m.invoice_id);
               return (
-                <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+                <div key={m.id} className={`flex ${onMySide ? "justify-end" : "justify-start"}`}>
                   <div className="max-w-[85%]">
                     <p className={`text-[11px] font-medium mb-1 ${isMine ? "text-right text-primary" : "text-muted-foreground"}`}>
                       {isMine
@@ -529,7 +529,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                 status: "pending",
               };
               return (
-                <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+                <div key={m.id} className={`flex ${onMySide ? "justify-end" : "justify-start"}`}>
                   <div className="max-w-[85%]">
                     <p
                       className={`text-[11px] font-medium mb-1 ${
@@ -550,7 +550,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
               );
             }
             return (
-              <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+              <div key={m.id} className={`flex ${onMySide ? "justify-end" : "justify-start"}`}>
                 <div className={`group relative max-w-[80%] rounded-xl px-3.5 py-2.5 ${
                   isMine
                     ? "bg-primary/15 border border-primary/20 text-card-foreground"
