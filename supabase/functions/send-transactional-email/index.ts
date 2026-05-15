@@ -60,7 +60,11 @@ Deno.serve(async (req) => {
   } catch {
     role = undefined
   }
-  if (role !== 'service_role' && role !== 'authenticated') {
+  // Templates safe for anonymous callers (used by the public Contact form).
+  // contact-confirmation goes to the user-supplied address; contact-notification
+  // is hard-restricted below to the platform admin address only.
+  const ANON_ALLOWED_TEMPLATES = new Set(['contact-confirmation', 'contact-notification'])
+  if (role !== 'service_role' && role !== 'authenticated' && role !== 'anon') {
     return new Response(
       JSON.stringify({ error: 'Forbidden: authentication required' }),
       { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
