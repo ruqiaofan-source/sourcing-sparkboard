@@ -71,46 +71,27 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
     return m;
   }, [requestQuotes]);
 
-  // Resolve the actual role (customer/agent/admin) of every distinct sender in
-  // the conversation. We can't infer the sender's role from the viewer's role
-  // because some accounts (e.g. test accounts) carry multiple roles, and the
-  // sender of a quote is always whoever wrote the message — not "the other party".
-  const senderIds = useMemo(() => {
-    const set = new Set<string>();
-    for (const m of messages as any[]) if (m.sender_id) set.add(m.sender_id);
-    return Array.from(set);
-  }, [messages]);
-
-  const { data: senderRoles = [] } = useQuery({
-    queryKey: ["request-sender-roles", requestId, senderIds.join(",")],
+  // Determine the customer for this request. Anyone else who posts in the
+  // thread (assigned agent, other agents stepping in, admins) is staff.
+  // This avoids relying on user_roles, which agents can't read for other
+  // users under current RLS.
+  const { data: requestMeta } = useQuery({
+    queryKey: ["request-meta-chat", requestId],
     queryFn: async () => {
-      if (senderIds.length === 0) return [] as any[];
       const { data, error } = await supabase
-        .from("user_roles" as any)
-        .select("user_id, role")
-        .in("user_id", senderIds);
-      if (error) return [];
-      return data as any[];
+        .from("sourcing_requests")
+        .select("user_id, agent_id")
+        .eq("id", requestId)
+        .maybeSingle();
+      if (error) throw error;
+      return data as { user_id: string; agent_id: string | null } | null;
     },
-    enabled: senderIds.length > 0 && !!user,
+    enabled: !!requestId && !!user,
   });
+  const customerId = requestMeta?.user_id;
 
-  // Map sender_id → highest-priority role label.
-  // Priority: admin > agent > customer (so an agent who is also a customer
-  // is labelled "Sourcing Agent", which matches their function on this request).
-  const senderRoleMap = useMemo(() => {
-    const map = new Map<string, "admin" | "agent" | "customer">();
-    for (const row of senderRoles as any[]) {
-      const current = map.get(row.user_id);
-      const next = row.role as "admin" | "agent" | "customer";
-      const rank = (r?: string) => (r === "admin" ? 3 : r === "agent" ? 2 : r === "customer" ? 1 : 0);
-      if (rank(next) > rank(current)) map.set(row.user_id, next);
-    }
-    return map;
-  }, [senderRoles]);
-
-  const labelForRole = (r?: "admin" | "agent" | "customer") =>
-    r === "admin" ? "Admin" : r === "agent" ? "Sourcing Agent" : "Customer";
+  const labelForSide = (side: "staff" | "customer") =>
+    side === "staff" ? "Sourcing Agent" : "Customer";
 
   // Fetch invoices for this request so invoice-type messages can render rich cards.
   const { data: requestInvoices = [] } = useQuery({
