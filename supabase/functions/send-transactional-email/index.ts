@@ -120,6 +120,20 @@ Deno.serve(async (req) => {
     )
   }
 
+  // Anonymous callers may only trigger the public Contact-form templates,
+  // and contact-notification is hard-locked to the platform admin address.
+  if (role === 'anon') {
+    if (!ANON_ALLOWED_TEMPLATES.has(templateName)) {
+      return new Response(
+        JSON.stringify({ error: 'Forbidden: template not allowed for anonymous callers' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+    if (templateName === 'contact-notification') {
+      recipientEmail = 'contact@equilinq.eu'
+    }
+  }
+
   // 1. Look up template from registry (early — needed to resolve recipient)
   const template = TEMPLATES[templateName]
 
