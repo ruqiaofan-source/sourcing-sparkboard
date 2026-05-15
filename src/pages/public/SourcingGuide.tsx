@@ -26,7 +26,7 @@ export default function SourcingGuide() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEOHead
-        title="How to Source Products from China: Complete 2026 Guide for European SMEs"
+        title="Sourcing from China: 2026 Guide for European SMEs"
         description="The definitive guide to sourcing products from China for European small businesses. Learn how to find verified suppliers, negotiate MOQs, manage quality control, and handle shipping to Europe."
         keywords="how to source from china, sourcing from china for small business, china sourcing agent europe, buy from china factory europe, china supplier verification, quality control china, china shipping europe, private label sourcing china, low MOQ china, sourcing guide europe"
         breadcrumbs={[

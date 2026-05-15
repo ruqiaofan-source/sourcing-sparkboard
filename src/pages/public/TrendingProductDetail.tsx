@@ -163,6 +163,37 @@ export default function TrendingProductDetail() {
       <SEOHead
         title={`${product.name} - Trending Product Analysis | Equilinq`}
         description={product.description || `In-depth sourcing analysis for ${product.name}. Discover why it's trending and how to source it.`}
+        ogType="product"
+        ogImage={slugImageMap[slug!] || product.image_url || undefined}
+        breadcrumbs={[
+          { name: "Home", url: "https://equilinq.eu/" },
+          { name: "Trending Products", url: "https://equilinq.eu/trending" },
+          { name: product.name, url: `https://equilinq.eu/trending/${slug}` },
+        ]}
+        jsonLd={{
+          "@type": "Product",
+          name: product.name,
+          description:
+            product.description ||
+            `Sourcing analysis for ${product.name}.`,
+          image: slugImageMap[slug!] || product.image_url || undefined,
+          category: product.category || undefined,
+          brand: { "@type": "Organization", name: "Equilinq" },
+          url: `https://equilinq.eu/trending/${slug}`,
+          offers: product.price_range
+            ? {
+                "@type": "AggregateOffer",
+                priceCurrency: "EUR",
+                priceSpecification: {
+                  "@type": "PriceSpecification",
+                  priceCurrency: "EUR",
+                  description: product.price_range,
+                },
+                availability: "https://schema.org/InStock",
+                seller: { "@type": "Organization", name: "Equilinq" },
+              }
+            : undefined,
+        }}
       />
       <PublicNavbar />
       <main className="min-h-screen bg-background">

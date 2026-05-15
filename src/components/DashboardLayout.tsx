@@ -33,19 +33,21 @@ export function DashboardLayout({ children, title }: { children: React.ReactNode
   const location = useLocation();
   const unreadMessages = useUnreadMessagesTotal();
 
-  // Reflect unread count in the browser tab title so it's visible when the
-  // user is on a different tab.
+  // Build a per-route title so each dashboard page has its own descriptive
+  // <title> (e.g. "Settings — Equilinq") instead of a single generic one.
+  const pageLabel = routeNames[location.pathname] || title;
   useEffect(() => {
-    const baseTitle = "Equilinq";
+    const base = pageLabel ? `${pageLabel} — Equilinq` : "Equilinq";
     if (unreadMessages > 0) {
-      document.title = `(${unreadMessages > 9 ? "9+" : unreadMessages}) ${baseTitle} — new message${unreadMessages > 1 ? "s" : ""}`;
+      const badge = unreadMessages > 9 ? "9+" : unreadMessages;
+      document.title = `(${badge}) ${base}`;
     } else {
-      document.title = baseTitle;
+      document.title = base;
     }
     return () => {
       document.title = "Equilinq";
     };
-  }, [unreadMessages]);
+  }, [unreadMessages, pageLabel]);
 
   const initials = user?.email?.slice(0, 2).toUpperCase() || "EQ";
   const roleBadge = primaryRole === "admin" ? "Admin" : primaryRole === "agent" ? "Agent" : "Customer";
