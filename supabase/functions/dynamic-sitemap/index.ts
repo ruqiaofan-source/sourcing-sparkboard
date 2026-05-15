@@ -14,6 +14,7 @@ const STATIC_ROUTES: Array<{ loc: string; priority: string; changefreq: string }
   { loc: "/contact", priority: "0.8", changefreq: "monthly" },
   { loc: "/demo", priority: "0.8", changefreq: "monthly" },
   { loc: "/sourcing-guide", priority: "0.8", changefreq: "monthly" },
+  { loc: "/trending", priority: "0.7", changefreq: "weekly" },
   { loc: "/how-it-works/submit-sourcing-request", priority: "0.6", changefreq: "monthly" },
   { loc: "/how-it-works/source-and-vet-suppliers", priority: "0.6", changefreq: "monthly" },
   { loc: "/how-it-works/receive-your-quote", priority: "0.6", changefreq: "monthly" },
@@ -39,6 +40,12 @@ serve(async (_req) => {
       .eq("published", true)
       .order("published_at", { ascending: false });
 
+    // Fetch all active trending products
+    const { data: trending } = await supabase
+      .from("trending_products")
+      .select("slug, updated_at")
+      .eq("is_active", true);
+
     // Build XML
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
@@ -63,6 +70,22 @@ serve(async (_req) => {
         if (lastmod) xml += `    <lastmod>${lastmod}</lastmod>\n`;
         xml += `    <priority>0.6</priority>\n`;
         xml += `    <changefreq>monthly</changefreq>\n`;
+        xml += `  </url>\n`;
+      }
+    }
+
+    // Dynamic trending product routes
+    if (trending) {
+      for (const product of trending) {
+        if (!product.slug) continue;
+        const lastmod = product.updated_at
+          ? new Date(product.updated_at).toISOString().split("T")[0]
+          : undefined;
+        xml += `  <url>\n`;
+        xml += `    <loc>${BASE_URL}/trending/${product.slug}</loc>\n`;
+        if (lastmod) xml += `    <lastmod>${lastmod}</lastmod>\n`;
+        xml += `    <priority>0.6</priority>\n`;
+        xml += `    <changefreq>weekly</changefreq>\n`;
         xml += `  </url>\n`;
       }
     }
