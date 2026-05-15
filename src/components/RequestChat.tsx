@@ -513,7 +513,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
               return (
                 <div key={m.id} className={`flex ${onMySide ? "justify-end" : "justify-start"}`}>
                   <div className="max-w-[85%]">
-                    <p className={`text-[11px] font-medium mb-1 ${isMine ? "text-right text-primary" : "text-muted-foreground"}`}>
+                    <p className={`text-[11px] font-medium mb-1 ${onMySide ? "text-right" : ""} ${isMine ? "text-primary" : "text-muted-foreground"}`}>
                       {isMine
                         ? "You issued an invoice"
                         : `${senderShort} (${senderRoleLabel}) issued an invoice`}
@@ -533,7 +533,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                   <div className="max-w-[85%]">
                     <p
                       className={`text-[11px] font-medium mb-1 ${
-                        isMine ? "text-right text-primary" : "text-muted-foreground"
+                        onMySide ? "text-right" : ""} ${isMine ? "text-primary" : "text-muted-foreground"
                       }`}
                     >
                       {isMine
