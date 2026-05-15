@@ -71,46 +71,27 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
     return m;
   }, [requestQuotes]);
 
-  // Resolve the actual role (customer/agent/admin) of every distinct sender in
-  // the conversation. We can't infer the sender's role from the viewer's role
-  // because some accounts (e.g. test accounts) carry multiple roles, and the
-  // sender of a quote is always whoever wrote the message — not "the other party".
-  const senderIds = useMemo(() => {
-    const set = new Set<string>();
-    for (const m of messages as any[]) if (m.sender_id) set.add(m.sender_id);
-    return Array.from(set);
-  }, [messages]);
-
-  const { data: senderRoles = [] } = useQuery({
-    queryKey: ["request-sender-roles", requestId, senderIds.join(",")],
+  // Determine the customer for this request. Anyone else who posts in the
+  // thread (assigned agent, other agents stepping in, admins) is staff.
+  // This avoids relying on user_roles, which agents can't read for other
+  // users under current RLS.
+  const { data: requestMeta } = useQuery({
+    queryKey: ["request-meta-chat", requestId],
     queryFn: async () => {
-      if (senderIds.length === 0) return [] as any[];
       const { data, error } = await supabase
-        .from("user_roles" as any)
-        .select("user_id, role")
-        .in("user_id", senderIds);
-      if (error) return [];
-      return data as any[];
+        .from("sourcing_requests")
+        .select("user_id, agent_id")
+        .eq("id", requestId)
+        .maybeSingle();
+      if (error) throw error;
+      return data as { user_id: string; agent_id: string | null } | null;
     },
-    enabled: senderIds.length > 0 && !!user,
+    enabled: !!requestId && !!user,
   });
+  const customerId = requestMeta?.user_id;
 
-  // Map sender_id → highest-priority role label.
-  // Priority: admin > agent > customer (so an agent who is also a customer
-  // is labelled "Sourcing Agent", which matches their function on this request).
-  const senderRoleMap = useMemo(() => {
-    const map = new Map<string, "admin" | "agent" | "customer">();
-    for (const row of senderRoles as any[]) {
-      const current = map.get(row.user_id);
-      const next = row.role as "admin" | "agent" | "customer";
-      const rank = (r?: string) => (r === "admin" ? 3 : r === "agent" ? 2 : r === "customer" ? 1 : 0);
-      if (rank(next) > rank(current)) map.set(row.user_id, next);
-    }
-    return map;
-  }, [senderRoles]);
-
-  const labelForRole = (r?: "admin" | "agent" | "customer") =>
-    r === "admin" ? "Admin" : r === "agent" ? "Sourcing Agent" : "Customer";
+  const labelForSide = (side: "staff" | "customer") =>
+    side === "staff" ? "Sourcing Agent" : "Customer";
 
   // Fetch invoices for this request so invoice-type messages can render rich cards.
   const { data: requestInvoices = [] } = useQuery({
@@ -508,12 +489,15 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
             const isMine = m.sender_id === user?.id;
             const profileName =
               m.profiles?.display_name || m.profiles?.full_name || null;
-            // Look up the sender's REAL role for this message, with a sensible
-            // fallback when the role row hasn't loaded yet.
-            const resolvedRole = senderRoleMap.get(m.sender_id);
-            const fallbackRole: "agent" | "customer" =
-              isCustomer ? "agent" : "customer";
-            const senderRoleLabel = labelForRole(resolvedRole || fallbackRole);
+            // Determine which "side" the sender is on: the request's customer
+            // (sourcing_requests.user_id) is the customer; everyone else is staff.
+            const senderSide: "staff" | "customer" =
+              customerId && m.sender_id === customerId ? "customer" : "staff";
+            // Align by side, not by sender identity, so a second agent's
+            // message appears on the same (right) side as the viewing agent.
+            const viewerSide: "staff" | "customer" = isCustomer ? "customer" : "staff";
+            const onMySide = senderSide === viewerSide;
+            const senderRoleLabel = labelForSide(senderSide);
             const senderName = isMine
               ? "You"
               : profileName
@@ -527,9 +511,9 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
             if (isInvoiceMsg) {
               const linkedInvoice = invoiceMap.get(m.invoice_id);
               return (
-                <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+                <div key={m.id} className={`flex ${onMySide ? "justify-end" : "justify-start"}`}>
                   <div className="max-w-[85%]">
-                    <p className={`text-[11px] font-medium mb-1 ${isMine ? "text-right text-primary" : "text-muted-foreground"}`}>
+                    <p className={`text-[11px] font-medium mb-1 ${onMySide ? "text-right" : ""} ${isMine ? "text-primary" : "text-muted-foreground"}`}>
                       {isMine
                         ? "You issued an invoice"
                         : `${senderShort} (${senderRoleLabel}) issued an invoice`}
@@ -545,11 +529,11 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
                 status: "pending",
               };
               return (
-                <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+                <div key={m.id} className={`flex ${onMySide ? "justify-end" : "justify-start"}`}>
                   <div className="max-w-[85%]">
                     <p
                       className={`text-[11px] font-medium mb-1 ${
-                        isMine ? "text-right text-primary" : "text-muted-foreground"
+                        onMySide ? "text-right" : ""} ${isMine ? "text-primary" : "text-muted-foreground"
                       }`}
                     >
                       {isMine
@@ -566,7 +550,7 @@ export default function RequestChat({ requestId, isCustomer }: RequestChatProps)
               );
             }
             return (
-              <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+              <div key={m.id} className={`flex ${onMySide ? "justify-end" : "justify-start"}`}>
                 <div className={`group relative max-w-[80%] rounded-xl px-3.5 py-2.5 ${
                   isMine
                     ? "bg-primary/15 border border-primary/20 text-card-foreground"
