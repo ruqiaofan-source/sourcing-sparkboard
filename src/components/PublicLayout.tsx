@@ -410,6 +410,8 @@ export function PublicFooter() {
           <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
             <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
             <Link to="/cookies" className="hover:text-foreground transition-colors">Cookie Policy</Link>
+            <Link to="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
+            <Link to="/refund-policy" className="hover:text-foreground transition-colors">Refund Policy</Link>
           </div>
         </div>
       </div>

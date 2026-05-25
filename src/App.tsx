@@ -22,6 +22,8 @@ const HowItWorks = lazy(() => import("./pages/public/HowItWorks"));
 const HowItWorksStep = lazy(() => import("./pages/public/HowItWorksStep"));
 const Privacy = lazy(() => import("./pages/public/Privacy"));
 const CookiesPage = lazy(() => import("./pages/public/Cookies"));
+const Terms = lazy(() => import("./pages/public/Terms"));
+const RefundPolicy = lazy(() => import("./pages/public/RefundPolicy"));
 const Demo = lazy(() => import("./pages/public/Demo"));
 const SourcingGuide = lazy(() => import("./pages/public/SourcingGuide"));
 const TrendingProducts = lazy(() => import("./pages/public/TrendingProducts"));
@@ -142,6 +144,8 @@ const App = () => (
                 <Route path="/trending/:slug" element={<TrendingProductDetail />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/cookies" element={<CookiesPage />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/refund-policy" element={<RefundPolicy />} />
                 <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/unsubscribe" element={<Unsubscribe />} />
