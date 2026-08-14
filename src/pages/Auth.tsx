@@ -42,6 +42,9 @@ const features = [
 const AuthPage = () => {
   const [greeting] = useState(getRandomGreeting);
   const [searchParams] = useSearchParams();
+  const rawNext = searchParams.get("next");
+  const nextPath = rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : null;
+  const postAuthUrl = `${window.location.origin}${nextPath ?? "/dashboard"}`;
   const [isSignUp, setIsSignUp] = useState(searchParams.get("signup") === "true");
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
@@ -79,6 +82,7 @@ const AuthPage = () => {
           email,
           password,
           options: {
+            emailRedirectTo: postAuthUrl,
             data: {
               full_name: fullName,
               phone_number: phone,
