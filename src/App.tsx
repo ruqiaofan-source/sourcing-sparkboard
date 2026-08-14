@@ -54,6 +54,7 @@ const AdminTestimonials = lazy(() => import("./pages/admin/AdminTestimonials"));
 const AdminAnalytics = lazy(() => import("./pages/admin/AdminAnalytics"));
 
 const Auth = lazy(() => import("./pages/Auth"));
+const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 const Orders = lazy(() => import("./pages/Orders"));
 const OrderDetail = lazy(() => import("./pages/OrderDetail"));
 const Analytics = lazy(() => import("./pages/Analytics"));
@@ -93,8 +94,11 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function AuthRoute({ children }: { children: React.ReactNode }) {
   const { session, loading } = useAuth();
+  const params = new URLSearchParams(window.location.search);
+  const rawNext = params.get("next");
+  const nextPath = rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/dashboard";
   if (loading) return null;
-  if (session) return <Navigate to="/dashboard" replace />;
+  if (session) return <Navigate to={nextPath} replace />;
   return <>{children}</>;
 }
 
@@ -147,6 +151,7 @@ const App = () => (
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/refund-policy" element={<RefundPolicy />} />
                 <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
+                <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/unsubscribe" element={<Unsubscribe />} />
                 
