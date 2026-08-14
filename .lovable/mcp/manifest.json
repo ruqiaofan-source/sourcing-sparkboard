@@ -1,0 +1,187 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.2",
+  "path": "/functions/v1/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://chmoabjmtbbqdrgigspm.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "final-version-website",
+      "version": "0.1.0",
+      "title": "Final version website"
+    },
+    "tools": [
+      {
+        "name": "list_sourcing_requests",
+        "title": "List sourcing requests",
+        "description": "List the signed-in user's sourcing requests, newest first. Optionally filter by status.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "description": "Filter by status, e.g. pending, quoted, accepted, completed."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Maximum rows to return (default 20, max 100)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_sourcing_request",
+        "title": "Get sourcing request",
+        "description": "Get one sourcing request with its quotes and recent messages.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "request_id": {
+              "type": "string",
+              "description": "The sourcing request id (uuid)."
+            }
+          },
+          "required": [
+            "request_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "create_sourcing_request",
+        "title": "Create sourcing request",
+        "description": "Submit a new sourcing request for the signed-in user.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Short product title."
+            },
+            "description": {
+              "type": "string",
+              "description": "Detailed product specification and requirements."
+            },
+            "quantity": {
+              "type": "integer",
+              "description": "Units required."
+            },
+            "budget_per_unit": {
+              "type": "number",
+              "description": "Target price per unit."
+            },
+            "currency": {
+              "type": "string",
+              "description": "Currency code, e.g. EUR or USD. Defaults to EUR."
+            },
+            "delivery_country": {
+              "type": "string",
+              "description": "Destination country."
+            },
+            "delivery_address": {
+              "type": "string",
+              "description": "Destination address."
+            },
+            "eco_friendly": {
+              "type": "string",
+              "description": "Eco-friendly preference, e.g. yes / no / preferred."
+            },
+            "notes": {
+              "type": "string",
+              "description": "Any extra notes for the sourcing agent."
+            }
+          },
+          "required": [
+            "title",
+            "description",
+            "quantity"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_orders",
+        "title": "List orders",
+        "description": "List the signed-in user's orders with status, totals and tracking info.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "description": "Filter by order status."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Maximum rows to return (default 20, max 100)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "send_request_message",
+        "title": "Send message on a sourcing request",
+        "description": "Post a chat message to the sourcing agent on one of the signed-in user's sourcing requests.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "request_id": {
+              "type": "string",
+              "description": "The sourcing request id (uuid)."
+            },
+            "content": {
+              "type": "string",
+              "description": "Message body to send."
+            }
+          },
+          "required": [
+            "request_id",
+            "content"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
