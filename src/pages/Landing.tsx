@@ -15,6 +15,7 @@ import logoSoleRunning from "@/assets/logos/sole-running-cutout.png";
 import logoLKK from "@/assets/logos/lkk-cutout.png";
 import logoIMMO from "@/assets/logos/immo-cutout.png";
 import logoBuckyDrop from "@/assets/logos/buckydrop-cutout.png";
+import logoPorsche from "@/assets/logos/porsche-cutout.png";
 
 const CALENDLY = "https://calendly.com/admin-equilinq/30min";
 const PROTOTYPE = "https://prototype.equilinq.eu";
@@ -60,6 +61,7 @@ const reviews = [
 const partners = [
   { src: logoLKK, alt: "LKK Design" },
   { src: logoBuckyDrop, alt: "BuckyDrop" },
+  { src: logoPorsche, alt: "Porsche" },
   { src: logoSoleRunning, alt: "Sole Running" },
   { src: logoIMMO, alt: "Stichting iMMO" },
 ];
@@ -366,7 +368,7 @@ export default function Landing() {
                       src={p.src}
                       alt={p.alt}
                       loading="lazy"
-                      className="h-[22px] w-auto max-w-[140px] object-contain opacity-55 transition-opacity duration-300 hover:opacity-90 sm:h-7"
+                      className="h-[22px] w-auto max-w-[140px] object-contain opacity-55 transition-opacity duration-300 hover:opacity-90 sm:h-7 dark:invert"
                       style={{ filter: "grayscale(1) brightness(0)" }}
                     />
                   ))}
