@@ -154,25 +154,25 @@ export function ProductionArtefact() {
     <Frame>
       <div ref={ref}>
         <p className="label-mono-up text-white/50">Production timeline</p>
-        <div className="relative mt-10">
+        <div className="relative mt-8 hidden sm:block">
           <div className="absolute inset-x-0 top-1.5 h-px bg-white/12" />
           <div
             className="absolute left-0 top-1.5 h-px bg-white transition-[width] duration-300 ease-out"
             style={{ width: `${(Math.max(shown - 1, 0) / (milestones.length - 1)) * 100}%` }}
           />
-          <div className="relative grid grid-cols-5 gap-2">
+          <div className="relative grid grid-cols-5 gap-1">
             {milestones.map((m, i) => (
-              <div key={m.label} className="flex flex-col items-center text-center">
+              <div key={m.label} className="flex flex-col items-center px-1 text-center">
                 <span
                   aria-hidden="true"
                   className={`h-3 w-3 rounded-full border border-white/40 transition-colors duration-300 ${
                     shown > i ? "bg-white" : "bg-transparent"
                   }`}
                 />
-                <span className={`label-mono mt-3 text-white/70 ${item(shown > i)}`}>{m.label}</span>
+                <span className={`label-mono mt-3 leading-snug text-white/70 ${item(shown > i)}`}>{m.label}</span>
                 {m.photo && (
                   <span
-                    className={`label-mono-up mt-2 rounded-md border border-white/12 px-1.5 py-0.5 text-white/60 ${item(shown > i)}`}
+                    className={`label-mono-up mt-2 rounded-md border border-white/12 px-1.5 py-0.5 leading-snug text-white/60 ${item(shown > i)}`}
                   >
                     Photo update
                   </span>
@@ -181,6 +181,26 @@ export function ProductionArtefact() {
             ))}
           </div>
         </div>
+
+        <ol className="mt-6 grid gap-3 sm:hidden">
+          {milestones.map((m, i) => (
+            <li key={m.label} className="flex items-center gap-3">
+              <span
+                aria-hidden="true"
+                className={`h-3 w-3 shrink-0 rounded-full border border-white/40 transition-colors duration-300 ${
+                  shown > i ? "bg-white" : "bg-transparent"
+                }`}
+              />
+              <span className={`label-mono text-white/70 ${item(shown > i)}`}>{m.label}</span>
+              {m.photo && (
+                <span className={`label-mono-up rounded-md border border-white/12 px-1.5 py-0.5 text-white/60 ${item(shown > i)}`}>
+                  Photo update
+                </span>
+              )}
+            </li>
+          ))}
+        </ol>
+
       </div>
     </Frame>
   );
