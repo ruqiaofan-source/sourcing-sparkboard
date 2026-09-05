@@ -54,42 +54,8 @@ const StagePanel = ({ children }: { children: React.ReactNode }) => (
 
 /** Desktop pinned cycle: one viewport of scroll per step, sticky stage. */
 function PinnedCycle({ descriptions, hrefs }: ProductCycleProps) {
+  const { trackRef, active, goTo } = usePinnedCycle(steps.length);
 
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const el = trackRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const travel = rect.height - window.innerHeight;
-      if (travel <= 0) return;
-      const progress = Math.min(1, Math.max(0, -rect.top / travel));
-      setActive(Math.min(steps.length - 1, Math.floor(progress * steps.length)));
-    };
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      if (frame) cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  const goTo = (index: number) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const top = window.scrollY + el.getBoundingClientRect().top;
-    const travel = el.offsetHeight - window.innerHeight;
-    window.scrollTo({ top: top + (travel * (index + 0.5)) / steps.length, behavior: "smooth" });
-  };
 
   const Artefact = steps[active].Artefact;
   const fill = `${((active + 1) / steps.length) * 100}%`;
