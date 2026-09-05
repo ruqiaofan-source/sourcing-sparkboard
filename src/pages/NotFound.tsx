@@ -3,6 +3,8 @@ import { useEffect, forwardRef } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
+
 
 const NotFound = forwardRef<HTMLElement>(function NotFound(_props, ref) {
   const location = useLocation();
