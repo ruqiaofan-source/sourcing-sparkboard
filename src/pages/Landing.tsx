@@ -122,7 +122,7 @@ function AnswerBody({ answer }: { answer: string }) {
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground overflow-x-clip">
       <SEOHead
         title="Equilinq - Sourcing from China, checked before it ships"
         description="Verified factories, itemised quotes and inspection with photo proof, for European brands ordering from 10 units. One counterparty in Hong Kong."
