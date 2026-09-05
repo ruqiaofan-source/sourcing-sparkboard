@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SEOHead } from "@/components/SEOHead";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
-import PageGlow from "@/components/PageGlow";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -143,7 +142,6 @@ export default function AgentProgram() {
         ]}
       />
       <PublicNavbar />
-      <PageGlow />
 
       {/* Hero */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden">

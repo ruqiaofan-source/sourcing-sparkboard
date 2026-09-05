@@ -7,7 +7,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
-import PageGlow from "@/components/PageGlow";
 
 export const steps = [
   {
@@ -275,7 +274,6 @@ export default function HowItWorksStep() {
         }}
       />
       <PublicNavbar />
-      <PageGlow />
 
       {/* Hero */}
       <section className="pt-28 sm:pt-36 pb-16 sm:pb-20 px-4 text-center relative">

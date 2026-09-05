@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, CheckCircle2, Search, X } from "lucide-react";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Input } from "@/components/ui/input";
-import PageGlow from "@/components/PageGlow";
 
 /* ──────── Service categories with items ──────── */
 
@@ -279,7 +278,6 @@ export default function Customization() {
         }}
       />
       <PublicNavbar />
-      <PageGlow />
 
       {/* Hero */}
       <section className="pt-32 pb-12 px-4 text-center relative">

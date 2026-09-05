@@ -9,7 +9,6 @@ import { ArrowRight, CheckCircle2, ShieldCheck, DollarSign, Globe, ChevronLeft, 
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
-import PageGlow from "@/components/PageGlow";
 
 import logoSoleRunning from "@/assets/logos/sole-running-cutout.png";
 import logoLKK from "@/assets/logos/lkk-cutout.png";
@@ -429,7 +428,6 @@ export default function Landing() {
       />
 
       <PublicNavbar />
-      <PageGlow />
       <main>
 
       {/* ───── HERO ───── */}
