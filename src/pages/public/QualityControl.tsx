@@ -104,10 +104,10 @@ export default function QualityControl() {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
-              Zero Defects,
+              Quality You Can
               <br />
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))" }}>
-                Zero Surprises
+                See and Verify
               </span>
             </motion.h1>
             <motion.p
@@ -116,7 +116,7 @@ export default function QualityControl() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              Every order goes through structured quality checks — from pre-production samples to final pre-shipment inspection. No defects, no surprises.
+              Every order goes through structured quality checks -- from pre-production samples to final pre-shipment inspection. No defects, no surprises.
             </motion.p>
           </motion.div>
 
