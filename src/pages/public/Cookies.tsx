@@ -17,10 +17,12 @@ export default function Cookies() {
       />
       <PublicNavbar />
 
-      <main className="pt-32 pb-24 px-4">
-        <article className="max-w-3xl mx-auto prose prose-sm prose-neutral dark:prose-invert">
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-2"><span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))" }}>Cookie</span> Policy</h1>
-          <p className="text-sm text-muted-foreground mb-8">Last updated: 28 December 2025</p>
+      <main className="relative bg-card">
+        <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+        <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8 sm:pt-40">
+        <article className="prose prose-sm mx-auto max-w-3xl prose-headings:font-display prose-headings:text-primary prose-h1:text-3xl prose-p:text-body-ink prose-li:text-body-ink prose-strong:text-foreground prose-a:text-primary">
+          <h1 className="mb-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Cookie Policy</h1>
+          <p className="label-mono-up mb-10 text-muted-foreground">Last updated: 28 December 2025</p>
 
           <p>
             This Cookie Policy explains how Equilinq ("we", "us", or "our") uses cookies and similar technologies when you visit our website at <a href="https://equilinq.eu" className="text-primary hover:underline">equilinq.eu</a>.
@@ -96,6 +98,7 @@ export default function Cookies() {
             <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
           </p>
         </article>
+        </div>
       </main>
 
       <PublicFooter />
