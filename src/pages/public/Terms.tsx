@@ -199,7 +199,83 @@ export default function Terms() {
           <h3>18.5 Language</h3>
           <p>These Terms are written in English. Any translation is provided for convenience only; the English version prevails in case of conflict.</p>
 
-          <h2>19. Contact Us</h2>
+          <h2>19. Platform Compliance Policy</h2>
+          <p className="text-sm text-muted-foreground">Last updated: 29 July 2026</p>
+          <p>As a sourcing and procurement service platform, Equilinq is committed to providing users with a safe and reliable shopping experience. We respect intellectual property rights. Any products involving intellectual property infringement on the Equilinq platform, such as counterfeit goods or unauthorized goods, are strictly prohibited under the platform's compliance policy. Equilinq reserves the right to suspend or terminate relevant services upon discovery of any violation.</p>
+
+          <h3>19.1 Definition of Counterfeit Goods</h3>
+          <p>The following types of goods fall within restricted or prohibited categories:</p>
+          <ul>
+            <li><strong>Counterfeit Goods:</strong> Products that intentionally imitate genuine products without the permission of the brand owner, infringe trademarks or intellectual property rights, and are likely to cause consumer confusion.</li>
+            <li><strong>Unauthorized Goods:</strong> Products sold without lawful authorization or formal permission from the intellectual property rights holder.</li>
+            <li><strong>Intellectual Property Infringing Goods:</strong> Goods or services that infringe copyrights, trademarks, patents, or third-party proprietary design rights.</li>
+            <li><strong>Pirated Goods:</strong> Unauthorized copying and distribution of digital media, such as music, films, videos, or software, without the permission of the copyright owner.</li>
+            <li><strong>Brand Misrepresentation:</strong> Falsely claiming that products originate from a well-known brand in a manner that misleads or deceives consumers.</li>
+          </ul>
+
+          <h3>19.2 How Equilinq Prevents Counterfeit Goods</h3>
+          <p>Equilinq supports users in procuring goods. However, Equilinq itself does not sell any products and only provides sourcing, procurement, and shipping-related services to users. Therefore, Equilinq cannot directly restrict the sale of counterfeit goods on third-party procurement platforms or websites, nor can it impose penalties on sellers on third-party platforms.</p>
+          <p>Nevertheless, Equilinq will take the following proactive measures to filter suspected infringing goods to the greatest extent possible:</p>
+          <ul>
+            <li>Implement a keyword filtering system to restrict the display of search results that clearly involve counterfeit or infringing products.</li>
+            <li>Apply stricter platform content controls to high-risk categories, such as luxury goods and electronics.</li>
+            <li>
+              Conduct regular product compliance reviews to identify and remove suspected infringing goods with the following characteristics:
+              <ul>
+                <li>Goods displaying brand names or logos without the permission of the intellectual property rights holder.</li>
+                <li>Goods whose brands or logos are visually difficult to distinguish from genuine products, but have been slightly modified.</li>
+                <li>Goods that deliberately hide or visually alter brand logos to conceal infringement.</li>
+                <li>Goods that deliberately misspell well-known brand names.</li>
+                <li>Product listings that contain brand names or logos, while the actual products do not bear the corresponding marks.</li>
+              </ul>
+            </li>
+          </ul>
+          <p>If you receive goods suspected of being counterfeit, you are advised to immediately stop purchasing such goods and report the matter to Equilinq's customer service department. If you are a rights holder and have any intellectual property concerns, please contact our customer service department to submit a complaint.</p>
+          <p><strong>Reporting email:</strong> <a href="mailto:support@equilinq.eu" className="text-primary hover:underline">support@equilinq.eu</a></p>
+
+          <h3>19.3 B2B Supplier Review Process</h3>
+          <p>To ensure the compliance of the platform's upstream supply chain, Equilinq conducts systematic compliance reviews of all suppliers involved in B2B procurement activities. The standard review process is as follows:</p>
+          <h4>19.3.1 Supplier Onboarding Review</h4>
+          <p>Before establishing a business relationship with a new supplier, Equilinq will conduct the following preliminary checks:</p>
+          <ul>
+            <li><strong>Supplier identity verification:</strong> Verifying the business license, legal representative information, and business qualifications.</li>
+            <li><strong>Product category compliance screening:</strong> Confirming that the product categories offered by the supplier do not violate the prohibited or restricted list, including but not limited to counterfeit goods, unauthorized goods, and dual-use goods.</li>
+            <li><strong>Brand authorization verification:</strong> For suppliers offering products involving well-known brands, Equilinq requires a brand authorization letter or legitimate purchase invoices traceable to the brand owner.</li>
+            <li><strong>Business history and reputation assessment:</strong> Evaluating the supplier's historical compliance performance through publicly available information and platform records.</li>
+          </ul>
+          <h4>19.3.2 Product Authenticity Due Diligence</h4>
+          <p>For officially approved suppliers, Equilinq requires ongoing compliance with the following product integrity control requirements:</p>
+          <ul>
+            <li>Establishing and maintaining verifiable supplier qualification files, including identification documents, authorization documents, product samples, and quality inspection reports.</li>
+            <li>Providing proof of product authenticity for high-risk categories, such as luxury goods, electronics, and branded apparel.</li>
+            <li>Conducting regular product list reviews to proactively identify and remove goods suspected of unauthorized brand use or counterfeit risks.</li>
+            <li>Where a supplier is found to be involved in counterfeit goods or intellectual property infringement, relevant records shall be retained and made available during compliance audits.</li>
+          </ul>
+          <h4>19.3.3 Ongoing Monitoring and Periodic Review</h4>
+          <p>Equilinq will conduct regular reviews of existing suppliers, with review frequency determined based on risk level:</p>
+          <ul>
+            <li>High-risk suppliers (categories such as luxury goods and electronics): reviewed quarterly.</li>
+            <li>Medium- and low-risk suppliers: reviewed every six months to one year.</li>
+            <li>Suppliers from regions historically associated with counterfeit goods compliance risks will be subject to Enhanced Due Diligence, requiring stricter product traceability documentation.</li>
+            <li>Any non-compliance identified during periodic reviews will trigger corresponding control measures, as detailed in Section 19.3.4 below.</li>
+          </ul>
+          <h4>19.3.4 Enforcement Actions</h4>
+          <p>If a supplier is found to have engaged in any of the following conduct, Equilinq will take appropriate measures based on the severity of the circumstances:</p>
+          <ul>
+            <li><strong>Minor violations:</strong> Requiring the supplier to rectify the issue within a specified period and submit a corrective action report.</li>
+            <li><strong>Serious violations,</strong> such as actively selling counterfeit goods or providing false authorization documents: immediately suspending cooperation with the supplier and reporting the matter to relevant payment service providers and regulatory authorities.</li>
+            <li><strong>Termination of cooperation and blacklisting:</strong> In severe cases, permanently terminating the business relationship and placing the supplier on the platform blacklist.</li>
+          </ul>
+
+          <h3>19.4 Disclaimer</h3>
+          <h4>19.4.1 Third-Party Liability</h4>
+          <p>As a sourcing and procurement service platform, Equilinq is not directly responsible for the quality or authenticity of goods provided by third-party merchants. However, Equilinq will manage suppliers strictly in accordance with this policy and make reasonable efforts to assist users in communicating and resolving disputes arising from product quality or authenticity issues.</p>
+          <h4>19.4.2 User Responsibility</h4>
+          <p>Users are responsible for ensuring that the goods they purchase comply with the laws and regulations of their country or region. Equilinq shall not assume joint or several liability for any losses or legal liabilities arising from goods that violate local laws or regulations.</p>
+          <h4>19.4.3 Updates to Compliance Policy</h4>
+          <p>Equilinq will update this policy periodically in accordance with changes in applicable laws, regulations, and compliance requirements. Users and suppliers are advised to review the latest version regularly to avoid any risk of service interruption resulting from policy updates.</p>
+
+          <h2>Contact Us</h2>
           <p>Questions about these Terms can be sent to:</p>
           <p><strong>Equilinq Limited</strong></p>
           <p><strong>Email:</strong> <a href="mailto:contact@equilinq.eu" className="text-primary hover:underline">contact@equilinq.eu</a></p>
