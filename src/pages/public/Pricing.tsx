@@ -1,18 +1,45 @@
 import { Link } from "react-router-dom";
 import { SEOHead } from "@/components/SEOHead";
-import { motion } from "framer-motion";
-import { CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import { Reveal } from "@/components/Reveal";
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-const fadeUp = {
-  hidden: { opacity: 0, y: 24, scale: 0.97 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const } },
-};
+const CALENDLY = "https://calendly.com/admin-equilinq/30min";
+
+const howItWorks = [
+  { n: "01", title: "Submit your request", desc: "Tell us what you need: product, quantity, specs, and budget." },
+  { n: "02", title: "Receive your breakdown", desc: "Get a fully itemized quote with every cost line visible." },
+  { n: "03", title: "Decide with clarity", desc: "No obligation. Review, compare, and accept when ready." },
+];
+
+const costBlocks = [
+  { label: "Factory cost", desc: "Direct supplier price at wholesale" },
+  { label: "Logistics and customs", desc: "Freight, clearance, duties, handling" },
+  { label: "China operations", desc: "QC, warehousing, coordination" },
+  { label: "Service fee", desc: "Equilinq sourcing and management" },
+];
+
+const included = [
+  "Supplier sourcing and vetting",
+  "Price negotiation",
+  "Sample coordination",
+  "Production tracking",
+  "Multi-stage quality control",
+  "Photo and video documentation",
+  "Logistics coordination",
+  "Customs documentation",
+  "Real-time order updates",
+  "Dedicated human agent",
+  "Platform access and chat",
+  "Invoice and payment processing",
+];
+
+const related = [
+  { to: "/how-it-works", label: "Process", title: "How it works", desc: "See our 8-step sourcing process." },
+  { to: "/customization", label: "Customization", title: "Build it your way", desc: "Branding and packaging options." },
+  { to: "/contact", label: "Contact", title: "Talk to us", desc: "Get a free consultation." },
+];
 
 export default function Pricing() {
   return (
@@ -28,7 +55,7 @@ export default function Pricing() {
         jsonLd={{
           "@type": "FAQPage",
           mainEntity: [
-            { "@type": "Question", name: "What does Equilinq charge for sourcing?", acceptedAnswer: { "@type": "Answer", text: "Equilinq charges a transparent service fee: 6% for orders under EUR 5,000 (minimum EUR 99), 5% for EUR 5,000-19,999, and 4% for orders over EUR 20,000." } },
+            { "@type": "Question", name: "What does Equilinq charge for sourcing?", acceptedAnswer: { "@type": "Answer", text: "Equilinq charges a transparent service fee on the order value. Service fees scale down as your order value grows, and the exact fee is shown as its own line in every quote." } },
             { "@type": "Question", name: "Are there any hidden fees?", acceptedAnswer: { "@type": "Answer", text: "No. Every quote is fully itemized showing factory cost, logistics, China operations, and Equilinq service fee separately." } },
             { "@type": "Question", name: "What is included in every order?", acceptedAnswer: { "@type": "Answer", text: "Every order includes supplier sourcing, price negotiation, sample coordination, production tracking, multi-stage quality control, photo documentation, logistics coordination, customs documentation, and a dedicated human agent." } },
           ],
@@ -46,287 +73,160 @@ export default function Pricing() {
             provider: { "@type": "Organization", name: "Equilinq", url: "https://equilinq.eu" },
             areaServed: "Europe",
             serviceType: "Product Sourcing and Procurement",
-            offers: {
-              "@type": "AggregateOffer",
-              priceCurrency: "EUR",
-              description: "Service fee from 4-6% based on order value, minimum EUR 99",
-            },
           }),
         }}
       />
       <PublicNavbar />
 
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
-        {/* Animated background glow */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div
-            className="absolute w-[600px] h-[600px] rounded-full"
-            style={{
-              background: "radial-gradient(circle, hsl(var(--primary) / 0.1) 0%, transparent 70%)",
-              top: "-15%",
-              right: "-10%",
-            }}
-            animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
-            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute w-[400px] h-[400px] rounded-full"
-            style={{
-              background: "radial-gradient(circle, hsl(var(--chart-2) / 0.06) 0%, transparent 70%)",
-              bottom: "10%",
-              left: "-8%",
-            }}
-            animate={{ x: [0, -15, 10, 0], y: [0, 10, -15, 0] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
-
-        <div className="max-w-5xl mx-auto relative z-10">
-          {/* Hero */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1, type: "spring", stiffness: 250 }}
-              className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6"
-            >
-              <motion.span
-                className="h-1.5 w-1.5 rounded-full bg-primary"
-                animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-              <span className="text-xs font-bold text-primary tracking-wide uppercase">No Hidden Fees</span>
-            </motion.div>
-
-            <motion.h1
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4"
-              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            >
-              Transparent Pricing,
-              <br />
-              <span
-                className="bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))",
-                }}
-              >
-                Tailored to Your Order
-              </span>
-            </motion.h1>
-            <motion.p
-              className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              Every order is different. Submit a sourcing request and receive a fully itemized cost breakdown with no surprises.
-            </motion.p>
-          </motion.div>
-
-          {/* How pricing works */}
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-40px" }}
-            className="mb-20"
-          >
-            <h2 className="font-heading text-2xl font-semibold text-foreground mb-6 text-center">How It Works</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {[
-                { step: "01", title: "Submit Your Request", desc: "Tell us what you need -- product, quantity, specs, and budget." },
-                { step: "02", title: "Receive Your Breakdown", desc: "Get a fully itemized quote with every cost line visible." },
-                { step: "03", title: "Decide With Clarity", desc: "No obligation. Review, compare, and accept when ready." },
-              ].map((item) => (
-                <motion.div
-                  key={item.step}
-                  variants={fadeUp}
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-6 text-center"
-                >
-                  <motion.span
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 300, delay: 0.1 }}
-                    className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 border border-primary/20 text-primary font-heading font-bold text-sm mb-3"
-                  >
-                    {item.step}
-                  </motion.span>
-                  <h3 className="font-heading text-lg font-semibold text-foreground mb-1">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm">{item.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* What's in every quote */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-8 sm:p-10 mb-20"
-          >
-            <h2 className="font-heading text-2xl font-bold text-foreground mb-2 text-center">Every Quote Includes a Full Breakdown</h2>
-            <p className="text-muted-foreground text-sm text-center mb-8 max-w-lg mx-auto">
-              No hidden markups. You see exactly where every euro goes.
+      <main>
+        {/* Inner hero */}
+        <section className="relative bg-card">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
+            <p className="label-mono-up text-primary">No hidden fees</p>
+            <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">
+              Transparent pricing, tailored to your order
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-body-ink sm:text-lg">
+              Every order is different. Submit a sourcing request and receive a fully itemized cost breakdown with no
+              surprises.
             </p>
-            <motion.div
-              variants={stagger}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-            >
-              {[
-                { label: "Factory Cost", desc: "Direct supplier price at wholesale" },
-                { label: "Logistics & Customs", desc: "Freight, clearance, duties, handling" },
-                { label: "China Operations", desc: "QC, warehousing, coordination" },
-                { label: "Service Fee", desc: "Equilinq sourcing and management" },
-              ].map((item) => (
-                <motion.div
-                  key={item.label}
-                  variants={fadeUp}
-                  whileHover={{ y: -3, scale: 1.03 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="rounded-xl border border-border/30 bg-card/40 p-5 text-center hover:border-primary/30 transition-colors duration-300"
-                >
-                  <p className="font-heading text-base font-semibold text-foreground mb-1">{item.label}</p>
-                  <p className="text-xs text-muted-foreground">{item.desc}</p>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* Volume note */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="rounded-2xl border border-primary/20 bg-primary/5 p-8 sm:p-10 mb-20 text-center relative overflow-hidden"
-          >
-            <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
-            <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              whileInView={{ scale: 1, rotate: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-            >
-              <Sparkles className="h-8 w-8 text-primary mx-auto mb-4" />
-            </motion.div>
-            <h2 className="font-heading text-2xl font-bold text-foreground mb-3">Better Rates at Higher Volumes</h2>
-            <p className="text-muted-foreground max-w-lg mx-auto mb-6">
-              Our service fees scale down as your order value grows. Submit a request and we will provide exact pricing tailored to your project.
-            </p>
-            <Link to="/auth?signup=true">
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="inline-block">
-                <Button className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold border border-primary/20 shadow-[0_0_40px_-8px_hsl(239,100%,60%/0.4)]">
-                  Get Your Quote
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </motion.div>
-            </Link>
-          </motion.div>
-
-          {/* What's Included */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="font-heading text-2xl font-bold text-foreground mb-8">Included in Every Order</h2>
-            <motion.div
-              variants={stagger}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left"
-            >
-              {[
-                "Supplier sourcing and vetting",
-                "Price negotiation",
-                "Sample coordination",
-                "Production tracking",
-                "Multi-stage quality control",
-                "Photo and video documentation",
-                "Logistics coordination",
-                "Customs documentation",
-                "Real-time order updates",
-                "Dedicated human agent",
-                "Platform access and chat",
-                "Invoice and payment processing",
-              ].map((item) => (
-                <motion.div
-                  key={item}
-                  variants={fadeUp}
-                  className="flex items-center gap-2.5 text-sm text-foreground font-medium"
-                >
-                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
-                  {item}
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center py-16"
-          >
-            <h2 className="font-heading text-3xl font-bold text-foreground mb-4">Ready to See Your Exact Pricing?</h2>
-            <p className="text-muted-foreground mb-8 max-w-md mx-auto">Submit a sourcing request and receive a detailed, no-obligation quote within 48 hours.</p>
-            <div className="flex items-center justify-center gap-4 flex-wrap">
-              <Link to="/auth?signup=true">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                  <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold border border-primary/20">
-                    Submit a Request
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </motion.div>
-              </Link>
-              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                  <Button variant="outline" size="lg" className="rounded-full border-border/60 px-8 h-12 text-base">
-                    Book a Call
-                  </Button>
-                </motion.div>
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Cross-links */}
-      <section className="pb-20 px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              { to: "/how-it-works", title: "How It Works", desc: "See our 8-step sourcing process" },
-              { to: "/customization", title: "Customization", desc: "35+ branding and packaging options" },
-              { to: "/contact", title: "Contact Us", desc: "Get a free consultation" },
-            ].map((link) => (
-              <Link key={link.to} to={link.to} className="group block p-5 rounded-xl border border-border/30 bg-card/20 hover:border-primary/30 hover:bg-card/40 transition-all">
-                <h3 className="font-heading text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{link.title}</h3>
-                <p className="text-xs text-muted-foreground">{link.desc}</p>
-              </Link>
-            ))}
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* How it works */}
+        <section className="relative bg-background">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">How it works</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">Three steps to a real number</h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 sm:grid-cols-3">
+              {howItWorks.map((item, i) => (
+                <Reveal key={item.n} delay={i * 60}>
+                  <div className="card-hover h-full rounded-2xl border border-border bg-card p-7">
+                    <span className="label-mono-up text-primary">{item.n}</span>
+                    <h3 className="mt-3 text-xl font-semibold text-primary">{item.title}</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{item.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Cost breakdown */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <div className="rounded-2xl border border-primary/25 bg-[image:var(--gradient-ink)] p-8 text-white shadow-[var(--shadow-soft)] sm:p-12">
+                <p className="label-mono-up text-white/60">Every quote includes a full breakdown</p>
+                <h2 className="mt-4 max-w-2xl text-3xl font-bold text-white sm:text-4xl">
+                  No hidden markups. You see exactly where every euro goes.
+                </h2>
+                <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                  {costBlocks.map((block) => (
+                    <div key={block.label} className="border-t border-white/20 pt-5">
+                      <p className="label-mono-up text-white/60">{block.label}</p>
+                      <p className="mt-3 text-sm leading-relaxed text-white/85">{block.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Volume */}
+        <section className="relative bg-background">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Volume</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">Better rates at higher volumes</h2>
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-body-ink">
+                Our service fees scale down as your order value grows. Submit a request and we will provide exact pricing
+                tailored to your project.
+              </p>
+              <Button asChild size="xl" variant="hero" className="btn-nudge mt-9">
+                <Link to="/auth?signup=true">
+                  Get your quote <ArrowRight />
+                </Link>
+              </Button>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Included */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Included in every order</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">
+                Twelve things you never have to arrange yourself
+              </h2>
+            </Reveal>
+            <Reveal delay={80}>
+              <ul className="mt-10 grid gap-x-10 gap-y-4 sm:grid-cols-2">
+                {included.map((item) => (
+                  <li key={item} className="label-mono flex items-center gap-3 border-b border-border pb-4 text-body-ink">
+                    <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    <span className="normal-case tracking-normal">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Closing band */}
+        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
+            <Reveal>
+              <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to see your exact pricing?</h2>
+              <p className="mt-5 text-lg text-white/75">
+                Submit a sourcing request and receive a detailed, no-obligation quote within 48 hours.
+              </p>
+              <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Button asChild size="xl" variant="hero" className="btn-nudge card-hover bg-white bg-none text-primary hover:bg-white">
+                  <Link to="/auth?signup=true">
+                    Submit a request <ArrowRight />
+                  </Link>
+                </Button>
+                <Button asChild size="xl" variant="onDark">
+                  <a href={CALENDLY} target="_blank" rel="noopener noreferrer">
+                    Book a call
+                  </a>
+                </Button>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Related */}
+        <section className="relative bg-background">
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Keep reading</p>
+            </Reveal>
+            <div className="mt-8 grid gap-6 sm:grid-cols-3">
+              {related.map((link, i) => (
+                <Reveal key={link.to} delay={i * 60}>
+                  <Link
+                    to={link.to}
+                    className="card-hover block h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50"
+                  >
+                    <span className="label-mono-up text-muted-foreground">{link.label}</span>
+                    <h3 className="mt-3 text-xl font-semibold text-primary">{link.title}</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{link.desc}</p>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
 
       <PublicFooter />
     </div>
