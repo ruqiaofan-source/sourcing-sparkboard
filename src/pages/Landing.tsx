@@ -4,6 +4,9 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Reveal } from "@/components/Reveal";
+import { HeroVideo } from "@/components/landing/HeroVideo";
+import { ScrollHint } from "@/components/landing/ScrollHint";
+import { ScrollProgressRail } from "@/components/landing/ScrollProgressRail";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { homeFaqs } from "@/data/homeFaqs";
 import founderImg from "@/assets/founder.jpg";
@@ -209,65 +212,60 @@ export default function Landing() {
       <main>
         {/* 1. HERO */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="hero-veil pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] lg:block">
-            <picture>
-              <source srcSet="/hero-packaging-1600.webp" type="image/webp" />
-              <img
-                src="/hero-packaging.jpg"
-                alt="Exploded view of a product packaging stack: mailer bag, card, product, tissue, foam insert, rigid box and shipping carton"
-                className="h-full w-full object-cover"
-                width={1600}
-                height={900}
-                fetchPriority="high"
-              />
-            </picture>
-          </div>
+          <HeroVideo
+            className="hero-veil pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] lg:block"
+            mediaClassName="translate-x-[7%] scale-110"
+            alt="Exploded view of a product packaging stack: mailer bag, card, product, tissue, foam insert, rigid box and shipping carton"
+          />
 
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-24 sm:pt-40">
             <div className="max-w-[38.75rem] lg:max-w-[45%]">
-              <span className="label-mono-up inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-white/60 backdrop-blur">
-                Sourcing and quality control, powered by Shenzhen
-              </span>
-              <h1 className="mt-6 text-[clamp(2.4rem,5.4vw,4.4rem)] font-bold leading-[0.98] tracking-tight text-white">
-                Sourcing from China, checked before it{" "}
-                <span className="underline decoration-1 underline-offset-[0.18em] underline-ink">ships.</span>
-              </h1>
-              <p className="mt-5 max-w-[36rem] text-base leading-relaxed text-white/85 sm:text-lg">
-                Verified factories, itemised quotes and inspection with photo proof, for European brands ordering from 10 units. One
-                counterparty in Hong Kong.
-              </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="xl" variant="hero" className="btn-nudge bg-white bg-none text-primary-deep hover:bg-white">
-                  <Link to="/auth?signup=true">
-                    Start a request <ArrowRight />
-                  </Link>
-                </Button>
-                <Button asChild size="xl" variant="onDark">
-                  <a href={CALENDLY} target="_blank" rel="noopener noreferrer">
-                    Book a call
-                  </a>
-                </Button>
-              </div>
+              <Reveal>
+                <span className="label-mono-up inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-white/60 backdrop-blur">
+                  Sourcing and quality control, powered by Shenzhen
+                </span>
+              </Reveal>
+              <Reveal delay={80}>
+                <h1 className="mt-6 text-[clamp(2.4rem,5.4vw,4.4rem)] font-bold leading-[0.98] tracking-tight text-white">
+                  Sourcing from China, checked before it{" "}
+                  <span className="underline decoration-1 underline-offset-[0.18em] underline-ink">ships.</span>
+                </h1>
+              </Reveal>
+              <Reveal delay={160}>
+                <p className="mt-5 max-w-[36rem] text-base leading-relaxed text-white/85 sm:text-lg">
+                  Verified factories, itemised quotes and inspection with photo proof, for European brands ordering from 10 units. One
+                  counterparty in Hong Kong.
+                </p>
+              </Reveal>
+              <Reveal delay={240}>
+                <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                  <Button asChild size="xl" variant="hero" className="btn-nudge bg-white bg-none text-primary-deep hover:bg-white">
+                    <Link to="/auth?signup=true">
+                      Start a request <ArrowRight />
+                    </Link>
+                  </Button>
+                  <Button asChild size="xl" variant="onDark">
+                    <a href={CALENDLY} target="_blank" rel="noopener noreferrer">
+                      Book a call
+                    </a>
+                  </Button>
+                </div>
+              </Reveal>
               <p className="label-mono-up mt-10 text-white/60">
                 Hong Kong entity, contracts you can read · Team in Amsterdam and Shenzhen · Backed by one of the founding shareholders of
                 Tencent Holdings.
               </p>
             </div>
+
+            <div className="mt-12 hidden justify-center lg:flex">
+              <ScrollHint />
+            </div>
           </div>
 
-          <div className="hero-veil relative h-56 w-full overflow-hidden sm:h-72 lg:hidden">
-            <picture>
-              <source srcSet="/hero-packaging-1600.webp" type="image/webp" />
-              <img
-                src="/hero-packaging.jpg"
-                alt="Exploded view of a product packaging stack on a black background"
-                className="h-full w-full object-cover"
-                width={1600}
-                height={900}
-                loading="lazy"
-              />
-            </picture>
-          </div>
+          <HeroVideo
+            className="hero-veil relative h-56 w-full overflow-hidden sm:h-72 lg:hidden"
+            alt="Exploded view of a product packaging stack on a black background"
+          />
         </section>
 
         {/* 2. TWO DOORS */}
@@ -348,9 +346,10 @@ export default function Landing() {
                 Eight steps from request to delivery, every one visible in your dashboard.
               </h2>
             </Reveal>
-            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <ScrollProgressRail>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {steps.map((s, i) => (
-                <Reveal key={s.n} delay={i * 40}>
+                <Reveal key={s.n} delay={i * 60}>
                   <div className="card-hover h-full rounded-2xl border border-white/12 bg-white/[0.04] p-5 hover:border-white/25">
                     <span className="label-mono-up text-white">{s.n}</span>
                     <h3 className="mt-3 text-base font-semibold text-white">{s.title}</h3>
@@ -358,7 +357,8 @@ export default function Landing() {
                   </div>
                 </Reveal>
               ))}
-            </div>
+              </div>
+            </ScrollProgressRail>
             <Reveal>
               <Link to="/how-it-works" className="btn-nudge mt-10 inline-flex items-center gap-2 text-sm font-medium text-white">
                 Read the full process <ArrowRight className="h-4 w-4" />
