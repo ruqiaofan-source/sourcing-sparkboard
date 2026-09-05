@@ -6,7 +6,7 @@ import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Reveal } from "@/components/Reveal";
 import { HeroVideo } from "@/components/landing/HeroVideo";
 import { ScrollHint } from "@/components/landing/ScrollHint";
-import { ScrollProgressRail } from "@/components/landing/ScrollProgressRail";
+import { ProductCycle } from "@/components/landing/ProductCycle";
 import { QuoteBuildCard } from "@/components/landing/QuoteBuildCard";
 import { CompareTable } from "@/components/landing/CompareTable";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -19,17 +19,6 @@ import logoBuckyDrop from "@/assets/logos/buckydrop-cutout.png";
 
 const CALENDLY = "https://calendly.com/admin-equilinq/30min";
 const PROTOTYPE = "https://prototype.equilinq.eu";
-
-const steps = [
-  { n: "01", title: "Submit your sourcing request", desc: "Share your product specs, quantity, and budget." },
-  { n: "02", title: "We source and vet suppliers", desc: "We find and screen verified manufacturers for you." },
-  { n: "03", title: "Receive your quote", desc: "Transparent, itemized pricing with no hidden fees." },
-  { n: "04", title: "Accept and pay", desc: "Pay securely and production begins." },
-  { n: "05", title: "Production and monitoring", desc: "Real-time updates with photos and progress reports." },
-  { n: "06", title: "Quality control inspection", desc: "Final inspection before shipment with photo reports." },
-  { n: "07", title: "Shipping and logistics", desc: "Consolidated shipping, customs handling, real-time tracking." },
-  { n: "08", title: "Delivery and support", desc: "Products delivered. Ongoing support for reorders." },
-];
 
 const whatWeDo = [
   { label: "Sourcing", to: "/how-it-works", desc: "Verified factories at direct prices, from 10 units." },
@@ -133,7 +122,7 @@ function AnswerBody({ answer }: { answer: string }) {
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground overflow-x-clip">
       <SEOHead
         title="Equilinq - Sourcing from China, checked before it ships"
         description="Verified factories, itemised quotes and inspection with photo proof, for European brands ordering from 10 units. One counterparty in Hong Kong."
@@ -343,36 +332,15 @@ export default function Landing() {
         </section>
 
 
-        {/* 4. HOW IT WORKS */}
-        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+        {/* 4. HOW IT WORKS, pinned product cycle */}
+        <section data-dark-band className="relative bg-band text-white">
+
           <div className="surface-grid absolute inset-0 opacity-[0.08]" />
-          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-            <Reveal>
-              <p className="label-mono-up text-white/60">How it works</p>
-              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-white sm:text-4xl">
-                Eight steps from request to delivery, every one visible in your dashboard.
-              </h2>
-            </Reveal>
-            <ScrollProgressRail>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {steps.map((s, i) => (
-                <Reveal key={s.n} delay={i * 60}>
-                  <div className="card-hover h-full rounded-2xl border border-white/12 bg-white/[0.04] p-5 hover:border-white/25">
-                    <span className="label-mono-up text-white">{s.n}</span>
-                    <h3 className="mt-3 text-base font-semibold text-white">{s.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-white/85">{s.desc}</p>
-                  </div>
-                </Reveal>
-              ))}
-              </div>
-            </ScrollProgressRail>
-            <Reveal>
-              <Link to="/how-it-works" className="btn-nudge mt-10 inline-flex items-center gap-2 text-sm font-medium text-white">
-                Read the full process <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Reveal>
+          <div className="relative">
+            <ProductCycle />
           </div>
         </section>
+
 
         {/* 4b. THE TEAM IN SHENZHEN */}
         <section className="relative bg-background">
