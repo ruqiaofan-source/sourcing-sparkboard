@@ -4,6 +4,9 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Reveal } from "@/components/Reveal";
+import { HeroVideo } from "@/components/landing/HeroVideo";
+import { ScrollHint } from "@/components/landing/ScrollHint";
+import { ScrollProgressRail } from "@/components/landing/ScrollProgressRail";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { homeFaqs } from "@/data/homeFaqs";
 import founderImg from "@/assets/founder.jpg";
@@ -343,9 +346,10 @@ export default function Landing() {
                 Eight steps from request to delivery, every one visible in your dashboard.
               </h2>
             </Reveal>
-            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <ScrollProgressRail>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {steps.map((s, i) => (
-                <Reveal key={s.n} delay={i * 40}>
+                <Reveal key={s.n} delay={i * 60}>
                   <div className="card-hover h-full rounded-2xl border border-white/12 bg-white/[0.04] p-5 hover:border-white/25">
                     <span className="label-mono-up text-white">{s.n}</span>
                     <h3 className="mt-3 text-base font-semibold text-white">{s.title}</h3>
@@ -353,7 +357,8 @@ export default function Landing() {
                   </div>
                 </Reveal>
               ))}
-            </div>
+              </div>
+            </ScrollProgressRail>
             <Reveal>
               <Link to="/how-it-works" className="btn-nudge mt-10 inline-flex items-center gap-2 text-sm font-medium text-white">
                 Read the full process <ArrowRight className="h-4 w-4" />
