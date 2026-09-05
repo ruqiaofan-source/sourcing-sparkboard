@@ -12,10 +12,7 @@ Equilinq is a Europe-based sourcing service that bridges European brands with ve
 - [Customization](/customization): Private label, custom packaging, and branding.
 - [Quality Control](/quality-control): Multi-stage inspection process and reporting.
 - [OEM / ODM](/oem-odm): Custom manufacturing and product development.
-- [Sourcing Guide](/sourcing-guide): Practical guide to sourcing from China.
 - [Insights](/insights): Articles on sourcing, logistics, and EU-China trade.
-- [Trending Products](/trending): Trending product opportunities for European sellers.
-- [Demo](/demo): Request a product demo.
 - [Contact](/contact): Get in touch with the Equilinq team.
 
 ## How It Works (steps)
