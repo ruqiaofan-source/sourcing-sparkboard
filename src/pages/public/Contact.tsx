@@ -133,7 +133,7 @@ export default function Contact() {
           mainEntity: [
             { "@type": "Question", name: "What's your minimum order?", acceptedAnswer: { "@type": "Answer", text: "As low as 10 units per SKU." } },
             { "@type": "Question", name: "Do I need sourcing experience?", acceptedAnswer: { "@type": "Answer", text: "No, we guide you through every step of the sourcing process." } },
-            { "@type": "Question", name: "How fast can I get a quote?", acceptedAnswer: { "@type": "Answer", text: "Usually within around 5 business days." } },
+            { "@type": "Question", name: "How fast can I get a quote?", acceptedAnswer: { "@type": "Answer", text: "Usually within 2-3 business days." } },
           ],
         }}
       />
@@ -425,7 +425,7 @@ export default function Contact() {
                   {[
                     { q: "What's your minimum order?", a: "As low as 10 units per SKU." },
                     { q: "Do I need experience?", a: "No, we guide you through every step." },
-                    { q: "How fast can I get a quote?", a: "Usually within around 5 business days." },
+                    { q: "How fast can I get a quote?", a: "Usually within 2-3 business days." },
                   ].map((item, i) => (
                     <motion.div
                       key={item.q}
