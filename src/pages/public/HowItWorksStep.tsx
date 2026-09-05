@@ -60,7 +60,7 @@ export const steps = [
       "We cross-reference production capability, certifications, and past performance.",
       "Factories are contacted and screened for your specific product requirements.",
       "We negotiate MOQ, lead times, and pricing on your behalf.",
-      "Only verified, direct manufacturers are shortlisted -- no trading companies.",
+      "Only verified, direct manufacturers are shortlisted, no trading companies.",
     ],
     whatYouGet: [
       "A curated shortlist of pre-vetted factories",
@@ -76,7 +76,7 @@ export const steps = [
     icon: FileText,
     title: "Receive Your Quote",
     shortDesc: "Transparent, itemized pricing with no hidden fees.",
-    desc: "We send a fully transparent, itemized quote. Every cost is visible -- no hidden fees, no markups.",
+    desc: "We send a fully transparent, itemized quote. Every cost is visible, no hidden fees, no markups.",
     details: [
       "Factory cost (wholesale price)",
       "China operational costs",
@@ -89,7 +89,7 @@ export const steps = [
       "Each quote is broken down into factory cost, operational costs, logistics, and our service fee.",
       "You receive the quote in your dashboard with a clear cost breakdown.",
       "Ask questions, request adjustments, or compare with alternative options.",
-      "No obligation -- you only proceed when you are fully satisfied.",
+      "No obligation, you only proceed when you are fully satisfied.",
     ],
     whatYouGet: [
       "A fully itemized quote with no hidden costs",
@@ -97,7 +97,7 @@ export const steps = [
       "Transparent service fee structure based on order value",
     ],
     seoTitle: "Step 3: Transparent Quote & Pricing - Equilinq",
-    seoDesc: "Receive a fully itemized sourcing quote. See factory cost, logistics, and service fees -- no hidden markups.",
+    seoDesc: "Receive a fully itemized sourcing quote. See factory cost, logistics, and service fees, no hidden markups.",
   },
   {
     slug: "accept-and-pay",
@@ -163,7 +163,7 @@ export const steps = [
     icon: ShieldCheck,
     title: "Quality Control Inspection",
     shortDesc: "Final inspection before shipment with photo reports.",
-    desc: "Our QC team performs a thorough final inspection -- checking defects, verifying specs, and ensuring packaging standards.",
+    desc: "Our QC team performs a thorough final inspection, checking defects, verifying specs, and ensuring packaging standards.",
     details: [
       "Visual and functional inspection",
       "Defect rate assessment (AQL standards)",
@@ -233,7 +233,7 @@ export const steps = [
       "Your products are delivered to the address specified in your order.",
       "Inspect your delivery and confirm everything matches your expectations.",
       "If any issues arise, contact your agent directly through the platform.",
-      "When you are ready to reorder, simply open a new request -- your supplier history is saved.",
+      "When you are ready to reorder, simply open a new request, your supplier history is saved.",
       "We maintain the factory relationship so future orders are faster and smoother.",
     ],
     whatYouGet: [
