@@ -260,7 +260,6 @@ export default function Landing() {
 
         {/* 3. HOW IT WORKS, pinned product cycle */}
         <section data-dark-band className="relative bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative">
             <ProductCycle />
           </div>
@@ -297,19 +296,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 5. COMPARE */}
-        <section className="relative bg-background">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
-          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-            <Reveal>
-              <p className="label-mono-up text-primary">Compare</p>
-              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">What you actually get</h2>
-            </Reveal>
-            <CompareTable />
-          </div>
-        </section>
-
-        {/* 6. THE TEAM IN SHENZHEN */}
+        {/* 5. THE TEAM IN SHENZHEN */}
         <section className="relative bg-card">
           <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
             <Reveal>
@@ -344,7 +331,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 7. PROOF */}
+        {/* 6. PROOF */}
         <section className="relative bg-background">
           <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
             <Reveal>
@@ -397,7 +384,7 @@ export default function Landing() {
                       src={p.src}
                       alt={p.alt}
                       loading="lazy"
-                      className="h-[22px] w-auto max-w-[140px] object-contain opacity-55 transition-opacity duration-300 hover:opacity-90 sm:h-7 dark:invert"
+                      className="h-[22px] w-auto max-w-[140px] object-contain opacity-55 transition-opacity duration-300 hover:opacity-90 sm:h-7"
                       style={{ filter: "grayscale(1) brightness(0)" }}
                     />
                   ))}
@@ -408,7 +395,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 8. FAQ */}
+        {/* 7. FAQ */}
         <section id="faq" className="relative bg-card" aria-label="Frequently asked questions">
           <div className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
             <Reveal>
@@ -426,16 +413,15 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 9. FINAL BAND */}
+        {/* 8. FINAL BAND */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
             <Reveal>
               <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to see your first itemised quote?</h2>
               <p className="mt-5 text-lg text-white/75">Two fields, no account, a reply within one business day.</p>
               <Button asChild size="xl" variant="hero" className="btn-nudge card-hover mt-9 bg-white bg-none text-primary hover:bg-white">
                 <Link to="/start">
-                  Get a free itemised quote <ArrowRight />
+                  Get a free quote <ArrowRight />
                 </Link>
               </Button>
             </Reveal>
