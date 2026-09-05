@@ -145,7 +145,7 @@ export default function Contact() {
       <main>
         {/* Inner hero */}
         <section className="relative bg-card">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
             <p className="label-mono-up text-primary">We reply within 24 hours</p>
             <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">
@@ -364,7 +364,7 @@ export default function Contact() {
                 <Reveal>
                   <div className="mt-4">
                     <p className="text-sm leading-relaxed text-body-ink">
-                      Ready to start sourcing? Get a free itemised quote.
+                      Ready to start sourcing? Get a free quote.
                     </p>
                     <Button asChild size="xl" variant="hero" className="btn-nudge mt-4">
                       <Link to="/start">

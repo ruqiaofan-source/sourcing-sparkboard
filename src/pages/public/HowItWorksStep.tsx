@@ -280,7 +280,7 @@ export default function HowItWorksStep() {
       <main>
         {/* Inner hero, light */}
         <section className="relative bg-card">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
           <div className="relative mx-auto max-w-4xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
             <nav className="label-mono-up flex items-center gap-2 text-muted-foreground" aria-label="Breadcrumb">
               <Link to="/how-it-works" className="hover:text-primary">How it works</Link>
@@ -397,7 +397,6 @@ export default function HowItWorksStep() {
 
         {/* Closing band */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
             <Reveal>
               <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to start sourcing?</h2>

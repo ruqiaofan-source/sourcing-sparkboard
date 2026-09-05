@@ -81,7 +81,7 @@ export default function Pricing() {
       <main>
         {/* Inner hero */}
         <section className="relative bg-card">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
             <p className="label-mono-up text-primary">No hidden fees</p>
             <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">
@@ -139,7 +139,7 @@ export default function Pricing() {
 
         {/* Volume */}
         <section className="relative bg-background">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
           <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
             <Reveal>
               <p className="label-mono-up text-primary">Volume</p>
@@ -181,7 +181,6 @@ export default function Pricing() {
 
         {/* Closing band */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
             <Reveal>
               <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to see your exact pricing?</h2>

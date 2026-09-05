@@ -115,7 +115,6 @@ export default function InsightArticle() {
 
       {/* Closing band */}
       <section data-dark-band className="relative overflow-hidden bg-band text-white">
-        <div className="surface-grid absolute inset-0 opacity-[0.08]" />
         <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
           <Reveal>
             <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to source your next product?</h2>

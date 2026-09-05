@@ -20,7 +20,7 @@ const NotFound = forwardRef<HTMLElement>(function NotFound(_props, ref) {
         description="The page you are looking for does not exist. Return to the Equilinq homepage."
         noindex
       />
-      <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+      <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
       <div className="relative px-5 text-center">
         <Link to="/" className="mb-8 inline-flex transition-opacity hover:opacity-80" aria-label="Equilinq home">
           <BrandLogo className="h-12" />

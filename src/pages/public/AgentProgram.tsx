@@ -113,7 +113,7 @@ export default function AgentProgram() {
       <main>
         {/* Inner hero */}
         <section className="relative bg-card">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
             <div className="grid items-center gap-12 lg:grid-cols-2">
               <div>
@@ -211,7 +211,7 @@ export default function AgentProgram() {
 
         {/* Application */}
         <section id="apply" className="relative bg-background">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
           <div className="relative mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
             <Reveal>
               <div className="rounded-2xl border border-accent/50 bg-card p-7 shadow-[var(--shadow-lift)] sm:p-10">
@@ -308,7 +308,6 @@ export default function AgentProgram() {
 
         {/* Closing band */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
             <Reveal>
               <p className="label-mono-up text-white/60">Ready to join</p>
