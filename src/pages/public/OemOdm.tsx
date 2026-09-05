@@ -1,18 +1,11 @@
 import { Link } from "react-router-dom";
 import { SEOHead } from "@/components/SEOHead";
-import { motion } from "framer-motion";
-import { CheckCircle2, ArrowRight, Wrench, Lightbulb, Factory, Truck, Search } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import { Reveal } from "@/components/Reveal";
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-const fadeUp = {
-  hidden: { opacity: 0, y: 24, scale: 0.97 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const } },
-};
+const CALENDLY = "https://calendly.com/admin-equilinq/30min";
 
 const services = [
   { name: "OEM / ODM Custom Manufacturing", desc: "Design and produce products to your exact specifications" },
@@ -25,10 +18,19 @@ const services = [
 ];
 
 const steps = [
-  { icon: Lightbulb, title: "Share Your Concept", desc: "Send us your product idea, reference images, or specifications." },
-  { icon: Search, title: "Factory Matching", desc: "We identify and vet the best manufacturers for your product." },
-  { icon: Factory, title: "Sampling & Production", desc: "Approve samples, then we manage the full production run." },
-  { icon: Truck, title: "QC & Delivery", desc: "Multi-stage quality control and logistics to your door." },
+  { n: "01", title: "Share your concept", desc: "Send us your product idea, reference images, or specifications." },
+  { n: "02", title: "Factory matching", desc: "We identify and vet the best manufacturers for your product." },
+  { n: "03", title: "Sampling and production", desc: "Approve samples, then we manage the full production run." },
+  { n: "04", title: "QC and delivery", desc: "Multi-stage quality control and logistics to your door." },
+];
+
+const oem = ["Your branding on proven products", "Lower development cost", "Faster time to market", "Low MOQ from 10 units"];
+const odm = ["Fully custom product design", "Unique to your brand", "Full IP ownership", "Prototype and sample validation"];
+
+const related = [
+  { to: "/quality-control", label: "Quality control", title: "Checked before it ships", desc: "Multi-stage inspection for every order." },
+  { to: "/customization", label: "Customization", title: "Build it your way", desc: "Branding and packaging options." },
+  { to: "/how-it-works", label: "Process", title: "How it works", desc: "Our 8-step sourcing process." },
 ];
 
 export default function OemOdm() {
@@ -36,7 +38,7 @@ export default function OemOdm() {
     <div className="min-h-screen bg-background text-foreground">
       <SEOHead
         title="OEM / ODM Manufacturing - Equilinq Custom Production"
-        description="Custom OEM and ODM manufacturing from China. From concept to finished product -- factory sourcing, sampling, production management, and delivery to Europe."
+        description="Custom OEM and ODM manufacturing from China. From concept to finished product, factory sourcing, sampling, production management, and delivery to Europe."
         keywords="OEM manufacturing China, ODM China, custom manufacturing, private label production, product development China"
         breadcrumbs={[
           { name: "Home", url: "https://equilinq.eu/" },
@@ -73,174 +75,163 @@ export default function OemOdm() {
       />
       <PublicNavbar />
 
-      {/* Hero */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div
-            className="absolute w-[600px] h-[600px] rounded-full"
-            style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.1) 0%, transparent 70%)", top: "-15%", left: "-10%" }}
-            animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
-            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
-
-        <div className="max-w-5xl mx-auto relative z-10">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1, type: "spring", stiffness: 250 }}
-              className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6"
-            >
-              <Wrench className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-bold text-primary tracking-wide uppercase">Custom Manufacturing</span>
-            </motion.div>
-
-            <motion.h1
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4"
-              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            >
-              From Concept to
-              <br />
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))" }}>
-                Finished Product
-              </span>
-            </motion.h1>
-            <motion.p
-              className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              Whether you need an existing product under your brand (OEM) or a fully custom design (ODM), we manage the entire process from factory to doorstep.
-            </motion.p>
-          </motion.div>
-
-          {/* OEM vs ODM */}
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-40px" }} className="mb-20">
-            <h2 className="font-heading text-2xl font-semibold text-foreground mb-6 text-center">OEM vs ODM</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <motion.div variants={fadeUp} whileHover={{ y: -4, scale: 1.02 }} className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-6">
-                <h3 className="font-heading text-xl font-bold text-foreground mb-2">OEM</h3>
-                <p className="text-sm text-muted-foreground mb-4">Original Equipment Manufacturing -- apply your brand and packaging to an existing product from a verified factory.</p>
-                <ul className="space-y-2">
-                  {["Your branding on proven products", "Lower development cost", "Faster time to market", "Low MOQ from 10 units"].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-foreground">
-                      <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-              <motion.div variants={fadeUp} whileHover={{ y: -4, scale: 1.02 }} className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-6">
-                <h3 className="font-heading text-xl font-bold text-foreground mb-2">ODM</h3>
-                <p className="text-sm text-muted-foreground mb-4">Original Design Manufacturing -- we develop a completely custom product based on your specifications and design.</p>
-                <ul className="space-y-2">
-                  {["Fully custom product design", "Unique to your brand", "Full IP ownership", "Prototype and sample validation"].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-foreground">
-                      <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Process */}
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-40px" }} className="mb-20">
-            <h2 className="font-heading text-2xl font-semibold text-foreground mb-6 text-center">How It Works</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {steps.map((step, i) => (
-                <motion.div
-                  key={step.title}
-                  variants={fadeUp}
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-6 text-center"
-                >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 300, delay: 0.1 }}
-                    className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 border border-primary/20 text-primary font-heading font-bold text-sm mb-3"
-                  >
-                    <step.icon className="h-5 w-5" />
-                  </motion.div>
-                  <h3 className="font-heading text-lg font-semibold text-foreground mb-1">{step.title}</h3>
-                  <p className="text-muted-foreground text-sm">{step.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Services */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-8 sm:p-10 mb-20"
-          >
-            <h2 className="font-heading text-2xl font-bold text-foreground mb-2 text-center">Manufacturing Services</h2>
-            <p className="text-muted-foreground text-sm text-center mb-8 max-w-lg mx-auto">
-              End-to-end support from sourcing to delivery.
+      <main>
+        {/* Inner hero */}
+        <section className="relative bg-card">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
+            <p className="label-mono-up text-primary">Custom manufacturing</p>
+            <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">
+              From concept to finished product
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-body-ink sm:text-lg">
+              Whether you need an existing product under your brand (OEM) or a fully custom design (ODM), we manage the
+              entire process from factory to doorstep.
             </p>
-            <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {services.map((item) => (
-                <motion.div key={item.name} variants={fadeUp} className="flex items-start gap-3 p-4 rounded-xl border border-border/30 bg-card/40 hover:border-primary/30 transition-colors">
-                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-semibold text-foreground mb-0.5">{item.name}</p>
-                    <p className="text-xs text-muted-foreground">{item.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* CTA */}
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center py-16">
-            <h2 className="font-heading text-3xl font-bold text-foreground mb-4">Ready to Build Your Product?</h2>
-            <p className="text-muted-foreground mb-8 max-w-md mx-auto">Tell us what you want to create and we will find the right factory, manage production, and deliver to your door.</p>
-            <div className="flex items-center justify-center gap-4 flex-wrap">
-              <Link to="/auth?signup=true">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                  <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold border border-primary/20">
-                    Start Your Project <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </motion.div>
-              </Link>
-              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                  <Button variant="outline" size="lg" className="rounded-full border-border/60 px-8 h-12 text-base">Book a Call</Button>
-                </motion.div>
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Cross-links */}
-      <section className="pb-20 px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              { to: "/quality-control", title: "Quality Control", desc: "Multi-stage inspection for every order" },
-              { to: "/customization", title: "Customization", desc: "60+ branding and packaging options" },
-              { to: "/how-it-works", title: "How It Works", desc: "Our 8-step sourcing process" },
-            ].map((link) => (
-              <Link key={link.to} to={link.to} className="group block p-5 rounded-xl border border-border/30 bg-card/20 hover:border-primary/30 hover:bg-card/40 transition-all">
-                <h3 className="font-heading text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{link.title}</h3>
-                <p className="text-xs text-muted-foreground">{link.desc}</p>
-              </Link>
-            ))}
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* OEM vs ODM */}
+        <section className="relative bg-background">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">OEM vs ODM</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">Two routes to your own product</h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-2">
+              <Reveal>
+                <div className="card-hover h-full rounded-2xl border border-border bg-card p-7">
+                  <span className="label-mono-up text-muted-foreground">OEM</span>
+                  <h3 className="mt-3 text-xl font-semibold text-primary">Your brand on a proven product</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-body-ink">
+                    Original Equipment Manufacturing, apply your brand and packaging to an existing product from a verified
+                    factory.
+                  </p>
+                  <ul className="mt-6 space-y-3">
+                    {oem.map((item) => (
+                      <li key={item} className="label-mono flex items-center gap-3 text-body-ink">
+                        <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        <span className="normal-case tracking-normal">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+              <Reveal delay={80}>
+                <div className="card-hover h-full rounded-2xl border border-border bg-card p-7">
+                  <span className="label-mono-up text-muted-foreground">ODM</span>
+                  <h3 className="mt-3 text-xl font-semibold text-primary">A product that is only yours</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-body-ink">
+                    Original Design Manufacturing, we develop a completely custom product based on your specifications and
+                    design.
+                  </p>
+                  <ul className="mt-6 space-y-3">
+                    {odm.map((item) => (
+                      <li key={item} className="label-mono flex items-center gap-3 text-body-ink">
+                        <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        <span className="normal-case tracking-normal">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        {/* How it works */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">How it works</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">Four stages, managed for you</h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {steps.map((step, i) => (
+                <Reveal key={step.n} delay={i * 60}>
+                  <div className="card-hover h-full rounded-2xl border border-border bg-background p-7">
+                    <span className="label-mono-up text-primary">{step.n}</span>
+                    <h3 className="mt-3 text-xl font-semibold text-primary">{step.title}</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{step.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Services */}
+        <section className="relative bg-background">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Manufacturing services</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">
+                End-to-end support from sourcing to delivery
+              </h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {services.map((item, i) => (
+                <Reveal key={item.name} delay={(i % 3) * 60}>
+                  <div className="card-hover h-full rounded-2xl border border-border bg-card p-7">
+                    <h3 className="text-lg font-semibold text-primary">{item.name}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-body-ink">{item.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Closing band */}
+        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
+            <Reveal>
+              <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to build your product?</h2>
+              <p className="mt-5 text-lg text-white/75">
+                Tell us what you want to create and we will find the right factory, manage production, and deliver to your
+                door.
+              </p>
+              <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Button asChild size="xl" variant="hero" className="btn-nudge card-hover bg-white bg-none text-primary hover:bg-white">
+                  <Link to="/auth?signup=true">
+                    Start your project <ArrowRight />
+                  </Link>
+                </Button>
+                <Button asChild size="xl" variant="onDark">
+                  <a href={CALENDLY} target="_blank" rel="noopener noreferrer">
+                    Book a call
+                  </a>
+                </Button>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Related */}
+        <section className="relative bg-background">
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Keep reading</p>
+            </Reveal>
+            <div className="mt-8 grid gap-6 sm:grid-cols-3">
+              {related.map((link, i) => (
+                <Reveal key={link.to} delay={i * 60}>
+                  <Link
+                    to={link.to}
+                    className="card-hover block h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50"
+                  >
+                    <span className="label-mono-up text-muted-foreground">{link.label}</span>
+                    <h3 className="mt-3 text-xl font-semibold text-primary">{link.title}</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{link.desc}</p>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
 
       <PublicFooter />
     </div>
