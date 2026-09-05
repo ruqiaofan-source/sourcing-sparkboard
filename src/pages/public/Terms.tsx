@@ -7,7 +7,7 @@ export default function Terms() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEOHead
-        title="Terms of Service - Equilinq"
+        title="Terms of Service and Compliance Policy - Equilinq"
         description="The terms governing your use of Equilinq's sourcing, procurement, quality control, and logistics services."
         keywords="terms of service, terms and conditions, Equilinq, B2B sourcing"
         breadcrumbs={[
@@ -71,6 +71,7 @@ export default function Terms() {
             <li>Goods that infringe third-party intellectual property rights.</li>
             <li>Goods that we, in our reasonable discretion, consider unsuitable for our service model.</li>
           </ul>
+          <p>This site expressly prohibits purchasing agents/services for counterfeit goods, high-quality replicas, replica products, and products that use well-known brand logos/patterns without authorization.</p>
           <h3>4.2 Quotations</h3>
           <p>Quotations we provide are valid for the period stated in the Quotation, typically 14 days unless otherwise specified. After this period, prices, lead times, and availability may change.</p>
           <p>A Quotation includes, where applicable: product specifications, unit price, minimum order quantity, customisation costs, quality control fees, shipping cost estimate, our service fee, total cost, and estimated lead time.</p>
