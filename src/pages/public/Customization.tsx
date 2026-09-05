@@ -5,6 +5,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, Search, X } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
+import { CustomizationCycle } from "@/components/landing/CustomizationCycle";
+
 import { Input } from "@/components/ui/input";
 
 const CALENDLY = "https://calendly.com/admin-equilinq/30min";
@@ -173,11 +175,19 @@ function ServiceCard({ item }: { item: { name: string; desc: string } }) {
 }
 
 export default function Customization() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState(tabParam && tabIds.includes(tabParam) ? tabParam : tabIds[0]);
   const [searchQuery, setSearchQuery] = useState("");
   const totalServices = categories.reduce((sum, c) => sum + c.items.length, 0);
+
+  const goToTab = (slug: string) => {
+    setActiveTab(slug);
+    setSearchQuery("");
+    setSearchParams({ tab: slug }, { replace: true });
+    document.getElementById("catalogue")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
 
   useEffect(() => {
     if (tabParam && tabIds.includes(tabParam)) {
