@@ -4,7 +4,6 @@ import { ArrowRight, Menu, X, ChevronDown, Tag, Package, Shirt, Camera, Box, Lay
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/hooks/useTheme";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import equilinqLogo from "@/assets/equilinq-logo-optimized.webp";
 import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
 
