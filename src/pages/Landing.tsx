@@ -329,8 +329,6 @@ export default function Landing() {
                       {r.name}, {r.role}
                       <span className="mt-1 block">via Trustpilot</span>
                     </figcaption>
-
-                    </figcaption>
                   </figure>
                 </Reveal>
               ))}
