@@ -183,3 +183,36 @@ html {
     text-decoration-color: #4a5fd0;
   }
 }
+
+@layer components {
+  .legal-prose {
+    @apply text-[0.95rem] leading-relaxed text-body-ink;
+  }
+  .legal-prose h2 {
+    @apply mt-12 text-xl font-bold tracking-tight text-primary sm:text-2xl;
+  }
+  .legal-prose h3 {
+    @apply mt-8 text-base font-semibold text-primary sm:text-lg;
+  }
+  .legal-prose p {
+    @apply mt-4;
+  }
+  .legal-prose ul {
+    @apply mt-4 list-disc space-y-2 pl-5;
+  }
+  .legal-prose ol {
+    @apply mt-4 list-decimal space-y-2 pl-5;
+  }
+  .legal-prose nav ol {
+    @apply mt-0 list-inside space-y-1 pl-0;
+  }
+  .legal-prose strong {
+    @apply font-semibold text-foreground;
+  }
+  .legal-prose a {
+    @apply text-primary underline-offset-4 hover:underline;
+  }
+  .legal-prose table {
+    @apply text-sm;
+  }
+}
