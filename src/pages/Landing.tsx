@@ -4,12 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, CheckCircle2, ShieldCheck, DollarSign, Globe, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
-import PageGlow from "@/components/PageGlow";
 
 import logoSoleRunning from "@/assets/logos/sole-running-cutout.png";
 import logoLKK from "@/assets/logos/lkk-cutout.png";
@@ -32,140 +31,34 @@ const LandingFeatureTabs = lazy(() => import("@/components/landing/LandingFeatur
 /* ──────────────────── SHARED COMPONENTS ──────────────────── */
 
 function AnimatedGlow() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Purple wash for hero first-screen */}
-      <div
-        className="absolute inset-0 sm:block"
-        style={{ background: "radial-gradient(circle 300px at 12% 18%, hsl(var(--primary) / 0.18) 0%, hsl(var(--primary) / 0.04) 50%, transparent 70%), radial-gradient(circle 280px at 88% 30%, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.03) 45%, transparent 65%), radial-gradient(circle 200px at 50% 8%, hsl(var(--primary) / 0.12) 0%, transparent 55%)" }}
-      />
-      <div
-        className="absolute w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] lg:w-[900px] lg:h-[900px] rounded-full animate-[glowDrift1_20s_ease-in-out_infinite]"
-        style={{
-          background: "radial-gradient(circle, hsl(var(--primary) / 0.14) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)",
-          top: "-25%", right: "-15%", willChange: "transform",
-        }}
-      />
-      <div
-        className="absolute w-[400px] h-[400px] sm:w-[550px] sm:h-[550px] lg:w-[700px] lg:h-[700px] rounded-full animate-[glowDrift2_25s_ease-in-out_infinite]"
-        style={{
-          background: "radial-gradient(circle, hsl(var(--primary) / 0.10) 0%, hsl(var(--primary) / 0.03) 45%, transparent 70%)",
-          bottom: "-15%", left: "-10%", willChange: "transform",
-        }}
-      />
-      <div
-        className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] lg:w-[500px] lg:h-[500px] rounded-full animate-[glowPulse_12s_ease-in-out_infinite]"
-        style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.08) 0%, transparent 55%)", top: "30%", left: "50%", willChange: "transform, opacity" }}
-      />
-    </div>
-  );
+  return null;
 }
 
 function FloatingParticles() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(15)].map((_, i) => (
-        <div
-          key={i}
-          className="absolute rounded-full animate-[particleFloat_var(--dur)_ease-in-out_var(--delay)_infinite]"
-          style={{
-            width: `${2 + (i % 3) * 2}px`, height: `${2 + (i % 3) * 2}px`,
-            left: `${5 + i * 6}%`, top: `${10 + (i % 5) * 18}%`,
-            background: i % 3 === 0 ? "hsl(var(--primary) / 0.4)" : i % 3 === 1 ? "hsl(var(--chart-2) / 0.3)" : "hsl(var(--primary) / 0.2)",
-            '--dur': `${3 + i * 0.5}s`,
-            '--delay': `${i * 0.4}s`,
-            '--ty': `${-(30 + i * 5)}px`,
-            '--tx': `${i % 2 === 0 ? 20 : -20}px`,
-            willChange: "transform, opacity",
-          } as React.CSSProperties}
-        />
-      ))}
-    </div>
-  );
+  return null;
 }
 
-function Marquee({ children, speed = 30 }: { children: React.ReactNode; speed?: number }) {
-  return (
-    <div className="group/marquee overflow-hidden w-full" style={{ minHeight: 64 }}>
-      <div
-        className="flex w-max gap-8 sm:gap-12"
-        style={{ animation: `marquee ${speed}s linear infinite` }}
-        onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
-        onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
-      >
-        {children}
-        {children}
-      </div>
-    </div>
-  );
+function Marquee({ children }: { children: React.ReactNode; speed?: number }) {
+  return <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 w-full">{children}</div>;
 }
 
 function AnimatedCounter({ value, label }: { value: string; label: string }) {
-  const [displayed, setDisplayed] = useState("0");
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true });
-  const numericPart = value.replace(/[^0-9.]/g, "");
-  const prefix = value.match(/^[^0-9]*/)?.[0] || "";
-  const suffix = value.match(/[^0-9.]*$/)?.[0] || "";
-
-  useEffect(() => {
-    if (!isInView) return;
-    const target = parseFloat(numericPart);
-    const duration = 2000;
-    const start = performance.now();
-    function tick(now: number) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 4);
-      setDisplayed(`${prefix}${Math.round(eased * target)}${suffix}`);
-      if (progress < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }, [isInView, numericPart, prefix, suffix]);
-
   return (
-    <motion.div ref={ref} whileHover={{ scale: 1.05, y: -2 }} transition={{ type: "spring", stiffness: 300 }} className="rounded-xl border border-border/40 bg-card/30 backdrop-blur-sm px-4 py-4 sm:px-5 sm:py-5 text-center">
-      <p className="font-heading text-3xl sm:text-4xl font-bold text-foreground">{displayed}</p>
-      <p className="mt-1 text-sm sm:text-base text-muted-foreground">{label}</p>
-    </motion.div>
+    <div className="rounded-xl border border-border bg-card px-4 py-4 sm:px-5 sm:py-5 text-center">
+      <p className="font-heading text-3xl sm:text-4xl font-bold text-foreground">{value}</p>
+      <p className="mt-1 text-sm sm:text-base text-body-ink">{label}</p>
+    </div>
   );
 }
 
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.06 } } };
 
 function RevealHeading({ children, className = "", as: Tag = "h2" }: { children: string; className?: string; as?: "h1" | "h2" | "h3" }) {
-  const words = children.split(" ");
-  return (
-    <Tag className={className}>
-      {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden mr-[0.25em]">
-          <motion.span className="inline-block" initial={{ y: "100%", opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}>
-            {word}
-          </motion.span>
-        </span>
-      ))}
-    </Tag>
-  );
+  return <Tag className={className}>{children}</Tag>;
 }
 
 function MagneticButton({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 200, damping: 20 });
-  const springY = useSpring(y, { stiffness: 200, damping: 20 });
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((e.clientX - rect.left - rect.width / 2) * 0.3);
-    y.set((e.clientY - rect.top - rect.height / 2) * 0.3);
-  }, [x, y]);
-  const handleMouseLeave = useCallback(() => { x.set(0); y.set(0); }, [x, y]);
-  return (
-    <motion.div ref={ref} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} style={{ x: springX, y: springY }} whileTap={{ scale: 0.97 }} className={className}>
-      {children}
-    </motion.div>
-  );
+  return <div className={className}>{children}</div>;
 }
 
 /* ──────────────────── SOCIAL PROOF (kept inline -- above fold for SEO) ──────────────────── */
@@ -429,7 +322,6 @@ export default function Landing() {
       />
 
       <PublicNavbar />
-      <PageGlow />
       <main>
 
       {/* ───── HERO ───── */}

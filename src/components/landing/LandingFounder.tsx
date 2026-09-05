@@ -2,25 +2,7 @@ import { motion } from "framer-motion";
 import founderImg from "@/assets/founder.jpg";
 
 function FloatingParticles() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(8)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full"
-          style={{
-            width: `${2 + (i % 3) * 2}px`,
-            height: `${2 + (i % 3) * 2}px`,
-            left: `${5 + i * 12}%`,
-            top: `${10 + (i % 5) * 18}%`,
-            background: i % 2 === 0 ? "hsl(var(--primary) / 0.4)" : "hsl(var(--chart-2) / 0.3)",
-          }}
-          animate={{ y: [0, -(30 + i * 5), 0], opacity: [0.1, 0.6, 0.1] }}
-          transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
-        />
-      ))}
-    </div>
-  );
+  return null;
 }
 
 export default function LandingFounder() {

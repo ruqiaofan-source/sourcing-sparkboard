@@ -15,7 +15,9 @@ export default {
     extend: {
       fontFamily: {
         heading: ["Space Grotesk", "sans-serif"],
+        display: ["Space Grotesk", "sans-serif"],
         body: ["Plus Jakarta Sans", "sans-serif"],
+        mono: ["IBM Plex Mono", "ui-monospace", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -23,6 +25,10 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        band: "hsl(var(--band))",
+        "primary-deep": "hsl(var(--primary-deep))",
+        "body-ink": "hsl(var(--body-ink))",
+        "grid-line": "hsl(var(--grid-line))",
         chart: {
           "1": "hsl(var(--chart-1))",
           "2": "hsl(var(--chart-2))",

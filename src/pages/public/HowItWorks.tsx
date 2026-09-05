@@ -6,7 +6,6 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { steps } from "./HowItWorksStep";
-import PageGlow from "@/components/PageGlow";
 
 /* ── Timeline step ── */
 function TimelineStep({ step, index }: { step: (typeof steps)[number]; index: number }) {
@@ -234,7 +233,6 @@ export default function HowItWorks() {
         }}
       />
       <PublicNavbar />
-      <PageGlow />
 
       {/* ── Hero ── */}
       <section className="pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 text-center relative">

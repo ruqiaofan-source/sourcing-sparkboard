@@ -101,16 +101,6 @@ export const routeSeoMap: Record<string, RouteMeta> = {
     description: "Learn about the cookies and similar technologies Equilinq uses on its website.",
     keywords: "cookie policy, cookies, tracking, website cookies",
   },
-  "/demo": {
-    title: "Platform Demo - See Equilinq in Action",
-    description: "Watch a full walkthrough of the Equilinq sourcing platform. See how European SMEs source from China with transparent pricing and quality control.",
-    keywords: "Equilinq demo, sourcing platform demo, China sourcing walkthrough",
-  },
-  "/sourcing-guide": {
-    title: "How to Source Products from China: Complete 2026 Guide for European SMEs",
-    description: "The definitive guide to sourcing from China for European SMEs. Find verified suppliers, negotiate MOQs, manage quality control, and handle shipping.",
-    keywords: "how to source from china, sourcing from china for small business, china sourcing agent europe, buy from china factory europe, china supplier verification, quality control china",
-  },
   "/auth": {
     title: "Sign In - Equilinq",
     description: "Sign in or create your Equilinq account to start sourcing from China.",

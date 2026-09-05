@@ -12,7 +12,6 @@ import { ArticleHero } from "@/components/insight/ArticleHero";
 import { ArticleBody } from "@/components/insight/ArticleBody";
 import { RelatedArticles } from "@/components/insight/RelatedArticles";
 import { RelatedServiceLinks } from "@/components/insight/RelatedServiceLinks";
-import PageGlow from "@/components/PageGlow";
 
 function estimateReadTime(content: string): number {
   const words = content.trim().split(/\s+/).length;
@@ -58,7 +57,6 @@ export default function InsightArticle() {
     return (
       <div className="min-h-screen bg-background text-foreground">
         <PublicNavbar />
-      <PageGlow />
         <div className="pt-32 pb-24 px-4 flex justify-center">
           <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
         </div>

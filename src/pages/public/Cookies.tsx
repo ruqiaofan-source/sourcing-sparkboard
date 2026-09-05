@@ -1,7 +1,6 @@
 import { SEOHead } from "@/components/SEOHead";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Link } from "react-router-dom";
-import PageGlow from "@/components/PageGlow";
 
 export default function Cookies() {
   return (
@@ -17,7 +16,6 @@ export default function Cookies() {
         ]}
       />
       <PublicNavbar />
-      <PageGlow />
 
       <main className="pt-32 pb-24 px-4">
         <article className="max-w-3xl mx-auto prose prose-sm prose-neutral dark:prose-invert">

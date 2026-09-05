@@ -24,11 +24,7 @@ const Privacy = lazy(() => import("./pages/public/Privacy"));
 const CookiesPage = lazy(() => import("./pages/public/Cookies"));
 const Terms = lazy(() => import("./pages/public/Terms"));
 const RefundPolicy = lazy(() => import("./pages/public/RefundPolicy"));
-const Demo = lazy(() => import("./pages/public/Demo"));
 const AgentProgram = lazy(() => import("./pages/public/AgentProgram"));
-const SourcingGuide = lazy(() => import("./pages/public/SourcingGuide"));
-const TrendingProducts = lazy(() => import("./pages/public/TrendingProducts"));
-const TrendingProductDetail = lazy(() => import("./pages/public/TrendingProductDetail"));
 
 const CustomerDashboard = lazy(() => import("./pages/customer/CustomerDashboard"));
 const NewRequest = lazy(() => import("./pages/customer/NewRequest"));
@@ -144,10 +140,6 @@ const App = () => (
                 <Route path="/oem-odm" element={<OemOdm />} />
                 <Route path="/how-it-works" element={<HowItWorks />} />
                 <Route path="/how-it-works/:slug" element={<HowItWorksStep />} />
-                <Route path="/demo" element={<Demo />} />
-                <Route path="/sourcing-guide" element={<SourcingGuide />} />
-                <Route path="/trending" element={<TrendingProducts />} />
-                <Route path="/trending/:slug" element={<TrendingProductDetail />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/cookies" element={<CookiesPage />} />
                 <Route path="/terms" element={<Terms />} />
@@ -160,7 +152,6 @@ const App = () => (
                 <Route path="/unsubscribe" element={<Unsubscribe />} />
                 
                 {/* Legacy redirects */}
-                <Route path="/about-us" element={<Navigate to="/" replace />} />
                 <Route path="/about" element={<Navigate to="/" replace />} />
                 
                 {/* Role-aware dashboard */}
