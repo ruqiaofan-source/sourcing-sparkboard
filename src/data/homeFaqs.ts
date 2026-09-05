@@ -34,7 +34,7 @@ export const homeFaqs: HomeFaq[] = [
   },
   {
     q: "How do I know Equilinq is legitimate and that I won't get scammed?",
-    a: "Fair question. Sourcing from China is full of horror stories. Equilinq is an EU-based company (Amsterdam) with a named EU point of contact you can actually hold accountable, not an anonymous account overseas. We vet every supplier on-site before you ever see them, run on-site quality control with photo proof before anything ships, and use staged payments so you're never sending everything upfront on trust. You deal with one bilingual EU agent from first quote to delivery.",
+    a: "Fair question. Sourcing from China is full of horror stories. Equilinq Limited is a Hong Kong company you can look up in the Companies Registry, run day to day from Amsterdam and Shenzhen, with a named point of contact you can hold accountable, not an anonymous account overseas. We vet every supplier on-site before you ever see them, run on-site quality control with photo proof before anything ships, and use staged payments so you're never sending everything upfront on trust. You deal with one bilingual EU agent from first quote to delivery.",
   },
   {
     q: "Do you handle EU compliance like GPSR and the Responsible Person requirement?",
