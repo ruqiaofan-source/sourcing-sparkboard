@@ -36,6 +36,7 @@ export default function LandingInsights() {
           transition={{ duration: 0.4 }}
           className="text-center mb-12"
         >
+          <span className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4 block">Sourcing Intelligence</span>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             <Link to="/insights" className="hover:text-primary transition-colors">
               Stay Ahead of What's Selling
