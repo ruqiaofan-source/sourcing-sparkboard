@@ -29,12 +29,15 @@ export function PublicNavbar() {
     setScrolled(window.scrollY > 40);
     const bands = document.querySelectorAll<HTMLElement>("[data-dark-band]");
     let dark = false;
+    // The header sits 72px tall, so a band counts as dark while it crosses that line.
+    // Tall pinned sections stay dark for their whole scroll track.
     bands.forEach((band) => {
       const rect = band.getBoundingClientRect();
-      if (rect.top <= 36 && rect.bottom >= 36) dark = true;
+      if (rect.top <= 72 && rect.bottom >= 72) dark = true;
     });
     setOnDark(dark);
   }, []);
+
 
   useEffect(() => {
     update();

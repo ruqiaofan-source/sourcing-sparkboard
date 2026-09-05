@@ -154,7 +154,6 @@ const AuthPage = () => {
 
       {/* Left panel, black band */}
       <div data-dark-band className="relative hidden flex-col justify-between overflow-hidden bg-band p-12 text-white lg:flex lg:w-1/2 xl:p-16">
-        <div className="surface-grid absolute inset-0 opacity-[0.08]" />
         <div className="relative">
           <Link to="/" className="inline-flex items-center transition-opacity hover:opacity-80">
             <img src={equilinqLogoWhite} alt="Equilinq" className="h-[60px] w-auto object-contain" />
@@ -186,7 +185,7 @@ const AuthPage = () => {
 
       {/* Right panel, form */}
       <div className="relative flex flex-1 items-center justify-center px-5 py-12 sm:px-8">
-        <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+        <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
         <div className="relative w-full max-w-md">
           {/* Mobile logo */}
           <div className="mb-8 flex items-center justify-center lg:hidden">

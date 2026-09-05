@@ -82,7 +82,7 @@ export default function Start() {
       <main>
         {/* Hero */}
         <section className="relative bg-card">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
           <div className="relative mx-auto max-w-3xl px-5 pb-14 pt-32 sm:px-8 sm:pb-16 sm:pt-40">
             <p className="label-mono-up text-primary">Free quote</p>
             <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">

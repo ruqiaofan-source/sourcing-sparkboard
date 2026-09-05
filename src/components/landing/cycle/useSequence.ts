@@ -21,15 +21,20 @@ export function useSequence(count: number, stepMs = 120) {
       return;
     }
 
+    // The whole reveal must finish within 300 ms of the step becoming active:
+    // cap the number of ticks and reveal several items per tick when needed.
+    const ticks = Math.max(1, Math.min(count, Math.floor(260 / Math.max(16, stepMs)) || 1, 12));
+    const perTick = Math.ceil(count / ticks);
+    const step = Math.max(16, Math.round(260 / ticks));
     let timer = 0;
     const run = () => {
       let i = 0;
       const tick = () => {
-        i += 1;
+        i = Math.min(count, i + perTick);
         setShown(i);
-        if (i < count) timer = window.setTimeout(tick, stepMs);
+        if (i < count) timer = window.setTimeout(tick, step);
       };
-      timer = window.setTimeout(tick, 80);
+      timer = window.setTimeout(tick, 30);
     };
 
     const observer = new IntersectionObserver(

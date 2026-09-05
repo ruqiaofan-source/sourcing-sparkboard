@@ -17,7 +17,7 @@ export default function RefundPolicy() {
       <PublicNavbar />
 
       <main className="relative bg-card">
-        <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+        <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
         <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8 sm:pt-40">
         <article className="legal-prose mx-auto max-w-3xl">
           <h1 className="mb-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Refund and Cancellation Policy</h1>

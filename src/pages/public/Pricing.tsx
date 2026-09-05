@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Reveal } from "@/components/Reveal";
+import { CompareTable } from "@/components/landing/CompareTable";
 
 const CALENDLY = "https://calendly.com/admin-equilinq/30min";
 
@@ -81,7 +82,7 @@ export default function Pricing() {
       <main>
         {/* Inner hero */}
         <section className="relative bg-card">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
             <p className="label-mono-up text-primary">No hidden fees</p>
             <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">
@@ -137,9 +138,20 @@ export default function Pricing() {
           </div>
         </section>
 
+        {/* Compare */}
+        <section className="relative bg-background">
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Compare</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">What you actually get</h2>
+            </Reveal>
+            <CompareTable />
+          </div>
+        </section>
+
         {/* Volume */}
         <section className="relative bg-background">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
           <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
             <Reveal>
               <p className="label-mono-up text-primary">Volume</p>
@@ -181,7 +193,6 @@ export default function Pricing() {
 
         {/* Closing band */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
             <Reveal>
               <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to see your exact pricing?</h2>
@@ -190,8 +201,8 @@ export default function Pricing() {
               </p>
               <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button asChild size="xl" variant="hero" className="btn-nudge card-hover bg-white bg-none text-primary hover:bg-white">
-                  <Link to="/auth?signup=true">
-                    Submit a request <ArrowRight />
+                  <Link to="/start">
+                    Get a free quote <ArrowRight />
                   </Link>
                 </Button>
                 <Button asChild size="xl" variant="onDark">

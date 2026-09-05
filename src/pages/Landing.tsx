@@ -1,14 +1,13 @@
+import { useEffect, useState } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Reveal } from "@/components/Reveal";
-import { HeroStack } from "@/components/landing/HeroStack";
 import { ScrollHint } from "@/components/landing/ScrollHint";
 import { ProductCycle } from "@/components/landing/ProductCycle";
 import { QuoteBuildCard } from "@/components/landing/QuoteBuildCard";
-import { CompareTable } from "@/components/landing/CompareTable";
 import { FaqList } from "@/components/FaqList";
 import { homeFaqs } from "@/data/homeFaqs";
 import logoSoleRunning from "@/assets/logos/sole-running-cutout.png";
@@ -74,6 +73,17 @@ const checkable = [
 ];
 
 export default function Landing() {
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [expanded, setExpanded] = useState<string[]>([]);
+
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(query.matches);
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-clip">
       <SEOHead
@@ -139,15 +149,37 @@ export default function Landing() {
       <main>
         {/* 1. HERO */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="hero-veil pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] items-center lg:flex">
-            <HeroStack className="xl:translate-x-[7%] xl:scale-110" />
+          <div className="pointer-events-none absolute inset-0">
+            {reducedMotion ? (
+              <img
+                src="/hero/hero-poster.jpg"
+                alt=""
+                aria-hidden="true"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/hero/hero-poster.jpg"
+                aria-hidden="true"
+                className="h-full w-full object-cover"
+              >
+                <source src="/hero/hero-loop.webm" type="video/webm" />
+                <source src="/hero/hero-loop.mp4" type="video/mp4" />
+              </video>
+            )}
+            <div className="hero-media-veil absolute inset-0" />
           </div>
 
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-24 sm:pt-40">
-            <div className="max-w-[38.75rem] lg:max-w-[45%]">
+            <div className="max-w-[40rem] text-left">
               <Reveal>
                 <span className="label-mono-up inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-white/60 backdrop-blur">
-                  Sourcing and quality control, powered by Shenzhen
+                  Sourcing and quality control from Shenzhen
                 </span>
               </Reveal>
               <Reveal delay={80}>
@@ -158,15 +190,15 @@ export default function Landing() {
               </Reveal>
               <Reveal delay={160}>
                 <p className="mt-5 max-w-[36rem] text-base leading-relaxed text-white/85 sm:text-lg">
-                  One named agent, one itemised quote, no fee until you order. For European brands ordering from 10 units: verified
-                  factories, samples first, inspection with photo proof, customs documents handled, delivered to your door.
+                  One named agent, one itemised quote, no fee until you order. Verified factories, samples first and
+                  inspection with photo proof, from 10 units.
                 </p>
               </Reveal>
               <Reveal delay={240}>
                 <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                   <Button asChild size="xl" variant="hero" className="btn-nudge bg-white bg-none text-primary-deep hover:bg-white">
                     <Link to="/start">
-                      Get a free itemised quote <ArrowRight />
+                      Get a free quote <ArrowRight />
                     </Link>
                   </Button>
                   <Button asChild size="xl" variant="onDark">
@@ -177,20 +209,17 @@ export default function Landing() {
                 </div>
               </Reveal>
               <p className="label-mono-up mt-10 text-white/60">
-                Hong Kong entity, contracts you can read · Team in Amsterdam and Shenzhen · Backed by one of the founding shareholders of
-                Tencent Holdings.
+                Hong Kong entity · Team in Amsterdam and Shenzhen · Backed by one of the founding shareholders of Tencent
+                Holdings.
               </p>
             </div>
 
             <div className="mt-12 hidden justify-center lg:flex">
               <ScrollHint />
             </div>
-
-            <div className="mx-auto mt-10 max-w-[20rem] lg:hidden">
-              <HeroStack />
-            </div>
           </div>
         </section>
+
 
 
         {/* 2. TWO DOORS, compact */}
@@ -231,7 +260,6 @@ export default function Landing() {
 
         {/* 3. HOW IT WORKS, pinned product cycle */}
         <section data-dark-band className="relative bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative">
             <ProductCycle />
           </div>
@@ -268,19 +296,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 5. COMPARE */}
-        <section className="relative bg-background">
-          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
-          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-            <Reveal>
-              <p className="label-mono-up text-primary">Compare</p>
-              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">What you actually get</h2>
-            </Reveal>
-            <CompareTable />
-          </div>
-        </section>
-
-        {/* 6. THE TEAM IN SHENZHEN */}
+        {/* 5. THE TEAM IN SHENZHEN */}
         <section className="relative bg-card">
           <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
             <Reveal>
@@ -315,7 +331,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 7. PROOF */}
+        {/* 6. PROOF */}
         <section className="relative bg-background">
           <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
             <Reveal>
@@ -323,40 +339,58 @@ export default function Landing() {
               <h2 className="mt-4 text-3xl font-bold text-primary sm:text-4xl">What clients say.</h2>
             </Reveal>
             <div className="mt-12 grid gap-6 md:grid-cols-2">
-              {reviews.map((r, i) => (
-                <Reveal key={r.name} delay={i * 60}>
-                  <figure className="card-hover h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50">
-                    <blockquote className="whitespace-pre-line text-sm leading-relaxed text-body-ink">{r.quote}</blockquote>
-                    <figcaption className="label-mono mt-6 text-muted-foreground">
-                      {r.name}, {r.role}
-                      <span className="mt-1 block">via Trustpilot</span>
-                    </figcaption>
-                  </figure>
-                </Reveal>
-              ))}
+              {reviews.map((r, i) => {
+                const open = expanded.includes(r.name);
+                return (
+                  <Reveal key={r.name} delay={i * 60}>
+                    <figure className="card-hover h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50">
+                      <blockquote
+                        className={`whitespace-pre-line text-sm leading-relaxed text-body-ink ${open ? "" : "line-clamp-6"}`}
+                      >
+                        {r.quote}
+                      </blockquote>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setExpanded((list) => (open ? list.filter((n) => n !== r.name) : [...list, r.name]))
+                        }
+                        aria-expanded={open}
+                        className="label-mono mt-3 text-primary hover:underline"
+                      >
+                        {open ? "Read less" : "Read more"}
+                      </button>
+                      <figcaption className="label-mono mt-6 text-muted-foreground">
+                        {r.name}, {r.role}
+                        <span className="mt-1 block">via Trustpilot</span>
+                      </figcaption>
+                    </figure>
+                  </Reveal>
+                );
+              })}
             </div>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {checkable.map((t, i) => (
-                <Reveal key={t.label} delay={i * 50}>
-                  <div className="h-full rounded-2xl border border-border bg-card p-5">
-                    <p className="label-mono-up text-muted-foreground">{t.label}</p>
+            <Reveal>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-y border-border py-5 text-center">
+                {checkable.map((t, i) => (
+                  <div key={t.label} className="flex items-center gap-6">
+                    {i > 0 && <span aria-hidden="true" className="hidden h-4 w-px bg-border sm:block" />}
                     {t.href ? (
                       <a
                         href={t.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-3 block text-sm leading-relaxed text-primary underline underline-offset-4"
+                        className="label-mono text-primary underline underline-offset-4"
                       >
                         {t.text}
                       </a>
                     ) : (
-                      <p className="mt-3 text-sm leading-relaxed text-body-ink">{t.text}</p>
+                      <span className="label-mono text-muted-foreground">{t.text}</span>
                     )}
                   </div>
-                </Reveal>
-              ))}
-            </div>
+                ))}
+              </div>
+            </Reveal>
+
 
             <Reveal>
               <div className="mt-16">
@@ -368,7 +402,7 @@ export default function Landing() {
                       src={p.src}
                       alt={p.alt}
                       loading="lazy"
-                      className="h-[22px] w-auto max-w-[140px] object-contain opacity-55 transition-opacity duration-300 hover:opacity-90 sm:h-7 dark:invert"
+                      className="h-[22px] w-auto max-w-[140px] object-contain opacity-55 transition-opacity duration-300 hover:opacity-90 sm:h-7"
                       style={{ filter: "grayscale(1) brightness(0)" }}
                     />
                   ))}
@@ -379,7 +413,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 8. FAQ */}
+        {/* 7. FAQ */}
         <section id="faq" className="relative bg-card" aria-label="Frequently asked questions">
           <div className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
             <Reveal>
@@ -397,16 +431,15 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 9. FINAL BAND */}
+        {/* 8. FINAL BAND */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
             <Reveal>
               <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to see your first itemised quote?</h2>
               <p className="mt-5 text-lg text-white/75">Two fields, no account, a reply within one business day.</p>
               <Button asChild size="xl" variant="hero" className="btn-nudge card-hover mt-9 bg-white bg-none text-primary hover:bg-white">
                 <Link to="/start">
-                  Get a free itemised quote <ArrowRight />
+                  Get a free quote <ArrowRight />
                 </Link>
               </Button>
             </Reveal>

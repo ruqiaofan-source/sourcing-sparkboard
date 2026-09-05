@@ -23,7 +23,7 @@ export function ArticleHero({ article, readTime }: ArticleHeroProps) {
 
   return (
     <section className="relative bg-card">
-      <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+      <div className="surface-grid pointer-events-none absolute inset-0 opacity-25" />
       <div className="relative mx-auto max-w-3xl px-5 pb-12 pt-32 sm:px-8 sm:pt-40">
         <nav aria-label="Breadcrumb">
           <Link

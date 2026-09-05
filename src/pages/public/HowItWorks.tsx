@@ -75,7 +75,6 @@ export default function HowItWorks() {
       <main>
         {/* Hero, black band */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-32 sm:px-8 sm:pb-28 sm:pt-40">
             <p className="label-mono-up text-white/60">8-step process</p>
             <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
@@ -100,7 +99,6 @@ export default function HowItWorks() {
 
         {/* The pinned product cycle */}
         <section data-dark-band className="relative bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative">
             <ProductCycle descriptions={cycleDescriptions} hrefs={cycleHrefs} />
           </div>
@@ -158,7 +156,6 @@ export default function HowItWorks() {
 
         {/* Closing band */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
             <Reveal>
               <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to start?</h2>
@@ -166,7 +163,7 @@ export default function HowItWorks() {
               <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button asChild size="xl" variant="hero" className="btn-nudge card-hover bg-white bg-none text-primary hover:bg-white">
                   <Link to="/start">
-                    Get a free itemised quote <ArrowRight />
+                    Get a free quote <ArrowRight />
                   </Link>
                 </Button>
                 <Button asChild size="xl" variant="onDark">
