@@ -1,12 +1,15 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { SEOHead } from "@/components/SEOHead";
-import { motion } from "framer-motion";
 import {
   Search, FileText, CreditCard, Factory, ShieldCheck, Truck, Package,
-  MessageSquare, ArrowRight, ArrowLeft, CheckCircle2
+  MessageSquare, ArrowRight, ArrowLeft
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import { Reveal } from "@/components/Reveal";
+
+const CALENDLY = "https://calendly.com/admin-equilinq/30min";
+
 
 export const steps = [
   {
