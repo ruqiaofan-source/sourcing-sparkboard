@@ -53,7 +53,8 @@ const StagePanel = ({ children }: { children: React.ReactNode }) => (
 
 
 /** Desktop pinned cycle: one viewport of scroll per step, sticky stage. */
-function PinnedCycle() {
+function PinnedCycle({ descriptions, hrefs }: ProductCycleProps) {
+
   const trackRef = useRef<HTMLDivElement | null>(null);
   const [active, setActive] = useState(0);
 
@@ -106,6 +107,7 @@ function PinnedCycle() {
               <ol className="grid gap-2">
                 {steps.map((step, i) => {
                   const on = i === active;
+                  const href = hrefs?.[i];
                   return (
                     <li key={step.n}>
                       <button
@@ -116,8 +118,22 @@ function PinnedCycle() {
                       >
                         <span className={`label-mono mr-3 ${on ? "text-white" : "text-white/35"}`}>{step.n}</span>
                         <span className={`text-sm font-medium ${on ? "text-white" : "text-white/35"}`}>{step.title}</span>
-                        {on && <span className="mt-1 block max-w-md text-sm leading-relaxed text-white/70">{step.desc}</span>}
                       </button>
+                      {on && (
+                        <>
+                          <span className="mt-1 block max-w-md text-sm leading-relaxed text-white/70">
+                            {descriptions?.[i] ?? step.desc}
+                          </span>
+                          {href && (
+                            <Link
+                              to={href}
+                              className="btn-nudge mt-2 inline-flex items-center gap-2 text-sm font-medium text-white"
+                            >
+                              Read this step <ArrowRight className="h-4 w-4" />
+                            </Link>
+                          )}
+                        </>
+                      )}
                     </li>
                   );
                 })}
@@ -126,7 +142,8 @@ function PinnedCycle() {
             <p className="label-mono-up mt-8 text-white/50">
               Step {steps[active].n} of 08
             </p>
-            <ReadMore />
+            <ReadMore hrefs={hrefs} />
+
           </div>
 
           <StagePanel>
