@@ -333,7 +333,8 @@ export default function Landing() {
 
 
         {/* 4. HOW IT WORKS, pinned product cycle */}
-        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+        <section data-dark-band className="relative bg-band text-white">
+
           <div className="surface-grid absolute inset-0 opacity-[0.08]" />
           <div className="relative">
             <ProductCycle />
