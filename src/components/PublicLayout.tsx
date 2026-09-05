@@ -198,7 +198,11 @@ export function PublicFooter() {
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
           <div className="max-w-sm">
-            <img src={equilinqLogoWhite} alt="Equilinq" className="h-14 w-auto object-contain" loading="lazy" />
+            <div className="flex items-center gap-2.5">
+              <img src={equilinqLogoWhite} alt="" aria-hidden="true" className="h-9 w-auto object-contain" loading="lazy" />
+              <span className="font-display text-[1.4rem] font-medium leading-none tracking-[0.13em] text-white">EQUILINQ</span>
+            </div>
+
             <p className="mt-5 text-sm leading-relaxed text-white/80">
               Sourcing, customization, quality control and shipping from China for European brands. One counterparty,
               checked before it ships.
