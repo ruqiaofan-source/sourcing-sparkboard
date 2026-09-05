@@ -5,7 +5,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, Search, X } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
-import { CustomizationCycle } from "@/components/landing/CustomizationCycle";
 
 import { Input } from "@/components/ui/input";
 
@@ -260,15 +259,37 @@ export default function Customization() {
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-body-ink sm:text-lg">
               Seventy-six finishing, branding, packaging and inspection services, applied at our warehouse before your order
-              ships. Pick them when you submit a request; our agents handle the rest.
+              ships.
             </p>
           </div>
         </section>
 
-        {/* Pinned cycle */}
-        <section data-dark-band className="relative bg-band text-white">
-          <div className="relative">
-            <CustomizationCycle onPick={goToTab} />
+        {/* Eight categories */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+            <Reveal>
+              <p className="label-mono-up text-primary">Eight categories</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">Pick what your order needs.</h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {categories.map((cat, i) => {
+                const Icon = cat.icon;
+                return (
+                  <Reveal key={cat.id} delay={(i % 4) * 60}>
+                    <button
+                      type="button"
+                      onClick={() => goToTab(cat.id)}
+                      className="card-hover flex h-full w-full flex-col rounded-2xl border border-border bg-background p-7 text-left hover:border-accent/50"
+                    >
+                      <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
+                      <h3 className="mt-4 text-lg font-semibold text-primary">{cat.title}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-body-ink">{cat.description}</p>
+                      <span className="label-mono mt-4 text-muted-foreground">{cat.items.length} services</span>
+                    </button>
+                  </Reveal>
+                );
+              })}
+            </div>
           </div>
         </section>
 
@@ -388,28 +409,6 @@ export default function Customization() {
           </div>
         </section>
 
-        {/* Related */}
-        <section className="relative bg-background">
-          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-            <Reveal>
-              <p className="label-mono-up text-primary">Keep reading</p>
-            </Reveal>
-            <div className="mt-8 grid gap-6 sm:grid-cols-3">
-              {related.map((link, i) => (
-                <Reveal key={link.to} delay={i * 60}>
-                  <Link
-                    to={link.to}
-                    className="card-hover block h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50"
-                  >
-                    <span className="label-mono-up text-muted-foreground">{link.label}</span>
-                    <h3 className="mt-3 text-xl font-semibold text-primary">{link.title}</h3>
-                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{link.desc}</p>
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
       </main>
 
       <PublicFooter />
