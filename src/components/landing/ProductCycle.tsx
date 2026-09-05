@@ -121,7 +121,9 @@ function PinnedCycle() {
           </div>
 
           <StagePanel>
-            <Artefact key={steps[active].n} />
+            <div key={steps[active].n} className="h-full" style={{ animation: "fade-in 180ms ease-out" }}>
+              <Artefact />
+            </div>
           </StagePanel>
         </div>
       </div>

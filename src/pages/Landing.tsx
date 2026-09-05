@@ -6,7 +6,7 @@ import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Reveal } from "@/components/Reveal";
 import { HeroVideo } from "@/components/landing/HeroVideo";
 import { ScrollHint } from "@/components/landing/ScrollHint";
-import { ScrollProgressRail } from "@/components/landing/ScrollProgressRail";
+import { ProductCycle } from "@/components/landing/ProductCycle";
 import { QuoteBuildCard } from "@/components/landing/QuoteBuildCard";
 import { CompareTable } from "@/components/landing/CompareTable";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -19,17 +19,6 @@ import logoBuckyDrop from "@/assets/logos/buckydrop-cutout.png";
 
 const CALENDLY = "https://calendly.com/admin-equilinq/30min";
 const PROTOTYPE = "https://prototype.equilinq.eu";
-
-const steps = [
-  { n: "01", title: "Submit your sourcing request", desc: "Share your product specs, quantity, and budget." },
-  { n: "02", title: "We source and vet suppliers", desc: "We find and screen verified manufacturers for you." },
-  { n: "03", title: "Receive your quote", desc: "Transparent, itemized pricing with no hidden fees." },
-  { n: "04", title: "Accept and pay", desc: "Pay securely and production begins." },
-  { n: "05", title: "Production and monitoring", desc: "Real-time updates with photos and progress reports." },
-  { n: "06", title: "Quality control inspection", desc: "Final inspection before shipment with photo reports." },
-  { n: "07", title: "Shipping and logistics", desc: "Consolidated shipping, customs handling, real-time tracking." },
-  { n: "08", title: "Delivery and support", desc: "Products delivered. Ongoing support for reorders." },
-];
 
 const whatWeDo = [
   { label: "Sourcing", to: "/how-it-works", desc: "Verified factories at direct prices, from 10 units." },
