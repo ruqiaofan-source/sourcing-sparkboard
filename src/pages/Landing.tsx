@@ -140,7 +140,7 @@ export default function Landing() {
         {/* 1. HERO */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
           <div className="hero-veil pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] items-center lg:flex">
-            <HeroStack className="translate-x-[7%] scale-110" />
+            <HeroStack className="xl:translate-x-[7%] xl:scale-110" />
           </div>
 
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-24 sm:pt-40">

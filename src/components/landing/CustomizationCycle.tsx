@@ -93,7 +93,7 @@ function PinnedCycle({ onPick }: { onPick: (slug: string) => void }) {
   return (
     <div
       ref={trackRef}
-      className="relative hidden md:block"
+      className="relative hidden lg:block"
       style={{ height: `${customizationSteps.length * 100}svh` }}
     >
       <div className="sticky top-0 flex h-[100svh] items-center">
@@ -188,7 +188,7 @@ export function CustomizationCycle({ onPick }: { onPick: (slug: string) => void 
   return (
     <>
       <PinnedCycle onPick={onPick} />
-      <StackedCycle className="md:hidden" onPick={onPick} />
+      <StackedCycle className="lg:hidden" onPick={onPick} />
     </>
   );
 }
