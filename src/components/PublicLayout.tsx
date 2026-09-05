@@ -71,15 +71,24 @@ export function PublicNavbar() {
         aria-label="Main navigation"
         className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-5 sm:px-8"
       >
-        <Link to="/" className="flex shrink-0 items-center">
+        <Link to="/" className="flex h-[60px] shrink-0 items-center gap-2.5" aria-label="Equilinq home">
           <img
             src={onDark ? equilinqLogoWhite : equilinqLogo}
-            alt="Equilinq"
-            className="h-[60px] w-auto object-contain"
+            alt=""
+            aria-hidden="true"
+            className="h-9 w-auto object-contain"
             loading="eager"
             decoding="sync"
           />
+          <span
+            className={`font-display text-[1.4rem] font-medium leading-none tracking-[0.13em] ${
+              onDark ? "text-white" : "text-foreground"
+            }`}
+          >
+            EQUILINQ
+          </span>
         </Link>
+
 
         <div className="hidden items-center gap-7 md:flex">
           {navLinks.map((link) => (
