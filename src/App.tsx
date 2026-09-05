@@ -25,6 +25,7 @@ const CookiesPage = lazy(() => import("./pages/public/Cookies"));
 const Terms = lazy(() => import("./pages/public/Terms"));
 const RefundPolicy = lazy(() => import("./pages/public/RefundPolicy"));
 const Demo = lazy(() => import("./pages/public/Demo"));
+const AgentProgram = lazy(() => import("./pages/public/AgentProgram"));
 const SourcingGuide = lazy(() => import("./pages/public/SourcingGuide"));
 const TrendingProducts = lazy(() => import("./pages/public/TrendingProducts"));
 const TrendingProductDetail = lazy(() => import("./pages/public/TrendingProductDetail"));
@@ -134,6 +135,7 @@ const App = () => (
                 <Route path="/" element={<Landing />} />
                 {/* Redirects from old Framer site */}
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/agent-program" element={<AgentProgram />} />
                 <Route path="/insights" element={<Insights />} />
                 <Route path="/insights/:slug" element={<InsightArticle />} />
                 <Route path="/customization" element={<Customization />} />

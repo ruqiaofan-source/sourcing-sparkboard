@@ -12,6 +12,7 @@ const STATIC_ROUTES: Array<{ loc: string; priority: string; changefreq: string }
   { loc: "/oem-odm", priority: "0.8", changefreq: "monthly" },
   { loc: "/insights", priority: "0.8", changefreq: "weekly" },
   { loc: "/contact", priority: "0.8", changefreq: "monthly" },
+  { loc: "/agent-program", priority: "0.7", changefreq: "monthly" },
   { loc: "/demo", priority: "0.8", changefreq: "monthly" },
   { loc: "/sourcing-guide", priority: "0.8", changefreq: "monthly" },
   { loc: "/trending", priority: "0.7", changefreq: "weekly" },
