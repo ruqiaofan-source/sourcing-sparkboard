@@ -24,6 +24,13 @@ const steps = [
   { n: "08", title: "Delivery and support", desc: "Products delivered. Ongoing support for reorders.", Artefact: DeliveredArtefact },
 ];
 
+export interface ProductCycleProps {
+  /** Optional richer per-step descriptions, in step order. */
+  descriptions?: string[];
+  /** Optional per-step detail page paths, in step order. */
+  hrefs?: string[];
+}
+
 const Header = () => (
   <>
     <p className="label-mono-up text-white/60">How it works</p>
@@ -33,18 +40,21 @@ const Header = () => (
   </>
 );
 
-const ReadMore = () => (
-  <Link to="/how-it-works" className="btn-nudge mt-10 inline-flex items-center gap-2 text-sm font-medium text-white">
-    Read the full process <ArrowRight className="h-4 w-4" />
-  </Link>
-);
+const ReadMore = ({ hrefs }: { hrefs?: string[] }) =>
+  hrefs ? null : (
+    <Link to="/how-it-works" className="btn-nudge mt-10 inline-flex items-center gap-2 text-sm font-medium text-white">
+      Read the full process <ArrowRight className="h-4 w-4" />
+    </Link>
+  );
 
 const StagePanel = ({ children }: { children: React.ReactNode }) => (
   <div className="h-[60svh] min-h-[26rem] overflow-hidden rounded-2xl border border-white/12 bg-white/[0.04]">{children}</div>
 );
 
+
 /** Desktop pinned cycle: one viewport of scroll per step, sticky stage. */
-function PinnedCycle() {
+function PinnedCycle({ descriptions, hrefs }: ProductCycleProps) {
+
   const trackRef = useRef<HTMLDivElement | null>(null);
   const [active, setActive] = useState(0);
 
@@ -97,6 +107,7 @@ function PinnedCycle() {
               <ol className="grid gap-2">
                 {steps.map((step, i) => {
                   const on = i === active;
+                  const href = hrefs?.[i];
                   return (
                     <li key={step.n}>
                       <button
@@ -107,8 +118,22 @@ function PinnedCycle() {
                       >
                         <span className={`label-mono mr-3 ${on ? "text-white" : "text-white/35"}`}>{step.n}</span>
                         <span className={`text-sm font-medium ${on ? "text-white" : "text-white/35"}`}>{step.title}</span>
-                        {on && <span className="mt-1 block max-w-md text-sm leading-relaxed text-white/70">{step.desc}</span>}
                       </button>
+                      {on && (
+                        <>
+                          <span className="mt-1 block max-w-md text-sm leading-relaxed text-white/70">
+                            {descriptions?.[i] ?? step.desc}
+                          </span>
+                          {href && (
+                            <Link
+                              to={href}
+                              className="btn-nudge mt-2 inline-flex items-center gap-2 text-sm font-medium text-white"
+                            >
+                              Read this step <ArrowRight className="h-4 w-4" />
+                            </Link>
+                          )}
+                        </>
+                      )}
                     </li>
                   );
                 })}
@@ -117,7 +142,8 @@ function PinnedCycle() {
             <p className="label-mono-up mt-8 text-white/50">
               Step {steps[active].n} of 08
             </p>
-            <ReadMore />
+            <ReadMore hrefs={hrefs} />
+
           </div>
 
           <StagePanel>
@@ -132,7 +158,8 @@ function PinnedCycle() {
 }
 
 /** Mobile and reduced motion: plain list, each step followed by its artefact. */
-function StackedCycle({ className }: { className?: string }) {
+function StackedCycle({ className, descriptions, hrefs }: ProductCycleProps & { className?: string }) {
+
   const [progress, setProgress] = useState(0);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -175,12 +202,20 @@ function StackedCycle({ className }: { className?: string }) {
             />
           </div>
           <div className="mt-8 grid gap-8">
-            {steps.map((step) => (
+            {steps.map((step, i) => (
               <div key={step.n}>
                 <div className="rounded-2xl border border-white/12 bg-white/[0.04] p-5">
                   <span className="label-mono-up text-white">{step.n}</span>
                   <h3 className="mt-3 text-base font-semibold text-white">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/85">{step.desc}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-white/85">{descriptions?.[i] ?? step.desc}</p>
+                  {hrefs?.[i] && (
+                    <Link
+                      to={hrefs[i]}
+                      className="btn-nudge mt-4 inline-flex items-center gap-2 text-sm font-medium text-white"
+                    >
+                      Read this step <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  )}
                 </div>
                 <div className="mt-4 overflow-hidden rounded-2xl border border-white/12 bg-white/[0.04]">
                   <step.Artefact />
@@ -189,13 +224,13 @@ function StackedCycle({ className }: { className?: string }) {
             ))}
           </div>
         </div>
-        <ReadMore />
+        <ReadMore hrefs={hrefs} />
       </div>
     </div>
   );
 }
 
-export function ProductCycle() {
+export function ProductCycle({ descriptions, hrefs }: ProductCycleProps = {}) {
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -206,14 +241,15 @@ export function ProductCycle() {
     return () => query.removeEventListener("change", onChange);
   }, []);
 
-  if (reduced) return <StackedCycle />;
+  if (reduced) return <StackedCycle descriptions={descriptions} hrefs={hrefs} />;
 
   return (
     <>
-      <PinnedCycle />
-      <StackedCycle className="md:hidden" />
+      <PinnedCycle descriptions={descriptions} hrefs={hrefs} />
+      <StackedCycle className="md:hidden" descriptions={descriptions} hrefs={hrefs} />
     </>
   );
 }
 
 export default ProductCycle;
+

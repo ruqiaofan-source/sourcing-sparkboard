@@ -16,6 +16,11 @@ export const routeSeoMap: Record<string, RouteMeta> = {
     description: "End-to-end sourcing, QC, customization and logistics from China. Transparent pricing, low MOQs, and dedicated support for European SMEs.",
     keywords: "sourcing from China, European SME sourcing, China manufacturing, quality control, private label, transparent pricing, low MOQ, China logistics",
   },
+  "/start": {
+    title: "Get a Free Itemised Quote - Equilinq",
+    description: "Tell us what you want to source. Two fields and your email, no account needed. A first itemised quote within one business day.",
+    keywords: "free sourcing quote, China sourcing request, itemised quote, sourcing from China",
+  },
   "/pricing": {
     title: "Pricing - Equilinq Sourcing Service",
     description: "Transparent, itemized pricing for every order. No hidden fees. Submit a sourcing request and receive your exact cost breakdown.",

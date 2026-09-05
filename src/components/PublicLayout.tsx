@@ -102,9 +102,9 @@ export function PublicNavbar() {
           >
             Log in
           </Link>
-          <Link to="/auth?signup=true">
+          <Link to="/start">
             <Button variant="hero" className={onDark ? "bg-white bg-none text-primary hover:bg-white" : undefined}>
-              Start a request
+              Get a free quote
             </Button>
           </Link>
         </div>
@@ -144,9 +144,9 @@ export function PublicNavbar() {
             <Link to="/auth" className="rounded-lg px-2 py-3 text-lg text-muted-foreground">
               Log in
             </Link>
-            <Link to="/auth?signup=true" className="mt-2 md:hidden">
+            <Link to="/start" className="mt-2 md:hidden">
               <Button variant="hero" size="xl" className="w-full">
-                Start a request
+                Get a free quote
               </Button>
             </Link>
           </div>

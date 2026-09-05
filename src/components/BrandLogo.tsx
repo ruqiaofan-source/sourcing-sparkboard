@@ -9,23 +9,19 @@ interface BrandLogoProps {
   eager?: boolean;
 }
 
-/** Equilinq wordmark. Follows the theme unless onDark is set. */
+/** Equilinq wordmark. Dark on light surfaces, white when onDark is set. */
 export function BrandLogo({ className = "h-[60px]", onDark = false, eager = false }: BrandLogoProps) {
-  const common = `${className} w-auto object-contain`;
-  const loading = eager ? "eager" : "lazy";
-
-  if (onDark) {
-    return (
-      <img src={LOGO_WHITE_SRC} alt="Equilinq" width={1616} height={498} loading={loading} className={common} />
-    );
-  }
-
   return (
-    <>
-      <img src={LOGO_DARK_SRC} alt="Equilinq" width={1616} height={498} loading={loading} className={`${common} dark:hidden`} />
-      <img src={LOGO_WHITE_SRC} alt="" aria-hidden="true" width={1616} height={498} loading={loading} className={`${common} hidden dark:block`} />
-    </>
+    <img
+      src={onDark ? LOGO_WHITE_SRC : LOGO_DARK_SRC}
+      alt="Equilinq"
+      width={1616}
+      height={498}
+      loading={eager ? "eager" : "lazy"}
+      className={`${className} w-auto object-contain`}
+    />
   );
 }
+
 
 export default BrandLogo;

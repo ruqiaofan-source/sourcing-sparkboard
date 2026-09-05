@@ -9,6 +9,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, ArrowRight, CheckCircle2 } from "lucide-react";
+import founderImg from "@/assets/founder.jpg";
+
 
 const reasons = ["General inquiry", "Sourcing consultation", "Pricing question", "Partnership", "Other"];
 
@@ -337,17 +339,41 @@ export default function Contact() {
                 </Reveal>
 
                 <Reveal>
+                  <div className="mt-4 rounded-2xl border border-border bg-card p-6">
+                    <p className="label-mono-up text-primary">From the founder</p>
+                    <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-start">
+                      <img
+                        src={founderImg}
+                        alt="Ruqiao Fan, founder of Equilinq"
+                        width={126}
+                        height={189}
+                        loading="lazy"
+                        className="h-40 w-28 shrink-0 rounded-2xl border border-border object-cover"
+                      />
+                      <div>
+                        <p className="text-base leading-relaxed text-body-ink">
+                          Why spend your time chasing factories, managing miscommunication, and fixing avoidable issues,
+                          when we can handle it for you?
+                        </p>
+                        <p className="label-mono mt-5 text-muted-foreground">Ruqiao Fan, founder</p>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+
+                <Reveal>
                   <div className="mt-4">
                     <p className="text-sm leading-relaxed text-body-ink">
-                      Ready to start sourcing? Create a free account.
+                      Ready to start sourcing? Get a free itemised quote.
                     </p>
                     <Button asChild size="xl" variant="hero" className="btn-nudge mt-4">
-                      <Link to="/auth?signup=true">
-                        Get started free <ArrowRight />
+                      <Link to="/start">
+                        Get a free quote <ArrowRight />
                       </Link>
                     </Button>
                   </div>
                 </Reveal>
+
               </div>
             </div>
           </div>
