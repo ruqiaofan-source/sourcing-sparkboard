@@ -1,269 +1,145 @@
-import { useState, useEffect, useRef, useCallback, lazy, Suspense, useMemo } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, CheckCircle2, ShieldCheck, DollarSign, Globe, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
-import { useTheme } from "@/hooks/useTheme";
-
+import { Reveal } from "@/components/Reveal";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { homeFaqs } from "@/data/homeFaqs";
+import founderImg from "@/assets/founder.jpg";
 import logoSoleRunning from "@/assets/logos/sole-running-cutout.png";
 import logoLKK from "@/assets/logos/lkk-cutout.png";
 import logoIMMO from "@/assets/logos/immo-cutout.png";
-import logoPorsche from "@/assets/logos/porsche-cutout.png";
 import logoBuckyDrop from "@/assets/logos/buckydrop-cutout.png";
-const dashboardPreviewWebp = "/dashboard-preview-real.webp";
-const dashboardPreview1024 = "/dashboard-preview-real-1024.webp";
 
-/* ── Lazy-loaded below-fold sections ── */
-const LandingBenefits = lazy(() => import("@/components/landing/LandingBenefits"));
-const LandingFounder = lazy(() => import("@/components/landing/LandingFounder"));
-const LandingInsights = lazy(() => import("@/components/landing/LandingInsights"));
-const LandingFAQ = lazy(() => import("@/components/landing/LandingFAQ"));
-const LandingCTA = lazy(() => import("@/components/landing/LandingCTA"));
-const LandingFeatureTabs = lazy(() => import("@/components/landing/LandingFeatureTabs"));
+const CALENDLY = "https://calendly.com/admin-equilinq/30min";
+const PROTOTYPE = "https://prototype.equilinq.eu";
 
-/* ──────────────────── DATA ──────────────────── */
+const steps = [
+  { n: "01", title: "Submit your sourcing request", desc: "Share your product specs, quantity, and budget." },
+  { n: "02", title: "We source and vet suppliers", desc: "We find and screen verified manufacturers for you." },
+  { n: "03", title: "Receive your quote", desc: "Transparent, itemized pricing with no hidden fees." },
+  { n: "04", title: "Accept and pay", desc: "Pay securely and production begins." },
+  { n: "05", title: "Production and monitoring", desc: "Real-time updates with photos and progress reports." },
+  { n: "06", title: "Quality control inspection", desc: "Final inspection before shipment with photo reports." },
+  { n: "07", title: "Shipping and logistics", desc: "Consolidated shipping, customs handling, real-time tracking." },
+  { n: "08", title: "Delivery and support", desc: "Products delivered. Ongoing support for reorders." },
+];
 
-/* ──────────────────── SHARED COMPONENTS ──────────────────── */
+const whatWeDo = [
+  { label: "Sourcing", to: "/how-it-works", desc: "Verified factories at direct prices, from 10 units." },
+  { label: "Customization", to: "/customization", desc: "Private labels, packaging and 76 finishing services." },
+  { label: "Quality control", to: "/quality-control", desc: "Four-stage inspection with photo and video proof." },
+  { label: "Shipping", to: "/how-it-works/shipping-and-logistics", desc: "Consolidated shipping, customs handling, real-time tracking." },
+];
 
-function AnimatedGlow() {
-  return null;
-}
+const costBlocks = [
+  { label: "Factory cost", desc: "Direct supplier price at wholesale" },
+  { label: "Logistics and customs", desc: "Freight, clearance, duties, handling" },
+  { label: "China operations", desc: "QC, warehousing, coordination" },
+  { label: "Service fee", desc: "Equilinq sourcing and management" },
+];
 
-function FloatingParticles() {
-  return null;
-}
-
-function Marquee({ children }: { children: React.ReactNode; speed?: number }) {
-  return <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 w-full">{children}</div>;
-}
-
-function AnimatedCounter({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="rounded-xl border border-border bg-card px-4 py-4 sm:px-5 sm:py-5 text-center">
-      <p className="font-heading text-3xl sm:text-4xl font-bold text-foreground">{value}</p>
-      <p className="mt-1 text-sm sm:text-base text-body-ink">{label}</p>
-    </div>
-  );
-}
-
-const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.06 } } };
-
-function RevealHeading({ children, className = "", as: Tag = "h2" }: { children: string; className?: string; as?: "h1" | "h2" | "h3" }) {
-  return <Tag className={className}>{children}</Tag>;
-}
-
-function MagneticButton({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={className}>{children}</div>;
-}
-
-/* ──────────────────── SOCIAL PROOF (kept inline -- above fold for SEO) ──────────────────── */
-
-const testimonials = [
+const reviews = [
   {
     name: "Hammad Ahmed",
     role: "CEO Longlive",
-    quote: "I worked with Equilinq Team on the potential procurement of a vascular Doppler. Through out the process , Team spent time to understand our requirement and matched us to the right manufacturers. The process was efficient and transparent at each step.",
+    quote:
+      "I worked with Equilinq Team on the potential procurement of a vascular Doppler. Through out the process , Team spent time to understand our requirement and matched us to the right manufacturers. The process was efficient and transparent at each step.",
   },
   {
     name: "Marian Leenman",
     role: "NGO Strategic Buyer",
-    quote: "I enjoyed the service from Equilinq. They helped me source the products I needed, and it was much cheaper than other platforms. They also assisted with communication in Chinese. When one of the products was out of stock, they immediately found another supplier who sold the same item. Their inspection service was also really helpful, they checked every package and identified defects beforehand, so I didn't have to worry about quality issues. Lastly, their delivery was efficient. They designed the optimal route and delivered directly to my house. It was a nice experience.",
-  },
-  {
-    name: "Sultan Tuleugali",
-    role: "Porsche Strategic Buyer",
-    quote: "We had issues with defective units in the past when ordering from Alibaba directly.\n\nThis time they did inspection before shipment and found a small issue with stitching on about 8% of the batch. It was corrected before shipping.\n\nThat alone saved us a lot of headache. Not perfect but much more reliable.",
+    quote:
+      "I enjoyed the service from Equilinq. They helped me source the products I needed, and it was much cheaper than other platforms. They also assisted with communication in Chinese. When one of the products was out of stock, they immediately found another supplier who sold the same item. Their inspection service was also really helpful, they checked every package and identified defects beforehand, so I didn't have to worry about quality issues. Lastly, their delivery was efficient. They designed the optimal route and delivered directly to my house. It was a nice experience.",
   },
   {
     name: "Henry",
     role: "Amazon Reseller",
-    quote: "Service was good! We had some problems with tech things sourcing from oher countries and also china ourselves. Regarding Ar glasses its always a hard one to do because some components were always made very cheaply. Equilinq was helpful becuase they got us a good factory and the per unit price was lower than our orginial supplier. Also was nice they are also based in Amsterdam and were able to reply qucikly. Would recommend",
+    quote:
+      "Service was good! We had some problems with tech things sourcing from oher countries and also china ourselves. Regarding Ar glasses its always a hard one to do because some components were always made very cheaply. Equilinq was helpful becuase they got us a good factory and the per unit price was lower than our orginial supplier. Also was nice they are also based in Amsterdam and were able to reply qucikly. Would recommend",
   },
   {
     name: "Ari",
     role: "Sustainable Yoga Mats",
-    quote: "We worked with Equilinq to source sustainable yoga mats and honestly it went much smoother then we expected.\n\nAt first we weren't sure how complicated sourcing from China would be, but they explained everything very clearly and broke down the costs in a way that actually made sense. The communication was fast and they always replied when we had questions (even small ones).\n\nWhat we really liked was the transparancy. There were no \"surprise\" fees and they showed us different factory options instead of pushing just one. That made us feel more in control of the decision.\n\nShipping and coordination also went well and overall it just felt structured and professional, but still personal.\n\nWould definitely consider working with them again.",
+    quote:
+      "We worked with Equilinq to source sustainable yoga mats and honestly it went much smoother then we expected.\n\nAt first we weren't sure how complicated sourcing from China would be, but they explained everything very clearly and broke down the costs in a way that actually made sense. The communication was fast and they always replied when we had questions (even small ones).\n\nWhat we really liked was the transparancy. There were no \"surprise\" fees and they showed us different factory options instead of pushing just one. That made us feel more in control of the decision.\n\nShipping and coordination also went well and overall it just felt structured and professional, but still personal.\n\nWould definitely consider working with them again.",
   },
 ];
 
-function TestimonialCarousel() {
-  const [index, setIndex] = useState(0);
-  const total = testimonials.length;
-  const go = (dir: number) => setIndex((i) => (i + dir + total) % total);
-  const t = testimonials[index];
+const partners = [
+  { src: logoLKK, alt: "LKK Design" },
+  { src: logoBuckyDrop, alt: "BuckyDrop" },
+  { src: logoSoleRunning, alt: "Sole Running" },
+  { src: logoIMMO, alt: "Stichting iMMO" },
+];
 
+const checkable = [
+  { label: "Registration", text: "Equilinq Limited, Hong Kong Company No. 79372452", href: "https://www.icris.cr.gov.hk/" },
+  { label: "Reviews", text: "Trustpilot 4.8 from 5 reviews", href: "https://www.trustpilot.com/review/equilinq.eu" },
+  { label: "Teams", text: "Team in Amsterdam and Shenzhen" },
+  { label: "Minimum order", text: "From 10 units for standard products" },
+];
+
+type Block = { type: "p"; lines: string[] } | { type: "ol"; items: { title: string; lines: string[] }[] };
+
+function parseAnswer(answer: string): Block[] {
+  const paragraphs = answer.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  const blocks: Block[] = [];
+  for (const para of paragraphs) {
+    const lines = para.split("\n").map((l) => l.trim()).filter(Boolean);
+    const match = /^(\d+)\.\s+(.*)$/.exec(lines[0] ?? "");
+    if (match) {
+      const item = { title: match[2], lines: lines.slice(1) };
+      const last = blocks[blocks.length - 1];
+      if (last && last.type === "ol") last.items.push(item);
+      else blocks.push({ type: "ol", items: [item] });
+    } else {
+      blocks.push({ type: "p", lines });
+    }
+  }
+  return blocks;
+}
+
+function AnswerBody({ answer }: { answer: string }) {
+  const blocks = parseAnswer(answer);
   return (
-    <div className="relative mb-8">
-      <motion.div
-        key={t.name}
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="relative rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-7 sm:p-9 overflow-hidden max-w-3xl mx-auto"
-      >
-        <div className="flex gap-0.5 mb-4">
-          {[...Array(5)].map((_, s) => (
-            <svg key={s} className="h-4 w-4 text-[#00b67a]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-          ))}
-        </div>
-        <p className="text-sm sm:text-[15px] text-foreground/80 leading-relaxed mb-6 whitespace-pre-line">"{t.quote}"</p>
-        <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-full bg-[#00b67a]/20 flex items-center justify-center text-xs font-bold text-[#00b67a]">{t.name.charAt(0)}</div>
-          <div>
-            <p className="text-sm font-semibold text-foreground">{t.name}</p>
-            <p className="text-xs text-muted-foreground">{t.role} · via Trustpilot</p>
-          </div>
-        </div>
-      </motion.div>
-
-      <div className="flex items-center justify-center gap-4 mt-6">
-        <button onClick={() => go(-1)} aria-label="Previous testimonial" className="h-9 w-9 rounded-full border border-border/50 bg-card/40 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors">
-          <ChevronLeft className="h-4 w-4" />
-        </button>
-        <div className="flex items-center gap-2">
-          {testimonials.map((item, i) => (
-            <button
-              key={item.name}
-              onClick={() => setIndex(i)}
-              aria-label={`Show testimonial from ${item.name}`}
-              className={`h-2 rounded-full transition-all ${i === index ? "w-6 bg-primary" : "w-2 bg-border"}`}
-            />
-          ))}
-        </div>
-        <button onClick={() => go(1)} aria-label="Next testimonial" className="h-9 w-9 rounded-full border border-border/50 bg-card/40 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors">
-          <ChevronRight className="h-4 w-4" />
-        </button>
-      </div>
+    <div className="space-y-3 text-sm leading-relaxed text-body-ink">
+      {blocks.map((block, i) =>
+        block.type === "ol" ? (
+          <ol key={i} className="list-decimal space-y-2 pl-5">
+            {block.items.map((item, j) => (
+              <li key={j}>
+                <span className="font-medium text-primary">{item.title}</span>
+                {item.lines.map((line, k) => (
+                  <span key={k} className="block">
+                    {line}
+                  </span>
+                ))}
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p key={i}>
+            {block.lines.map((line, k) => (
+              <span key={k} className="block">
+                {line}
+              </span>
+            ))}
+          </p>
+        ),
+      )}
     </div>
   );
 }
 
-
-function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_count: number; average_rating: number } | null }) {
-  const tpRating = trustpilotStats?.average_rating ?? 4.0;
-  const tpCount = trustpilotStats?.review_count ?? 5;
-  const tpFullStars = Math.floor(tpRating);
-  const tpHasHalf = tpRating - tpFullStars >= 0.3;
-  const tpEmptyStars = 5 - tpFullStars - (tpHasHalf ? 1 : 0);
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20, scale: 0.97 },
-    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const } },
-  };
-
-  return (
-      <section className="py-16 px-4 relative">
-      <div className="max-w-5xl mx-auto relative z-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-10">
-          <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4 block">Trusted by SMEs</motion.span>
-
-          <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground">What Our Clients Say</RevealHeading>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="flex items-center justify-center gap-3 mb-10">
-          <a href="https://www.trustpilot.com/review/equilinq.eu" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
-            <div className="flex items-center gap-1.5">
-              <span className="font-heading text-2xl font-bold text-foreground">{tpRating.toFixed(1)}</span>
-              <div className="flex gap-0.5">
-                {[...Array(tpFullStars)].map((_, s) => (
-                  <svg key={`full-${s}`} className="h-5 w-5 text-[#00b67a]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                ))}
-                {tpHasHalf && (
-                  <svg className="h-5 w-5 text-[#00b67a]" viewBox="0 0 20 20">
-                    <defs><linearGradient id="tp-half"><stop offset="50%" stopColor="currentColor" /><stop offset="50%" stopColor="hsl(var(--muted-foreground) / 0.3)" /></linearGradient></defs>
-                    <path fill="url(#tp-half)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                )}
-                {[...Array(tpEmptyStars)].map((_, s) => (
-                  <svg key={`empty-${s}`} className="h-5 w-5 text-muted-foreground/30" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                ))}
-              </div>
-            </div>
-            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">on Trustpilot ({tpCount} review{tpCount !== 1 ? "s" : ""})</span>
-          </a>
-        </motion.div>
-
-        <TestimonialCarousel />
-
-
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
-          <a href="https://www.trustpilot.com/review/equilinq.eu" target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline font-medium">
-            Read all reviews on Trustpilot →
-          </a>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.1 }} className="flex flex-wrap items-center justify-center gap-6">
-          {[
-            { label: "Vetted Factories", icon: ShieldCheck },
-            { label: "Transparent Pricing", icon: DollarSign },
-            { label: "Multi-Stage QC", icon: CheckCircle2 },
-            { label: "200+ Countries Shipped", icon: Globe },
-          ].map((badge) => (
-            <motion.div key={badge.label} whileHover={{ scale: 1.05 }} className="flex items-center gap-2 rounded-full border border-border/40 bg-card/30 px-4 py-2 overflow-hidden">
-              <motion.div
-                animate={badge.label === "200+ Countries Shipped" ? { rotate: [0, 360] } : undefined}
-                transition={badge.label === "200+ Countries Shipped" ? { duration: 20, repeat: Infinity, ease: "linear" } : undefined}
-              >
-                <badge.icon className="h-4 w-4 text-primary" />
-              </motion.div>
-              <span className="text-xs font-medium text-foreground/80">{badge.label}</span>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-/* ──────────────────── MAIN PAGE ──────────────────── */
-
 export default function Landing() {
-  const heroRef = useRef<HTMLElement>(null);
-  const { theme } = useTheme();
-  const isMobile = useIsMobile();
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.94]);
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-
-  // Defer non-critical query until after page load to keep it out of the critical request chain
-  const [deferredQueriesEnabled, setDeferredQueriesEnabled] = useState(false);
-  useEffect(() => {
-    const idle = (window as any).requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1));
-    const handle = idle(() => setDeferredQueriesEnabled(true));
-    return () => {
-      const cancel = (window as any).cancelIdleCallback || clearTimeout;
-      cancel(handle);
-    };
-  }, []);
-
-  const { data: trustpilotStats } = useQuery({
-    queryKey: ["trustpilot-stats"],
-    queryFn: async () => {
-      const { data, error } = await supabase.from("trustpilot_stats").select("review_count, average_rating").eq("id", 1).single();
-      if (error) throw error;
-      return data as { review_count: number; average_rating: number };
-    },
-    staleTime: 1000 * 60 * 60,
-    enabled: deferredQueriesEnabled,
-  });
-
-  const faqs = [
-    { q: "What is the minimum order quantity (MOQ) and how does pricing work?", a: "For most standard products, our MOQ starts at just 10 units per SKU. We operate on a zero-markup pricing model with transparent cost breakdowns." },
-    { q: "How long does shipping take?", a: "Standard shipping takes ~15-25 days, express ~7-14 days, premium ~5-10 days. All shipments include real-time tracking." },
-  ];
-
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <SEOHead
-        title="Equilinq - Sourcing from China for European SMEs"
-        description="End-to-end sourcing, QC, customization and logistics from China. Transparent pricing, low MOQs, and dedicated support for European SMEs."
-        keywords="sourcing from China, European SME sourcing, China manufacturing, quality control, private label, transparent pricing, low MOQ, China logistics"
+        title="Equilinq - Sourcing from China, checked before it ships"
+        description="Verified factories, itemised quotes and inspection with photo proof, for European brands ordering from 10 units. One counterparty in Hong Kong."
+        keywords="sourcing from China, European brands sourcing, verified factories, quality control inspection, private label, low minimum order, China logistics"
         breadcrumbs={[{ name: "Home", url: "https://equilinq.eu/" }]}
       />
 
@@ -274,43 +150,50 @@ export default function Landing() {
             "@context": "https://schema.org",
             "@graph": [
               {
-                "@type": "Service", name: "China Sourcing for European SMEs",
+                "@type": "Service",
+                name: "Sourcing, customization and quality control from China",
                 provider: { "@type": "Organization", name: "Equilinq" },
-                description: "End-to-end sourcing, quality control, customization and logistics from China with transparent pricing and low MOQs starting from 10 units.",
-                areaServed: "Europe", serviceType: "Product Sourcing",
-                offers: { "@type": "Offer", description: "Service fee from 4-6% based on order value", priceCurrency: "EUR" },
+                description:
+                  "Verified factories, itemised quotes, customization, multi-stage quality control with photo proof and door to door shipping for European brands ordering from 10 units.",
+                areaServed: "Europe",
+                serviceType: "Product Sourcing",
                 hasOfferCatalog: {
-                  "@type": "OfferCatalog", name: "Sourcing Services",
-                  itemListElement: [
-                    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Factory Sourcing & Verification" } },
-                    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Quality Control & Inspection" } },
-                    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Private Label & Customization" } },
-                    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Logistics & Fulfillment" } },
-                  ],
+                  "@type": "OfferCatalog",
+                  name: "Sourcing Services",
+                  itemListElement: whatWeDo.map((s) => ({
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: s.label, description: s.desc },
+                  })),
                 },
               },
               {
                 "@type": "FAQPage",
-                mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.q, acceptedAnswer: { "@type": "Answer", text: faq.a } })),
+                mainEntity: homeFaqs.map((faq) => ({
+                  "@type": "Question",
+                  name: faq.q,
+                  acceptedAnswer: { "@type": "Answer", text: faq.a },
+                })),
               },
               {
-                "@type": "SiteNavigationElement", name: "Main Navigation",
+                "@type": "SiteNavigationElement",
+                name: "Main Navigation",
                 hasPart: [
-                  { "@type": "SiteNavigationElement", name: "How It Works", url: "https://equilinq.eu/how-it-works" },
-                  { "@type": "SiteNavigationElement", name: "Pricing", url: "https://equilinq.eu/pricing" },
+                  { "@type": "SiteNavigationElement", name: "How it works", url: "https://equilinq.eu/how-it-works" },
                   { "@type": "SiteNavigationElement", name: "Customization", url: "https://equilinq.eu/customization" },
-                  { "@type": "SiteNavigationElement", name: "Quality Control", url: "https://equilinq.eu/quality-control" },
-                  { "@type": "SiteNavigationElement", name: "OEM / ODM", url: "https://equilinq.eu/oem-odm" },
+                  { "@type": "SiteNavigationElement", name: "Quality control", url: "https://equilinq.eu/quality-control" },
+                  { "@type": "SiteNavigationElement", name: "Pricing", url: "https://equilinq.eu/pricing" },
                   { "@type": "SiteNavigationElement", name: "Insights", url: "https://equilinq.eu/insights" },
                   { "@type": "SiteNavigationElement", name: "Contact", url: "https://equilinq.eu/contact" },
-                  { "@type": "SiteNavigationElement", name: "Sign In", url: "https://equilinq.eu/auth" },
+                  { "@type": "SiteNavigationElement", name: "Prototyping", url: PROTOTYPE },
+                  { "@type": "SiteNavigationElement", name: "Log in", url: "https://equilinq.eu/auth" },
                 ],
               },
               {
                 "@type": "VideoObject",
-                name: "Equilinq Platform Demo",
-                description: "A quick walkthrough of the Equilinq sourcing platform showing how European SMEs can source products from China with transparent pricing and quality control.",
-                thumbnailUrl: "https://equilinq.eu/og-image.jpg",
+                name: "Equilinq platform preview",
+                description:
+                  "A walkthrough of the Equilinq sourcing platform showing sourcing requests, itemised quotes, messages and inspection reports in one place.",
+                thumbnailUrl: "https://equilinq.eu/dashboard-preview-real.webp",
                 uploadDate: "2026-04-14T00:00:00+02:00",
                 contentUrl: "https://equilinq.eu/videos/area-demo.mp4",
                 embedUrl: "https://equilinq.eu/",
@@ -322,185 +205,413 @@ export default function Landing() {
       />
 
       <PublicNavbar />
+
       <main>
-
-      {/* ───── HERO ───── */}
-      <section ref={heroRef} className="relative pt-28 sm:pt-36 pb-16 px-4">
-        <div className="absolute inset-0">
-          <img src="/hero-bg.jpg" alt="Equilinq sourcing from China for European SMEs - warehouse and shipping operations" className="w-full h-full object-cover" width={1920} height={1080} fetchPriority="high" />
-          <div className="absolute inset-0 bg-background/75" />
-        </div>
-        <AnimatedGlow />
-        <motion.div style={{ opacity: heroOpacity, scale: heroScale, y: heroY }} className="relative z-10 max-w-5xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="text-center mb-14">
-            <motion.div initial={{ opacity: 0, scale: 0.8, y: -10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 250 }} className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6">
-              <motion.span className="h-2 w-2 rounded-full bg-primary" animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} />
-              <span className="text-xs sm:text-sm font-semibold text-primary tracking-wide">Backed by one of the founding shareholders of Tencent Holdings.</span>
-            </motion.div>
-
-            <motion.h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }}>
-              <motion.span className="inline-block" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
-                Unsexy Sourcing
-              </motion.span>
-              <br />
-              <motion.span
-                className="bg-clip-text text-transparent inline-block"
-                initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1, backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-                transition={{
-                  opacity: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
-                  y: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
-                  scale: { duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
-                  backgroundPosition: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }
-                }}
-                style={{ backgroundImage: "linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(260 80% 68%) 50%, hsl(var(--primary)) 100%)", backgroundSize: "200% 200%" }}
-              >
-                Made Sexy.
-              </motion.span>
-            </motion.h1>
-
-            <motion.p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }}>
-              Sourcing, customization, QC, and logistics from China.{" "}<br className="hidden sm:block" />One platform to rule them all.
-            </motion.p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/auth?signup=true">
-                <MagneticButton>
-                  <Button size="sm" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-6 h-10 text-sm font-semibold shadow-[0_0_50px_-8px_hsl(239,100%,50%/0.6)] border border-primary/20 uppercase tracking-wider">
-                    Get Started <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </MagneticButton>
-              </Link>
-              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
-                <MagneticButton>
-                  <Button variant="outline" size="sm" className="rounded-full bg-white text-background border-white/80 hover:bg-white/90 px-6 h-10 text-sm font-semibold uppercase tracking-wider">Book a Demo</Button>
-                </MagneticButton>
-              </a>
-            </div>
-          </motion.div>
-
-          {/* Dashboard preview */}
-          <motion.div initial={{ opacity: 1, y: 0, scale: 1 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-            <motion.div whileHover={{ scale: 1.015, y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 25 }} className="relative rounded-2xl border border-border/30 overflow-hidden shadow-2xl shadow-black/50 hover:shadow-[0_20px_80px_-20px_hsl(var(--primary)/0.3)] transition-shadow duration-700">
-              <motion.div className="absolute -inset-[2px] rounded-2xl pointer-events-none z-20" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.3), transparent 40%, transparent 60%, hsl(260 80% 68% / 0.2))" }} animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
-              <video
-                src="/videos/area-demo.mp4"
-                poster={dashboardPreviewWebp}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="none"
-                aria-label="Equilinq sourcing platform dashboard walkthrough"
-                className="w-full h-auto object-cover object-top block rounded-2xl"
+        {/* 1. HERO */}
+        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+          <div className="hero-veil pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] lg:block">
+            <picture>
+              <source srcSet="/hero-packaging-1600.webp" type="image/webp" />
+              <img
+                src="/hero-packaging.jpg"
+                alt="Exploded view of a product packaging stack: mailer bag, card, product, tissue, foam insert, rigid box and shipping carton"
+                className="h-full w-full object-cover"
+                width={1600}
+                height={900}
+                fetchPriority="high"
               />
-              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background via-background/80 to-transparent" />
-              <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background/40 to-transparent" />
-              <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background/40 to-transparent" />
-              <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background/30 to-transparent" />
-              <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-full bg-card/80 backdrop-blur-md border border-border/40 px-3 py-1.5">
-                <motion.span className="h-2 w-2 rounded-full bg-[hsl(142_71%_45%)]" animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }} transition={{ duration: 2, repeat: Infinity }} />
-                <span className="text-[11px] text-muted-foreground font-medium">Live Platform Preview</span>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* ───── STATS ───── */}
-      <section className="py-14 px-4 relative border-y border-border/10">
-        <FloatingParticles />
-        <div className="max-w-5xl mx-auto relative z-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-center mb-12">
-            <span className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-3 block">By the Numbers</span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">Why SMEs Trust Equilinq</h2>
-          </motion.div>
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <AnimatedCounter value="200+" label="Countries Shipped" />
-            <AnimatedCounter value="500+" label="Vetted Factories" />
-            <AnimatedCounter value="10" label="Minimum MOQ" />
-            <AnimatedCounter value="98%" label="QC Pass Rate" />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ───── PARTNER LOGOS ───── */}
-      <section className="py-14 sm:py-16 relative overflow-hidden">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
-        <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="relative z-10 text-center mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-3">
-            <span className="h-px w-8 bg-border/50" />
-            <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground/60">Trusted by leading brands</span>
-            <span className="h-px w-8 bg-border/50" />
+            </picture>
           </div>
-        </motion.div>
-        <div className="relative z-10">
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-32 z-20 bg-gradient-to-r from-background to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-32 z-20 bg-gradient-to-l from-background to-transparent" />
-          <Marquee speed={45}>
-            {[
-              { src: logoPorsche, alt: "Porsche", url: "https://www.porsche.com/" },
-              { src: logoLKK, alt: "LKK Design", url: "https://www.lkkerscm.com/" },
-              { src: logoBuckyDrop, alt: "BuckyDrop", url: "https://buckydrop.com/" },
-              { src: logoPorsche, alt: "Porsche", url: "https://www.porsche.com/" },
-              { src: logoSoleRunning, alt: "Sole Running", url: "https://www.sole-running.com/" },
-              { src: logoIMMO, alt: "Stichting iMMO", url: "https://stichtingimmo.nl/en/" },
-            ].map((logo, i) => (
-              <a key={`${logo.alt}-${i}`} href={logo.url} target="_blank" rel="noopener noreferrer" className="group flex shrink-0 items-center justify-center px-6 sm:px-10">
+
+          <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-24 sm:pt-40">
+            <div className="max-w-[38.75rem] lg:max-w-[45%]">
+              <span className="label-mono-up inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-white/60 backdrop-blur">
+                Sourcing and quality control, powered by Shenzhen
+              </span>
+              <h1 className="mt-6 text-[clamp(2.6rem,6.4vw,5rem)] font-bold leading-[0.98] tracking-tight text-white">
+                Sourcing from China, checked before it{" "}
+                <span className="underline decoration-1 underline-offset-[0.18em] underline-ink">ships.</span>
+              </h1>
+              <p className="mt-5 max-w-[36rem] text-base leading-relaxed text-white/85 sm:text-lg">
+                Verified factories, itemised quotes and inspection with photo proof, for European brands ordering from 10 units. One
+                counterparty in Hong Kong.
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Button asChild size="xl" variant="hero" className="btn-nudge bg-white bg-none text-primary-deep hover:bg-white">
+                  <Link to="/auth?signup=true">
+                    Start a request <ArrowRight />
+                  </Link>
+                </Button>
+                <Button asChild size="xl" variant="onDark">
+                  <a href={CALENDLY} target="_blank" rel="noopener noreferrer">
+                    Book a call
+                  </a>
+                </Button>
+              </div>
+              <p className="label-mono-up mt-10 text-white/60">
+                Hong Kong entity, contracts you can read · Team in Amsterdam and Shenzhen · Backed by one of the founding shareholders of
+                Tencent Holdings.
+              </p>
+            </div>
+          </div>
+
+          <div className="hero-veil relative h-56 w-full overflow-hidden sm:h-72 lg:hidden">
+            <picture>
+              <source srcSet="/hero-packaging-1600.webp" type="image/webp" />
+              <img
+                src="/hero-packaging.jpg"
+                alt="Exploded view of a product packaging stack on a black background"
+                className="h-full w-full object-cover"
+                width={1600}
+                height={900}
+                loading="lazy"
+              />
+            </picture>
+          </div>
+        </section>
+
+        {/* 2. TWO DOORS */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Two ways to work with us</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">
+                Building something new, or ordering something that exists?
+              </h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-2">
+              <Reveal>
+                <a
+                  href={PROTOTYPE}
+                  className="card-hover block h-full rounded-2xl border border-border bg-background p-7 hover:border-accent/50"
+                >
+                  <span className="label-mono-up text-muted-foreground">New products</span>
+                  <h3 className="mt-3 text-xl font-semibold text-primary">Prototyping and production</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-body-ink">
+                    Design file to mass production for hardware founders in Europe and the US: a production readiness audit, prototype
+                    stages, then the production bridge. This runs on our prototyping site.
+                  </p>
+                  <span className="btn-nudge mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary">
+                    Go to prototype.equilinq.eu <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </a>
+              </Reveal>
+              <Reveal delay={80}>
+                <Link
+                  to="/how-it-works"
+                  className="card-hover block h-full rounded-2xl border border-border bg-background p-7 hover:border-accent/50"
+                >
+                  <span className="label-mono-up text-muted-foreground">Existing products</span>
+                  <h3 className="mt-3 text-xl font-semibold text-primary">Sourcing, customization and quality control</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-body-ink">
+                    Verified factories, low minimum orders, branding and packaging, inspection with photo proof and door to door shipping.
+                    This is what this site does; the rest of the page explains how.
+                  </p>
+                  <span className="btn-nudge mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary">
+                    See how it works <ArrowRight className="h-4 w-4" />
+                  </span>
+                </Link>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. THE WALL */}
+        <section className="relative bg-background">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">The wall</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">
+                Alibaba is a directory. A freelance agent is a middleman. Neither is accountable.
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-body-ink">
+                You are on your own for vetting, quality control and communication, or you pay a markup to someone who is not. The horror
+                stories all come from the same place: nobody checked before the money moved.
+              </p>
+            </Reveal>
+            <Reveal delay={80}>
+              <blockquote className="mt-12 border-l-2 border-primary/40 pl-6 text-[clamp(1.4rem,3.2vw,2rem)] font-semibold leading-snug tracking-tight text-primary">
+                That check is where we start.
+              </blockquote>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* 4. HOW IT WORKS */}
+        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-white/60">How it works</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-white sm:text-4xl">
+                Eight steps from request to delivery, every one visible in your dashboard.
+              </h2>
+            </Reveal>
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {steps.map((s, i) => (
+                <Reveal key={s.n} delay={i * 40}>
+                  <div className="card-hover h-full rounded-2xl border border-white/12 bg-white/[0.04] p-5 hover:border-white/25">
+                    <span className="label-mono-up text-white">{s.n}</span>
+                    <h3 className="mt-3 text-base font-semibold text-white">{s.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-white/85">{s.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal>
+              <Link to="/how-it-works" className="btn-nudge mt-10 inline-flex items-center gap-2 text-sm font-medium text-white">
+                Read the full process <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* 5. THE PLATFORM */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">The platform</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">
+                Every request, quote, message and inspection report in one place.
+              </h2>
+            </Reveal>
+            <div className="mt-12 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+              <Reveal>
+                <div>
+                  <div className="overflow-hidden rounded-2xl border border-border bg-band">
+                    <video
+                      src="/videos/area-demo.mp4"
+                      poster="/dashboard-preview-real-1024.webp"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="none"
+                      aria-label="Equilinq sourcing platform walkthrough"
+                      className="block h-auto w-full object-cover object-top"
+                    />
+                  </div>
+                  <p className="label-mono mt-3 text-muted-foreground">Platform preview</p>
+                </div>
+              </Reveal>
+              <Reveal delay={80}>
+                <div>
+                  <ul className="grid gap-4 text-base leading-relaxed text-body-ink">
+                    <li>Submit sourcing requests with specs, quantity and budget</li>
+                    <li>Receive itemised quotes from verified factories</li>
+                    <li>Compare costs: factory, logistics and service fees</li>
+                  </ul>
+                  <Button asChild size="xl" variant="hero" className="btn-nudge mt-8">
+                    <Link to="/auth?signup=true">
+                      Try it now <ArrowRight />
+                    </Link>
+                  </Button>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. WHAT WE DO */}
+        <section className="relative bg-background">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">What we do</p>
+              <h2 className="mt-4 text-3xl font-bold text-primary sm:text-4xl">Source. Brand. Check. Ship.</h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {whatWeDo.map((c, i) => (
+                <Reveal key={c.label} delay={i * 60}>
+                  <Link
+                    to={c.to}
+                    className="card-hover block h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50"
+                  >
+                    <span className="label-mono-up text-muted-foreground">0{i + 1}</span>
+                    <h3 className="mt-3 text-xl font-semibold text-primary">{c.label}</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{c.desc}</p>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 7. PRICING */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Pricing</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">
+                Every quote is itemised. You see where every euro goes.
+              </h2>
+            </Reveal>
+            <Reveal delay={80}>
+              <div className="mt-12 rounded-2xl border border-accent/50 bg-card p-7 shadow-[var(--shadow-lift)] sm:p-10">
+                <div className="grid gap-8 sm:grid-cols-2">
+                  {costBlocks.map((b) => (
+                    <div key={b.label}>
+                      <p className="label-mono-up text-muted-foreground">{b.label}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-body-ink">{b.desc}</p>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-10 max-w-2xl text-base leading-relaxed text-body-ink">
+                  Service fees scale down as your order value grows. Submit a request and we quote your exact project.
+                </p>
+                <Button asChild size="xl" variant="hero" className="btn-nudge mt-8">
+                  <Link to="/pricing">
+                    View pricing <ArrowRight />
+                  </Link>
+                </Button>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* 8. PROOF */}
+        <section className="relative bg-background">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">From our clients</p>
+              <h2 className="mt-4 text-3xl font-bold text-primary sm:text-4xl">What clients say on Trustpilot.</h2>
+              <p className="mt-4 text-base text-body-ink">
+                <a
+                  href="https://www.trustpilot.com/review/equilinq.eu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-primary underline underline-offset-4"
+                >
+                  4.8 on Trustpilot (5 reviews)
+                </a>
+              </p>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-2">
+              {reviews.map((r, i) => (
+                <Reveal key={r.name} delay={i * 60}>
+                  <figure className="card-hover h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50">
+                    <blockquote className="whitespace-pre-line text-sm leading-relaxed text-body-ink">{r.quote}</blockquote>
+                    <figcaption className="label-mono mt-6 text-muted-foreground">
+                      {r.name}, {r.role}
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal>
+              <div className="mt-16">
+                <p className="label-mono text-muted-foreground">Partners and clients we may name</p>
+                <div className="mt-6 flex flex-wrap items-center gap-10">
+                  {partners.map((p) => (
+                    <img key={p.alt} src={p.src} alt={p.alt} loading="lazy" className="h-10 w-auto max-w-[150px] object-contain" />
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* 9. WHAT YOU CAN CHECK */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+            <Reveal>
+              <p className="label-mono-up text-primary">What you can check</p>
+            </Reveal>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {checkable.map((t, i) => (
+                <Reveal key={t.label} delay={i * 50}>
+                  <div className="h-full rounded-2xl border border-border bg-background p-5">
+                    <p className="label-mono-up text-muted-foreground">{t.label}</p>
+                    {t.href ? (
+                      <a
+                        href={t.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-3 block text-sm leading-relaxed text-primary underline underline-offset-4"
+                      >
+                        {t.text}
+                      </a>
+                    ) : (
+                      <p className="mt-3 text-sm leading-relaxed text-body-ink">{t.text}</p>
+                    )}
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 10. FROM THE FOUNDER */}
+        <section className="relative bg-background">
+          <div className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">From the founder</p>
+              <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start">
                 <img
-                  src={logo.src} alt={logo.alt} loading="lazy"
-                  className="h-10 sm:h-12 w-auto max-w-[160px] object-contain opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110"
+                  src={founderImg}
+                  alt="Ruqiao Fan, founder of Equilinq"
+                  width={126}
+                  height={189}
+                  loading="lazy"
+                  className="h-40 w-28 shrink-0 rounded-2xl border border-border object-cover"
                 />
-              </a>
-            ))}
-          </Marquee>
-        </div>
-      </section>
+                <div>
+                  <p className="text-base leading-relaxed text-body-ink sm:text-lg">
+                    Why spend your time chasing factories, managing miscommunication, and fixing avoidable issues, when we can handle it for
+                    you?
+                  </p>
+                  <p className="label-mono mt-6 text-muted-foreground">Ruqiao Fan, founder</p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
 
-      {/* ───── FEATURES ───── */}
-      <Suspense fallback={<div className="py-20" />}>
-        <LandingFeatureTabs />
-      </Suspense>
+        {/* 11. FAQ */}
+        <section id="faq" className="relative bg-card" aria-label="Frequently asked questions">
+          <div className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">FAQ</p>
+              <h2 className="mt-4 text-3xl font-bold text-primary sm:text-4xl">Common questions</h2>
+            </Reveal>
+            <Reveal delay={60}>
+              <Accordion type="single" collapsible className="mt-10 grid gap-3">
+                {homeFaqs.map((faq, i) => (
+                  <AccordionItem
+                    key={i}
+                    value={`faq-${i}`}
+                    className="rounded-2xl border border-border bg-background px-6 transition-colors duration-200 ease-out hover:border-accent/50"
+                  >
+                    <AccordionTrigger className="text-left font-display text-base font-semibold text-primary hover:no-underline">
+                      {faq.q}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <AnswerBody answer={faq.a} />
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </Reveal>
+          </div>
+        </section>
 
-      {/* ───── PRICING CTA ───── */}
-      <section className="py-14 px-4 relative">
-        <FloatingParticles />
-        <motion.div initial={{ opacity: 0, y: 20, scale: 0.97 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="max-w-3xl mx-auto text-center relative z-10">
-          <span className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4 block">Pricing</span>
-          <RevealHeading className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">Transparent Pricing, Tailored to Your Order</RevealHeading>
-          <p className="text-muted-foreground mb-8 max-w-xl mx-auto">Every quote is fully itemized. Submit a request and see exactly where every euro goes.</p>
-          <Link to="/pricing">
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-              <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold border border-primary/20">
-                View Pricing <ArrowRight className="ml-2 h-4 w-4" />
+        {/* 12. FINAL CALL TO ACTION */}
+        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
+            <Reveal>
+              <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to source with someone accountable?</h2>
+              <p className="mt-5 text-lg text-white/75">Submit a request in ten minutes. No commitment until you accept a quote.</p>
+              <Button asChild size="xl" variant="hero" className="btn-nudge card-hover mt-9 bg-white bg-none text-primary hover:bg-white">
+                <Link to="/auth?signup=true">
+                  Start a request <ArrowRight />
+                </Link>
               </Button>
-            </motion.div>
-          </Link>
-        </motion.div>
-      </section>
-
-      {/* ───── SOCIAL PROOF ───── */}
-      <SocialProofSection trustpilotStats={trustpilotStats} />
-
-      {/* ───── LAZY-LOADED BELOW-FOLD SECTIONS ───── */}
-      <Suspense fallback={<div className="py-20" />}>
-        <LandingBenefits />
-      </Suspense>
-      <Suspense fallback={<div className="py-20" />}>
-        <LandingFounder />
-      </Suspense>
-      <Suspense fallback={<div className="py-20" />}>
-        <LandingInsights />
-      </Suspense>
-      <Suspense fallback={<div className="py-20" />}>
-        <LandingFAQ />
-      </Suspense>
-      <Suspense fallback={<div className="py-20" />}>
-        <LandingCTA />
-      </Suspense>
-
+            </Reveal>
+          </div>
+        </section>
       </main>
+
       <PublicFooter />
     </div>
   );
