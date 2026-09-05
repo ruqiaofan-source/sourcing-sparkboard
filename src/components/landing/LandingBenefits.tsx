@@ -17,24 +17,7 @@ const fadeUp = {
 };
 
 function RevealHeading({ children, className = "" }: { children: string; className?: string }) {
-  const words = children.split(" ");
-  return (
-    <h2 className={className}>
-      {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden mr-[0.25em]">
-          <motion.span
-            className="inline-block"
-            initial={{ y: "100%", opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {word}
-          </motion.span>
-        </span>
-      ))}
-    </h2>
-  );
+  return <h2 className={className}>{children}</h2>;
 }
 
 export default function LandingBenefits() {

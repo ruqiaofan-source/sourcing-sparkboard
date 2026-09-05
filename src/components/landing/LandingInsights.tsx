@@ -9,19 +9,7 @@ const fadeUp = {
 };
 
 function AnimatedGlow() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <motion.div
-        className="absolute w-[900px] h-[900px] rounded-full"
-        style={{
-          background: "radial-gradient(circle, hsl(var(--primary) / 0.16) 0%, hsl(var(--primary) / 0.07) 42%, transparent 72%)",
-          top: "-25%", right: "-15%",
-        }}
-        animate={{ x: [0, 50, -30, 0], y: [0, -40, 30, 0], scale: [1, 1.05, 0.95, 1] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      />
-    </div>
-  );
+  return null;
 }
 
 export default function LandingInsights() {
