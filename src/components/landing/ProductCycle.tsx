@@ -24,6 +24,13 @@ const steps = [
   { n: "08", title: "Delivery and support", desc: "Products delivered. Ongoing support for reorders.", Artefact: DeliveredArtefact },
 ];
 
+export interface ProductCycleProps {
+  /** Optional richer per-step descriptions, in step order. */
+  descriptions?: string[];
+  /** Optional per-step detail page paths, in step order. */
+  hrefs?: string[];
+}
+
 const Header = () => (
   <>
     <p className="label-mono-up text-white/60">How it works</p>
@@ -33,15 +40,17 @@ const Header = () => (
   </>
 );
 
-const ReadMore = () => (
-  <Link to="/how-it-works" className="btn-nudge mt-10 inline-flex items-center gap-2 text-sm font-medium text-white">
-    Read the full process <ArrowRight className="h-4 w-4" />
-  </Link>
-);
+const ReadMore = ({ hrefs }: { hrefs?: string[] }) =>
+  hrefs ? null : (
+    <Link to="/how-it-works" className="btn-nudge mt-10 inline-flex items-center gap-2 text-sm font-medium text-white">
+      Read the full process <ArrowRight className="h-4 w-4" />
+    </Link>
+  );
 
 const StagePanel = ({ children }: { children: React.ReactNode }) => (
   <div className="h-[60svh] min-h-[26rem] overflow-hidden rounded-2xl border border-white/12 bg-white/[0.04]">{children}</div>
 );
+
 
 /** Desktop pinned cycle: one viewport of scroll per step, sticky stage. */
 function PinnedCycle() {
