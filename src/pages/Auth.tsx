@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, User, Phone, MapPin, Package, Globe, Shield } from "lucide-react";
-import equilinqLogo from "@/assets/equilinq-logo.webp";
+import equilinqLogo from "@/assets/equilinq-logo-optimized.webp";
 import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
 
 const loginGreetings = [

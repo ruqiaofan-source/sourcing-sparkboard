@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Lock, Loader2, Eye, EyeOff, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import equilinqLogo from "@/assets/equilinq-logo.webp";
+import equilinqLogo from "@/assets/equilinq-logo-optimized.webp";
 import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
 import { useTheme } from "@/hooks/useTheme";
 import { SEOHead } from "@/components/SEOHead";
