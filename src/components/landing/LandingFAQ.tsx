@@ -1,19 +1,61 @@
-import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { homeFaqs } from "@/data/homeFaqs";
 
-const fallbackFaqs = [
-  {
-    q: "What is the minimum order quantity (MOQ) and how does pricing work?",
-    a: "For most standard products, our MOQ starts at just 10 units per SKU. We operate on a zero-markup pricing model with transparent cost breakdowns.",
-  },
-  {
-    q: "How long does shipping take?",
-    a: "Standard shipping takes ~15-25 days, express ~7-14 days, premium ~5-10 days. All shipments include real-time tracking.",
-  },
-];
+type Block =
+  | { type: "p"; lines: string[] }
+  | { type: "ol"; items: { title: string; lines: string[] }[] };
+
+function parseAnswer(answer: string): Block[] {
+  const paragraphs = answer.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  const blocks: Block[] = [];
+  for (const para of paragraphs) {
+    const lines = para.split("\n").map((l) => l.trim()).filter(Boolean);
+    const match = /^(\d+)\.\s+(.*)$/.exec(lines[0] ?? "");
+    if (match) {
+      const item = { title: match[2], lines: lines.slice(1) };
+      const last = blocks[blocks.length - 1];
+      if (last && last.type === "ol") last.items.push(item);
+      else blocks.push({ type: "ol", items: [item] });
+    } else {
+      blocks.push({ type: "p", lines });
+    }
+  }
+  return blocks;
+}
+
+function AnswerBody({ answer }: { answer: string }) {
+  const blocks = parseAnswer(answer);
+  return (
+    <div className="space-y-3 text-muted-foreground text-sm leading-relaxed">
+      {blocks.map((block, i) =>
+        block.type === "ol" ? (
+          <ol key={i} className="list-decimal pl-5 space-y-2">
+            {block.items.map((item, j) => (
+              <li key={j}>
+                <span className="text-foreground font-medium">{item.title}</span>
+                {item.lines.map((line, k) => (
+                  <span key={k} className="block">
+                    {line}
+                  </span>
+                ))}
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p key={i}>
+            {block.lines.map((line, k) => (
+              <span key={k} className="block">
+                {line}
+              </span>
+            ))}
+          </p>
+        )
+      )}
+    </div>
+  );
+}
 
 function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
   const [open, setOpen] = useState(false);
@@ -43,7 +85,9 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-5 text-muted-foreground text-sm leading-relaxed whitespace-pre-line">{a}</div>
+            <div className="px-6 pb-5">
+              <AnswerBody answer={a} />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -52,31 +96,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
 }
 
 export default function LandingFAQ() {
-  const [enabled, setEnabled] = useState(false);
-  useEffect(() => {
-    const idle = (window as any).requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1));
-    const handle = idle(() => setEnabled(true));
-    return () => {
-      const cancel = (window as any).cancelIdleCallback || clearTimeout;
-      cancel(handle);
-    };
-  }, []);
-
-  const { data: dbFaqs = [] } = useQuery({
-    queryKey: ["public-faq-items"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("faq_items")
-        .select("*")
-        .eq("is_active", true)
-        .order("sort_order", { ascending: true });
-      if (error) throw error;
-      return data.map((item: any) => ({ q: item.question, a: item.answer }));
-    },
-    enabled,
-  });
-
-  const faqs = dbFaqs.length > 0 ? dbFaqs : fallbackFaqs;
+  const faqs = homeFaqs;
 
   return (
     <section id="faq" className="py-16 px-4" aria-label="Frequently asked questions">
