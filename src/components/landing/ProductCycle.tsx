@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { prefersReducedMotion } from "./cycle/useSequence";
+import { usePinnedCycle } from "./cycle/usePinnedCycle";
+
 import {
   RequestFormArtefact,
   VettingArtefact,
