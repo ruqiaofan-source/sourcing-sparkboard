@@ -66,7 +66,7 @@ const partners = [
 
 const checkable = [
   { label: "Registration", text: "Equilinq Limited, Hong Kong Company No. 79372452", href: "https://www.icris.cr.gov.hk/" },
-  { label: "Reviews", text: "Trustpilot 4.8 from 5 reviews", href: "https://www.trustpilot.com/review/equilinq.eu" },
+  { label: "Accountability", text: "A named agent on every order" },
   { label: "Teams", text: "Team in Amsterdam and Shenzhen" },
   { label: "Minimum order", text: "From 10 units for standard products" },
 ];
@@ -318,17 +318,7 @@ export default function Landing() {
           <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
             <Reveal>
               <p className="label-mono-up text-primary">From our clients</p>
-              <h2 className="mt-4 text-3xl font-bold text-primary sm:text-4xl">What clients say on Trustpilot.</h2>
-              <p className="mt-4 text-base text-body-ink">
-                <a
-                  href="https://www.trustpilot.com/review/equilinq.eu"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-primary underline underline-offset-4"
-                >
-                  4.8 on Trustpilot (5 reviews)
-                </a>
-              </p>
+              <h2 className="mt-4 text-3xl font-bold text-primary sm:text-4xl">What clients say.</h2>
             </Reveal>
             <div className="mt-12 grid gap-6 md:grid-cols-2">
               {reviews.map((r, i) => (
@@ -337,6 +327,9 @@ export default function Landing() {
                     <blockquote className="whitespace-pre-line text-sm leading-relaxed text-body-ink">{r.quote}</blockquote>
                     <figcaption className="label-mono mt-6 text-muted-foreground">
                       {r.name}, {r.role}
+                      <span className="mt-1 block">via Trustpilot</span>
+                    </figcaption>
+
                     </figcaption>
                   </figure>
                 </Reveal>
