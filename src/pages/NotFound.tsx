@@ -20,7 +20,12 @@ const NotFound = forwardRef<HTMLElement>(function NotFound(_props, ref) {
       />
       <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
       <div className="relative px-5 text-center">
+        <Link to="/" className="mb-8 inline-flex transition-opacity hover:opacity-80" aria-label="Equilinq home">
+          <BrandLogo className="h-12" />
+        </Link>
+
         <p className="label-mono-up text-primary">404</p>
+
         <h1 className="mt-4 text-3xl font-bold tracking-tight text-primary sm:text-4xl">The page you are looking for does not exist.</h1>
         <p className="mt-5 text-base leading-relaxed text-body-ink">The link may be outdated, or the page may have moved.</p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

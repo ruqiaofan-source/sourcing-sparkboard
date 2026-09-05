@@ -7,6 +7,8 @@ import { Reveal } from "@/components/Reveal";
 import { HeroVideo } from "@/components/landing/HeroVideo";
 import { ScrollHint } from "@/components/landing/ScrollHint";
 import { ScrollProgressRail } from "@/components/landing/ScrollProgressRail";
+import { QuoteBuildCard } from "@/components/landing/QuoteBuildCard";
+import { CompareTable } from "@/components/landing/CompareTable";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { homeFaqs } from "@/data/homeFaqs";
 import founderImg from "@/assets/founder.jpg";
@@ -34,13 +36,6 @@ const whatWeDo = [
   { label: "Customization", to: "/customization", desc: "Private labels, packaging and 76 finishing services." },
   { label: "Quality control", to: "/quality-control", desc: "Four-stage inspection with photo and video proof." },
   { label: "Shipping", to: "/how-it-works/shipping-and-logistics", desc: "Consolidated shipping, customs handling, real-time tracking." },
-];
-
-const costBlocks = [
-  { label: "Factory cost", desc: "Direct supplier price at wholesale" },
-  { label: "Logistics and customs", desc: "Freight, clearance, duties, handling" },
-  { label: "China operations", desc: "QC, warehousing, coordination" },
-  { label: "Service fee", desc: "Equilinq sourcing and management" },
 ];
 
 const reviews = [
@@ -336,6 +331,18 @@ export default function Landing() {
           </div>
         </section>
 
+        {/* 3b. COMPARE */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Compare</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">What you actually get</h2>
+            </Reveal>
+            <CompareTable />
+          </div>
+        </section>
+
+
         {/* 4. HOW IT WORKS */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
           <div className="surface-grid absolute inset-0 opacity-[0.08]" />
@@ -366,6 +373,44 @@ export default function Landing() {
             </Reveal>
           </div>
         </section>
+
+        {/* 4b. THE TEAM IN SHENZHEN */}
+        <section className="relative bg-background">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">The team in Shenzhen</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">
+                Some of the people who check your goods before they ship.
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-body-ink">
+                Our own sourcing agents, on the floor of our Shenzhen warehouse, where orders are received, inspected and
+                packed. You deal with one named agent from first quote to delivery.
+              </p>
+            </Reveal>
+            <Reveal delay={80}>
+              <figure className="mt-12">
+                <div className="overflow-hidden rounded-2xl border border-border">
+                  <img
+                    src="/team/team-band-1600.jpg"
+                    srcSet="/team/team-band-800.jpg 800w, /team/team-band-1200.jpg 1200w, /team/team-band-1600.jpg 1600w"
+                    sizes="(max-width: 1152px) 100vw, 1088px"
+                    alt="Six Equilinq sourcing agents standing in the Equilinq warehouse in Shenzhen"
+                    width={1600}
+                    height={768}
+                    loading="lazy"
+                    className="block h-auto w-full object-cover"
+                  />
+                </div>
+                <figcaption className="label-mono mt-3 text-muted-foreground">
+                  Sourcing agents at the Equilinq warehouse, Shenzhen, September 2026. Some of the team.
+                </figcaption>
+              </figure>
+            </Reveal>
+          </div>
+        </section>
+
+
 
         {/* 5. THE PLATFORM */}
         <section className="relative bg-card">
@@ -446,26 +491,18 @@ export default function Landing() {
                 Every quote is itemised. You see where every euro goes.
               </h2>
             </Reveal>
-            <Reveal delay={80}>
-              <div className="mt-12 rounded-2xl border border-accent/50 bg-card p-7 shadow-[var(--shadow-lift)] sm:p-10">
-                <div className="grid gap-8 sm:grid-cols-2">
-                  {costBlocks.map((b) => (
-                    <div key={b.label}>
-                      <p className="label-mono-up text-muted-foreground">{b.label}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-body-ink">{b.desc}</p>
-                    </div>
-                  ))}
-                </div>
-                <p className="mt-10 max-w-2xl text-base leading-relaxed text-body-ink">
-                  Service fees scale down as your order value grows. Submit a request and we quote your exact project.
-                </p>
-                <Button asChild size="xl" variant="hero" className="btn-nudge mt-8">
-                  <Link to="/pricing">
-                    View pricing <ArrowRight />
-                  </Link>
-                </Button>
-              </div>
-            </Reveal>
+            <div className="mt-12">
+              <QuoteBuildCard />
+              <p className="mt-8 max-w-2xl text-base leading-relaxed text-body-ink">
+                Service fees scale down as your order value grows. Submit a request and we quote your exact project.
+              </p>
+              <Button asChild size="xl" variant="hero" className="btn-nudge mt-6">
+                <Link to="/pricing">
+                  View pricing <ArrowRight />
+                </Link>
+              </Button>
+            </div>
+
           </div>
         </section>
 

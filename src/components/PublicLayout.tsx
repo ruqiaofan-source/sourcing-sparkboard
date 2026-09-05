@@ -2,19 +2,20 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Linkedin, Menu, X } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
-import equilinqLogo from "@/assets/equilinq-logo-optimized.webp";
-import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
+
+export const LOGO_DARK = "/brand/equilinq-logo-dark.png";
+export const LOGO_WHITE = "/brand/equilinq-logo-white.png";
 
 const navLinks = [
-  { label: "How it works", href: "/how-it-works" },
-  { label: "Customization", href: "/customization" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Insights", href: "/insights" },
-  { label: "Contact", href: "/contact" },
+  { label: "How it works", href: "/how-it-works", tablet: true },
+  { label: "Pricing", href: "/pricing", tablet: true },
+  { label: "Customization", href: "/customization", tablet: false },
+  { label: "Insights", href: "/insights", tablet: false },
 ];
 
 const PROTOTYPE_URL = "https://prototype.equilinq.eu";
 const CALENDLY_URL = "https://calendly.com/admin-equilinq/30min";
+
 
 export function PublicNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -71,28 +72,18 @@ export function PublicNavbar() {
         aria-label="Main navigation"
         className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-5 sm:px-8"
       >
-        <Link to="/" className="flex h-[60px] shrink-0 items-center gap-2.5" aria-label="Equilinq home">
-          <img
-            src={onDark ? equilinqLogoWhite : equilinqLogo}
-            alt=""
-            aria-hidden="true"
-            className="h-9 w-auto object-contain"
-            loading="eager"
-            decoding="sync"
-          />
-          <span
-            className={`font-display text-[1.4rem] font-medium leading-none tracking-[0.13em] ${
-              onDark ? "text-white" : "text-foreground"
-            }`}
-          >
-            EQUILINQ
-          </span>
+        <Link to="/" className="flex h-[60px] shrink-0 items-center" aria-label="Equilinq home">
+          <BrandLogo className="h-[60px]" onDark={onDark} eager />
         </Link>
 
 
-        <div className="hidden items-center gap-7 md:flex">
+        <div className="hidden items-center gap-9 md:flex">
           {navLinks.map((link) => (
-            <Link key={link.href} to={link.href} className={linkClass(location.pathname.startsWith(link.href))}>
+            <Link
+              key={link.href}
+              to={link.href}
+              className={`${linkClass(location.pathname.startsWith(link.href))} ${link.tablet ? "" : "hidden lg:inline-block"}`}
+            >
               {link.label}
             </Link>
           ))}
@@ -105,7 +96,7 @@ export function PublicNavbar() {
         <div className="hidden items-center gap-4 md:flex">
           <Link
             to="/auth"
-            className={`text-base transition-colors ${onDark ? "text-white/80 hover:text-white" : "text-muted-foreground hover:text-primary-deep"}`}
+            className={`text-sm transition-colors ${onDark ? "text-white/70 hover:text-white" : "text-muted-foreground hover:text-primary-deep"}`}
           >
             Log in
           </Link>
@@ -121,7 +112,7 @@ export function PublicNavbar() {
           onClick={() => setMobileOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
-          className={`flex h-11 w-11 items-center justify-center rounded-md border md:hidden ${
+          className={`flex h-11 w-11 items-center justify-center rounded-md border lg:hidden ${
             onDark ? "border-white/25 text-white" : "border-border text-foreground"
           }`}
         >
@@ -130,7 +121,7 @@ export function PublicNavbar() {
       </nav>
 
       {mobileOpen && (
-        <div className="border-t border-border bg-background/95 backdrop-blur-xl md:hidden">
+        <div className="border-t border-border bg-background/95 backdrop-blur-xl lg:hidden">
           <div className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4 sm:px-8">
             {navLinks.map((link) => (
               <Link
@@ -141,6 +132,9 @@ export function PublicNavbar() {
                 {link.label}
               </Link>
             ))}
+            <Link to="/contact" className="rounded-lg px-2 py-3 text-lg text-foreground">
+              Contact
+            </Link>
             <a href={PROTOTYPE_URL} className="inline-flex items-center gap-1 rounded-lg px-2 py-3 text-lg text-foreground">
               Prototyping
               <ArrowUpRight className="h-4 w-4" />
@@ -148,7 +142,7 @@ export function PublicNavbar() {
             <Link to="/auth" className="rounded-lg px-2 py-3 text-lg text-muted-foreground">
               Log in
             </Link>
-            <Link to="/auth?signup=true" className="mt-2">
+            <Link to="/auth?signup=true" className="mt-2 md:hidden">
               <Button variant="hero" size="xl" className="w-full">
                 Start a request
               </Button>
@@ -156,6 +150,7 @@ export function PublicNavbar() {
           </div>
         </div>
       )}
+
     </header>
   );
 }
@@ -198,10 +193,10 @@ export function PublicFooter() {
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
           <div className="max-w-sm">
-            <div className="flex items-center gap-2.5">
-              <img src={equilinqLogoWhite} alt="" aria-hidden="true" className="h-9 w-auto object-contain" loading="lazy" />
-              <span className="font-display text-[1.4rem] font-medium leading-none tracking-[0.13em] text-white">EQUILINQ</span>
+            <div className="flex items-center">
+              <img src={LOGO_WHITE} alt="Equilinq" width={1616} height={498} className="h-[52px] w-auto object-contain" loading="lazy" />
             </div>
+
 
             <p className="mt-5 text-sm leading-relaxed text-white/80">
               Sourcing, customization, quality control and shipping from China for European brands. One counterparty,

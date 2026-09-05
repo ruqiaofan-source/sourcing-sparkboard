@@ -39,9 +39,16 @@ const contactCards = [
 
 const offices = [
   { code: "NL", city: "Netherlands", region: "European operations" },
-  { code: "CN", city: "Shenzhen", region: "China operations" },
+  {
+    code: "CN",
+    city: "Shenzhen",
+    region: "China operations",
+    image: "/team/team-tight-800.jpg",
+    imageAlt: "Equilinq sourcing agents at the warehouse in Shenzhen",
+  },
   { code: "HK", city: "Hong Kong", region: "StarIT Group HQ" },
 ];
+
 
 const faqs = [
   { q: "What's your minimum order?", a: "As low as 10 units per SKU." },
@@ -290,7 +297,20 @@ export default function Contact() {
                   {offices.map((office, i) => (
                     <Reveal key={office.city} delay={i * 60}>
                       <div className="card-hover rounded-2xl border border-border bg-card p-5 hover:border-accent/50">
+                        {"image" in office && office.image ? (
+                          <div className="mb-4 overflow-hidden rounded-2xl border border-border">
+                            <img
+                              src={office.image}
+                              alt={office.imageAlt}
+                              width={800}
+                              height={450}
+                              loading="lazy"
+                              className="block h-auto w-full object-cover"
+                            />
+                          </div>
+                        ) : null}
                         <span className="label-mono-up text-muted-foreground">{office.code}</span>
+
                         <h3 className="mt-2 text-lg font-semibold text-primary">{office.city}</h3>
                         <p className="mt-1 text-sm leading-relaxed text-body-ink">{office.region}</p>
                       </div>

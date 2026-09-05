@@ -81,7 +81,7 @@ export function SEOHead({ title, description, canonical, ogType = "website", ogI
       "@type": "Organization",
       name: "Equilinq",
       url: BASE_URL,
-      logo: `${BASE_URL}/equilinq-logo.png`,
+      logo: `${BASE_URL}/brand/equilinq-logo-dark.png`,
       description: "End-to-end sourcing, QC, customization and logistics from China for European SMEs.",
       email: "contact@equilinq.eu",
       foundingDate: "2024",
