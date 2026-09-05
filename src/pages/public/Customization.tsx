@@ -244,21 +244,31 @@ export default function Customization() {
         <section className="relative bg-card">
           <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
-            <p className="label-mono-up text-primary">{totalServices}+ services available</p>
+            <p className="label-mono-up text-primary">Customization</p>
             <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">
-              Build it your way
+              Build it your way.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-body-ink sm:text-lg">
-              Branding, packaging, quality control, and manufacturing services, all managed for you.
+              Seventy-six finishing, branding, packaging and inspection services, applied at our warehouse before your order
+              ships. Pick them when you submit a request; our agents handle the rest.
             </p>
           </div>
         </section>
 
+        {/* Pinned cycle */}
+        <section data-dark-band className="relative bg-band text-white">
+          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
+          <div className="relative">
+            <CustomizationCycle onPick={goToTab} />
+          </div>
+        </section>
+
         {/* Catalogue */}
-        <section className="relative bg-background">
+        <section id="catalogue" className="relative bg-background scroll-mt-24">
           <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-            {/* Search */}
-            <div className="relative max-w-md">
+            <p className="label-mono-up text-primary">The full catalogue</p>
+            <div className="relative mt-8 max-w-md">
+
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Search services"
