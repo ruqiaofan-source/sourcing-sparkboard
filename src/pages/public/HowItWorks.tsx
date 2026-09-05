@@ -257,14 +257,14 @@ export default function HowItWorks() {
           </span>
 
           <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.08] mb-5">
-            Your Factory,{" "}
+            From Request{" "}
             <span className="bg-gradient-to-r from-[hsl(239,100%,65%)] via-[hsl(280,80%,72%)] to-[hsl(239,100%,65%)] bg-clip-text text-transparent">
-              Your Rules
+              to Delivery
             </span>
           </h1>
 
           <p className="text-muted-foreground text-base sm:text-lg max-w-lg mx-auto leading-relaxed mb-8">
-            From factory sourcing to your doorstep. Verified suppliers, transparent quotes, multi-stage QC, and real humans managing every step.
+            Verified factories, transparent pricing, multi-stage quality control, and door-to-door delivery. All managed for you.
           </p>
 
           <div className="flex items-center justify-center gap-3 flex-wrap">
@@ -275,10 +275,11 @@ export default function HowItWorks() {
             </Link>
             <Link to="/contact">
               <Button variant="outline" size="lg" className="rounded-full border-border/40 px-8 h-11 text-sm">
-                Book a Demo
+                Talk to Us
               </Button>
             </Link>
           </div>
+
         </motion.div>
       </section>
 
