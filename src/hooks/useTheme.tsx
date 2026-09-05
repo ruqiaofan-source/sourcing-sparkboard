@@ -7,7 +7,7 @@ interface ThemeContextType {
   toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContextType>({ theme: "dark", toggleTheme: () => {} });
+const ThemeContext = createContext<ThemeContextType>({ theme: "light", toggleTheme: () => {} });
 
 export const useTheme = () => useContext(ThemeContext);
 
@@ -18,9 +18,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (typeof window !== "undefined") {
       localStorage.removeItem("equilinq-theme");
       const stored = localStorage.getItem(THEME_KEY) as Theme | null;
-      return (stored === "dark" || stored === "light") ? stored : "dark";
+      return (stored === "dark" || stored === "light") ? stored : "light";
     }
-    return "dark";
+    return "light";
   });
 
   useEffect(() => {
