@@ -6,8 +6,8 @@ import { useRole } from "@/hooks/useRole";
 import { useTheme } from "@/hooks/useTheme";
 import { useUnreadMessagesTotal } from "@/hooks/useUnreadMessagesTotal";
 import { motion } from "framer-motion";
-import equilinqLogo from "@/assets/equilinq-logo-optimized.webp";
-import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
+const equilinqLogo = "/brand/equilinq-logo-dark.png";
+const equilinqLogoWhite = "/brand/equilinq-logo-white.png";
 import {
   Sidebar,
   SidebarContent,
@@ -65,7 +65,7 @@ export function AppSidebar() {
         <div className="w-full">
           {/* Logo */}
           <div className="pt-6 pb-4 flex flex-col items-center border-b border-border/30 w-full px-2">
-            <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-10 w-10 rounded-lg object-cover" />
+            <img src={theme === "dark" ? equilinqLogoWhite : equilinqLogo} alt="Equilinq" className="h-8 w-auto object-contain" />
             <span className="mt-2 inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary">
               Beta
             </span>

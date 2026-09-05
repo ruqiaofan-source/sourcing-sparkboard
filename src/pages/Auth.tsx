@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
-import equilinqLogo from "@/assets/equilinq-logo-optimized.webp";
-import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
+import { LOGO_DARK as equilinqLogo, LOGO_WHITE as equilinqLogoWhite } from "@/components/PublicLayout";
 
 const loginGreetings = [
   "Welcome back",
@@ -31,11 +30,8 @@ const loginGreetings = [
 const getRandomGreeting = () =>
   loginGreetings[Math.floor(Math.random() * loginGreetings.length)];
 
-const features = [
-  { label: "Verified factories", desc: "Direct access to vetted manufacturers" },
-  { label: "End-to-end logistics", desc: "Shipping, customs and delivery handled" },
-  { label: "Quality guaranteed", desc: "Multi-stage inspection process" },
-];
+const TEAM_TIGHT = "/team/team-tight-1200.jpg";
+
 
 const inputClass =
   "h-11 rounded-[0.75rem] border-border bg-card text-foreground placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring";
@@ -172,17 +168,20 @@ const AuthPage = () => {
           </p>
         </div>
 
-        <div className="relative grid gap-4">
-          {features.map((f) => (
-            <div key={f.label} className="flex items-start gap-4 rounded-2xl border border-white/12 bg-white/[0.04] p-5">
-              <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-white" />
-              <div>
-                <p className="text-sm font-semibold text-white">{f.label}</p>
-                <p className="mt-1 text-sm leading-relaxed text-white/70">{f.desc}</p>
-              </div>
-            </div>
-          ))}
+        <div className="relative">
+          <div className="overflow-hidden rounded-2xl border border-white/15">
+            <img
+              src={TEAM_TIGHT}
+              alt="Equilinq sourcing agents at the warehouse in Shenzhen"
+              width={1200}
+              height={675}
+              loading="lazy"
+              className="block h-auto w-full object-cover"
+            />
+          </div>
+          <p className="label-mono mt-3 text-white/60">Your agents in Shenzhen</p>
         </div>
+
       </div>
 
       {/* Right panel, form */}
