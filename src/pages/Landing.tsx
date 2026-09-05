@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
-import { ArrowRight, CheckCircle2, ShieldCheck, DollarSign, Globe } from "lucide-react";
+import { ArrowRight, CheckCircle2, ShieldCheck, DollarSign, Globe, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { useTheme } from "@/hooks/useTheme";
@@ -170,6 +170,87 @@ function MagneticButton({ children, className = "" }: { children: React.ReactNod
 
 /* ──────────────────── SOCIAL PROOF (kept inline -- above fold for SEO) ──────────────────── */
 
+const testimonials = [
+  {
+    name: "Hammad Ahmed",
+    role: "CEO Longlive",
+    quote: "I worked with Equilinq Team on the potential procurement of a vascular Doppler. Through out the process , Team spent time to understand our requirement and matched us to the right manufacturers. The process was efficient and transparent at each step.",
+  },
+  {
+    name: "Marian Leenman",
+    role: "NGO Strategic Buyer",
+    quote: "I enjoyed the service from Equilinq. They helped me source the products I needed, and it was much cheaper than other platforms. They also assisted with communication in Chinese. When one of the products was out of stock, they immediately found another supplier who sold the same item. Their inspection service was also really helpful, they checked every package and identified defects beforehand, so I didn't have to worry about quality issues. Lastly, their delivery was efficient. They designed the optimal route and delivered directly to my house. It was a nice experience.",
+  },
+  {
+    name: "Sultan Tuleugali",
+    role: "Porsche Strategic Buyer",
+    quote: "We had issues with defective units in the past when ordering from Alibaba directly.\n\nThis time they did inspection before shipment and found a small issue with stitching on about 8% of the batch. It was corrected before shipping.\n\nThat alone saved us a lot of headache. Not perfect but much more reliable.",
+  },
+  {
+    name: "Henry",
+    role: "Amazon Reseller",
+    quote: "Service was good! We had some problems with tech things sourcing from oher countries and also china ourselves. Regarding Ar glasses its always a hard one to do because some components were always made very cheaply. Equilinq was helpful becuase they got us a good factory and the per unit price was lower than our orginial supplier. Also was nice they are also based in Amsterdam and were able to reply qucikly. Would recommend",
+  },
+  {
+    name: "Ari",
+    role: "Sustainable Yoga Mats",
+    quote: "We worked with Equilinq to source sustainable yoga mats and honestly it went much smoother then we expected.\n\nAt first we weren't sure how complicated sourcing from China would be, but they explained everything very clearly and broke down the costs in a way that actually made sense. The communication was fast and they always replied when we had questions (even small ones).\n\nWhat we really liked was the transparancy. There were no \"surprise\" fees and they showed us different factory options instead of pushing just one. That made us feel more in control of the decision.\n\nShipping and coordination also went well and overall it just felt structured and professional, but still personal.\n\nWould definitely consider working with them again.",
+  },
+];
+
+function TestimonialCarousel() {
+  const [index, setIndex] = useState(0);
+  const total = testimonials.length;
+  const go = (dir: number) => setIndex((i) => (i + dir + total) % total);
+  const t = testimonials[index];
+
+  return (
+    <div className="relative mb-8">
+      <motion.div
+        key={t.name}
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        className="relative rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-7 sm:p-9 overflow-hidden max-w-3xl mx-auto"
+      >
+        <div className="flex gap-0.5 mb-4">
+          {[...Array(5)].map((_, s) => (
+            <svg key={s} className="h-4 w-4 text-[#00b67a]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+          ))}
+        </div>
+        <p className="text-sm sm:text-[15px] text-foreground/80 leading-relaxed mb-6 whitespace-pre-line">"{t.quote}"</p>
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 rounded-full bg-[#00b67a]/20 flex items-center justify-center text-xs font-bold text-[#00b67a]">{t.name.charAt(0)}</div>
+          <div>
+            <p className="text-sm font-semibold text-foreground">{t.name}</p>
+            <p className="text-xs text-muted-foreground">{t.role} · via Trustpilot</p>
+          </div>
+        </div>
+      </motion.div>
+
+      <div className="flex items-center justify-center gap-4 mt-6">
+        <button onClick={() => go(-1)} aria-label="Previous testimonial" className="h-9 w-9 rounded-full border border-border/50 bg-card/40 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors">
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <div className="flex items-center gap-2">
+          {testimonials.map((item, i) => (
+            <button
+              key={item.name}
+              onClick={() => setIndex(i)}
+              aria-label={`Show testimonial from ${item.name}`}
+              className={`h-2 rounded-full transition-all ${i === index ? "w-6 bg-primary" : "w-2 bg-border"}`}
+            />
+          ))}
+        </div>
+        <button onClick={() => go(1)} aria-label="Next testimonial" className="h-9 w-9 rounded-full border border-border/50 bg-card/40 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors">
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
 function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_count: number; average_rating: number } | null }) {
   const tpRating = trustpilotStats?.average_rating ?? 4.0;
   const tpCount = trustpilotStats?.review_count ?? 5;
@@ -214,33 +295,8 @@ function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_co
           </a>
         </motion.div>
 
-        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {[
-            { quote: "Service was good! Equilinq got us a good factory and the per unit price was lower than our original supplier. Also was nice they are also based in Amsterdam and were able to reply quickly.", name: "AR Glasses Buyer", stars: 5, title: "AR glasses" },
-            { quote: "They helped me source the products I needed, and it was much cheaper than other platforms. Their inspection service was really helpful, they checked every package and identified defects beforehand.", name: "Verified Buyer", stars: 5, title: "Great sourcing experience" },
-            { quote: "We weren't sure how complicated sourcing from China would be, but they explained everything clearly. There were no surprise fees and they showed us different factory options instead of pushing just one.", name: "Ari", stars: 5, title: "Sustainable Yoga Mats" },
-          ].map((t) => (
-            <motion.div key={t.title} variants={fadeUp} whileHover={{ y: -8, scale: 1.03, boxShadow: "0 20px 60px -15px hsl(239 100% 60% / 0.2)" }} className="relative rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-7 transition-all duration-300 overflow-hidden group">
-              <motion.div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--chart-2) / 0.1), hsl(var(--primary) / 0.08))" }} />
-              <div className="relative z-10">
-                <div className="flex gap-0.5 mb-3">
-                  {[...Array(t.stars)].map((_, s) => (
-                    <svg key={s} className="h-4 w-4 text-[#00b67a]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                  ))}
-                </div>
-                <h3 className="text-sm font-semibold text-foreground mb-2">{t.title}</h3>
-                <p className="text-sm text-foreground/80 leading-relaxed mb-5">"{t.quote}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="h-8 w-8 rounded-full bg-[#00b67a]/20 flex items-center justify-center text-xs font-bold text-[#00b67a]">{t.name.charAt(0)}</div>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                    <p className="text-xs text-muted-foreground">via Trustpilot</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+        <TestimonialCarousel />
+
 
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
           <a href="https://www.trustpilot.com/review/equilinq.eu" target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline font-medium">
@@ -387,7 +443,7 @@ export default function Landing() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="text-center mb-14">
             <motion.div initial={{ opacity: 0, scale: 0.8, y: -10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 250 }} className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6">
               <motion.span className="h-2 w-2 rounded-full bg-primary" animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} />
-              <span className="text-xs sm:text-sm font-semibold text-primary tracking-wide">Incorporated with one of Tencent's founders</span>
+              <span className="text-xs sm:text-sm font-semibold text-primary tracking-wide">Backed by one of the founding shareholders of Tencent Holdings.</span>
             </motion.div>
 
             <motion.h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }}>
@@ -435,15 +491,16 @@ export default function Landing() {
           <motion.div initial={{ opacity: 1, y: 0, scale: 1 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
             <motion.div whileHover={{ scale: 1.015, y: -6 }} transition={{ type: "spring", stiffness: 200, damping: 25 }} className="relative rounded-2xl border border-border/30 overflow-hidden shadow-2xl shadow-black/50 hover:shadow-[0_20px_80px_-20px_hsl(var(--primary)/0.3)] transition-shadow duration-700">
               <motion.div className="absolute -inset-[2px] rounded-2xl pointer-events-none z-20" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.3), transparent 40%, transparent 60%, hsl(260 80% 68% / 0.2))" }} animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
-              <img
-                src={dashboardPreviewWebp}
-                srcSet={`${dashboardPreview1024} 1024w, ${dashboardPreviewWebp} 1920w`}
-                sizes="(max-width: 1024px) 100vw, 1024px"
-                alt="Equilinq sourcing platform dashboard showing sourcing requests and order management"
-                width={1920}
-                height={1080}
-                className="w-full h-auto object-cover block rounded-2xl"
-                fetchPriority="high"
+              <video
+                src="/videos/area-demo.mp4"
+                poster={dashboardPreviewWebp}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-label="Equilinq sourcing platform dashboard walkthrough"
+                className="w-full h-auto object-cover object-top block rounded-2xl"
               />
               <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background via-background/80 to-transparent" />
               <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background/40 to-transparent" />
@@ -451,7 +508,7 @@ export default function Landing() {
               <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background/30 to-transparent" />
               <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 1.2 }} className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-full bg-card/80 backdrop-blur-md border border-border/40 px-3 py-1.5">
                 <motion.span className="h-2 w-2 rounded-full bg-[hsl(142_71%_45%)]" animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }} transition={{ duration: 2, repeat: Infinity }} />
-                <span className="text-[11px] text-muted-foreground font-medium">Platform Preview</span>
+                <span className="text-[11px] text-muted-foreground font-medium">Live Platform Preview</span>
               </motion.div>
             </motion.div>
           </motion.div>
@@ -469,8 +526,8 @@ export default function Landing() {
           <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <AnimatedCounter value="200+" label="Countries Shipped" />
             <AnimatedCounter value="500+" label="Vetted Factories" />
-            <AnimatedCounter value="10" label="Units Min. Order" />
-            <AnimatedCounter value="<2%" label="Defect Rate" />
+            <AnimatedCounter value="10" label="Minimum MOQ" />
+            <AnimatedCounter value="98%" label="QC Pass Rate" />
           </motion.div>
         </div>
       </section>

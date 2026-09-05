@@ -112,9 +112,9 @@ export default function LandingFAQ() {
             viewport={{ once: true }}
             className="text-sm font-bold uppercase tracking-[0.2em] text-primary mb-4 block"
           >
-            FAQ's Section
+            FAQ
           </motion.span>
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">Common FAQ's</h2>
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground">Common Questions</h2>
           <p className="text-muted-foreground mt-3">Get answers to your questions and learn about our platform</p>
         </motion.div>
 

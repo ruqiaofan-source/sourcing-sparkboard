@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Menu, X, ChevronDown, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck } from "lucide-react";
+import { ArrowRight, Menu, X, ChevronDown, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, Sun, Moon } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/hooks/useTheme";
@@ -32,7 +32,7 @@ export function PublicNavbar() {
   const [mobileCustomizationOpen, setMobileCustomizationOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -208,6 +208,13 @@ export function PublicNavbar() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            className="h-8 w-8 rounded-full flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-black/5 transition-colors"
+          >
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
           <Link to="/auth" className="hidden lg:block">
             <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-base">
               Login
@@ -310,6 +317,15 @@ export function PublicNavbar() {
                   </Link>
                 )
               )}
+              <a
+                href="https://calendly.com/admin-equilinq/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileOpen(false)}
+                className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2.5 px-1"
+              >
+                Book a Call
+              </a>
               <div className="border-t border-border pt-3 mt-2 flex gap-3">
                 <Link to="/auth" onClick={() => setMobileOpen(false)} className="flex-1">
                   <Button variant="outline" size="sm" className="w-full rounded-full">Login</Button>
@@ -375,7 +391,7 @@ export function PublicFooter() {
               <Link to="/insights" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Insights & Blog</Link>
               <Link to="/sourcing-guide" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Sourcing Guide</Link>
               <Link to="/contact" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link>
-              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Book a Demo</a>
+              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Book a Call</a>
               <Link to="/auth?signup=true" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Get Started</Link>
             </nav>
           </div>
