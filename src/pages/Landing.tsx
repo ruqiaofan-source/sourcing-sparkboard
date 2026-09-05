@@ -4,7 +4,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Reveal } from "@/components/Reveal";
-import { HeroVideo } from "@/components/landing/HeroVideo";
+import { HeroStack } from "@/components/landing/HeroStack";
 import { ScrollHint } from "@/components/landing/ScrollHint";
 import { ProductCycle } from "@/components/landing/ProductCycle";
 import { QuoteBuildCard } from "@/components/landing/QuoteBuildCard";
@@ -137,11 +137,9 @@ export default function Landing() {
       <main>
         {/* 1. HERO */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <HeroVideo
-            className="hero-veil pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] lg:block"
-            mediaClassName="translate-x-[7%] scale-110"
-            alt="Exploded view of a product packaging stack: mailer bag, card, product, tissue, foam insert, rigid box and shipping carton"
-          />
+          <div className="hero-veil pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] items-center lg:flex">
+            <HeroStack className="translate-x-[7%] scale-110" />
+          </div>
 
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-24 sm:pt-40">
             <div className="max-w-[38.75rem] lg:max-w-[45%]">
@@ -185,13 +183,13 @@ export default function Landing() {
             <div className="mt-12 hidden justify-center lg:flex">
               <ScrollHint />
             </div>
-          </div>
 
-          <HeroVideo
-            className="hero-veil relative h-56 w-full overflow-hidden sm:h-72 lg:hidden"
-            alt="Exploded view of a product packaging stack on a black background"
-          />
+            <div className="mx-auto mt-10 max-w-[20rem] lg:hidden">
+              <HeroStack />
+            </div>
+          </div>
         </section>
+
 
         {/* 2. TWO DOORS, compact */}
         <section className="relative bg-card">
