@@ -63,7 +63,7 @@ function PinnedCycle({ descriptions, hrefs }: ProductCycleProps) {
   const fill = `${((active + 1) / steps.length) * 100}%`;
 
   return (
-    <div ref={trackRef} className="relative hidden md:block" style={{ height: `${steps.length * 100}svh` }}>
+    <div ref={trackRef} className="relative hidden lg:block" style={{ height: `${steps.length * 100}svh` }}>
       <div className="sticky top-0 flex h-[100svh] items-center">
         <div className="mx-auto grid w-full max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
           <div>
@@ -214,7 +214,7 @@ export function ProductCycle({ descriptions, hrefs }: ProductCycleProps = {}) {
   return (
     <>
       <PinnedCycle descriptions={descriptions} hrefs={hrefs} />
-      <StackedCycle className="md:hidden" descriptions={descriptions} hrefs={hrefs} />
+      <StackedCycle className="lg:hidden" descriptions={descriptions} hrefs={hrefs} />
     </>
   );
 }

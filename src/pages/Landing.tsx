@@ -15,6 +15,7 @@ import logoSoleRunning from "@/assets/logos/sole-running-cutout.png";
 import logoLKK from "@/assets/logos/lkk-cutout.png";
 import logoIMMO from "@/assets/logos/immo-cutout.png";
 import logoBuckyDrop from "@/assets/logos/buckydrop-cutout.png";
+import logoPorsche from "@/assets/logos/porsche-cutout.png";
 
 const CALENDLY = "https://calendly.com/admin-equilinq/30min";
 const PROTOTYPE = "https://prototype.equilinq.eu";
@@ -60,6 +61,7 @@ const reviews = [
 const partners = [
   { src: logoLKK, alt: "LKK Design" },
   { src: logoBuckyDrop, alt: "BuckyDrop" },
+  { src: logoPorsche, alt: "Porsche" },
   { src: logoSoleRunning, alt: "Sole Running" },
   { src: logoIMMO, alt: "Stichting iMMO" },
 ];
@@ -138,7 +140,7 @@ export default function Landing() {
         {/* 1. HERO */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
           <div className="hero-veil pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] items-center lg:flex">
-            <HeroStack className="translate-x-[7%] scale-110" />
+            <HeroStack className="xl:translate-x-[7%] xl:scale-110" />
           </div>
 
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-24 sm:pt-40">
@@ -358,14 +360,22 @@ export default function Landing() {
 
             <Reveal>
               <div className="mt-16">
-                <p className="label-mono text-muted-foreground">Partners and clients we may name</p>
-                <div className="mt-6 flex flex-wrap items-center gap-10">
+                <p className="label-mono text-center text-muted-foreground">Partners and clients we may name</p>
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 sm:gap-x-14">
                   {partners.map((p) => (
-                    <img key={p.alt} src={p.src} alt={p.alt} loading="lazy" className="h-10 w-auto max-w-[150px] object-contain" />
+                    <img
+                      key={p.alt}
+                      src={p.src}
+                      alt={p.alt}
+                      loading="lazy"
+                      className="h-[22px] w-auto max-w-[140px] object-contain opacity-55 transition-opacity duration-300 hover:opacity-90 sm:h-7 dark:invert"
+                      style={{ filter: "grayscale(1) brightness(0)" }}
+                    />
                   ))}
                 </div>
               </div>
             </Reveal>
+
           </div>
         </section>
 

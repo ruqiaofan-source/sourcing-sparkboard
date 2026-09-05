@@ -79,7 +79,7 @@ export function PublicNavbar() {
         </Link>
 
 
-        <div className="hidden items-center gap-9 md:flex">
+        <div className="hidden items-center gap-9 lg:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -95,7 +95,7 @@ export function PublicNavbar() {
           </a>
         </div>
 
-        <div className="hidden items-center gap-4 md:flex">
+        <div className="hidden items-center gap-4 lg:flex">
           <Link
             to="/auth"
             className={`text-sm transition-colors ${onDark ? "text-white/70 hover:text-white" : "text-muted-foreground hover:text-primary-deep"}`}
@@ -144,7 +144,7 @@ export function PublicNavbar() {
             <Link to="/auth" className="rounded-lg px-2 py-3 text-lg text-muted-foreground">
               Log in
             </Link>
-            <Link to="/start" className="mt-2 md:hidden">
+            <Link to="/start" className="mt-2">
               <Button variant="hero" size="xl" className="w-full">
                 Get a free quote
               </Button>

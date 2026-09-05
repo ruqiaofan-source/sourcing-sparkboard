@@ -93,7 +93,7 @@ function PinnedCycle({ onPick }: { onPick: (slug: string) => void }) {
   return (
     <div
       ref={trackRef}
-      className="relative hidden md:block"
+      className="relative hidden lg:block"
       style={{ height: `${customizationSteps.length * 100}svh` }}
     >
       <div className="sticky top-0 flex h-[100svh] items-center">
@@ -162,7 +162,7 @@ function StackedCycle({ className, onPick }: { className?: string; onPick: (slug
                   See the {s.count} services
                 </button>
               </div>
-              <Stage step={s} className="mt-4" />
+              <Stage step={s} className="mt-4 mx-auto max-w-[22rem] sm:max-w-[26rem]" />
               <StepMeta step={s} />
             </div>
           ))}
@@ -188,7 +188,7 @@ export function CustomizationCycle({ onPick }: { onPick: (slug: string) => void 
   return (
     <>
       <PinnedCycle onPick={onPick} />
-      <StackedCycle className="md:hidden" onPick={onPick} />
+      <StackedCycle className="lg:hidden" onPick={onPick} />
     </>
   );
 }
