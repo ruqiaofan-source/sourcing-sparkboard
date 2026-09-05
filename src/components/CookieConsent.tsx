@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
 import { Cookie } from "lucide-react";
 
 const CONSENT_KEY = "cookie_consent";
@@ -28,19 +27,14 @@ export function CookieConsent() {
     setVisible(false);
   };
 
+  if (!visible) return null;
+
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 sm:max-w-sm z-50"
-        >
-          <div className="rounded-xl border border-border bg-card p-5 shadow-[var(--shadow-lift)]">
+    <div className="fixed bottom-4 left-4 right-4 z-50 sm:bottom-6 sm:left-auto sm:right-6 sm:max-w-sm">
+      <div>
+          <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-lift)]">
             <div className="flex items-start gap-3 mb-3">
-              <div className="h-8 w-8 rounded-lg bg-secondary flex items-center justify-center shrink-0 mt-0.5">
+              <div className="h-8 w-8 rounded-xl bg-background border border-border flex items-center justify-center shrink-0 mt-0.5">
                 <Cookie className="h-4 w-4 text-primary" />
               </div>
               <div>
@@ -71,8 +65,7 @@ export function CookieConsent() {
             </div>
           </div>
 
-        </motion.div>
-      )}
-    </AnimatePresence>
+      </div>
+    </div>
   );
 }
