@@ -7,7 +7,7 @@ export default function Privacy() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEOHead
-        title="Privacy Policy - Equilinq"
+        title="Privacy Policy - How Equilinq Protects Your Data"
         description="Learn how Equilinq collects, uses, discloses, and protects your personal information."
         keywords="privacy policy, data protection, GDPR, personal information, Equilinq"
         breadcrumbs={[
@@ -158,8 +158,9 @@ export default function Privacy() {
           <p>When we make changes, we will revise the "Last updated" date at the top of this page. Material changes may be communicated through the website or by other appropriate means.</p>
           <p>We encourage you to review this Privacy Policy periodically to stay informed about how we protect your information.</p>
 
-          <h2 id="contact-us">9. Contact Us</h2>
+          <h2 id="contact-us">Contact Us</h2>
           <p>If you have any questions about this Privacy Policy, our data practices, or your personal information, you may contact us at:</p>
+          <p><strong>Website:</strong> <a href="https://equilinq.eu" className="text-primary hover:underline">equilinq.eu</a></p>
           <p><strong>Email:</strong> <a href="mailto:contact@equilinq.eu" className="text-primary hover:underline">contact@equilinq.eu</a></p>
           <p>We will respond to inquiries within a reasonable timeframe and in accordance with applicable data protection laws.</p>
         </article>
