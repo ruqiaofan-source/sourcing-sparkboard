@@ -358,14 +358,22 @@ export default function Landing() {
 
             <Reveal>
               <div className="mt-16">
-                <p className="label-mono text-muted-foreground">Partners and clients we may name</p>
-                <div className="mt-6 flex flex-wrap items-center gap-10">
+                <p className="label-mono text-center text-muted-foreground">Partners and clients we may name</p>
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 sm:gap-x-14">
                   {partners.map((p) => (
-                    <img key={p.alt} src={p.src} alt={p.alt} loading="lazy" className="h-10 w-auto max-w-[150px] object-contain" />
+                    <img
+                      key={p.alt}
+                      src={p.src}
+                      alt={p.alt}
+                      loading="lazy"
+                      className="h-[22px] w-auto max-w-[140px] object-contain opacity-55 transition-opacity duration-300 hover:opacity-90 sm:h-7"
+                      style={{ filter: "grayscale(1) brightness(0)" }}
+                    />
                   ))}
                 </div>
               </div>
             </Reveal>
+
           </div>
         </section>
 
