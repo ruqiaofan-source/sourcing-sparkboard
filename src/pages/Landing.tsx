@@ -1,14 +1,13 @@
+import { useEffect, useState } from "react";
 import { SEOHead } from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Reveal } from "@/components/Reveal";
-import { HeroStack } from "@/components/landing/HeroStack";
 import { ScrollHint } from "@/components/landing/ScrollHint";
 import { ProductCycle } from "@/components/landing/ProductCycle";
 import { QuoteBuildCard } from "@/components/landing/QuoteBuildCard";
-import { CompareTable } from "@/components/landing/CompareTable";
 import { FaqList } from "@/components/FaqList";
 import { homeFaqs } from "@/data/homeFaqs";
 import logoSoleRunning from "@/assets/logos/sole-running-cutout.png";
@@ -74,6 +73,17 @@ const checkable = [
 ];
 
 export default function Landing() {
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [expanded, setExpanded] = useState<string[]>([]);
+
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(query.matches);
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-clip">
       <SEOHead
