@@ -1,11 +1,14 @@
-import { motion, AnimatePresence, useInView } from "framer-motion";
 import { SEOHead } from "@/components/SEOHead";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import { Reveal } from "@/components/Reveal";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, CheckCircle2, Search, X } from "lucide-react";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, Search, X } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
+
+const CALENDLY = "https://calendly.com/admin-equilinq/30min";
+
 
 /* ──────── Service categories with items ──────── */
 
