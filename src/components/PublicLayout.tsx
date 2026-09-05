@@ -4,6 +4,7 @@ import { ArrowRight, Menu, X, ChevronDown, Tag, Package, Shirt, Camera, Box, Lay
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/hooks/useTheme";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import equilinqLogo from "@/assets/equilinq-logo-optimized.webp";
 import equilinqLogoWhite from "@/assets/equilinq-logo-white-optimized.webp";
 
@@ -208,6 +209,7 @@ export function PublicNavbar() {
         </div>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           <Link to="/auth" className="hidden lg:block">
             <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 rounded-full text-base">
               Login
