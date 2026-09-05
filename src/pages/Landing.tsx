@@ -139,15 +139,37 @@ export default function Landing() {
       <main>
         {/* 1. HERO */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
-          <div className="hero-veil pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] items-center lg:flex">
-            <HeroStack className="xl:translate-x-[7%] xl:scale-110" />
+          <div className="pointer-events-none absolute inset-0">
+            {reducedMotion ? (
+              <img
+                src="/hero/hero-poster.jpg"
+                alt=""
+                aria-hidden="true"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/hero/hero-poster.jpg"
+                aria-hidden="true"
+                className="h-full w-full object-cover"
+              >
+                <source src="/hero/hero-loop.webm" type="video/webm" />
+                <source src="/hero/hero-loop.mp4" type="video/mp4" />
+              </video>
+            )}
+            <div className="hero-media-veil absolute inset-0" />
           </div>
 
           <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-24 sm:pt-40">
-            <div className="max-w-[38.75rem] lg:max-w-[45%]">
+            <div className="max-w-[40rem] text-left">
               <Reveal>
                 <span className="label-mono-up inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-white/60 backdrop-blur">
-                  Sourcing and quality control, powered by Shenzhen
+                  Sourcing and quality control from Shenzhen
                 </span>
               </Reveal>
               <Reveal delay={80}>
@@ -158,15 +180,15 @@ export default function Landing() {
               </Reveal>
               <Reveal delay={160}>
                 <p className="mt-5 max-w-[36rem] text-base leading-relaxed text-white/85 sm:text-lg">
-                  One named agent, one itemised quote, no fee until you order. For European brands ordering from 10 units: verified
-                  factories, samples first, inspection with photo proof, customs documents handled, delivered to your door.
+                  One named agent, one itemised quote, no fee until you order. Verified factories, samples first and
+                  inspection with photo proof, from 10 units.
                 </p>
               </Reveal>
               <Reveal delay={240}>
                 <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                   <Button asChild size="xl" variant="hero" className="btn-nudge bg-white bg-none text-primary-deep hover:bg-white">
                     <Link to="/start">
-                      Get a free itemised quote <ArrowRight />
+                      Get a free quote <ArrowRight />
                     </Link>
                   </Button>
                   <Button asChild size="xl" variant="onDark">
@@ -177,20 +199,17 @@ export default function Landing() {
                 </div>
               </Reveal>
               <p className="label-mono-up mt-10 text-white/60">
-                Hong Kong entity, contracts you can read · Team in Amsterdam and Shenzhen · Backed by one of the founding shareholders of
-                Tencent Holdings.
+                Hong Kong entity · Team in Amsterdam and Shenzhen · Backed by one of the founding shareholders of Tencent
+                Holdings.
               </p>
             </div>
 
             <div className="mt-12 hidden justify-center lg:flex">
               <ScrollHint />
             </div>
-
-            <div className="mx-auto mt-10 max-w-[20rem] lg:hidden">
-              <HeroStack />
-            </div>
           </div>
         </section>
+
 
 
         {/* 2. TWO DOORS, compact */}
