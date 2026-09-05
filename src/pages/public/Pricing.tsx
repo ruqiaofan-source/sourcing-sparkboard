@@ -111,7 +111,7 @@ export default function Pricing() {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
-              Zero Markup,
+              Transparent Pricing,
               <br />
               <span
                 className="bg-clip-text text-transparent"
@@ -119,7 +119,7 @@ export default function Pricing() {
                   backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))",
                 }}
               >
-                Zero Guesswork
+                Tailored to Your Order
               </span>
             </motion.h1>
             <motion.p
@@ -143,7 +143,7 @@ export default function Pricing() {
             <h2 className="font-heading text-2xl font-semibold text-foreground mb-6 text-center">How It Works</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { step: "01", title: "Submit Your Request", desc: "Tell us what you need — product, quantity, specs, and budget." },
+                { step: "01", title: "Submit Your Request", desc: "Tell us what you need -- product, quantity, specs, and budget." },
                 { step: "02", title: "Receive Your Breakdown", desc: "Get a fully itemized quote with every cost line visible." },
                 { step: "03", title: "Decide With Clarity", desc: "No obligation. Review, compare, and accept when ready." },
               ].map((item) => (
@@ -290,7 +290,7 @@ export default function Pricing() {
             className="text-center py-16"
           >
             <h2 className="font-heading text-3xl font-bold text-foreground mb-4">Ready to See Your Exact Pricing?</h2>
-            <p className="text-muted-foreground mb-8 max-w-md mx-auto">Submit a sourcing request and receive a detailed, no-obligation quote in around 5 days.</p>
+            <p className="text-muted-foreground mb-8 max-w-md mx-auto">Submit a sourcing request and receive a detailed, no-obligation quote within 48 hours.</p>
             <div className="flex items-center justify-center gap-4 flex-wrap">
               <Link to="/auth?signup=true">
                 <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
@@ -303,7 +303,7 @@ export default function Pricing() {
               <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
                 <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
                   <Button variant="outline" size="lg" className="rounded-full border-border/60 px-8 h-12 text-base">
-                    Book a Demo
+                    Book a Call
                   </Button>
                 </motion.div>
               </a>
