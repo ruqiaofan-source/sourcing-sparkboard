@@ -58,6 +58,7 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -376,6 +377,23 @@ const AuthPage = () => {
                     </div>
                   )}
 
+                  {!isSignUp && !isForgotPassword && (
+                    <div className="flex items-center justify-between">
+                      <label className="flex items-center gap-2 text-xs text-muted-foreground cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={rememberMe}
+                          onChange={(e) => setRememberMe(e.target.checked)}
+                          className="h-3.5 w-3.5 rounded border-border accent-primary"
+                        />
+                        Remember me
+                      </label>
+                      <button type="button" onClick={() => setIsForgotPassword(true)} className="text-xs text-muted-foreground hover:text-primary transition-colors">
+                        Forgot password?
+                      </button>
+                    </div>
+                  )}
+
                   <Button type="submit" disabled={loading} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium rounded-full h-11">
                     {loading ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -386,14 +404,6 @@ const AuthPage = () => {
                       </>
                     )}
                   </Button>
-
-                  {!isSignUp && !isForgotPassword && (
-                    <div className="text-right">
-                      <button type="button" onClick={() => setIsForgotPassword(true)} className="text-xs text-muted-foreground hover:text-primary transition-colors">
-                        Forgot password?
-                      </button>
-                    </div>
-                  )}
                 </form>
 
                 {!isForgotPassword && (
