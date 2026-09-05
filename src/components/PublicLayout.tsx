@@ -32,7 +32,7 @@ export function PublicNavbar() {
   const [mobileCustomizationOpen, setMobileCustomizationOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
