@@ -158,7 +158,8 @@ function PinnedCycle({ descriptions, hrefs }: ProductCycleProps) {
 }
 
 /** Mobile and reduced motion: plain list, each step followed by its artefact. */
-function StackedCycle({ className }: { className?: string }) {
+function StackedCycle({ className, descriptions, hrefs }: ProductCycleProps & { className?: string }) {
+
   const [progress, setProgress] = useState(0);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -201,12 +202,20 @@ function StackedCycle({ className }: { className?: string }) {
             />
           </div>
           <div className="mt-8 grid gap-8">
-            {steps.map((step) => (
+            {steps.map((step, i) => (
               <div key={step.n}>
                 <div className="rounded-2xl border border-white/12 bg-white/[0.04] p-5">
                   <span className="label-mono-up text-white">{step.n}</span>
                   <h3 className="mt-3 text-base font-semibold text-white">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/85">{step.desc}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-white/85">{descriptions?.[i] ?? step.desc}</p>
+                  {hrefs?.[i] && (
+                    <Link
+                      to={hrefs[i]}
+                      className="btn-nudge mt-4 inline-flex items-center gap-2 text-sm font-medium text-white"
+                    >
+                      Read this step <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  )}
                 </div>
                 <div className="mt-4 overflow-hidden rounded-2xl border border-white/12 bg-white/[0.04]">
                   <step.Artefact />
@@ -215,13 +224,13 @@ function StackedCycle({ className }: { className?: string }) {
             ))}
           </div>
         </div>
-        <ReadMore />
+        <ReadMore hrefs={hrefs} />
       </div>
     </div>
   );
 }
 
-export function ProductCycle() {
+export function ProductCycle({ descriptions, hrefs }: ProductCycleProps = {}) {
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -232,14 +241,15 @@ export function ProductCycle() {
     return () => query.removeEventListener("change", onChange);
   }, []);
 
-  if (reduced) return <StackedCycle />;
+  if (reduced) return <StackedCycle descriptions={descriptions} hrefs={hrefs} />;
 
   return (
     <>
-      <PinnedCycle />
-      <StackedCycle className="md:hidden" />
+      <PinnedCycle descriptions={descriptions} hrefs={hrefs} />
+      <StackedCycle className="md:hidden" descriptions={descriptions} hrefs={hrefs} />
     </>
   );
 }
 
 export default ProductCycle;
+
