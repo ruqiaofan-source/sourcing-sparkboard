@@ -317,6 +317,15 @@ export function PublicNavbar() {
                   </Link>
                 )
               )}
+              <a
+                href="https://calendly.com/admin-equilinq/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileOpen(false)}
+                className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2.5 px-1"
+              >
+                Book a Call
+              </a>
               <div className="border-t border-border pt-3 mt-2 flex gap-3">
                 <Link to="/auth" onClick={() => setMobileOpen(false)} className="flex-1">
                   <Button variant="outline" size="sm" className="w-full rounded-full">Login</Button>
@@ -382,7 +391,7 @@ export function PublicFooter() {
               <Link to="/insights" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Insights & Blog</Link>
               <Link to="/sourcing-guide" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Sourcing Guide</Link>
               <Link to="/contact" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link>
-              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Book a Demo</a>
+              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Book a Call</a>
               <Link to="/auth?signup=true" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Get Started</Link>
             </nav>
           </div>
