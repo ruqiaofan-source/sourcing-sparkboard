@@ -21,15 +21,17 @@ export function useSequence(count: number, stepMs = 120) {
       return;
     }
 
+    // The whole reveal must finish within 300 ms of the step becoming active.
+    const step = Math.max(8, Math.min(stepMs, 260 / Math.max(1, count)));
     let timer = 0;
     const run = () => {
       let i = 0;
       const tick = () => {
         i += 1;
         setShown(i);
-        if (i < count) timer = window.setTimeout(tick, stepMs);
+        if (i < count) timer = window.setTimeout(tick, step);
       };
-      timer = window.setTimeout(tick, 80);
+      timer = window.setTimeout(tick, 30);
     };
 
     const observer = new IntersectionObserver(

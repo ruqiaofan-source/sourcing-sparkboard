@@ -58,13 +58,26 @@ const StagePanel = ({ children }: { children: React.ReactNode }) => (
 function PinnedCycle({ descriptions, hrefs }: ProductCycleProps) {
   const { trackRef, active, goTo } = usePinnedCycle(steps.length);
 
+  const skip = () => {
+    const section = trackRef.current?.closest("section");
+    const next = section?.nextElementSibling as HTMLElement | null;
+    if (next) next.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
 
   const Artefact = steps[active].Artefact;
   const fill = `${((active + 1) / steps.length) * 100}%`;
 
   return (
-    <div ref={trackRef} className="relative hidden lg:block" style={{ height: `${steps.length * 100}svh` }}>
+    <div ref={trackRef} className="relative hidden lg:block" style={{ height: `${steps.length * 75}svh` }}>
       <div className="sticky top-0 flex h-[100svh] items-center">
+        <button
+          type="button"
+          onClick={skip}
+          className="label-mono absolute right-5 top-24 z-10 text-white/60 transition-colors hover:text-white sm:right-8"
+        >
+          Skip
+        </button>
         <div className="mx-auto grid w-full max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
           <div>
             <Header />
