@@ -7,7 +7,7 @@ export default function Cookies() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEOHead
-        title="Cookie Policy - Equilinq"
+        title="Cookie Policy - How Equilinq Uses Cookies & Tracking"
         description="Learn about the cookies and similar technologies Equilinq uses on its website."
         keywords="cookie policy, cookies, tracking, website cookies, Equilinq"
 
@@ -88,7 +88,7 @@ export default function Cookies() {
             We may update this Cookie Policy from time to time. When we make changes, we will update the "Last updated" date at the top of this page.
           </p>
 
-          <h2>Contact</h2>
+          <h2>Contact Us</h2>
           <p>
             If you have any questions about our use of cookies, please contact us at{" "}
             <a href="mailto:contact@equilinq.eu" className="text-primary hover:underline">contact@equilinq.eu</a>.

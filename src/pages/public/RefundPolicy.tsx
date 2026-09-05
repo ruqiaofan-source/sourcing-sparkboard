@@ -7,7 +7,7 @@ export default function RefundPolicy() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEOHead
-        title="Refund and Cancellation Policy - Equilinq"
+        title="Refund & Cancellation Policy | Equilinq Sourcing"
         description="How refunds and cancellations work for Orders placed through Equilinq's B2B sourcing service."
         keywords="refund policy, cancellation policy, Equilinq, B2B sourcing refunds"
         breadcrumbs={[
@@ -30,20 +30,20 @@ export default function RefundPolicy() {
           <h2>1. Order Stages</h2>
           <p>Each Order moves through the following stages:</p>
           <ol>
-            <li><strong>Quotation Stage</strong> &mdash; You have received a Quotation but have not yet confirmed or paid.</li>
-            <li><strong>Pre-Production Stage</strong> &mdash; You have paid, but production has not yet started at the supplier.</li>
-            <li><strong>Production Stage</strong> &mdash; Goods are being manufactured.</li>
-            <li><strong>Quality Control Stage</strong> &mdash; Goods are complete and undergoing inspection.</li>
-            <li><strong>Pre-Shipping Stage</strong> &mdash; Goods have passed quality control and are awaiting dispatch.</li>
-            <li><strong>Shipped</strong> &mdash; Goods have left our Fulfilment Partner's warehouse.</li>
-            <li><strong>Delivered</strong> &mdash; Goods have arrived at your specified address.</li>
+            <li><strong>Quotation Stage</strong> - You have received a Quotation but have not yet confirmed or paid.</li>
+            <li><strong>Pre-Production Stage</strong> - You have paid, but production has not yet started at the supplier.</li>
+            <li><strong>Production Stage</strong> - Goods are being manufactured.</li>
+            <li><strong>Quality Control Stage</strong> - Goods are complete and undergoing inspection.</li>
+            <li><strong>Pre-Shipping Stage</strong> - Goods have passed quality control and are awaiting dispatch.</li>
+            <li><strong>Shipped</strong> - Goods have left our Fulfilment Partner's warehouse.</li>
+            <li><strong>Delivered</strong> - Goods have arrived at your specified address.</li>
           </ol>
           <p>Your refund eligibility depends on which stage your Order is in when you request cancellation.</p>
 
-          <h2>2. Quotation Stage &mdash; Before Payment</h2>
+          <h2>2. Quotation Stage - Before Payment</h2>
           <p>You may decline or ignore a Quotation at no cost. No payment is required and no obligation is created until you confirm the Order and complete payment.</p>
 
-          <h2>3. Pre-Production Stage &mdash; After Payment, Before Production Starts</h2>
+          <h2>3. Pre-Production Stage - After Payment, Before Production Starts</h2>
           <p>If you cancel after payment but <strong>before production starts</strong>:</p>
           <ul>
             <li>You will receive a <strong>refund of the production cost paid</strong>, minus:
@@ -57,7 +57,7 @@ export default function RefundPolicy() {
           <p>We will use reasonable efforts to recover any supplier deposits already paid; refundable amounts will be returned to you once recovered.</p>
           <p>To cancel at this stage, contact us at <a href="mailto:contact@equilinq.eu" className="text-primary hover:underline">contact@equilinq.eu</a> with your Order number. We will respond within 2 business days with the refundable amount.</p>
 
-          <h2>4. Production Stage &mdash; While Goods Are Being Manufactured</h2>
+          <h2>4. Production Stage - While Goods Are Being Manufactured</h2>
           <p>Once production has started, <strong>cancellation is at the supplier's discretion</strong>. Suppliers typically do not accept cancellation of partially-produced custom goods.</p>
           <p>If cancellation is possible:</p>
           <ul>
@@ -83,10 +83,10 @@ export default function RefundPolicy() {
           <h2>6. Quality Control Failures</h2>
           <p>If goods fail our Fulfilment Partner's quality control inspection, we will notify you with photos and/or detailed reports, and propose one or more of the following:</p>
           <ul>
-            <li><strong>Rework</strong> &mdash; the supplier corrects the defects (most common for minor issues)</li>
-            <li><strong>Replacement</strong> &mdash; defective units are remanufactured at no additional cost to you</li>
-            <li><strong>Partial refund</strong> &mdash; for the value of the affected units that cannot be reworked or replaced within a reasonable time</li>
-            <li><strong>Full refund</strong> &mdash; where the entire Order is unworkable and cannot be remediated</li>
+            <li><strong>Rework</strong> - the supplier corrects the defects (most common for minor issues)</li>
+            <li><strong>Replacement</strong> - defective units are remanufactured at no additional cost to you</li>
+            <li><strong>Partial refund</strong> - for the value of the affected units that cannot be reworked or replaced within a reasonable time</li>
+            <li><strong>Full refund</strong> - where the entire Order is unworkable and cannot be remediated</li>
           </ul>
           <p>You may also choose to request a third-party inspection (at your cost) if you disagree with the quality control finding. Where the third-party inspection confirms our finding, the inspection cost is yours. Where it overturns our finding, we will reimburse it.</p>
 
@@ -122,7 +122,7 @@ export default function RefundPolicy() {
           <h2>10. How to Request a Refund</h2>
           <p>To request a refund or cancellation:</p>
           <ol>
-            <li>Email <a href="mailto:contact@equilinq.eu" className="text-primary hover:underline"><strong>contact@equilinq.eu</strong></a> with the subject line: "Refund Request &mdash; Order #[your Order number]"</li>
+            <li>Email <a href="mailto:contact@equilinq.eu" className="text-primary hover:underline"><strong>contact@equilinq.eu</strong></a> with the subject line: "Refund Request - Order #[your Order number]"</li>
             <li>Include:
               <ul>
                 <li>Your Order number</li>
@@ -153,12 +153,12 @@ export default function RefundPolicy() {
             <li>We will review the matter and respond within <strong>10 business days</strong>.</li>
             <li>If we cannot agree, the dispute will be handled in accordance with the dispute resolution clause in our <Link to="/terms" className="text-primary hover:underline">Terms of Service</Link> (Hong Kong-seated arbitration).</li>
           </ol>
-          <p>For payment disputes raised through your card issuer or bank, please contact us first &mdash; we can almost always resolve issues directly faster than a chargeback process.</p>
+          <p>For payment disputes raised through your card issuer or bank, please contact us first - we can almost always resolve issues directly faster than a chargeback process.</p>
 
           <h2>14. Changes to This Policy</h2>
           <p>We may update this Policy from time to time. When we do, we will revise the "Last updated" date at the top of this page. Material changes will be communicated through your dashboard, by email, or by other appropriate means.</p>
 
-          <h2>15. Contact Us</h2>
+          <h2>Contact Us</h2>
           <p>For refund-related questions:</p>
           <p><strong>Equilinq Limited</strong></p>
           <p><strong>Email:</strong> <a href="mailto:contact@equilinq.eu" className="text-primary hover:underline">contact@equilinq.eu</a></p>
