@@ -37,22 +37,24 @@ export function RelatedServiceLinks({ tag }: { tag: string }) {
   const links = TAG_TO_LINKS[tag] || DEFAULT_LINKS;
 
   return (
-    <div className="max-w-2xl mx-auto px-6 sm:px-8 pb-12">
-      <h3 className="font-heading text-lg font-semibold text-foreground mb-4">Related Services</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {links.map((link) => (
-          <Link
-            key={link.to}
-            to={link.to}
-            className="group flex items-center justify-between p-4 rounded-xl border border-border/30 bg-card/20 hover:border-primary/30 hover:bg-card/40 transition-all"
-          >
-            <div>
-              <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">{link.label}</p>
-              <p className="text-xs text-muted-foreground">{link.desc}</p>
-            </div>
-            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
-          </Link>
-        ))}
+    <div className="bg-card px-5 pb-20 sm:px-8">
+      <div className="mx-auto max-w-3xl">
+        <p className="label-mono-up text-primary">Related services</p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {links.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className="btn-nudge card-hover flex items-center justify-between gap-4 rounded-2xl border border-border bg-background p-5 hover:border-accent/50"
+            >
+              <span>
+                <span className="block text-base font-semibold text-primary">{link.label}</span>
+                <span className="mt-1 block text-sm leading-relaxed text-body-ink">{link.desc}</span>
+              </span>
+              <ArrowRight className="h-4 w-4 shrink-0 text-primary" />
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
