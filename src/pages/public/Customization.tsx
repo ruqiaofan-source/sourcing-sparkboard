@@ -179,7 +179,7 @@ export default function Customization() {
   const tabParam = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState(tabParam && tabIds.includes(tabParam) ? tabParam : tabIds[0]);
   const [searchQuery, setSearchQuery] = useState("");
-  const totalServices = categories.reduce((sum, c) => sum + c.items.length, 0);
+  
 
   const goToTab = (slug: string) => {
     setActiveTab(slug);
@@ -377,7 +377,7 @@ export default function Customization() {
               <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button asChild size="xl" variant="hero" className="btn-nudge card-hover bg-white bg-none text-primary hover:bg-white">
                   <Link to="/start">
-                    Get a free quote <ArrowRight />
+                    Get a free itemised quote <ArrowRight />
                   </Link>
                 </Button>
                 <Button asChild size="xl" variant="onDark">
