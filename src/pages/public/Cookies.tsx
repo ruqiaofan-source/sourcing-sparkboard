@@ -17,10 +17,12 @@ export default function Cookies() {
       />
       <PublicNavbar />
 
-      <main className="pt-32 pb-24 px-4">
-        <article className="max-w-3xl mx-auto prose prose-sm prose-neutral dark:prose-invert">
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-2"><span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))" }}>Cookie</span> Policy</h1>
-          <p className="text-sm text-muted-foreground mb-8">Last updated: 28 December 2025</p>
+      <main className="relative bg-card">
+        <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+        <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8 sm:pt-40">
+        <article className="legal-prose mx-auto max-w-3xl">
+          <h1 className="mb-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Cookie Policy</h1>
+          <p className="label-mono-up mb-10 text-muted-foreground">Last updated: 28 December 2025</p>
 
           <p>
             This Cookie Policy explains how Equilinq ("we", "us", or "our") uses cookies and similar technologies when you visit our website at <a href="https://equilinq.eu" className="text-primary hover:underline">equilinq.eu</a>.
@@ -38,12 +40,12 @@ export default function Cookies() {
           <p>
             These cookies are essential for the website to function properly. They enable core features such as authentication, session management, and security. These cookies cannot be disabled.
           </p>
-          <div className="rounded-lg border border-border/40 overflow-hidden my-4">
+          <div className="my-6 overflow-hidden rounded-2xl border border-border">
             <table className="w-full text-sm">
-              <thead><tr className="bg-muted/50"><th className="text-left p-3">Cookie</th><th className="text-left p-3">Purpose</th><th className="text-left p-3">Duration</th></tr></thead>
+              <thead><tr className="border-b border-border bg-band text-white"><th className="text-left p-3">Cookie</th><th className="text-left p-3">Purpose</th><th className="text-left p-3">Duration</th></tr></thead>
               <tbody>
-                <tr className="border-t border-border/30"><td className="p-3">sb-*-auth-token</td><td className="p-3">Authentication session</td><td className="p-3">Session</td></tr>
-                <tr className="border-t border-border/30"><td className="p-3">cookie_consent</td><td className="p-3">Stores your cookie preferences</td><td className="p-3">1 year</td></tr>
+                <tr className="border-t border-border"><td className="p-3">sb-*-auth-token</td><td className="p-3">Authentication session</td><td className="p-3">Session</td></tr>
+                <tr className="border-t border-border"><td className="p-3">cookie_consent</td><td className="p-3">Stores your cookie preferences</td><td className="p-3">1 year</td></tr>
               </tbody>
             </table>
           </div>
@@ -96,6 +98,7 @@ export default function Cookies() {
             <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
           </p>
         </article>
+        </div>
       </main>
 
       <PublicFooter />

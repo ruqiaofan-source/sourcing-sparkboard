@@ -16,10 +16,12 @@ export default function Privacy() {
       />
       <PublicNavbar />
 
-      <main className="pt-32 pb-24 px-4">
-        <article className="max-w-3xl mx-auto prose prose-sm prose-neutral dark:prose-invert">
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-2"><span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))" }}>Privacy</span> Policy</h1>
-          <p className="text-sm text-muted-foreground mb-8">Last updated: 28 December 2025</p>
+      <main className="relative bg-card">
+        <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+        <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8 sm:pt-40">
+        <article className="legal-prose mx-auto max-w-3xl">
+          <h1 className="mb-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Privacy Policy</h1>
+          <p className="label-mono-up mb-10 text-muted-foreground">Last updated: 28 December 2025</p>
 
           <p>
             Welcome to Equilinq ("Equilinq", "we", "us", or "our"). This Privacy Policy explains how we collect, use, disclose, and protect personal information when you visit our website, create an account, or use our services.
@@ -31,7 +33,7 @@ export default function Privacy() {
             By accessing or using our website or services, you acknowledge that you have read and understood this Privacy Policy.
           </p>
 
-          <nav className="my-8 p-4 rounded-xl border border-border/40 bg-card/30">
+          <nav className="my-8 rounded-2xl border border-border bg-background p-5">
             <ol className="list-decimal list-inside space-y-1 text-sm">
               <li><a href="#information-we-collect" className="text-primary hover:underline">Information We Collect</a></li>
               <li><a href="#how-we-use" className="text-primary hover:underline">How We Use Your Information</a></li>
@@ -162,6 +164,7 @@ export default function Privacy() {
           <p><strong>Email:</strong> <a href="mailto:contact@equilinq.eu" className="text-primary hover:underline">contact@equilinq.eu</a></p>
           <p>We will respond to inquiries within a reasonable timeframe and in accordance with applicable data protection laws.</p>
         </article>
+        </div>
       </main>
 
       <PublicFooter />

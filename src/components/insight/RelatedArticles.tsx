@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import { Reveal } from "@/components/Reveal";
 
 interface RelatedArticle {
   id: string;
@@ -19,42 +20,35 @@ export function RelatedArticles({ articles }: RelatedArticlesProps) {
   if (articles.length === 0) return null;
 
   return (
-    <section className="border-t border-border/30 bg-muted/10 py-20 px-6 sm:px-8">
-      <div className="max-w-2xl mx-auto">
-        <h2 className="font-heading text-xl font-bold text-foreground mb-8 tracking-tight">
-          Related Insights
-        </h2>
-        <div className="grid sm:grid-cols-3 gap-5">
-          {articles.map((post) => (
-            <Link
-              key={post.id}
-              to={`/insights/${post.slug}`}
-              className="group block rounded-xl border border-border/30 bg-card/50 overflow-hidden hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
-            >
-              {post.cover_image_url && (
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={post.cover_image_url}
-                    alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                </div>
-              )}
-              <div className="p-4">
-                <span className="text-[10px] text-primary uppercase tracking-wider font-semibold">
-                  {post.tag}
-                </span>
-                <h3 className="font-heading text-sm font-semibold text-foreground mt-1.5 group-hover:text-primary transition-colors line-clamp-2 leading-snug">
-                  {post.title}
-                </h3>
-                {post.published_at && (
-                  <p className="text-[11px] text-muted-foreground mt-2.5">
-                    {format(new Date(post.published_at), "MMM d, yyyy")}
-                  </p>
+    <section className="relative bg-background">
+      <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+        <Reveal>
+          <p className="label-mono-up text-primary">Related insights</p>
+        </Reveal>
+        <div className="mt-8 grid gap-6 sm:grid-cols-3">
+          {articles.map((post, i) => (
+            <Reveal key={post.id} delay={i * 60}>
+              <Link
+                to={`/insights/${post.slug}`}
+                className="card-hover block h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50"
+              >
+                {post.cover_image_url && (
+                  <div className="overflow-hidden rounded-[0.75rem] border border-border bg-background">
+                    <img
+                      src={post.cover_image_url}
+                      alt={post.title}
+                      className="aspect-video w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
                 )}
-              </div>
-            </Link>
+                <p className="label-mono-up mt-5 text-muted-foreground">
+                  {post.tag}
+                  {post.published_at ? ` · ${format(new Date(post.published_at), "MMM d, yyyy")}` : ""}
+                </p>
+                <h3 className="mt-3 text-lg font-semibold leading-snug text-primary">{post.title}</h3>
+              </Link>
+            </Reveal>
           ))}
         </div>
       </div>

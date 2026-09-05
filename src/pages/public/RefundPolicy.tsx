@@ -16,10 +16,12 @@ export default function RefundPolicy() {
       />
       <PublicNavbar />
 
-      <main className="pt-32 pb-24 px-4">
-        <article className="max-w-3xl mx-auto prose prose-sm prose-neutral dark:prose-invert">
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-2"><span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))" }}>Refund</span> and Cancellation Policy</h1>
-          <p className="text-sm text-muted-foreground mb-8">Last updated: 25 May 2026</p>
+      <main className="relative bg-card">
+        <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+        <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8 sm:pt-40">
+        <article className="legal-prose mx-auto max-w-3xl">
+          <h1 className="mb-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Refund and Cancellation Policy</h1>
+          <p className="label-mono-up mb-10 text-muted-foreground">Last updated: 25 May 2026</p>
 
           <p>This Refund and Cancellation Policy ("Policy") explains how refunds and cancellations work for Orders placed through Equilinq Limited ("Equilinq", "we", "us", or "our"). It forms part of our <Link to="/terms" className="text-primary hover:underline">Terms of Service</Link>.</p>
           <p>Because Equilinq operates as a B2B sourcing service that procures custom-specified goods from third-party manufacturers, our refund framework is <strong>stage-based</strong>: the closer an Order is to completion, the more limited the refund options become. This reflects the real costs we and our Fulfilment Partner incur on your behalf at each stage.</p>
@@ -163,6 +165,7 @@ export default function RefundPolicy() {
           <p><strong>Registered Address:</strong> Unit D, 11/F, Two Chinachem Plaza, 68 Connaught Rd Central, Hong Kong</p>
           <p><strong>Website:</strong> <a href="https://equilinq.eu" className="text-primary hover:underline">https://equilinq.eu</a></p>
         </article>
+        </div>
       </main>
 
       <PublicFooter />

@@ -1,38 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { SEOHead } from "@/components/SEOHead";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Reveal } from "@/components/Reveal";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import {
-  ArrowRight,
-  ShieldCheck,
-  Globe2,
-  Users,
-  Sparkles,
-  BadgeCheck,
-  Quote,
-  Loader2,
-  ClipboardList,
-} from "lucide-react";
+import { ArrowRight, BadgeCheck, Loader2 } from "lucide-react";
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-const fadeUp = {
-  hidden: { opacity: 0, y: 24, scale: 0.97 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const } },
-};
-
-const stats = [
-  { value: "48h", label: "Review target" },
-  { value: "Global", label: "Buyer coverage" },
-  { value: "24/7", label: "Sourcing flow" },
-];
+const statLine = ["48h review target", "Global buyer coverage", "24/7 sourcing flow"];
 
 const profileLines = [
   "Supplier matching, sampling coordination, and buyer support.",
@@ -42,40 +19,30 @@ const profileLines = [
 
 const benefits = [
   {
-    icon: ShieldCheck,
+    label: "Network",
     title: "Trusted sourcing network",
     desc: "Connect global buyers with vetted manufacturers across China and turn demand into repeatable revenue.",
   },
   {
-    icon: Globe2,
+    label: "Reach",
     title: "International coverage",
     desc: "Work with clients in multiple regions while keeping sourcing, sampling, and shipment coordination in one place.",
   },
   {
-    icon: Users,
+    label: "Deals",
     title: "High-value deals",
     desc: "Support B2B sourcing projects where expertise, communication, and speed matter more than volume.",
   },
 ];
 
 const steps = [
-  "Submit your background and sourcing experience.",
-  "Our team reviews fit, region coverage, and communication style.",
-  "Approved agents receive onboarding and deal support.",
+  { n: "01", title: "Apply", desc: "Submit your background and sourcing experience." },
+  { n: "02", title: "Review", desc: "Our team reviews fit, region coverage, and communication style." },
+  { n: "03", title: "Onboard", desc: "Approved agents receive onboarding and deal support." },
 ];
 
-const quotes = [
-  {
-    quote: "The program gave me a clear pipeline and a team that understands sourcing operations.",
-    name: "Mia Chen",
-    role: "Independent sourcing partner",
-  },
-  {
-    quote: "I could focus on matching buyers with suppliers instead of chasing process details.",
-    name: "Daniel Wong",
-    role: "Regional procurement consultant",
-  },
-];
+const inputClass =
+  "h-11 rounded-[0.75rem] border-border bg-card text-foreground placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring";
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -143,300 +110,230 @@ export default function AgentProgram() {
       />
       <PublicNavbar />
 
-      {/* Hero */}
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              <span className="text-[11px] text-muted-foreground tracking-wide">Sparkboard agent network</span>
-            </div>
-
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-tight mb-5">
-              Join the agent program built for serious sourcing work.
-            </h1>
-            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-xl mb-8">
-              Partner with Equilinq to help global buyers discover reliable suppliers, manage requests, and close deals
-              with confidence.
-            </p>
-
-            <div className="flex flex-wrap gap-3 mb-10">
-              <Button
-                onClick={() => scrollToId("apply")}
-                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-6 font-medium"
-              >
-                Apply now
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button variant="outline" onClick={() => scrollToId("why-join")} className="rounded-full h-11 px-6">
-                Explore benefits
-              </Button>
-            </div>
-
-            <motion.div variants={stagger} initial="hidden" animate="visible" className="grid grid-cols-3 gap-4 max-w-lg">
-              {stats.map((s) => (
-                <motion.div
-                  key={s.label}
-                  variants={fadeUp}
-                  className="rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-4"
-                >
-                  <p className="font-heading text-xl font-bold text-primary">{s.value}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{s.label}</p>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* Agent profile card */}
-          <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-3xl border border-border/40 bg-card/40 backdrop-blur-sm p-6 sm:p-8"
-          >
-            <div className="flex items-start justify-between mb-6">
+      <main>
+        {/* Inner hero */}
+        <section className="relative bg-card">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
+            <div className="grid items-center gap-12 lg:grid-cols-2">
               <div>
-                <p className="text-xs text-muted-foreground mb-1">Agent profile</p>
-                <h2 className="font-heading text-xl font-semibold text-foreground">Sparkboard ready</h2>
+                <p className="label-mono-up text-primary">Agent programme</p>
+                <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">
+                  Join the agent program built for serious sourcing work.
+                </h1>
+                <p className="mt-5 max-w-2xl text-base leading-relaxed text-body-ink sm:text-lg">
+                  Partner with Equilinq to help global buyers discover reliable suppliers, manage requests, and close
+                  deals with confidence.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Button size="xl" variant="hero" className="btn-nudge" onClick={() => scrollToId("apply")}>
+                    Apply now <ArrowRight />
+                  </Button>
+                  <Button size="xl" variant="outlineInk" onClick={() => scrollToId("why-join")}>
+                    Explore benefits
+                  </Button>
+                </div>
+                <p className="label-mono-up mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-muted-foreground">
+                  {statLine.map((item, i) => (
+                    <span key={item} className="flex items-center gap-3">
+                      {i > 0 && <span aria-hidden="true" className="h-1 w-1 rounded-full bg-border" />}
+                      {item}
+                    </span>
+                  ))}
+                </p>
               </div>
-              <div className="h-9 w-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-                <BadgeCheck className="h-4.5 w-4.5 text-primary" />
+
+              {/* Agent profile card */}
+              <div className="card-hover rounded-2xl border border-border bg-background p-7 hover:border-accent/50">
+                <span className="label-mono-up text-muted-foreground">Agent profile</span>
+                <h2 className="mt-3 text-xl font-semibold text-primary">What the role looks like</h2>
+                <ul className="mt-6 grid gap-3">
+                  {profileLines.map((line) => (
+                    <li
+                      key={line}
+                      className="flex items-start gap-3 rounded-[0.75rem] border border-border bg-card px-4 py-3 text-sm leading-relaxed text-body-ink"
+                    >
+                      <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                      {line}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-            <div className="space-y-3">
-              {profileLines.map((line) => (
-                <div
-                  key={line}
-                  className="rounded-xl border border-border/40 bg-secondary/40 px-4 py-3 text-sm text-muted-foreground"
-                >
-                  {line}
-                </div>
+          </div>
+        </section>
+
+        {/* Why join */}
+        <section id="why-join" className="relative bg-background">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Why join</p>
+              <h2 className="mt-4 max-w-2xl text-3xl font-bold text-primary sm:text-4xl">
+                A focused program for sourcing specialists
+              </h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {benefits.map((b, i) => (
+                <Reveal key={b.title} delay={i * 60}>
+                  <div className="card-hover h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50">
+                    <span className="label-mono-up text-muted-foreground">{b.label}</span>
+                    <h3 className="mt-3 text-xl font-semibold text-primary">{b.title}</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{b.desc}</p>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Why join */}
-      <section id="why-join" className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5 }}
-            className="mb-10"
-          >
-            <p className="text-[11px] tracking-[0.2em] uppercase text-primary mb-3">Why join</p>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground max-w-2xl">
-              A focused program for sourcing specialists
-            </h2>
-          </motion.div>
-
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-40px" }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4"
-          >
-            {benefits.map((b) => (
-              <motion.div
-                key={b.title}
-                variants={fadeUp}
-                className="rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-6"
-              >
-                <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
-                  <b.icon className="h-5 w-5 text-primary" />
-                </div>
-                <h3 className="font-heading font-semibold text-foreground mb-2">{b.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* How it works + application */}
-      <section id="apply" className="pb-20 px-4">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5 }}
-            className="rounded-2xl border border-border/40 bg-card/20 backdrop-blur-sm p-6 sm:p-8"
-          >
-            <p className="text-[11px] tracking-[0.2em] uppercase text-primary mb-3">How it works</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground mb-8">
-              Simple onboarding, clear expectations
-            </h2>
-            <div className="space-y-3">
+        {/* How it works */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">How it works</p>
+              <h2 className="mt-4 max-w-2xl text-3xl font-bold text-primary sm:text-4xl">
+                Simple onboarding, clear expectations
+              </h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
               {steps.map((step, i) => (
-                <div
-                  key={step}
-                  className="flex items-start gap-4 rounded-xl border border-border/40 bg-secondary/30 px-4 py-4"
-                >
-                  <span className="h-6 w-6 shrink-0 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium flex items-center justify-center">
-                    {i + 1}
-                  </span>
-                  <p className="text-sm text-muted-foreground">{step}</p>
-                </div>
+                <Reveal key={step.n} delay={i * 60}>
+                  <div className="card-hover h-full rounded-2xl border border-border bg-background p-7 hover:border-accent/50">
+                    <span className="label-mono-up text-primary">{step.n}</span>
+                    <h3 className="mt-3 text-xl font-semibold text-primary">{step.title}</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{step.desc}</p>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </motion.div>
+          </div>
+        </section>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-6 sm:p-8"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
-                <ClipboardList className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Application</p>
-                <h2 className="font-heading text-lg font-semibold text-foreground">Start your review</h2>
-              </div>
-            </div>
+        {/* Application */}
+        <section id="apply" className="relative bg-background">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <div className="rounded-2xl border border-accent/50 bg-card p-7 shadow-[var(--shadow-lift)] sm:p-10">
+                <span className="label-mono-up text-muted-foreground">Application</span>
+                <h2 className="mt-3 text-3xl font-bold text-primary sm:text-4xl">Start your review</h2>
 
-            {sent ? (
-              <div className="rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
-                <BadgeCheck className="h-8 w-8 text-primary mx-auto mb-4" />
-                <p className="text-sm text-muted-foreground">
-                  Thanks for applying. We review applications manually and respond after a quick fit check.
-                </p>
+                {sent ? (
+                  <div className="mt-8 rounded-[0.75rem] border border-border bg-background p-8 text-center">
+                    <BadgeCheck className="mx-auto mb-4 h-8 w-8 text-primary" />
+                    <p className="text-sm leading-relaxed text-body-ink">
+                      Thanks for applying. We review applications manually and respond after a quick fit check.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="mt-8 grid gap-5">
+                    <div className="grid gap-5 sm:grid-cols-2">
+                      <div className="grid gap-2">
+                        <label htmlFor="agent-name" className="label-mono-up text-muted-foreground">
+                          Name
+                        </label>
+                        <Input
+                          id="agent-name"
+                          placeholder="Your name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className={inputClass}
+                          required
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <label htmlFor="agent-email" className="label-mono-up text-muted-foreground">
+                          Email
+                        </label>
+                        <Input
+                          id="agent-email"
+                          type="email"
+                          placeholder="Email address"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className={inputClass}
+                          required
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <label htmlFor="agent-region" className="label-mono-up text-muted-foreground">
+                          Region
+                        </label>
+                        <Input
+                          id="agent-region"
+                          placeholder="Primary region"
+                          value={region}
+                          onChange={(e) => setRegion(e.target.value)}
+                          className={inputClass}
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <label htmlFor="agent-years" className="label-mono-up text-muted-foreground">
+                          Experience
+                        </label>
+                        <Input
+                          id="agent-years"
+                          placeholder="Years of sourcing experience"
+                          value={years}
+                          onChange={(e) => setYears(e.target.value)}
+                          className={inputClass}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid gap-2">
+                      <label htmlFor="agent-background" className="label-mono-up text-muted-foreground">
+                        Background
+                      </label>
+                      <textarea
+                        id="agent-background"
+                        placeholder="Tell us about your sourcing background"
+                        value={background}
+                        onChange={(e) => setBackground(e.target.value)}
+                        className="min-h-32 w-full resize-none rounded-[0.75rem] border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                        required
+                      />
+                    </div>
+                    <Button type="submit" size="xl" variant="hero" className="btn-nudge w-full" disabled={loading}>
+                      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Request review"}
+                    </Button>
+                    <p className="text-center text-xs text-muted-foreground">
+                      We review applications manually and respond after a quick fit check.
+                    </p>
+                  </form>
+                )}
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Input
-                    placeholder="Your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="bg-secondary border-border h-11"
-                    required
-                  />
-                  <Input
-                    type="email"
-                    placeholder="Email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="bg-secondary border-border h-11"
-                    required
-                  />
-                  <Input
-                    placeholder="Primary region"
-                    value={region}
-                    onChange={(e) => setRegion(e.target.value)}
-                    className="bg-secondary border-border h-11"
-                  />
-                  <Input
-                    placeholder="Years of sourcing experience"
-                    value={years}
-                    onChange={(e) => setYears(e.target.value)}
-                    className="bg-secondary border-border h-11"
-                  />
-                </div>
-                <textarea
-                  placeholder="Tell us about your sourcing background"
-                  value={background}
-                  onChange={(e) => setBackground(e.target.value)}
-                  className="flex min-h-[120px] w-full rounded-xl border border-border bg-secondary px-4 py-3 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background resize-none"
-                  required
-                />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Closing band */}
+        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-white/60">Ready to join</p>
+              <h2 className="mt-4 text-3xl font-bold text-white sm:text-5xl">Become part of the sourcing network</h2>
+              <p className="mx-auto mt-5 max-w-xl text-lg text-white/75">
+                If you already work with buyers, suppliers, or procurement teams, the agent program gives you a cleaner
+                way to grow.
+              </p>
+              <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90 h-11 font-medium"
+                  size="xl"
+                  variant="hero"
+                  className="btn-nudge card-hover bg-white bg-none text-primary hover:bg-white"
+                  onClick={() => scrollToId("apply")}
                 >
-                  {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Request review"}
+                  Apply now <ArrowRight />
                 </Button>
-                <p className="text-xs text-muted-foreground text-center">
-                  We review applications manually and respond after a quick fit check.
-                </p>
-              </form>
-            )}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="pb-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
-          >
-            <p className="text-[11px] tracking-[0.2em] uppercase text-primary mb-3">What agents say</p>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground max-w-2xl">
-              Built for people who like clear process and real deals
-            </h2>
-          </motion.div>
-
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-40px" }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
-            {quotes.map((q) => (
-              <motion.div
-                key={q.name}
-                variants={fadeUp}
-                className="rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-6"
-              >
-                <Quote className="h-5 w-5 text-primary mb-4" />
-                <p className="text-sm text-muted-foreground leading-relaxed mb-5">&ldquo;{q.quote}&rdquo;</p>
-                <p className="text-sm font-medium text-foreground">{q.name}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{q.role}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Closing CTA */}
-      <section className="pb-24 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5 }}
-            className="rounded-3xl border border-border/40 bg-card/20 backdrop-blur-sm px-6 py-14 text-center"
-          >
-            <p className="text-[11px] tracking-[0.2em] uppercase text-primary mb-4">Ready to join</p>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">
-              Become part of the sourcing network
-            </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
-              If you already work with buyers, suppliers, or procurement teams, the agent program gives you a cleaner
-              way to grow.
-            </p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <Button
-                onClick={() => scrollToId("apply")}
-                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-6 font-medium"
-              >
-                Apply now
-              </Button>
-              <Link to="/">
-                <Button variant="ghost" className="rounded-full h-11 px-6">
-                  Back to home
+                <Button asChild size="xl" variant="onDark">
+                  <Link to="/">Back to home</Link>
                 </Button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      </main>
 
       <PublicFooter />
     </div>

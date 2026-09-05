@@ -1,5 +1,4 @@
 import ReactMarkdown from "react-markdown";
-import { motion } from "framer-motion";
 
 interface ArticleBodyProps {
   content?: string | null;
@@ -9,110 +8,78 @@ export function ArticleBody({ content }: ArticleBodyProps) {
   if (!content) return null;
 
   return (
-    <div className="px-6 sm:px-8 pb-20">
-      <motion.div
-        className="max-w-2xl mx-auto"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.15 }}
-      >
+    <div className="bg-card px-5 pb-20 sm:px-8">
+      <div className="mx-auto max-w-3xl">
         <div className="article-content">
           <ReactMarkdown
             components={{
               h1: ({ children }) => (
-                <h2 className="font-heading text-[1.55rem] sm:text-[1.7rem] font-bold text-foreground tracking-tight mt-14 mb-5 first:mt-0">
+                <h2 className="mt-14 text-2xl font-bold tracking-tight text-primary first:mt-0 sm:text-3xl">
                   {children}
                 </h2>
               ),
               h2: ({ children }) => (
-                <h2 className="font-heading text-[1.55rem] sm:text-[1.7rem] font-bold text-foreground tracking-tight mt-14 mb-5 first:mt-0">
+                <h2 className="mt-14 text-2xl font-bold tracking-tight text-primary first:mt-0 sm:text-3xl">
                   {children}
                 </h2>
               ),
               h3: ({ children }) => (
-                <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground tracking-tight mt-10 mb-4">
-                  {children}
-                </h3>
+                <h3 className="mt-10 text-lg font-semibold tracking-tight text-foreground sm:text-xl">{children}</h3>
               ),
               h4: ({ children }) => (
-                <h4 className="font-heading text-base sm:text-lg font-semibold text-foreground tracking-tight mt-8 mb-3">
-                  {children}
-                </h4>
+                <h4 className="mt-8 text-base font-semibold tracking-tight text-foreground sm:text-lg">{children}</h4>
               ),
-              p: ({ children }) => (
-                <p className="font-sans text-[1.05rem] text-foreground/80 leading-[1.85] mb-6">
-                  {children}
-                </p>
+              p: ({ children }) => <p className="mt-5 text-base leading-relaxed text-body-ink">{children}</p>,
+              ul: ({ children }) => <ul className="my-6 grid gap-3">{children}</ul>,
+              ol: ({ children }) => <ol className="my-6 grid list-none gap-3">{children}</ol>,
+              li: ({ children }) => (
+                <li className="flex items-start gap-3 text-base leading-relaxed text-body-ink">
+                  <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  <span>{children}</span>
+                </li>
               ),
-              ul: ({ children }) => (
-                <ul className="space-y-3 my-7 pl-1">{children}</ul>
-              ),
-              ol: ({ children }) => (
-                <ol className="space-y-4 my-7 pl-1 list-none">{children}</ol>
-              ),
-              li: ({ children, node }) => {
-                // Check if this is inside an ordered list by looking at the parent
-                const isOrdered = node?.position ? false : false;
-                // We detect ordered lists by checking if the content starts with a number pattern
-                const childText = typeof children === 'string' ? children : '';
-                
-                return (
-                  <li className="font-sans text-[1.05rem] text-foreground/80 leading-[1.8] flex items-start gap-3">
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary mt-[0.7rem] shrink-0" />
-                    <span>{children}</span>
-                  </li>
-                );
-              },
-              strong: ({ children }) => (
-                <strong className="text-foreground font-semibold">{children}</strong>
-              ),
-              em: ({ children }) => (
-                <em className="text-foreground/70 italic">{children}</em>
-              ),
+              strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
+              em: ({ children }) => <em className="italic text-body-ink">{children}</em>,
               blockquote: ({ children }) => (
-                <blockquote className="border-l-[3px] border-primary/30 pl-6 my-8 py-1">
-                  <div className="font-sans text-[1.05rem] text-muted-foreground leading-[1.8] italic">
-                    {children}
-                  </div>
+                <blockquote className="my-8 border-l-2 border-primary/40 pl-6 text-lg font-semibold leading-snug tracking-tight text-primary">
+                  {children}
                 </blockquote>
               ),
               a: ({ href, children }) => (
                 <a
                   href={href}
-                  className="text-primary underline underline-offset-2 decoration-primary/30 hover:decoration-primary transition-colors"
+                  className="text-primary underline decoration-primary/30 underline-offset-2 transition-colors hover:decoration-primary"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   {children}
                 </a>
               ),
-              hr: () => (
-                <hr className="my-10 border-border/30" />
-              ),
+              hr: () => <hr className="my-10 border-border" />,
               table: ({ children }) => (
-                <div className="my-7 overflow-x-auto rounded-lg border border-border/30">
-                  <table className="w-full text-[1.05rem]">{children}</table>
+                <div className="my-8 overflow-x-auto rounded-[0.75rem] border border-border">
+                  <table className="w-full text-sm">{children}</table>
                 </div>
               ),
-              thead: ({ children }) => (
-                <thead className="bg-muted/50 font-heading text-foreground">{children}</thead>
-              ),
+              thead: ({ children }) => <thead className="bg-background">{children}</thead>,
               th: ({ children }) => (
-                <th className="px-4 py-3 text-left font-semibold text-sm">{children}</th>
+                <th className="label-mono-up border-b border-border px-4 py-3 text-left text-muted-foreground">
+                  {children}
+                </th>
               ),
               td: ({ children }) => (
-                <td className="px-4 py-3 text-foreground/80 border-t border-border/20">{children}</td>
+                <td className="border-t border-border px-4 py-3 align-top text-body-ink">{children}</td>
               ),
               code: ({ children, className }) => {
                 if (className) {
                   return (
-                    <pre className="my-7 p-4 bg-muted/50 rounded-lg overflow-x-auto">
-                      <code className="font-mono text-sm text-foreground/90">{children}</code>
+                    <pre className="my-7 overflow-x-auto rounded-[0.75rem] border border-border bg-background p-4">
+                      <code className="font-mono text-sm text-foreground">{children}</code>
                     </pre>
                   );
                 }
                 return (
-                  <code className="font-mono text-sm bg-muted/50 px-1.5 py-0.5 rounded text-foreground/90">
+                  <code className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-sm text-foreground">
                     {children}
                   </code>
                 );
@@ -122,7 +89,7 @@ export function ArticleBody({ content }: ArticleBodyProps) {
             {content}
           </ReactMarkdown>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
