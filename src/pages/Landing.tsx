@@ -214,33 +214,8 @@ function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_co
           </a>
         </motion.div>
 
-        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {[
-            { quote: "Service was good! Equilinq got us a good factory and the per unit price was lower than our original supplier. Also was nice they are also based in Amsterdam and were able to reply quickly.", name: "AR Glasses Buyer", stars: 5, title: "AR glasses" },
-            { quote: "They helped me source the products I needed, and it was much cheaper than other platforms. Their inspection service was really helpful, they checked every package and identified defects beforehand.", name: "Verified Buyer", stars: 5, title: "Great sourcing experience" },
-            { quote: "We weren't sure how complicated sourcing from China would be, but they explained everything clearly. There were no surprise fees and they showed us different factory options instead of pushing just one.", name: "Ari", stars: 5, title: "Sustainable Yoga Mats" },
-          ].map((t) => (
-            <motion.div key={t.title} variants={fadeUp} whileHover={{ y: -8, scale: 1.03, boxShadow: "0 20px 60px -15px hsl(239 100% 60% / 0.2)" }} className="relative rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-7 transition-all duration-300 overflow-hidden group">
-              <motion.div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--chart-2) / 0.1), hsl(var(--primary) / 0.08))" }} />
-              <div className="relative z-10">
-                <div className="flex gap-0.5 mb-3">
-                  {[...Array(t.stars)].map((_, s) => (
-                    <svg key={s} className="h-4 w-4 text-[#00b67a]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                  ))}
-                </div>
-                <h3 className="text-sm font-semibold text-foreground mb-2">{t.title}</h3>
-                <p className="text-sm text-foreground/80 leading-relaxed mb-5">"{t.quote}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="h-8 w-8 rounded-full bg-[#00b67a]/20 flex items-center justify-center text-xs font-bold text-[#00b67a]">{t.name.charAt(0)}</div>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                    <p className="text-xs text-muted-foreground">via Trustpilot</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+        <TestimonialCarousel />
+
 
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
           <a href="https://www.trustpilot.com/review/equilinq.eu" target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline font-medium">
