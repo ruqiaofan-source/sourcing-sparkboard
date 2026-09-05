@@ -339,40 +339,58 @@ export default function Landing() {
               <h2 className="mt-4 text-3xl font-bold text-primary sm:text-4xl">What clients say.</h2>
             </Reveal>
             <div className="mt-12 grid gap-6 md:grid-cols-2">
-              {reviews.map((r, i) => (
-                <Reveal key={r.name} delay={i * 60}>
-                  <figure className="card-hover h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50">
-                    <blockquote className="whitespace-pre-line text-sm leading-relaxed text-body-ink">{r.quote}</blockquote>
-                    <figcaption className="label-mono mt-6 text-muted-foreground">
-                      {r.name}, {r.role}
-                      <span className="mt-1 block">via Trustpilot</span>
-                    </figcaption>
-                  </figure>
-                </Reveal>
-              ))}
+              {reviews.map((r, i) => {
+                const open = expanded.includes(r.name);
+                return (
+                  <Reveal key={r.name} delay={i * 60}>
+                    <figure className="card-hover h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50">
+                      <blockquote
+                        className={`whitespace-pre-line text-sm leading-relaxed text-body-ink ${open ? "" : "line-clamp-6"}`}
+                      >
+                        {r.quote}
+                      </blockquote>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setExpanded((list) => (open ? list.filter((n) => n !== r.name) : [...list, r.name]))
+                        }
+                        aria-expanded={open}
+                        className="label-mono mt-3 text-primary hover:underline"
+                      >
+                        {open ? "Read less" : "Read more"}
+                      </button>
+                      <figcaption className="label-mono mt-6 text-muted-foreground">
+                        {r.name}, {r.role}
+                        <span className="mt-1 block">via Trustpilot</span>
+                      </figcaption>
+                    </figure>
+                  </Reveal>
+                );
+              })}
             </div>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {checkable.map((t, i) => (
-                <Reveal key={t.label} delay={i * 50}>
-                  <div className="h-full rounded-2xl border border-border bg-card p-5">
-                    <p className="label-mono-up text-muted-foreground">{t.label}</p>
+            <Reveal>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-y border-border py-5 text-center">
+                {checkable.map((t, i) => (
+                  <div key={t.label} className="flex items-center gap-6">
+                    {i > 0 && <span aria-hidden="true" className="hidden h-4 w-px bg-border sm:block" />}
                     {t.href ? (
                       <a
                         href={t.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-3 block text-sm leading-relaxed text-primary underline underline-offset-4"
+                        className="label-mono text-primary underline underline-offset-4"
                       >
                         {t.text}
                       </a>
                     ) : (
-                      <p className="mt-3 text-sm leading-relaxed text-body-ink">{t.text}</p>
+                      <span className="label-mono text-muted-foreground">{t.text}</span>
                     )}
                   </div>
-                </Reveal>
-              ))}
-            </div>
+                ))}
+              </div>
+            </Reveal>
+
 
             <Reveal>
               <div className="mt-16">
