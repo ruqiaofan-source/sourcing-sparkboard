@@ -34,7 +34,7 @@ export default function Insights() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEOHead
-        title="Insights - Equilinq Sourcing Trends & Market Reports"
+        title="China Sourcing Insights for EU Brands | Equilinq"
         description="Best-selling products, pricing trends, and supplier signals from China. Actionable sourcing insights for European SMEs."
         keywords="China sourcing trends, market reports, best selling products China, supplier insights, European SME sourcing"
         breadcrumbs={[
