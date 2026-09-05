@@ -9,6 +9,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, ArrowRight, CheckCircle2 } from "lucide-react";
+import founderImg from "@/assets/founder.jpg";
+
 
 const reasons = ["General inquiry", "Sourcing consultation", "Pricing question", "Partnership", "Other"];
 

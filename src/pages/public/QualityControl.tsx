@@ -179,8 +179,8 @@ export default function QualityControl() {
               </p>
               <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button asChild size="xl" variant="hero" className="btn-nudge card-hover bg-white bg-none text-primary hover:bg-white">
-                  <Link to="/auth?signup=true">
-                    Start a request <ArrowRight />
+                  <Link to="/start">
+                    Get a free quote <ArrowRight />
                   </Link>
                 </Button>
                 <Button asChild size="xl" variant="onDark">
