@@ -151,6 +151,8 @@ const App = () => (
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/refund-policy" element={<RefundPolicy />} />
                 <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
+                <Route path="/auth/login" element={<Navigate to="/auth" replace />} />
+                <Route path="/auth/signup" element={<Navigate to="/auth?signup=true" replace />} />
                 <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/unsubscribe" element={<Unsubscribe />} />

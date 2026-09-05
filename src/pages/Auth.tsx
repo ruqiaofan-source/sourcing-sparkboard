@@ -343,7 +343,7 @@ const AuthPage = () => {
                   </AnimatePresence>
 
                   <div className="space-y-1.5">
-                    <Label htmlFor="email" className="text-card-foreground text-sm">Email address</Label>
+                    <Label htmlFor="email" className="text-card-foreground text-sm">Email address *</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input id="email" type="email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} className="pl-10 bg-secondary border-border focus:border-primary h-11" required />
@@ -352,7 +352,7 @@ const AuthPage = () => {
 
                   {!isForgotPassword && (
                     <div className="space-y-1.5">
-                      <Label htmlFor="password" className="text-card-foreground text-sm">Password</Label>
+                      <Label htmlFor="password" className="text-card-foreground text-sm">Password *</Label>
                       <div className="relative">
                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input id="password" type={showPassword ? "text" : "password"} placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} className="pl-10 pr-10 bg-secondary border-border focus:border-primary h-11" required minLength={6} />
