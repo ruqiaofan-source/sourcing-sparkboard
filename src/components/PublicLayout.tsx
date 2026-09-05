@@ -2,9 +2,11 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Linkedin, Menu, X } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
+import { BrandLogo, LOGO_DARK_SRC, LOGO_WHITE_SRC } from "@/components/BrandLogo";
 
-export const LOGO_DARK = "/brand/equilinq-logo-dark.png";
-export const LOGO_WHITE = "/brand/equilinq-logo-white.png";
+export const LOGO_DARK = LOGO_DARK_SRC;
+export const LOGO_WHITE = LOGO_WHITE_SRC;
+
 
 const navLinks = [
   { label: "How it works", href: "/how-it-works", tablet: true },
