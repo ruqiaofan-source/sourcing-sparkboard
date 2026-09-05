@@ -170,6 +170,87 @@ function MagneticButton({ children, className = "" }: { children: React.ReactNod
 
 /* ──────────────────── SOCIAL PROOF (kept inline -- above fold for SEO) ──────────────────── */
 
+const testimonials = [
+  {
+    name: "Hammad Ahmed",
+    role: "CEO Longlive",
+    quote: "I worked with Equilinq Team on the potential procurement of a vascular Doppler. Through out the process , Team spent time to understand our requirement and matched us to the right manufacturers. The process was efficient and transparent at each step.",
+  },
+  {
+    name: "Marian Leenman",
+    role: "NGO Strategic Buyer",
+    quote: "I enjoyed the service from Equilinq. They helped me source the products I needed, and it was much cheaper than other platforms. They also assisted with communication in Chinese. When one of the products was out of stock, they immediately found another supplier who sold the same item. Their inspection service was also really helpful, they checked every package and identified defects beforehand, so I didn't have to worry about quality issues. Lastly, their delivery was efficient. They designed the optimal route and delivered directly to my house. It was a nice experience.",
+  },
+  {
+    name: "Sultan Tuleugali",
+    role: "Porsche Strategic Buyer",
+    quote: "We had issues with defective units in the past when ordering from Alibaba directly.\n\nThis time they did inspection before shipment and found a small issue with stitching on about 8% of the batch. It was corrected before shipping.\n\nThat alone saved us a lot of headache. Not perfect but much more reliable.",
+  },
+  {
+    name: "Henry",
+    role: "Amazon Reseller",
+    quote: "Service was good! We had some problems with tech things sourcing from oher countries and also china ourselves. Regarding Ar glasses its always a hard one to do because some components were always made very cheaply. Equilinq was helpful becuase they got us a good factory and the per unit price was lower than our orginial supplier. Also was nice they are also based in Amsterdam and were able to reply qucikly. Would recommend",
+  },
+  {
+    name: "Ari",
+    role: "Sustainable Yoga Mats",
+    quote: "We worked with Equilinq to source sustainable yoga mats and honestly it went much smoother then we expected.\n\nAt first we weren't sure how complicated sourcing from China would be, but they explained everything very clearly and broke down the costs in a way that actually made sense. The communication was fast and they always replied when we had questions (even small ones).\n\nWhat we really liked was the transparancy. There were no \"surprise\" fees and they showed us different factory options instead of pushing just one. That made us feel more in control of the decision.\n\nShipping and coordination also went well and overall it just felt structured and professional, but still personal.\n\nWould definitely consider working with them again.",
+  },
+];
+
+function TestimonialCarousel() {
+  const [index, setIndex] = useState(0);
+  const total = testimonials.length;
+  const go = (dir: number) => setIndex((i) => (i + dir + total) % total);
+  const t = testimonials[index];
+
+  return (
+    <div className="relative mb-8">
+      <motion.div
+        key={t.name}
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        className="relative rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-7 sm:p-9 overflow-hidden max-w-3xl mx-auto"
+      >
+        <div className="flex gap-0.5 mb-4">
+          {[...Array(5)].map((_, s) => (
+            <svg key={s} className="h-4 w-4 text-[#00b67a]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+          ))}
+        </div>
+        <p className="text-sm sm:text-[15px] text-foreground/80 leading-relaxed mb-6 whitespace-pre-line">"{t.quote}"</p>
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 rounded-full bg-[#00b67a]/20 flex items-center justify-center text-xs font-bold text-[#00b67a]">{t.name.charAt(0)}</div>
+          <div>
+            <p className="text-sm font-semibold text-foreground">{t.name}</p>
+            <p className="text-xs text-muted-foreground">{t.role} · via Trustpilot</p>
+          </div>
+        </div>
+      </motion.div>
+
+      <div className="flex items-center justify-center gap-4 mt-6">
+        <button onClick={() => go(-1)} aria-label="Previous testimonial" className="h-9 w-9 rounded-full border border-border/50 bg-card/40 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors">
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <div className="flex items-center gap-2">
+          {testimonials.map((item, i) => (
+            <button
+              key={item.name}
+              onClick={() => setIndex(i)}
+              aria-label={`Show testimonial from ${item.name}`}
+              className={`h-2 rounded-full transition-all ${i === index ? "w-6 bg-primary" : "w-2 bg-border"}`}
+            />
+          ))}
+        </div>
+        <button onClick={() => go(1)} aria-label="Next testimonial" className="h-9 w-9 rounded-full border border-border/50 bg-card/40 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors">
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
 function SocialProofSection({ trustpilotStats }: { trustpilotStats?: { review_count: number; average_rating: number } | null }) {
   const tpRating = trustpilotStats?.average_rating ?? 4.0;
   const tpCount = trustpilotStats?.review_count ?? 5;
