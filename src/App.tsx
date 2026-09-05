@@ -25,6 +25,8 @@ const CookiesPage = lazy(() => import("./pages/public/Cookies"));
 const Terms = lazy(() => import("./pages/public/Terms"));
 const RefundPolicy = lazy(() => import("./pages/public/RefundPolicy"));
 const AgentProgram = lazy(() => import("./pages/public/AgentProgram"));
+const Start = lazy(() => import("./pages/public/Start"));
+
 
 const CustomerDashboard = lazy(() => import("./pages/customer/CustomerDashboard"));
 const NewRequest = lazy(() => import("./pages/customer/NewRequest"));
