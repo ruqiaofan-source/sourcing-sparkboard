@@ -343,36 +343,14 @@ export default function Landing() {
         </section>
 
 
-        {/* 4. HOW IT WORKS */}
+        {/* 4. HOW IT WORKS, pinned product cycle */}
         <section data-dark-band className="relative overflow-hidden bg-band text-white">
           <div className="surface-grid absolute inset-0 opacity-[0.08]" />
-          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-            <Reveal>
-              <p className="label-mono-up text-white/60">How it works</p>
-              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-white sm:text-4xl">
-                Eight steps from request to delivery, every one visible in your dashboard.
-              </h2>
-            </Reveal>
-            <ScrollProgressRail>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {steps.map((s, i) => (
-                <Reveal key={s.n} delay={i * 60}>
-                  <div className="card-hover h-full rounded-2xl border border-white/12 bg-white/[0.04] p-5 hover:border-white/25">
-                    <span className="label-mono-up text-white">{s.n}</span>
-                    <h3 className="mt-3 text-base font-semibold text-white">{s.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-white/85">{s.desc}</p>
-                  </div>
-                </Reveal>
-              ))}
-              </div>
-            </ScrollProgressRail>
-            <Reveal>
-              <Link to="/how-it-works" className="btn-nudge mt-10 inline-flex items-center gap-2 text-sm font-medium text-white">
-                Read the full process <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Reveal>
+          <div className="relative">
+            <ProductCycle />
           </div>
         </section>
+
 
         {/* 4b. THE TEAM IN SHENZHEN */}
         <section className="relative bg-background">
