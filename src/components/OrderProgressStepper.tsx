@@ -92,7 +92,7 @@ export function OrderProgressStepper({
                 <p
                   className={`text-sm font-medium leading-tight ${
                     isCompleted
-                      ? "text-emerald-600 dark:text-emerald-400"
+                      ? "text-emerald-600"
                       : isActive
                       ? "text-primary"
                       : "text-muted-foreground"
@@ -138,7 +138,7 @@ export function OrderProgressStepper({
               <p
                 className={`text-[10px] sm:text-[11px] mt-1.5 font-medium leading-tight max-w-[60px] sm:max-w-[80px] ${
                   isCompleted
-                    ? "text-emerald-600 dark:text-emerald-400"
+                    ? "text-emerald-600"
                     : isActive
                     ? "text-primary"
                     : "text-muted-foreground"

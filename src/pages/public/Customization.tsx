@@ -158,12 +158,6 @@ const categories = [
 
 const tabIds = categories.map((c) => c.id);
 
-const related = [
-  { to: "/how-it-works", label: "Process", title: "How it works", desc: "Our 8-step sourcing process." },
-  { to: "/pricing", label: "Pricing", title: "Transparent pricing", desc: "Cost breakdown per order." },
-  { to: "/contact", label: "Contact", title: "Talk to us", desc: "Discuss your customization needs." },
-];
-
 function ServiceCard({ item }: { item: { name: string; desc: string } }) {
   return (
     <div className="card-hover h-full rounded-2xl border border-border bg-card p-7">
