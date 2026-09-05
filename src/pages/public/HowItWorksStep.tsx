@@ -1,12 +1,15 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { SEOHead } from "@/components/SEOHead";
-import { motion } from "framer-motion";
 import {
   Search, FileText, CreditCard, Factory, ShieldCheck, Truck, Package,
-  MessageSquare, ArrowRight, ArrowLeft, CheckCircle2
+  MessageSquare, ArrowRight, ArrowLeft
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import { Reveal } from "@/components/Reveal";
+
+const CALENDLY = "https://calendly.com/admin-equilinq/30min";
+
 
 export const steps = [
   {
@@ -57,7 +60,7 @@ export const steps = [
       "We cross-reference production capability, certifications, and past performance.",
       "Factories are contacted and screened for your specific product requirements.",
       "We negotiate MOQ, lead times, and pricing on your behalf.",
-      "Only verified, direct manufacturers are shortlisted -- no trading companies.",
+      "Only verified, direct manufacturers are shortlisted, no trading companies.",
     ],
     whatYouGet: [
       "A curated shortlist of pre-vetted factories",
@@ -73,7 +76,7 @@ export const steps = [
     icon: FileText,
     title: "Receive Your Quote",
     shortDesc: "Transparent, itemized pricing with no hidden fees.",
-    desc: "We send a fully transparent, itemized quote. Every cost is visible -- no hidden fees, no markups.",
+    desc: "We send a fully transparent, itemized quote. Every cost is visible, no hidden fees, no markups.",
     details: [
       "Factory cost (wholesale price)",
       "China operational costs",
@@ -86,7 +89,7 @@ export const steps = [
       "Each quote is broken down into factory cost, operational costs, logistics, and our service fee.",
       "You receive the quote in your dashboard with a clear cost breakdown.",
       "Ask questions, request adjustments, or compare with alternative options.",
-      "No obligation -- you only proceed when you are fully satisfied.",
+      "No obligation, you only proceed when you are fully satisfied.",
     ],
     whatYouGet: [
       "A fully itemized quote with no hidden costs",
@@ -94,7 +97,7 @@ export const steps = [
       "Transparent service fee structure based on order value",
     ],
     seoTitle: "Step 3: Transparent Quote & Pricing - Equilinq",
-    seoDesc: "Receive a fully itemized sourcing quote. See factory cost, logistics, and service fees -- no hidden markups.",
+    seoDesc: "Receive a fully itemized sourcing quote. See factory cost, logistics, and service fees, no hidden markups.",
   },
   {
     slug: "accept-and-pay",
@@ -160,7 +163,7 @@ export const steps = [
     icon: ShieldCheck,
     title: "Quality Control Inspection",
     shortDesc: "Final inspection before shipment with photo reports.",
-    desc: "Our QC team performs a thorough final inspection -- checking defects, verifying specs, and ensuring packaging standards.",
+    desc: "Our QC team performs a thorough final inspection, checking defects, verifying specs, and ensuring packaging standards.",
     details: [
       "Visual and functional inspection",
       "Defect rate assessment (AQL standards)",
@@ -230,7 +233,7 @@ export const steps = [
       "Your products are delivered to the address specified in your order.",
       "Inspect your delivery and confirm everything matches your expectations.",
       "If any issues arise, contact your agent directly through the platform.",
-      "When you are ready to reorder, simply open a new request -- your supplier history is saved.",
+      "When you are ready to reorder, simply open a new request, your supplier history is saved.",
       "We maintain the factory relationship so future orders are faster and smoother.",
     ],
     whatYouGet: [
@@ -252,7 +255,6 @@ export default function HowItWorksStep() {
   const step = steps[stepIndex];
   const prev = stepIndex > 0 ? steps[stepIndex - 1] : null;
   const next = stepIndex < steps.length - 1 ? steps[stepIndex + 1] : null;
-  const Icon = step.icon;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -275,247 +277,154 @@ export default function HowItWorksStep() {
       />
       <PublicNavbar />
 
-      {/* Hero */}
-      <section className="pt-28 sm:pt-36 pb-16 sm:pb-20 px-4 text-center relative">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[400px] rounded-full bg-primary/[0.03] blur-[100px]" />
-        </div>
-        <div className="max-w-2xl mx-auto relative z-10">
-          {/* Breadcrumb */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-8"
-          >
-            <Link to="/how-it-works" className="hover:text-primary transition-colors">How It Works</Link>
-            <span>/</span>
-            <span className="text-foreground">Step {step.step}</span>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6">
-              <motion.span
-                className="h-1.5 w-1.5 rounded-full bg-primary"
-                animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-              <span className="text-[11px] text-muted-foreground tracking-wide uppercase">Step {step.step} of 08</span>
-            </span>
-
-            <div className="flex items-center justify-center gap-4 mb-5">
-              <motion.div
-                initial={{ scale: 0.8, rotate: -10 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ duration: 0.4, type: "spring", stiffness: 200 }}
-                className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center"
-              >
-                <Icon className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
-              </motion.div>
-            </div>
-
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.08] mb-5">
-              <span className="bg-gradient-to-r from-[hsl(239,100%,65%)] via-[hsl(280,80%,72%)] to-[hsl(239,100%,65%)] bg-clip-text text-transparent">
-                {step.title}
-              </span>
+      <main>
+        {/* Inner hero, light */}
+        <section className="relative bg-card">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-4xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
+            <nav className="label-mono-up flex items-center gap-2 text-muted-foreground" aria-label="Breadcrumb">
+              <Link to="/how-it-works" className="hover:text-primary">How it works</Link>
+              <span aria-hidden="true">/</span>
+              <span className="text-primary">Step {step.step} of 08</span>
+            </nav>
+            <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">
+              {step.title}
             </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-body-ink sm:text-lg">{step.desc}</p>
+          </div>
+        </section>
 
-            <p className="text-muted-foreground text-base sm:text-lg max-w-lg mx-auto leading-relaxed">{step.desc}</p>
-          </motion.div>
-        </div>
-      </section>
+        {/* Content */}
+        <section className="relative bg-background">
+          <div className="mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-24">
+            <div className="grid gap-6 md:grid-cols-2">
+              <Reveal>
+                <div className="h-full rounded-2xl border border-border bg-card p-7">
+                  <span className="label-mono-up text-muted-foreground">What's included</span>
+                  <ul className="mt-4 space-y-3">
+                    {step.details.map((detail) => (
+                      <li key={detail} className="flex gap-3 text-sm leading-relaxed text-body-ink">
+                        <span aria-hidden="true" className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
 
-      <section className="pb-20 px-4">
-        <div className="max-w-3xl mx-auto">
-
-          {/* What's included */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.15 }}
-            className="rounded-2xl border border-border/30 bg-card/30 p-6 sm:p-8 mb-8"
-          >
-            <h2 className="font-heading text-lg font-semibold text-foreground mb-4">What's included</h2>
-            <ul className="space-y-3">
-              {step.details.map((detail, i) => (
-                <motion.li
-                  key={detail}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.2 + i * 0.05 }}
-                  className="flex items-start gap-3 text-sm sm:text-base text-foreground/80"
-                >
-                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                  <span>{detail}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Why it matters */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.25 }}
-            className="rounded-2xl border border-border/30 bg-card/30 p-6 sm:p-8 mb-8"
-          >
-            <h2 className="font-heading text-lg font-semibold text-foreground mb-3">Why it matters</h2>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{step.whyItMatters}</p>
-          </motion.div>
-
-          {/* How it works */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.35 }}
-            className="rounded-2xl border border-border/30 bg-card/30 p-6 sm:p-8 mb-8"
-          >
-            <h2 className="font-heading text-lg font-semibold text-foreground mb-4">How it works</h2>
-            <ol className="space-y-4">
-              {step.howItWorks.map((item, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.4 + i * 0.06 }}
-                  className="flex items-start gap-3 text-sm sm:text-base text-foreground/80"
-                >
-                  <span className="flex items-center justify-center h-6 w-6 rounded-full bg-primary/10 text-primary text-xs font-bold shrink-0 mt-0.5">
-                    {i + 1}
-                  </span>
-                  <span>{item}</span>
-                </motion.li>
-              ))}
-            </ol>
-          </motion.div>
-
-          {/* What you get */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.45 }}
-            className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 sm:p-8 mb-12"
-          >
-            <h2 className="font-heading text-lg font-semibold text-foreground mb-4">What you get</h2>
-            <ul className="space-y-3">
-              {step.whatYouGet.map((item, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.5 + i * 0.05 }}
-                  className="flex items-start gap-3 text-sm sm:text-base text-foreground/80"
-                >
-                  <ArrowRight className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                  <span>{item}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* CTA Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.06] to-primary/[0.02] p-8 sm:p-10 mb-12 text-center"
-          >
-            <h2 className="font-heading text-xl sm:text-2xl font-bold text-foreground mb-3">
-              Ready to start sourcing?
-            </h2>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto mb-6 leading-relaxed">
-              {next
-                ? "Create your free account and submit your first sourcing request in minutes."
-                : "You have seen the full process. Let us handle your sourcing from start to finish."}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link to="/auth?signup=true">
-                <Button size="lg" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 font-semibold border border-primary/20">
-                  Get Started Free
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <a href="https://calendly.com/admin-equilinq/30min" target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" size="lg" className="rounded-full px-6">
-                  Book a Call
-                </Button>
-              </a>
+              <Reveal delay={80}>
+                <div className="h-full rounded-2xl border border-border bg-card p-7">
+                  <span className="label-mono-up text-muted-foreground">Why it matters</span>
+                  <p className="mt-4 text-sm leading-relaxed text-body-ink">{step.whyItMatters}</p>
+                </div>
+              </Reveal>
             </div>
-          </motion.div>
 
-          {/* Nav */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.55 }}
-            className="flex items-center justify-between"
-          >
-            {prev ? (
-              <Link to={`/how-it-works/${prev.slug}`}>
-                <Button variant="ghost" className="gap-2 text-muted-foreground hover:text-foreground">
-                  <ArrowLeft className="h-4 w-4" />
-                  Step {prev.step}
-                </Button>
-              </Link>
-            ) : (
-              <Link to="/how-it-works">
-                <Button variant="ghost" className="gap-2 text-muted-foreground hover:text-foreground">
-                  <ArrowLeft className="h-4 w-4" />
-                  Overview
-                </Button>
-              </Link>
-            )}
+            <Reveal>
+              <div className="mt-6 rounded-2xl border border-border bg-card p-7">
+                <span className="label-mono-up text-muted-foreground">How it works</span>
+                <ol className="mt-5 space-y-4">
+                  {step.howItWorks.map((item, i) => (
+                    <li key={item} className="flex gap-4 text-sm leading-relaxed text-body-ink">
+                      <span className="label-mono shrink-0 text-primary">{String(i + 1).padStart(2, "0")}</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </Reveal>
 
-            {next ? (
-              <Link to={`/how-it-works/${next.slug}`}>
-                <Button variant="ghost" className="gap-2 text-muted-foreground hover:text-foreground">
-                  Step {next.step}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            ) : (
-              <Link to="/how-it-works">
-                <Button variant="ghost" className="gap-2 text-muted-foreground hover:text-foreground">
-                  <ArrowLeft className="h-4 w-4" />
-                  Back to Overview
-                </Button>
-              </Link>
-            )}
-          </motion.div>
+            <Reveal delay={80}>
+              <div className="mt-6 rounded-2xl border border-primary/25 bg-[image:var(--gradient-ink)] p-7 text-white shadow-[var(--shadow-soft)]">
+                <span className="label-mono-up text-white/60">What you get</span>
+                <ul className="mt-4 space-y-3">
+                  {step.whatYouGet.map((item) => (
+                    <li key={item} className="flex gap-3 text-sm leading-relaxed text-white/85">
+                      <span aria-hidden="true" className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-white/70" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
 
-          {/* All steps nav */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.4 }}
-            className="mt-16 pt-10 border-t border-border/20"
-          >
-            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">All Steps</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {steps.map((s, i) => (
-                <Link
-                  key={s.slug}
-                  to={`/how-it-works/${s.slug}`}
-                  className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition-all ${
-                    s.slug === slug
-                      ? "border-primary/40 bg-primary/10 text-primary"
-                      : "border-border/30 bg-card/20 text-muted-foreground hover:border-primary/20 hover:text-foreground"
-                  }`}
-                >
-                  <span className="text-[10px] block text-primary/50 mb-0.5">Step {s.step}</span>
-                  {s.title}
-                </Link>
-              ))}
+            {/* Previous and next */}
+            <div className="mt-12 flex flex-wrap items-center justify-between gap-3">
+              <Button asChild variant="outlineInk" size="lg">
+                {prev ? (
+                  <Link to={`/how-it-works/${prev.slug}`}>
+                    <ArrowLeft /> Step {prev.step}
+                  </Link>
+                ) : (
+                  <Link to="/how-it-works">
+                    <ArrowLeft /> Overview
+                  </Link>
+                )}
+              </Button>
+              <Button asChild variant="outlineInk" size="lg">
+                {next ? (
+                  <Link to={`/how-it-works/${next.slug}`}>
+                    Step {next.step} <ArrowRight />
+                  </Link>
+                ) : (
+                  <Link to="/how-it-works">
+                    Overview <ArrowRight />
+                  </Link>
+                )}
+              </Button>
             </div>
-          </motion.div>
-        </div>
-      </section>
+
+            {/* All steps */}
+            <div className="mt-16 border-t border-border pt-10">
+              <p className="label-mono-up text-muted-foreground">All steps</p>
+              <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+                {steps.map((s) => (
+                  <Link
+                    key={s.slug}
+                    to={`/how-it-works/${s.slug}`}
+                    className={`label-mono flex gap-3 border-b border-border/70 pb-3 transition-colors ${
+                      s.slug === slug ? "text-primary" : "text-muted-foreground hover:text-primary"
+                    }`}
+                  >
+                    <span className="shrink-0">{s.step}</span>
+                    <span className="normal-case tracking-normal">{s.title}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Closing band */}
+        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
+            <Reveal>
+              <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to start sourcing?</h2>
+              <p className="mt-5 text-lg text-white/75">
+                {next
+                  ? "Create your free account and submit your first sourcing request in minutes."
+                  : "You have seen the full process. Let us handle your sourcing from start to finish."}
+              </p>
+              <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Button asChild size="xl" variant="hero" className="btn-nudge card-hover bg-white bg-none text-primary hover:bg-white">
+                  <Link to="/auth?signup=true">
+                    Start a request <ArrowRight />
+                  </Link>
+                </Button>
+                <Button asChild size="xl" variant="onDark">
+                  <a href={CALENDLY} target="_blank" rel="noopener noreferrer">
+                    Book a call
+                  </a>
+                </Button>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      </main>
 
       <PublicFooter />
     </div>
   );
 }
+

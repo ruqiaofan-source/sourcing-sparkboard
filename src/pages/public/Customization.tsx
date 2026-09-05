@@ -1,11 +1,14 @@
-import { motion, AnimatePresence, useInView } from "framer-motion";
 import { SEOHead } from "@/components/SEOHead";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import { Reveal } from "@/components/Reveal";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, CheckCircle2, Search, X } from "lucide-react";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { ArrowRight, Tag, Package, Shirt, Camera, Box, Layers, Wrench, ClipboardCheck, Search, X } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
+
+const CALENDLY = "https://calendly.com/admin-equilinq/30min";
+
 
 /* ──────── Service categories with items ──────── */
 
@@ -154,61 +157,18 @@ const categories = [
 
 const tabIds = categories.map((c) => c.id);
 
-/* ──────── Service card with staggered entrance ──────── */
-function ServiceCard({ item, index }: { item: { name: string; desc: string }; index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -10, scale: 0.95 }}
-      transition={{ duration: 0.35, delay: index * 0.03, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{
-        y: -4,
-        scale: 1.02,
-        boxShadow: "0 12px 40px -10px hsl(239 100% 60% / 0.15)",
-      }}
-      className="group relative rounded-xl border border-border/40 bg-card/30 backdrop-blur-sm p-5 overflow-hidden transition-colors duration-300 hover:border-primary/30"
-    >
-      {/* Subtle glow on hover */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-primary/5 to-transparent" />
-      <div className="relative z-10 flex items-start gap-3">
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.1 + index * 0.03, type: "spring", stiffness: 300 }}
-        >
-          <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-        </motion.div>
-        <div>
-          <h3 className="text-sm font-semibold text-foreground leading-snug mb-1 group-hover:text-primary transition-colors">
-            {item.name}
-          </h3>
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            {item.desc}
-          </p>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
+const related = [
+  { to: "/how-it-works", label: "Process", title: "How it works", desc: "Our 8-step sourcing process." },
+  { to: "/pricing", label: "Pricing", title: "Transparent pricing", desc: "Cost breakdown per order." },
+  { to: "/contact", label: "Contact", title: "Talk to us", desc: "Discuss your customization needs." },
+];
 
-/* ──────── Counter badge ──────── */
-function CountBadge() {
-  const total = categories.reduce((sum, c) => sum + c.items.length, 0);
+function ServiceCard({ item }: { item: { name: string; desc: string } }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.4, type: "spring" }}
-      className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6"
-    >
-      <motion.span
-        className="h-1.5 w-1.5 rounded-full bg-primary"
-        animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      />
-      <span className="text-[11px] text-muted-foreground tracking-wide">{total}+ services available</span>
-    </motion.div>
+    <div className="card-hover h-full rounded-2xl border border-border bg-card p-7">
+      <h3 className="text-lg font-semibold text-primary">{item.name}</h3>
+      <p className="mt-3 text-sm leading-relaxed text-body-ink">{item.desc}</p>
+    </div>
   );
 }
 
@@ -217,6 +177,7 @@ export default function Customization() {
   const tabParam = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState(tabParam && tabIds.includes(tabParam) ? tabParam : tabIds[0]);
   const [searchQuery, setSearchQuery] = useState("");
+  const totalServices = categories.reduce((sum, c) => sum + c.items.length, 0);
 
   useEffect(() => {
     if (tabParam && tabIds.includes(tabParam)) {
@@ -226,7 +187,6 @@ export default function Customization() {
 
   const activeCategory = categories.find((c) => c.id === activeTab)!;
 
-  // Search across all categories
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return null;
     const q = searchQuery.toLowerCase();
@@ -243,10 +203,10 @@ export default function Customization() {
   }, [searchQuery]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground">
       <SEOHead
         title="Customization Services - Equilinq Branding & Packaging"
-        description="60+ customization options: private labels, custom packaging, quality inspection, OEM/ODM manufacturing. Build your brand with Equilinq."
+        description="76+ customization options: private labels, custom packaging, quality inspection, OEM/ODM manufacturing. Build your brand with Equilinq."
         keywords="custom packaging China, private label manufacturing, OEM ODM China, branding services, product customization, quality inspection"
         breadcrumbs={[
           { name: "Home", url: "https://equilinq.eu/" },
@@ -256,7 +216,7 @@ export default function Customization() {
           "@type": "Service",
           name: "Customization Services - Equilinq",
           url: "https://equilinq.eu/customization",
-          description: "60+ customization options including private labels, custom packaging, quality inspection, and OEM/ODM manufacturing.",
+          description: "76+ customization options including private labels, custom packaging, quality inspection, and OEM/ODM manufacturing.",
           provider: { "@type": "Organization", name: "Equilinq", url: "https://equilinq.eu" },
           areaServed: "Europe",
           serviceType: "Product Customization and Branding",
@@ -269,281 +229,173 @@ export default function Customization() {
             "@context": "https://schema.org",
             "@type": "FAQPage",
             mainEntity: [
-              { "@type": "Question", name: "What customization options does Equilinq offer?", acceptedAnswer: { "@type": "Answer", text: "Over 60 options across brand assets, branding and labeling, apparel finishing, product packaging, parcel reinforcement, photography and media, quality inspection, and full OEM/ODM manufacturing." } },
+              { "@type": "Question", name: "What customization options does Equilinq offer?", acceptedAnswer: { "@type": "Answer", text: "Over 70 options across brand assets, branding and labeling, apparel finishing, product packaging, parcel reinforcement, photography and media, quality inspection, and full OEM/ODM manufacturing." } },
               { "@type": "Question", name: "Can I get custom packaging with low MOQs?", acceptedAnswer: { "@type": "Answer", text: "Yes. Custom branded boxes, inserts, hangtags, and polybags are available from MOQs as low as 100-500 units depending on print method and material." } },
               { "@type": "Question", name: "Do you handle private label and white label?", acceptedAnswer: { "@type": "Answer", text: "Yes. We manage logo placement, label sewing, custom prints, and branded packaging. Your products ship ready for retail or e-commerce under your own brand." } },
-              { "@type": "Question", name: "How is customization pricing structured?", acceptedAnswer: { "@type": "Answer", text: "Each customization line item is quoted transparently with factory cost, materials, and a small handling fee. There are no hidden markups - you see the same breakdown we negotiate with the factory." } },
+              { "@type": "Question", name: "How is customization pricing structured?", acceptedAnswer: { "@type": "Answer", text: "Each customization line item is quoted transparently with factory cost, materials, and a small handling fee. There are no hidden markups, you see the same breakdown we negotiate with the factory." } },
             ],
           }),
         }}
       />
       <PublicNavbar />
 
-      {/* Hero */}
-      <section className="pt-32 pb-12 px-4 text-center relative">
-        {/* Background glow */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-            className="absolute w-[600px] h-[600px] rounded-full"
-            style={{
-              background: "radial-gradient(circle, hsl(239 100% 60% / 0.08) 0%, transparent 70%)",
-              top: "-20%",
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
-            animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
+      <main>
+        {/* Inner hero */}
+        <section className="relative bg-card">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
+            <p className="label-mono-up text-primary">{totalServices}+ services available</p>
+            <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">
+              Build it your way
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-body-ink sm:text-lg">
+              Branding, packaging, quality control, and manufacturing services, all managed for you.
+            </p>
+          </div>
+        </section>
 
-        <div className="relative z-10">
-          <CountBadge />
-          <motion.h1
-            className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 leading-[1.1]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            <motion.span
-              className="inline-block"
-              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            >
-              Build It
-            </motion.span>{" "}
-            <motion.span
-              className="bg-gradient-to-r from-[hsl(239,100%,65%)] via-[hsl(280,80%,72%)] to-[hsl(239,100%,65%)] bg-clip-text text-transparent inline-block"
-              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              style={{ backgroundSize: "200% 200%" }}
-            >
-              Your Way
-            </motion.span>
-          </motion.h1>
-          <motion.p
-            className="text-muted-foreground text-lg max-w-lg mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            Branding, packaging, quality control, and manufacturing services -- all managed for you.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Search bar */}
-      <section className="px-4 pb-6">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.55 }}
-            className="relative max-w-md mx-auto"
-          >
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search services..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 pr-9 rounded-xl border-border/40 bg-card/30 backdrop-blur-sm h-10 text-sm"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            )}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Category overview strip */}
-      <section className="px-4 pb-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 mb-8"
-          >
-            {categories.map((cat, i) => {
-              const isActive = cat.id === activeTab;
-              return (
-                <motion.button
-                  key={cat.id}
-                  onClick={() => setActiveTab(cat.id)}
-                  whileHover={{ y: -2, scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className={`relative flex flex-col items-center gap-2 px-3 py-4 rounded-xl text-xs font-medium transition-all overflow-hidden ${
-                    isActive
-                      ? "bg-primary/15 text-primary border border-primary/30 shadow-[0_0_25px_-5px_hsl(239,100%,60%/0.3)]"
-                      : "bg-card/30 text-muted-foreground hover:text-foreground hover:bg-card/50 border border-border/30"
-                  }`}
+        {/* Catalogue */}
+        <section className="relative bg-background">
+          <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+            {/* Search */}
+            <div className="relative max-w-md">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search services"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label="Search customization services"
+                className="h-11 rounded-xl border-border bg-card pl-9 pr-9 text-sm"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  aria-label="Clear search"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-primary"
                 >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeTabGlow"
-                      className="absolute inset-0 bg-primary/10 rounded-xl"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                  <cat.icon className={`h-5 w-5 relative z-10 ${isActive ? "text-primary" : ""}`} />
-                  <span className="relative z-10 text-center leading-tight text-sm font-semibold">{cat.title}</span>
-                  <span className="relative z-10 text-[10px] opacity-50">{cat.items.length} items</span>
-                </motion.button>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
 
-      {/* Search results or active category content */}
-      <section className="px-4 pb-20">
-        <div className="max-w-6xl mx-auto">
-          {searchResults !== null ? (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key="search-results"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
+            {/* Segmented tabs */}
+            <div className="mt-10 -mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0">
+              <div role="tablist" aria-label="Service categories" className="flex min-w-max gap-7 border-b border-border">
+                {categories.map((cat) => {
+                  const isActive = cat.id === activeTab && !searchQuery;
+                  return (
+                    <button
+                      key={cat.id}
+                      role="tab"
+                      aria-selected={isActive}
+                      type="button"
+                      onClick={() => { setActiveTab(cat.id); setSearchQuery(""); }}
+                      className={`label-mono-up whitespace-nowrap border-b-2 pb-4 transition-colors ${
+                        isActive
+                          ? "border-primary text-primary"
+                          : "border-transparent text-muted-foreground hover:text-primary"
+                      }`}
+                    >
+                      {cat.title} <span className="opacity-60">{cat.items.length}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {searchResults !== null ? (
+              <div className="mt-12">
                 {searchResults.length === 0 ? (
-                  <div className="text-center py-16">
-                    <p className="text-muted-foreground text-lg">No services found for "{searchQuery}"</p>
-                    <p className="text-muted-foreground/60 text-sm mt-2">Try a different search term</p>
-                  </div>
+                  <p className="text-base text-body-ink">No services found for "{searchQuery}". Try a different term.</p>
                 ) : (
-                  <div className="space-y-10">
+                  <div className="space-y-14">
                     {searchResults.map((group) => (
                       <div key={group.categoryId}>
                         <button
+                          type="button"
                           onClick={() => { setActiveTab(group.categoryId); setSearchQuery(""); }}
-                          className="text-sm font-semibold text-primary mb-4 block hover:underline"
+                          className="label-mono-up text-primary hover:underline"
                         >
-                          {group.category} ({group.items.length} result{group.items.length > 1 ? "s" : ""})
+                          {group.category} ({group.items.length})
                         </button>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {group.items.map((item, i) => (
-                            <ServiceCard key={item.name} item={item} index={i} />
+                        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                          {group.items.map((item) => (
+                            <ServiceCard key={item.name} item={item} />
                           ))}
                         </div>
                       </div>
                     ))}
                   </div>
                 )}
-              </motion.div>
-            </AnimatePresence>
-          ) : (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              >
-                {/* Category header */}
-                <div className="flex items-start gap-4 mb-8">
-                  <motion.div
-                    key={`icon-${activeTab}`}
-                    initial={{ scale: 0, rotate: -20 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", stiffness: 200 }}
-                    className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 shadow-[0_0_30px_-5px_hsl(239,100%,60%/0.15)]"
-                  >
-                    <activeCategory.icon className="h-7 w-7 text-primary" />
-                  </motion.div>
-                  <div>
-                    <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground">
-                      {activeCategory.title}
-                    </h2>
-                    <p className="text-muted-foreground mt-1">{activeCategory.description}</p>
-                  </div>
-                </div>
-
-                {/* Service cards grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              </div>
+            ) : (
+              <div className="mt-12">
+                <h2 className="text-3xl font-bold text-primary sm:text-4xl">{activeCategory.title}</h2>
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-body-ink">{activeCategory.description}</p>
+                <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {activeCategory.items.map((item, i) => (
-                    <ServiceCard key={item.name} item={item} index={i} />
+                    <Reveal key={item.name} delay={(i % 3) * 60}>
+                      <ServiceCard item={item} />
+                    </Reveal>
                   ))}
                 </div>
-              </motion.div>
-            </AnimatePresence>
-          )}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 px-4 text-center relative">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-            className="absolute w-[500px] h-[500px] rounded-full"
-            style={{
-              background: "radial-gradient(circle, hsl(239 100% 60% / 0.06) 0%, transparent 70%)",
-              bottom: "-20%",
-              right: "10%",
-            }}
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 12, repeat: Infinity }}
-          />
-        </div>
-        <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.96 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="max-w-2xl mx-auto relative z-10"
-        >
-          <motion.div
-            className="rounded-2xl border border-border/30 bg-card/20 backdrop-blur-sm p-10 relative overflow-hidden"
-            whileHover={{ borderColor: "hsl(239 100% 65% / 0.3)" }}
-          >
-            <div className="absolute -top-16 -left-16 w-40 h-40 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-3">
-              Ready to customize?
-            </h2>
-            <p className="text-muted-foreground mb-8">
-              Select your options when placing a sourcing request. Our team handles everything.
-            </p>
-            <Link to="/auth?signup=true">
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                <Button
-                  size="lg"
-                  className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold border border-primary/20 shadow-[0_0_40px_-8px_hsl(239,100%,60%/0.4)]"
-                >
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </motion.div>
-            </Link>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* Cross-links */}
-      <section className="pb-20 px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              { to: "/how-it-works", title: "How It Works", desc: "Our 8-step sourcing process" },
-              { to: "/pricing", title: "Pricing", desc: "Transparent cost breakdown per order" },
-              { to: "/contact", title: "Contact Us", desc: "Discuss your customization needs" },
-            ].map((link) => (
-              <Link key={link.to} to={link.to} className="group block p-5 rounded-xl border border-border/30 bg-card/20 hover:border-primary/30 hover:bg-card/40 transition-all">
-                <h3 className="font-heading text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{link.title}</h3>
-                <p className="text-xs text-muted-foreground">{link.desc}</p>
-              </Link>
-            ))}
+              </div>
+            )}
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Closing band */}
+        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
+            <Reveal>
+              <h2 className="text-3xl font-bold text-white sm:text-5xl">Ready to customize?</h2>
+              <p className="mt-5 text-lg text-white/75">
+                Select your options when placing a sourcing request. Our team handles everything.
+              </p>
+              <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Button asChild size="xl" variant="hero" className="btn-nudge card-hover bg-white bg-none text-primary hover:bg-white">
+                  <Link to="/auth?signup=true">
+                    Start a request <ArrowRight />
+                  </Link>
+                </Button>
+                <Button asChild size="xl" variant="onDark">
+                  <a href={CALENDLY} target="_blank" rel="noopener noreferrer">
+                    Book a call
+                  </a>
+                </Button>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Related */}
+        <section className="relative bg-background">
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Keep reading</p>
+            </Reveal>
+            <div className="mt-8 grid gap-6 sm:grid-cols-3">
+              {related.map((link, i) => (
+                <Reveal key={link.to} delay={i * 60}>
+                  <Link
+                    to={link.to}
+                    className="card-hover block h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50"
+                  >
+                    <span className="label-mono-up text-muted-foreground">{link.label}</span>
+                    <h3 className="mt-3 text-xl font-semibold text-primary">{link.title}</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{link.desc}</p>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
 
       <PublicFooter />
     </div>
   );
 }
+

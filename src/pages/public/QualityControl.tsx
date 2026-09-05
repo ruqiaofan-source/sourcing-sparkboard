@@ -1,18 +1,11 @@
 import { Link } from "react-router-dom";
 import { SEOHead } from "@/components/SEOHead";
-import { motion } from "framer-motion";
-import { CheckCircle2, ArrowRight, ShieldCheck, ClipboardCheck, Eye, Camera, Package } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicNavbar, PublicFooter } from "@/components/PublicLayout";
+import { Reveal } from "@/components/Reveal";
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-const fadeUp = {
-  hidden: { opacity: 0, y: 24, scale: 0.97 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const } },
-};
+const CALENDLY = "https://calendly.com/admin-equilinq/30min";
 
 const inspectionServices = [
   { name: "Standard Quality Inspection", desc: "Basic incoming goods check against specifications" },
@@ -25,10 +18,25 @@ const inspectionServices = [
 ];
 
 const stages = [
-  { icon: ClipboardCheck, title: "Pre-Production", desc: "Sample validation against your approved specs before mass production begins." },
-  { icon: Eye, title: "In-Process", desc: "On-site monitoring during production to catch defects early and keep quality consistent." },
-  { icon: Camera, title: "Final Inspection", desc: "Comprehensive pre-shipment check with detailed photo and video documentation." },
-  { icon: Package, title: "Packaging Audit", desc: "Verify packaging integrity, labeling accuracy, and shipping readiness." },
+  { n: "01", title: "Pre-production", desc: "Sample validation against your approved specs before mass production begins." },
+  { n: "02", title: "In-process", desc: "On-site monitoring during production to catch defects early and keep quality consistent." },
+  { n: "03", title: "Final inspection", desc: "Comprehensive pre-shipment check with detailed photo and video documentation." },
+  { n: "04", title: "Packaging audit", desc: "Verify packaging integrity, labeling accuracy, and shipping readiness." },
+];
+
+const youReceive = [
+  "Detailed photo reports",
+  "Video walkthroughs",
+  "Measurement verification",
+  "Defect documentation",
+  "Pass/fail summary",
+  "Real-time dashboard updates",
+];
+
+const related = [
+  { to: "/oem-odm", label: "OEM / ODM", title: "Custom manufacturing", desc: "From concept to finished product." },
+  { to: "/customization", label: "Customization", title: "Build it your way", desc: "Branding and packaging options." },
+  { to: "/pricing", label: "Pricing", title: "Transparent pricing", desc: "Cost breakdown per order." },
 ];
 
 export default function QualityControl() {
@@ -73,166 +81,141 @@ export default function QualityControl() {
       />
       <PublicNavbar />
 
-      {/* Hero */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div
-            className="absolute w-[600px] h-[600px] rounded-full"
-            style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.1) 0%, transparent 70%)", top: "-15%", right: "-10%" }}
-            animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
-            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
-
-        <div className="max-w-5xl mx-auto relative z-10">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1, type: "spring", stiffness: 250 }}
-              className="inline-flex items-center gap-2 rounded-full border border-border/20 bg-card/40 backdrop-blur-sm px-4 py-1.5 mb-6"
-            >
-              <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-bold text-primary tracking-wide uppercase">Multi-Stage QC</span>
-            </motion.div>
-
-            <motion.h1
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4"
-              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            >
-              Quality You Can
-              <br />
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(135deg, hsl(239 100% 65%), hsl(280 80% 72%), hsl(239 100% 65%))" }}>
-                See and Verify
-              </span>
-            </motion.h1>
-            <motion.p
-              className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              Every order goes through structured quality checks -- from pre-production samples to final pre-shipment inspection. No defects, no surprises.
-            </motion.p>
-          </motion.div>
-
-          {/* QC Stages */}
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-40px" }} className="mb-20">
-            <h2 className="font-heading text-2xl font-semibold text-foreground mb-6 text-center">Our 4-Stage Process</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {stages.map((stage, i) => (
-                <motion.div
-                  key={stage.title}
-                  variants={fadeUp}
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-6 text-center"
-                >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 300, delay: 0.1 }}
-                    className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 border border-primary/20 text-primary mb-3"
-                  >
-                    <stage.icon className="h-5 w-5" />
-                  </motion.div>
-                  <h3 className="font-heading text-lg font-semibold text-foreground mb-1">{stage.title}</h3>
-                  <p className="text-muted-foreground text-sm">{stage.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* All QC services */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-8 sm:p-10 mb-20"
-          >
-            <h2 className="font-heading text-2xl font-bold text-foreground mb-2 text-center">Inspection Services</h2>
-            <p className="text-muted-foreground text-sm text-center mb-8 max-w-lg mx-auto">
-              Every inspection includes photo and video documentation so you can verify quality remotely.
+      <main>
+        {/* Inner hero */}
+        <section className="relative bg-card">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40">
+            <p className="label-mono-up text-primary">Multi-stage QC</p>
+            <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">
+              Quality you can see and verify
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-body-ink sm:text-lg">
+              Every order goes through structured quality checks, from pre-production samples to final pre-shipment
+              inspection. No defects, no surprises.
             </p>
-            <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {inspectionServices.map((item) => (
-                <motion.div key={item.name} variants={fadeUp} className="flex items-start gap-3 p-4 rounded-xl border border-border/30 bg-card/40 hover:border-primary/30 transition-colors">
-                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-semibold text-foreground mb-0.5">{item.name}</p>
-                    <p className="text-xs text-muted-foreground">{item.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* What you receive */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="rounded-2xl border border-primary/20 bg-primary/5 p-8 sm:p-10 mb-20 text-center relative overflow-hidden"
-          >
-            <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
-            <h2 className="font-heading text-2xl font-bold text-foreground mb-3">What You Receive</h2>
-            <p className="text-muted-foreground max-w-lg mx-auto mb-6">
-              Every inspection comes with a full documentation package delivered to your dashboard.
-            </p>
-            <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left max-w-2xl mx-auto">
-              {["Detailed photo reports", "Video walkthroughs", "Measurement verification", "Defect documentation", "Pass/fail summary", "Real-time dashboard updates"].map((item) => (
-                <motion.div key={item} variants={fadeUp} className="flex items-center gap-2 text-sm text-foreground">
-                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
-                  {item}
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* CTA */}
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center py-16">
-            <h2 className="font-heading text-3xl font-bold text-foreground mb-4">Ship With Confidence</h2>
-            <p className="text-muted-foreground mb-8 max-w-md mx-auto">Submit a sourcing request and our QC team will ensure every item meets your standards.</p>
-            <div className="flex items-center justify-center gap-4 flex-wrap">
-              <Link to="/auth?signup=true">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                  <Button size="lg" className="rounded-full bg-[hsl(239,55%,32%)] text-white hover:bg-[hsl(239,55%,25%)] px-8 h-12 text-base font-semibold border border-primary/20">
-                    Get Started <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </motion.div>
-              </Link>
-              <Link to="/contact">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                  <Button variant="outline" size="lg" className="rounded-full border-border/60 px-8 h-12 text-base">Contact Us</Button>
-                </motion.div>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Cross-links */}
-      <section className="pb-20 px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              { to: "/oem-odm", title: "OEM / ODM", desc: "Custom manufacturing from concept to product" },
-              { to: "/customization", title: "Customization", desc: "60+ branding and packaging options" },
-              { to: "/pricing", title: "Pricing", desc: "Transparent cost breakdown per order" },
-            ].map((link) => (
-              <Link key={link.to} to={link.to} className="group block p-5 rounded-xl border border-border/30 bg-card/20 hover:border-primary/30 hover:bg-card/40 transition-all">
-                <h3 className="font-heading text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{link.title}</h3>
-                <p className="text-xs text-muted-foreground">{link.desc}</p>
-              </Link>
-            ))}
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Four stages */}
+        <section className="relative bg-background">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Our 4-stage process</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">
+                Checked at every point where things go wrong
+              </h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {stages.map((stage, i) => (
+                <Reveal key={stage.n} delay={i * 60}>
+                  <div className="card-hover h-full rounded-2xl border border-border bg-card p-7">
+                    <span className="label-mono-up text-primary">{stage.n}</span>
+                    <h3 className="mt-3 text-xl font-semibold text-primary">{stage.title}</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{stage.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Inspection services */}
+        <section className="relative bg-card">
+          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Inspection services</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold text-primary sm:text-4xl">
+                Every inspection includes photo and video documentation
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-body-ink">
+                So you can verify quality remotely, before anything leaves the factory.
+              </p>
+            </Reveal>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {inspectionServices.map((item, i) => (
+                <Reveal key={item.name} delay={(i % 3) * 60}>
+                  <div className="card-hover h-full rounded-2xl border border-border bg-background p-7">
+                    <h3 className="text-lg font-semibold text-primary">{item.name}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-body-ink">{item.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* What you receive */}
+        <section className="relative bg-background">
+          <div className="surface-grid pointer-events-none absolute inset-0 opacity-40" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <div className="rounded-2xl border border-primary/25 bg-[image:var(--gradient-ink)] p-8 text-white shadow-[var(--shadow-soft)] sm:p-12">
+                <p className="label-mono-up text-white/60">What you receive</p>
+                <h2 className="mt-4 max-w-2xl text-3xl font-bold text-white sm:text-4xl">
+                  A full documentation package, delivered to your dashboard
+                </h2>
+                <ul className="mt-10 grid gap-x-10 gap-y-4 sm:grid-cols-2">
+                  {youReceive.map((item) => (
+                    <li key={item} className="label-mono flex items-center gap-3 border-b border-white/15 pb-4 text-white/85">
+                      <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/70" />
+                      <span className="normal-case tracking-normal">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Closing band */}
+        <section data-dark-band className="relative overflow-hidden bg-band text-white">
+          <div className="surface-grid absolute inset-0 opacity-[0.08]" />
+          <div className="relative mx-auto max-w-6xl px-5 py-20 text-center sm:px-8 sm:py-28">
+            <Reveal>
+              <h2 className="text-3xl font-bold text-white sm:text-5xl">Ship with confidence</h2>
+              <p className="mt-5 text-lg text-white/75">
+                Submit a sourcing request and our QC team will ensure every item meets your standards.
+              </p>
+              <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Button asChild size="xl" variant="hero" className="btn-nudge card-hover bg-white bg-none text-primary hover:bg-white">
+                  <Link to="/auth?signup=true">
+                    Start a request <ArrowRight />
+                  </Link>
+                </Button>
+                <Button asChild size="xl" variant="onDark">
+                  <a href={CALENDLY} target="_blank" rel="noopener noreferrer">
+                    Book a call
+                  </a>
+                </Button>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Related */}
+        <section className="relative bg-background">
+          <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <Reveal>
+              <p className="label-mono-up text-primary">Keep reading</p>
+            </Reveal>
+            <div className="mt-8 grid gap-6 sm:grid-cols-3">
+              {related.map((link, i) => (
+                <Reveal key={link.to} delay={i * 60}>
+                  <Link
+                    to={link.to}
+                    className="card-hover block h-full rounded-2xl border border-border bg-card p-7 hover:border-accent/50"
+                  >
+                    <span className="label-mono-up text-muted-foreground">{link.label}</span>
+                    <h3 className="mt-3 text-xl font-semibold text-primary">{link.title}</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-body-ink">{link.desc}</p>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
 
       <PublicFooter />
     </div>

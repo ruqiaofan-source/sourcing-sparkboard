@@ -228,7 +228,7 @@ export default function Landing() {
               <span className="label-mono-up inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-white/60 backdrop-blur">
                 Sourcing and quality control, powered by Shenzhen
               </span>
-              <h1 className="mt-6 text-[clamp(2.6rem,6.4vw,5rem)] font-bold leading-[0.98] tracking-tight text-white">
+              <h1 className="mt-6 text-[clamp(2.4rem,5.4vw,4.4rem)] font-bold leading-[0.98] tracking-tight text-white">
                 Sourcing from China, checked before it{" "}
                 <span className="underline decoration-1 underline-offset-[0.18em] underline-ink">ships.</span>
               </h1>
