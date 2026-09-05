@@ -33,7 +33,7 @@ export default function Privacy() {
             By accessing or using our website or services, you acknowledge that you have read and understood this Privacy Policy.
           </p>
 
-          <nav className="my-8 p-4 rounded-xl border border-border/40 bg-card/30">
+          <nav className="my-8 rounded-2xl border border-border bg-background p-5">
             <ol className="list-decimal list-inside space-y-1 text-sm">
               <li><a href="#information-we-collect" className="text-primary hover:underline">Information We Collect</a></li>
               <li><a href="#how-we-use" className="text-primary hover:underline">How We Use Your Information</a></li>

@@ -40,12 +40,12 @@ export default function Cookies() {
           <p>
             These cookies are essential for the website to function properly. They enable core features such as authentication, session management, and security. These cookies cannot be disabled.
           </p>
-          <div className="rounded-lg border border-border/40 overflow-hidden my-4">
+          <div className="my-6 overflow-hidden rounded-2xl border border-border">
             <table className="w-full text-sm">
-              <thead><tr className="bg-muted/50"><th className="text-left p-3">Cookie</th><th className="text-left p-3">Purpose</th><th className="text-left p-3">Duration</th></tr></thead>
+              <thead><tr className="border-b border-border bg-band text-white"><th className="text-left p-3">Cookie</th><th className="text-left p-3">Purpose</th><th className="text-left p-3">Duration</th></tr></thead>
               <tbody>
-                <tr className="border-t border-border/30"><td className="p-3">sb-*-auth-token</td><td className="p-3">Authentication session</td><td className="p-3">Session</td></tr>
-                <tr className="border-t border-border/30"><td className="p-3">cookie_consent</td><td className="p-3">Stores your cookie preferences</td><td className="p-3">1 year</td></tr>
+                <tr className="border-t border-border"><td className="p-3">sb-*-auth-token</td><td className="p-3">Authentication session</td><td className="p-3">Session</td></tr>
+                <tr className="border-t border-border"><td className="p-3">cookie_consent</td><td className="p-3">Stores your cookie preferences</td><td className="p-3">1 year</td></tr>
               </tbody>
             </table>
           </div>
